@@ -59,7 +59,9 @@ export default {
     },
   },
   created() {
+    console.log(this.loggedIn);
     if (this.loggedIn) {
+      console.log("test");
       this.$router.push("/profile");
     }
   },

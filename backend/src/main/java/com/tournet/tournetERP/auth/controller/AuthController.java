@@ -76,13 +76,13 @@ public class AuthController {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+                    .body(new MessageResponse("이미 등록 된 사용자명 입니다."));
         }
 
         if (userRepository.existsByEmpEmail(signUpRequest.getEmpEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+                    .body(new MessageResponse("이미 등록 된 이메일 입니다."));
         }
 
         // Create new user's account
@@ -95,26 +95,26 @@ public class AuthController {
 
         if (strRoles == null) {
             Role userRole = roleRepository.findByRoles(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    .orElseThrow(() -> new RuntimeException("없는 사용자 권한 입니다."));
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin":
                         Role adminRole = roleRepository.findByRoles(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new RuntimeException("없는 사용자 권한 입니다."));
                         roles.add(adminRole);
 
                         break;
                     case "mod":
                         Role modRole = roleRepository.findByRoles(ERole.ROLE_MODERATOR)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new RuntimeException("없는 사용자 권한 입니다."));
                         roles.add(modRole);
 
                         break;
                     default:
                         Role userRole = roleRepository.findByRoles(ERole.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new RuntimeException("없는 사용자 권한 입니다."));
                         roles.add(userRole);
                 }
             });
@@ -123,6 +123,6 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new MessageResponse("등록 되었습니다."));
     }
 }
