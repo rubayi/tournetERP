@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
+  <q-layout view="hHh lpR fFf">
     <header class="jumbotron">
       <h3>{{ content }}</h3>
     </header>
-  </div>
+  </q-layout>
 </template>
 
 <script>
