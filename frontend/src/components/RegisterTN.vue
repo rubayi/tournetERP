@@ -3,8 +3,7 @@
     <div class="card card-container">
       <img
         id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        class="profile-img-card"
+        src="//ssl.gstatic.com/accounts/ui/avatar.png"
       />
       <LoginForm @submit="handleRegister" :validation-schema="schema">
         <div v-if="!successful">

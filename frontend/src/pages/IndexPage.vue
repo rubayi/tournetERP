@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="../css/quasar.variables.scss">
 <template>
   <q-page class="flex flex-center">
     <img

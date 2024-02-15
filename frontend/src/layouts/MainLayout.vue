@@ -6,42 +6,25 @@
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg"/>
-          </q-avatar>
-          Title
+            <img src="images/logo_tnh.png"
+                 style="width: 246px; height: 54px"/>
         </q-toolbar-title>
       </q-toolbar>
-      <div v-if="!currentUser" class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <router-link to="/register" class="nav-link">
-            <font-awesome-icon icon="user-plus" /> Sign Up
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/login" class="nav-link">
-            <font-awesome-icon icon="sign-in-alt" /> Login
-          </router-link>
-        </li>
-      </div>
 
-      <div v-if="currentUser" class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <router-link to="/profile" class="nav-link">
-            <font-awesome-icon icon="user" />
-            {{ currentUser.username }}
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" @click.prevent="logOut">
-            <font-awesome-icon icon="sign-out-alt" /> LogOut
-          </a>
-        </li>
-      </div>
       <q-tabs align="left">
-        <q-route-tab to="/" label="Home" />
-        <q-route-tab to="/page2" label="Page Two" />
-        <q-route-tab to="/page3" label="Page Three" />
+        <q-tabs v-if="!currentUser">
+            <q-route-tab to="/register" label="Sign Up" />
+            <q-route-tab to="/login" label="Login" />
+        </q-tabs >
+        <q-tabs v-if="currentUser">
+
+            <q-route-tab to="/profile" >
+              {{ currentUser.username }}
+            </q-route-tab>
+
+            <q-route-tab @click.prevent="logOut" label="LogOut" />
+
+        </q-tabs>
       </q-tabs>
     </q-header>
 
@@ -57,9 +40,9 @@
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+
           </q-avatar>
-          <div>Title</div>
+          <div></div>
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
