@@ -1,6 +1,5 @@
 <template>
-  <div class="col-md-12">
-    <div class="card card-container">
+  <div class="q-pa-md" style="max-width: 400px">
       <img
         id="profile-img"
         src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
@@ -42,7 +41,6 @@
       >
         {{ message }}
       </div>
-    </div>
   </div>
 </template>
 

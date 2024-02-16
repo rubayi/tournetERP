@@ -1,56 +1,55 @@
 <template>
-  <div>
+  <div class="q-pa-md" style="max-width: 400px">
       <img
         id="profile-img"
         src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
         class="profile-img-card"
       />
-      <LoginForm @submit="handleLogin" :validation-schema="schema">
-        <div class="form-group">
-          <label for="username">사용자명(Username)</label>
-          <Field name="username" type="text" class="form-control" />
-          <ErrorMessage name="username" class="error-feedback" />
-        </div>
-        <div class="form-group">
-          <label for="password">암호(Password)</label>
-          <Field name="password" type="password" class="form-control" />
-          <ErrorMessage name="password" class="error-feedback" />
+      <q-form
+        @submit="handleLogin"
+        @reset="onReset"
+        class="q-gutter-md"
+      >
+        <q-input filled
+                 v-model="username"
+                 type="text"
+                 class="form-control"
+                 label="사용자명(username) *"
+                 lazy-rules
+                 :rules="[ val => val && val.length > 0 || '사용자명을 입력 해 주십시오.']"/>
+        <q-input filled
+                 v-model="password"
+                 type="password"
+                 class="form-control"
+                 label="암호(password) *"
+                 lazy-rules
+                 :rules="[
+                  val => val !== null && val !== '' || '암호를 입력 해 주십시오.',
+                ]"/>
+
+        <div>
+          <q-btn :disabled="loading" label="로그인" type="submit" color="primary"/>
+          <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
         </div>
 
-        <div class="form-group">
-            <q-btn label="로그인" type="submit" color="primary"/>
-        </div>
-
-        <div class="form-group">
+        <div>
           <div v-if="message" class="alert alert-danger" role="alert">
             {{ message }}
           </div>
         </div>
-      </LoginForm>
+      </q-form>
   </div>
 </template>
 
 <script>
-import { Form as LoginForm, Field, ErrorMessage } from "vee-validate";
-import * as yup from "yup";
-
 export default {
-  name: "LoginTN",
-  components: {
-    LoginForm,
-    Field,
-    ErrorMessage,
-  },
+  name: "LoginTournet",
   data() {
-    const schema = yup.object().shape({
-      username: yup.string().required("Username is required!"),
-      password: yup.string().required("Password is required!"),
-    });
-
     return {
       loading: false,
       message: "",
-      schema,
+      username: "",
+      password: ""
     };
   },
   computed: {
@@ -59,16 +58,18 @@ export default {
     },
   },
   created() {
-    console.log(this.loggedIn);
     if (this.loggedIn) {
-      console.log("test");
       this.$router.push("/profile");
     }
   },
   methods: {
-    handleLogin(user) {
-      this.loading = true;
-
+    handleLogin() {
+      this.loading = true
+      this.message = ""
+      const user = {
+        username: this.username,
+        password: this.password
+      };
       this.$store.dispatch("auth/login", user).then(
         () => {
           this.$router.push("/profile");
@@ -84,6 +85,10 @@ export default {
         }
       );
     },
+    onReset () {
+      this.username = ""
+      this.password = ""
+    }
   },
 };
 </script>
