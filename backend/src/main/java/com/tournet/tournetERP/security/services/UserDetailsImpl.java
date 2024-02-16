@@ -29,7 +29,7 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long empUuid, String username, String email, String password,
+    public UserDetailsImpl(Long empUuid, String username, String empEmail, String password,
                            Collection<? extends GrantedAuthority> authorities) {
         this.empUuid = empUuid;
         this.username = username;

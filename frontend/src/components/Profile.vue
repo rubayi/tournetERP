@@ -11,11 +11,11 @@
     </p>
     <p>
       <strong>Id:</strong>
-      {{currentUser.id}}
+      {{currentUser.username}}
     </p>
     <p>
       <strong>Email:</strong>
-      {{currentUser.email}}
+      {{currentUser.empEmail}}
     </p>
     <strong>Authorities:</strong>
     <ul>
@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: 'Profile',
+  name: 'ProfileTN',
   computed: {
     currentUser() {
       return this.$store.state.auth.user;

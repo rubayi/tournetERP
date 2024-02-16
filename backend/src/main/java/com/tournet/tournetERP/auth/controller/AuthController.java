@@ -14,7 +14,9 @@ import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.entity.Role;
 import com.tournet.tournetERP.auth.repository.EmpRepository;
 import com.tournet.tournetERP.auth.repository.RoleRepository;
+import com.tournet.tournetERP.security.entity.RefreshToken;
 import com.tournet.tournetERP.security.jwt.JwtUtils;
+import com.tournet.tournetERP.security.services.RefreshTokenService;
 import com.tournet.tournetERP.security.services.UserDetailsImpl;
 import jakarta.validation.Valid;
 
@@ -50,6 +52,9 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    @Autowired
+    RefreshTokenService refreshTokenService;
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -64,7 +69,10 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getEmpUuid());
+
         return ResponseEntity.ok(new JwtResponse(jwt,
+                refreshToken.getToken(),
                 userDetails.getEmpUuid(),
                 userDetails.getUsername(),
                 userDetails.getEmpEmail(),

@@ -1,4 +1,5 @@
 import AuthService from '../services/auth.service';
+import TokenService from '../services/token.service';
 
 const user = JSON.parse(localStorage.getItem('user'));
 const initialState = user
@@ -21,6 +22,9 @@ export const auth = {
         }
       );
     },
+    refreshToken({ commit }, accessToken) {
+      commit('refreshToken', accessToken);
+    },
     logout({ commit }) {
       AuthService.logout();
       commit('logout');
@@ -42,6 +46,7 @@ export const auth = {
     loginSuccess(state, user) {
       state.status.loggedIn = true;
       state.user = user;
+
     },
     loginFailure(state) {
       state.status.loggedIn = false;
@@ -56,6 +61,10 @@ export const auth = {
     },
     registerFailure(state) {
       state.status.loggedIn = false;
+    },
+    refreshToken(state, accessToken) {
+      state.status.loggedIn = true;
+      state.user = { ...state.user, accessToken: accessToken };
     }
   }
 };

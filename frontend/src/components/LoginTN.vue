@@ -1,10 +1,6 @@
 <template>
   <div class="q-pa-md" style="max-width: 400px">
-      <img
-        id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        class="profile-img-card"
-      />
+
       <q-form
         @submit="handleLogin"
         @reset="onReset"

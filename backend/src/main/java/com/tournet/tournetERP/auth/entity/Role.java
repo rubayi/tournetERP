@@ -2,7 +2,6 @@ package com.tournet.tournetERP.auth.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Data;
 
 @Entity
 @Data
