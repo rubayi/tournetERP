@@ -27,7 +27,7 @@
             class='q-mr-sm text-white'
             size='xs'
           ></q-icon
-          >Register</q-btn
+          >사용자등록(Register)</q-btn
           >
           <q-btn
             v-if='!$store.state.auth.user'
@@ -41,7 +41,7 @@
               class='q-mr-sm text-white'
               size='xs'
             ></q-icon
-            >Login</q-btn
+            >로그인(Login)</q-btn
           >
           <q-btn
             v-if='$store.state.auth.user'
@@ -62,7 +62,7 @@
             class='q-mr-sm text-white'
             size='xs'
           ></q-icon
-          >Admin Dashboard</q-btn
+          >관리자 대시보드</q-btn
           >
 
           <q-btn
@@ -77,7 +77,7 @@
               class='q-mr-sm text-white'
               size='xs'
             ></q-icon
-            >Logout</q-btn
+            >로그아웃(Logout)</q-btn
           >
         </div>
       </q-toolbar>
@@ -88,7 +88,7 @@
       show-if-above
       content-class='bg-grey-1'
     >
-      <q-list>
+      <q-list v-if='$store.state.auth.user'>
         <EssentialLink
           v-for='link in essentialLinks'
           :key='link.title'
@@ -198,6 +198,7 @@ export default {
   },
   data () {
     return {
+      loading: false,
       leftDrawerOpen: false,
       essentialLinks: linksData
     }
