@@ -45,7 +45,7 @@
           >
           <q-btn
             v-if='$store.state.auth.user'
-            to='/account'
+            to='/profile'
             flat
             stretch
             class='text-bold'

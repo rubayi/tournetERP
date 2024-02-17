@@ -1,26 +1,33 @@
 <template>
-  <div class="container">
-    <header class="jumbotron">
-      <h3>
-        <strong>{{currentUser.username}}</strong> Profile
-      </h3>
-    </header>
-    <p>
-      <strong>Token:</strong>
-      {{currentUser.accessToken.substring(0, 20)}} ... {{currentUser.accessToken.substr(currentUser.accessToken.length - 20)}}
-    </p>
-    <p>
-      <strong>Id:</strong>
-      {{currentUser.username}}
-    </p>
-    <p>
-      <strong>Email:</strong>
-      {{currentUser.empEmail}}
-    </p>
-    <strong>Authorities:</strong>
-    <ul>
-      <li v-for="role in currentUser.roles" :key="role">{{role}}</li>
-    </ul>
+  <div class="q-pa-md row items-start q-gutter-md">
+    <q-card dark bordered class="bg-grey-9 my-card">
+      <q-card-section>
+        {{currentUser.username}}
+      </q-card-section>
+
+      <q-separator dark inset />
+
+      <q-card-section>
+        <img
+          id="profile-img"
+          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+        />
+        <p>
+          <strong>토큰(Token):</strong>
+          {{currentUser.accessToken.substring(0, 20)}} ... {{currentUser.accessToken.substr(currentUser.accessToken.length - 20)}}
+        </p>
+        <p>
+          <strong>이메일(Email):</strong>
+          {{currentUser.empEmail}}
+        </p>
+        <strong>권한(Authorities):</strong>
+        <ul>
+          <li v-for="role in currentUser.roles" :key="role">{{role}}</li>
+        </ul>
+      </q-card-section>
+    </q-card>
+
+
   </div>
 </template>
 

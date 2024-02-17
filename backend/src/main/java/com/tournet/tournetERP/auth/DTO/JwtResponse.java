@@ -16,6 +16,7 @@ public class JwtResponse {
 
     public JwtResponse(String accessToken, String refreshToken,
                        Long id, String username, String empEmail, List<String> roles) {
+        this.token = accessToken;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.id = id;
