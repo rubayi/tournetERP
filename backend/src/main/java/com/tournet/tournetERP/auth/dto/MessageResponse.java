@@ -1,4 +1,4 @@
-package com.tournet.tournetERP.auth.DTO;
+package com.tournet.tournetERP.auth.dto;
 
 import lombok.Data;
 

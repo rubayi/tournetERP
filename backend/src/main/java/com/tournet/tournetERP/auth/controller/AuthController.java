@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.tournet.tournetERP.auth.DTO.JwtResponse;
-import com.tournet.tournetERP.auth.DTO.LoginRequest;
-import com.tournet.tournetERP.auth.DTO.MessageResponse;
-import com.tournet.tournetERP.auth.DTO.SignupRequest;
+import com.tournet.tournetERP.auth.dto.JwtResponse;
+import com.tournet.tournetERP.auth.dto.LoginRequest;
+import com.tournet.tournetERP.auth.dto.MessageResponse;
+import com.tournet.tournetERP.auth.dto.SignupRequest;
 import com.tournet.tournetERP.auth.entity.ERole;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.entity.Role;
@@ -96,7 +96,25 @@ public class AuthController {
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmpEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getEmpKor(),
+                signUpRequest.getEmpEng(),
+                signUpRequest.getEmpWorkType(),
+                signUpRequest.getEmpWorkPhone(),
+                signUpRequest.getEmpDiv(),
+                signUpRequest.getEmpTitle(),
+                signUpRequest.getEmpPhone(),
+                signUpRequest.getEmpEmailBook(),
+                signUpRequest.getEmpAddress1(),
+                signUpRequest.getEmpAddress2(),
+                signUpRequest.getEmpCity(),
+                signUpRequest.getEmpState(),
+                signUpRequest.getEmpZip(),
+                signUpRequest.getEmpDob(),
+                signUpRequest.getEmpDobType(),
+                signUpRequest.getEmpMemo(),
+                signUpRequest.getEmpStatus()
+                );
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();

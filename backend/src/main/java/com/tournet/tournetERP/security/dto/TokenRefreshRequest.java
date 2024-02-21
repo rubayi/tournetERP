@@ -1,4 +1,4 @@
-package com.tournet.tournetERP.security.DTO;
+package com.tournet.tournetERP.security.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
