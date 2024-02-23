@@ -42,17 +42,30 @@
                     bottom-slots
                     v-model="empWorkType"
                     :options="workOptions"
+                    option-value="codeValue"
+                    option-label="codeKr"
                     label="근무형태" />
 
           <q-select
                     bottom-slots
                     v-model="empDiv"
                     :options="titleOptions"
+                    option-value="codeValue"
+                    option-label="codeKr"
                     label="부서명" />
 
-          <q-select  bottom-slots v-model="empTitle" :options="titleOptions" label="직위" />
+          <q-select  bottom-slots
+                     v-model="empTitle"
+                     :options="titleOptions"
+                     option-value="codeValue"
+                     option-label="codeKr" label="직위" />
 
-          <q-select  bottom-slots v-model="empRole" :options="divOptions" label="직책" />
+          <q-select  bottom-slots
+                     v-model="empRole"
+                     :options="divOptions"
+                     option-value="codeValue"
+                     option-label="codeKr"
+                     label="직책" />
 
           <q-input
                    v-model="empPhone"
@@ -108,15 +121,16 @@
             </template>
           </q-input>
 
-          <q-select  bottom-slots v-model="empDobType" :options="dobTypeOptions" label="생일타입" />
+          <q-select  bottom-slots
+                     v-model="empDobType"
+                     :options="dobTypeOptions"
+                     label="생일타입" />
 
-          <q-input
-                   v-model="empMemo"
+          <q-input v-model="empMemo"
                    type="text"
                    label="메모(password) "
                    bottom-slots
                    />
-
 
           <q-btn :disabled="loading" label="사용자등록" type="submit" color="primary"/>
           <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
@@ -144,24 +158,9 @@ export default {
   setup () {
     const today = new Date();
 
-
     return {
       model: ref(null),
-      workOptions: [
-        '풀타임', '파트타임'
-      ],
-      divOptions: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ],
-      titleOptions: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ],
-      empRoleOptions: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ],
-      dobTypeOptions: [
-        '양력', '음력'
-      ],
+
       date: ref(today)
     }
   },
@@ -190,8 +189,14 @@ export default {
       empDob: "",
       empDobType: "",
       empMemo: "",
-      empStatus: ""
-
+      empStatus: "",
+      workOptions: [],
+      divOptions: [],
+      titleOptions: [],
+      empRoleOptions: [],
+      dobTypeOptions: [
+        '양력', '음력'
+      ],
     };
   },
   computed: {
@@ -203,6 +208,7 @@ export default {
     if (this.loggedIn) {
       this.$router.push("/profile");
     }
+    //근무형태
     const workOptionReq = {
       uprCodeUuid: '16',
       codeLvl:'1'
@@ -223,6 +229,69 @@ export default {
           error.toString();
       }
     );
+    //부서명
+    const divOptionsReq = {
+      uprCodeUuid: '19',
+      codeLvl:'1'
+    }
+    this.$store.dispatch("comCode/useComCode", divOptionsReq)
+      .then(
+        (commCode) => {
+          console.log(commCode);
+          this.divOptions = commCode;
+        },
+        (error) => {
+          this.loading = false;
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    //직위
+    const titleOptionsReq = {
+      uprCodeUuid: '17',
+      codeLvl:'1'
+    }
+    this.$store.dispatch("comCode/useComCode", titleOptionsReq)
+      .then(
+        (commCode) => {
+          console.log(commCode);
+          this.titleOptions = commCode;
+        },
+        (error) => {
+          this.loading = false;
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    //직책
+    const empRoleOptionsReq = {
+      uprCodeUuid: '18',
+      codeLvl:'1'
+    }
+    this.$store.dispatch("comCode/useComCode", empRoleOptionsReq)
+      .then(
+        (commCode) => {
+          console.log(commCode);
+          this.empRoleOptions = commCode;
+        },
+        (error) => {
+          this.loading = false;
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
   },
   methods: {
 
