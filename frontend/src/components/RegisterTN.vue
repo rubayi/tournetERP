@@ -3,133 +3,221 @@
 
       <q-form @submit="handleRegister"
               @reset="onReset">
-
-        <div class="q-gutter-md" style="max-width: 400px">
         <div v-if="!successful">
-          <q-input v-model="username"
-                   type="text"
-                   label="사용자명(username) *"
-                   lazy-rules
-                   :rules="[ val => val && val.length > 0 || '사용자명을 입력 해 주십시오.']"/>
+          <div class="row q-col-gutter-x-md">
+            <q-input class="col-6" outlined v-model="username"
+                     type="text"
+                     label="사용자명(username) *"
+                     lazy-rules
+                     :rules="[ val => val && val.length > 0 || '사용자명을 입력 해 주십시오.']"/>
 
-          <q-input v-model="empEmail"
-                   type="text"
-                   label="이메일(Email) *"
-                   lazy-rules
-                   :rules="[ val => val && val.length > 0 || '사용자명을 입력 해 주십시오.']"/>
+            <q-input class="col-6" outlined v-model="password"
+                     type="password"
+                     label="암호(password) *"
+                     lazy-rules
+                     :rules="[  val => val !== null && val !== '' || '암호를 입력 해 주십시오.']"/>
 
-          <q-input v-model="password"
-                   type="password"
-                   label="암호(password) *"
-                   lazy-rules
-                   :rules="[  val => val !== null && val !== '' || '암호를 입력 해 주십시오.']"/>
+            <q-input class="col-6" outlined v-model="empKor"
+                     type="text"
+                     label="이름(한글이름) *"
+                     lazy-rules
+                     :rules="[ val => val && val.length > 0 || '한글이름 입력 해 주십시오.']"/>
 
-          <q-input v-model="empKor"
-                   type="text"
-                   label="이름(한글이름) *"
-                   lazy-rules
-                   :rules="[ val => val && val.length > 0 || '한글이름 입력 해 주십시오.']"/>
+            <q-input class="col-6" outlined v-model="empEmail"
+                     type="email"
+                     label="이메일(Email) *"
+                     lazy-rules
+                     :rules="[ val => val && val.length > 0 || '이메일을 입력 해 주십시오.']"/>
 
-          <q-input v-model="empEng"
-                   type="text"
-                   label="이름(영문명) "/>
+            <q-input class="col-6" outlined  v-model="empEng"
+                     type="text"
+                     label="이름(영문명) "/>
 
-          <q-select bottom-slots
-                    v-model="empWorkType"
-                    :options="workOptions"
-                    option-value="codeValue"
-                    option-label="codeKr"
-                    label="근무형태" />
+            <q-select class="col-3" outlined  bottom-slots
+                      v-model="empDobType"
+                      :options="dobTypeOptions"
+                      option-value="codeValue"
+                      option-label="codeKr"
+                      label="생일타입" />
 
-          <q-select bottom-slots
-                    v-model="empDiv"
-                    :options="titleOptions"
-                    option-value="codeValue"
-                    option-label="codeKr"
-                    label="부서명" />
+            <q-input class="col-3" outlined v-model="empDob" mask="####/##/##" :rules="['date']">
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                    <q-date v-model="empDob" minimal>
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="Close" color="primary" flat />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
 
-          <q-select  bottom-slots
-                     v-model="empTitle"
-                     :options="titleOptions"
-                     option-value="codeValue"
-                     option-label="codeKr"
-                     label="직위" />
+            <q-select class="col-3" outlined bottom-slots
+                      v-model="empWorkType"
+                      :options="workOptions"
+                      option-value="codeValue"
+                      option-label="codeKr"
+                      label="근무형태" />
 
-          <q-select  bottom-slots
-                     v-model="empRole"
-                     :options="divOptions"
-                     option-value="codeValue"
-                     option-label="codeKr"
-                     label="직책" />
+            <q-select class="col-3" outlined bottom-slots
+                      v-model="empDiv"
+                      :options="titleOptions"
+                      option-value="codeValue"
+                      option-label="codeKr"
+                      label="부서명" />
 
-          <q-input v-model="empPhone"
-                   type="text"
-                   label="핸드폰(Mobile) *"
-                   lazy-rules
-                   :rules="[ val => val && val.length > 0 || '핸드폰을 입력 해 주십시오.']"/>
-          <q-input v-model="empWorkPhone"
-                   type="text"
-                   label="내선번호(Work Phone) "/>
-          <q-input v-model="empEmailBook"
-                   type="text"
-                   label="예약이메일(Email) "/>
+            <q-select class="col-3" outlined bottom-slots
+                       v-model="empTitle"
+                       :options="titleOptions"
+                       option-value="codeValue"
+                       option-label="codeKr"
+                       label="직위" />
 
-          <q-input v-model="empZip"
-                   type="text"
-                   label="우편번호(Zip) "/>
+            <q-select class="col-3" outlined bottom-slots
+                       v-model="empRole"
+                       :options="divOptions"
+                       option-value="codeValue"
+                       option-label="codeKr"
+                       label="직책" />
 
-          <q-input v-model="empAddress1"
-                   type="text"
-                   label="주소1(Address1) "/>
-          <q-input v-model="empAddress2"
-                   type="text"
-                   label="주소1(Address2) "/>
-          <q-input v-model="empCity"
-                   type="text"
-                   label="도시(City) "/>
-          <q-input v-model="empState"
-                   type="text"
-                   label="주/도(State) "/>
-          <q-input v-model="empCountry"
-                   type="text"
-                   label="국가(Country) "/>
+            <q-input class="col-4" outlined v-model="empPhone"
+                     type="text"
+                     label="핸드폰(Mobile) *"
+                     lazy-rules
+                     :rules="[ val => val && val.length > 0 || '핸드폰을 입력 해 주십시오.']"/>
 
-          <q-input v-model="empDob" mask="####/##/##" :rules="['date']">
-            <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="empDob" minimal>
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="Close" color="primary" flat />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
+            <q-input class="col-4" outlined v-model="empWorkPhone"
+                     type="text"
+                     label="내선번호(Work Phone) "/>
 
-          <q-select  bottom-slots
-                     v-model="empDobType"
-                     :options="dobTypeOptions"
-                     option-value="codeValue"
-                     option-label="codeKr"
-                     label="생일타입" />
+            <q-input class="col-4" outlined v-model="empEmailBook"
+                     type="email"
+                     label="예약이메일(Email) "/>
 
-          <q-input v-model="empMemo"
-                   type="text"
-                   label="메모(password) "
-                   bottom-slots
-                   />
+            <q-input class="col-2" outlined v-model="empZip"
+                     type="text"
+                     label="우편번호(Zip) "/>
 
-          <q-btn :disabled="loading" label="사용자등록" type="submit" color="primary"/>
-          <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
+            <q-input class="col-5" outlined v-model="empAddress1"
+                     type="text"
+                     label="주소1(Address1) "/>
 
+            <q-input class="col-5" outlined  bottom-slots v-model="empAddress2"
+                     type="text"
+                     label="주소1(Address2) "/>
+
+            <q-input class="col-4" outlined  bottom-slots v-model="empCity"
+                     type="text"
+                     label="도시(City) "/>
+
+            <q-input class="col-4" outlined  bottom-slots v-model="empState"
+                     type="text"
+                     label="주/도(State) "/>
+
+            <q-input class="col-4" outlined  bottom-slots v-model="empCountry"
+                     type="text"
+                     label="국가(Country) "/>
+
+<!--            <q-input class="col-12" v-model="empMemo"-->
+<!--                     type="text"-->
+<!--                     label="메모(password) "-->
+<!--                     bottom-slots-->
+<!--                     />-->
+            <div class="col-12 q-pl-md q-py-md">
+            <q-editor v-model="empMemo"
+                      bottom-slots
+                      label="메모(password) "
+                      :toolbar="[
+                      [
+                        {
+                          label: $q.lang.editor.align,
+                          icon: $q.iconSet.editor.align,
+                          fixedLabel: true,
+                          list: 'only-icons',
+                          options: ['left', 'center', 'right', 'justify']
+                        },
+                      ],
+                      ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+                      ['token', 'hr', 'link', 'custom_btn'],
+                      ['print', 'fullscreen'],
+                      [
+                        {
+                          label: $q.lang.editor.formatting,
+                          icon: $q.iconSet.editor.formatting,
+                          list: 'no-icons',
+                          options: [
+                            'p',
+                            'h1',
+                            'h2',
+                            'h3',
+                            'h4',
+                            'h5',
+                            'h6',
+                            'code'
+                          ]
+                        },
+                        {
+                          label: $q.lang.editor.fontSize,
+                          icon: $q.iconSet.editor.fontSize,
+                          fixedLabel: true,
+                          fixedIcon: true,
+                          list: 'no-icons',
+                          options: [
+                            'size-1',
+                            'size-2',
+                            'size-3',
+                            'size-4',
+                            'size-5',
+                            'size-6',
+                            'size-7'
+                          ]
+                        },
+                        {
+                          label: $q.lang.editor.defaultFont,
+                          icon: $q.iconSet.editor.font,
+                          fixedIcon: true,
+                          list: 'no-icons',
+                          options: [
+                            'default_font',
+                            'arial',
+                            'arial_black',
+                            'comic_sans',
+                            'courier_new',
+                            'impact',
+                            'lucida_grande',
+                            'times_new_roman',
+                            'verdana'
+                          ]
+                        },
+                        'removeFormat'
+                      ],
+                      ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
+                      ['undo', 'redo'],
+                      ['viewsource']
+                    ]"
+                    :fonts="{
+                      arial: 'Arial',
+                      arial_black: 'Arial Black',
+                      comic_sans: 'Comic Sans MS',
+                      courier_new: 'Courier New',
+                      impact: 'Impact',
+                      lucida_grande: 'Lucida Grande',
+                      times_new_roman: 'Times New Roman',
+                      verdana: 'Verdana'
+                      }"
+            />
+            </div>
+            <div class="q-pl-md">
+            <q-btn :disabled="loading" label="사용자등록" type="submit" color="primary"/>
+            <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
+            </div>
           </div>
         </div>
-
         <div
           v-if="message"
-          class="alert"
+         class="alert"
           :class="successful ? 'alert-success' : 'alert-danger'"
         >
           {{ message }}
@@ -174,6 +262,7 @@ export default {
       empAddress2: "",
       empCity: "",
       empState: "",
+      empCountry: "",
       empZip: "",
       empDob: "",
       empDobType: "",
@@ -301,7 +390,6 @@ export default {
       today = yyyy+'/' +mm + '/' + dd + '/';
 
       this.empDob = today
-      console.log(today)
 
     },
     handleRegister() {
