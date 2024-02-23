@@ -28,7 +28,7 @@ import jakarta.transaction.Transactional;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api")
+@RequestMapping("/api/comCodes")
 public class ComCodeController {
 
     @Autowired
@@ -48,7 +48,7 @@ public class ComCodeController {
         return new ResponseEntity<>(comcodes, HttpStatus.OK);
     }
 
-    @PostMapping("useComComCodeByGrp")
+    @PostMapping("useComCodeByGrp")
     public ResponseEntity<List<ComCode>> postComCodes(@RequestBody ComCode comcode) {
 
         List<ComCode> comcodesList = comCodeRepository.findByUprCodeUuidAndUseYnByOrderByCodeOrdAsc(

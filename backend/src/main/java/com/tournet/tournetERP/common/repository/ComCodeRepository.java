@@ -27,7 +27,7 @@ public interface ComCodeRepository extends JpaRepository<ComCode, Long> {
     void deleteByCodeUuid(@Param("id") int id);
 
     @Query("SELECT p FROM ComCode p " +
-            "WHERE p.uprCodeUuid = :query " +
+            "WHERE p.uprCodeUuid = :uprCodeUuid " +
             "AND p.codeLvl = :codeLvl " +
             "AND p.useYn = 'Y' " +
             "ORDER BY p.codeOrd")

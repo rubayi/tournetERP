@@ -85,6 +85,11 @@
                    type="text"
                    label="주/도(State) "/>
           <q-input
+            v-model="empCountry"
+            type="text"
+            label="국가(Country) "/>
+
+          <q-input
                    v-model="empZip"
                    type="text"
                    label="우편번호(Zip) "/>
@@ -132,10 +137,14 @@
 
 <script>
 import { ref } from 'vue'
+
 export default {
   name: "RegisterTN",
+
   setup () {
     const today = new Date();
+
+
     return {
       model: ref(null),
       workOptions: [
@@ -194,8 +203,29 @@ export default {
     if (this.loggedIn) {
       this.$router.push("/profile");
     }
+    const workOptionReq = {
+      uprCodeUuid: '16',
+      codeLvl:'1'
+    }
+    this.$store.dispatch("comCode/useComCode", workOptionReq)
+      .then(
+      (commCode) => {
+        console.log(commCode);
+        this.workOptions = commCode;
+      },
+      (error) => {
+        this.loading = false;
+        this.message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      }
+    );
   },
   methods: {
+
     handleRegister() {
       this.message = "";
       this.successful = false;

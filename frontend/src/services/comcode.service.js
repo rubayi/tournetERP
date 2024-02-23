@@ -1,9 +1,9 @@
 import api from "./api";
 
 class ComcodeService {
-useComComCode( comreq ) {
+  useComCode( comreq ) {
     return api
-      .post("/comCodes/useComComCodeByGrp", comreq)
+      .post("/comCodes/useComCodeByGrp", comreq)
       .then((response) => {
 
 
