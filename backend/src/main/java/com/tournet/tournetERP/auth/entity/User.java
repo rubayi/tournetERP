@@ -72,6 +72,9 @@ public class User {
     @Column(name = "EMP_STATE", nullable = true)
     private String empState;
 
+    @Column(name = "EMP_COUNTRY", nullable = true)
+    private String empCountry;
+
     @Column(name = "EMP_ZIP", nullable = true)
     private String empZip;
 
@@ -118,7 +121,7 @@ public class User {
                 String empKor, String empEng, String empWorkType,
                 String empWorkPhone, String empDiv, String empTitle,
                 String empPhone, String empEmailBook, String empAddress1,
-                String empAddress2, String empCity, String empState,
+                String empAddress2, String empCity, String empState, String empCountry,
                 String empZip, String empDob, String empDobType,
                 String empMemo, String empStatus
     ) {
@@ -128,17 +131,19 @@ public class User {
         this.empKor = empKor;
         this.empEng = empEng;
         this.empWorkType = empWorkType;
-        this.empWorkType = empWorkType;
+        this.empWorkPhone = empWorkPhone;
         this.empDiv = empDiv;
         this.empTitle = empTitle;
         this.empPhone = empPhone;
-        this.empWorkPhone = empWorkPhone;
+
         this.empEmailBook = empEmailBook;
         this.empAddress1 = empAddress1;
         this.empAddress2 = empAddress2;
         this.empCity = empCity;
         this.empState = empState;
+        this.empCountry = empCountry;
         this.empZip = empZip;
+
         this.empDob = empDob;
         this.empDobType = empDobType;
         this.empMemo = empMemo;

@@ -41,6 +41,8 @@ public class SignupRequest {
 
     private String empState;
 
+    private String empCountry;
+
     private String empZip;
 
     private String empDob;

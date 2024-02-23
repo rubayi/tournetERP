@@ -26,6 +26,9 @@ public class ComCode {
     @Column(name = "CODE_EN", nullable = true)
     private String codeEn;
 
+    @Column(name = "CODE_ABB", nullable = true)
+    private String codeAbb;
+
     @Column(name = "CODE_VALUE", nullable = false)
     private String codeValue;
 
@@ -36,7 +39,7 @@ public class ComCode {
     private int codeOrd;
 
     @Column(name = "UPR_CODE_UUID", nullable = true)
-    private String uprCodeUuid;
+    private int uprCodeUuid;
 
     @Column(name = "USE_YN", nullable = true)
     private String useYn;
@@ -66,7 +69,8 @@ public class ComCode {
     }
 
     public ComCode(String codeKr, String codeEn,
-                   String codeValue, String codeLvl, int codeOrd, String uprCodeUuid,
+                   String codeValue, String codeLvl,
+                   int codeOrd, int uprCodeUuid,
                    String useYn, String etc) {
 
         this.codeKr = codeKr;

@@ -109,6 +109,7 @@ public class AuthController {
                 signUpRequest.getEmpAddress2(),
                 signUpRequest.getEmpCity(),
                 signUpRequest.getEmpState(),
+                signUpRequest.getEmpCountry(),
                 signUpRequest.getEmpZip(),
                 signUpRequest.getEmpDob(),
                 signUpRequest.getEmpDobType(),

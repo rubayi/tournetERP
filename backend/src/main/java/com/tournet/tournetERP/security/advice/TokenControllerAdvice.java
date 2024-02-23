@@ -2,7 +2,7 @@ package com.tournet.tournetERP.security.advice;
 
 import java.util.Date;
 
-import com.tournet.tournetERP.common.entity.ErrorMessage;
+import com.tournet.tournetERP.common.ErrorMessage;
 import com.tournet.tournetERP.exception.TokenRefreshException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

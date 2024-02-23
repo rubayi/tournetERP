@@ -1,4 +1,4 @@
-package com.tournet.tournetERP.common.entity;
+package com.tournet.tournetERP.common;
 
 import java.util.Date;
 
