@@ -5,8 +5,6 @@ class ComcodeService {
     return api
       .post("/comCodes/useComCodeByGrp", comreq)
       .then((response) => {
-
-
         return response.data;
       });
   }

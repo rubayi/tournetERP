@@ -6,48 +6,42 @@
 
         <div class="q-gutter-md" style="max-width: 400px">
         <div v-if="!successful">
-          <q-input
-                   v-model="username"
+          <q-input v-model="username"
                    type="text"
                    label="사용자명(username) *"
                    lazy-rules
                    :rules="[ val => val && val.length > 0 || '사용자명을 입력 해 주십시오.']"/>
-          <q-input
-                   v-model="empEmail"
+
+          <q-input v-model="empEmail"
                    type="text"
                    label="이메일(Email) *"
                    lazy-rules
                    :rules="[ val => val && val.length > 0 || '사용자명을 입력 해 주십시오.']"/>
 
-          <q-input
-                   v-model="password"
+          <q-input v-model="password"
                    type="password"
                    label="암호(password) *"
                    lazy-rules
                    :rules="[  val => val !== null && val !== '' || '암호를 입력 해 주십시오.']"/>
 
-          <q-input
-                   v-model="empKor"
+          <q-input v-model="empKor"
                    type="text"
                    label="이름(한글이름) *"
                    lazy-rules
                    :rules="[ val => val && val.length > 0 || '한글이름 입력 해 주십시오.']"/>
 
-          <q-input
-                   v-model="empEng"
+          <q-input v-model="empEng"
                    type="text"
                    label="이름(영문명) "/>
 
-          <q-select
-                    bottom-slots
+          <q-select bottom-slots
                     v-model="empWorkType"
                     :options="workOptions"
                     option-value="codeValue"
                     option-label="codeKr"
                     label="근무형태" />
 
-          <q-select
-                    bottom-slots
+          <q-select bottom-slots
                     v-model="empDiv"
                     :options="titleOptions"
                     option-value="codeValue"
@@ -58,7 +52,8 @@
                      v-model="empTitle"
                      :options="titleOptions"
                      option-value="codeValue"
-                     option-label="codeKr" label="직위" />
+                     option-label="codeKr"
+                     label="직위" />
 
           <q-select  bottom-slots
                      v-model="empRole"
@@ -67,47 +62,39 @@
                      option-label="codeKr"
                      label="직책" />
 
-          <q-input
-                   v-model="empPhone"
+          <q-input v-model="empPhone"
                    type="text"
                    label="핸드폰(Mobile) *"
                    lazy-rules
                    :rules="[ val => val && val.length > 0 || '핸드폰을 입력 해 주십시오.']"/>
-          <q-input
-                   v-model="empWorkPhone"
+          <q-input v-model="empWorkPhone"
                    type="text"
                    label="내선번호(Work Phone) "/>
-          <q-input
-                   v-model="empEmailBook"
+          <q-input v-model="empEmailBook"
                    type="text"
                    label="예약이메일(Email) "/>
-          <q-input
-                   v-model="empAddress1"
-                   type="text"
-                   label="주소1(Address1) "/>
-          <q-input
-                   v-model="empAddress2"
-                   type="text"
-                   label="주소1(Address2) "/>
-          <q-input
-                   v-model="empCity"
-                   type="text"
-                   label="도시(City) "/>
-          <q-input
-                   v-model="empState"
-                   type="text"
-                   label="주/도(State) "/>
-          <q-input
-            v-model="empCountry"
-            type="text"
-            label="국가(Country) "/>
 
-          <q-input
-                   v-model="empZip"
+          <q-input v-model="empZip"
                    type="text"
                    label="우편번호(Zip) "/>
 
-          <q-input v-model="empDob" mask="date" :rules="['date']">
+          <q-input v-model="empAddress1"
+                   type="text"
+                   label="주소1(Address1) "/>
+          <q-input v-model="empAddress2"
+                   type="text"
+                   label="주소1(Address2) "/>
+          <q-input v-model="empCity"
+                   type="text"
+                   label="도시(City) "/>
+          <q-input v-model="empState"
+                   type="text"
+                   label="주/도(State) "/>
+          <q-input v-model="empCountry"
+                   type="text"
+                   label="국가(Country) "/>
+
+          <q-input v-model="empDob" mask="####/##/##" :rules="['date']">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -124,6 +111,8 @@
           <q-select  bottom-slots
                      v-model="empDobType"
                      :options="dobTypeOptions"
+                     option-value="codeValue"
+                     option-label="codeKr"
                      label="생일타입" />
 
           <q-input v-model="empMemo"
@@ -194,9 +183,7 @@ export default {
       divOptions: [],
       titleOptions: [],
       empRoleOptions: [],
-      dobTypeOptions: [
-        '양력', '음력'
-      ],
+      dobTypeOptions: [],
     };
   },
   computed: {
@@ -216,11 +203,9 @@ export default {
     this.$store.dispatch("comCode/useComCode", workOptionReq)
       .then(
       (commCode) => {
-        console.log(commCode);
         this.workOptions = commCode;
       },
       (error) => {
-        this.loading = false;
         this.message =
           (error.response &&
             error.response.data &&
@@ -237,11 +222,9 @@ export default {
     this.$store.dispatch("comCode/useComCode", divOptionsReq)
       .then(
         (commCode) => {
-          console.log(commCode);
           this.divOptions = commCode;
         },
         (error) => {
-          this.loading = false;
           this.message =
             (error.response &&
               error.response.data &&
@@ -258,11 +241,9 @@ export default {
     this.$store.dispatch("comCode/useComCode", titleOptionsReq)
       .then(
         (commCode) => {
-          console.log(commCode);
           this.titleOptions = commCode;
         },
         (error) => {
-          this.loading = false;
           this.message =
             (error.response &&
               error.response.data &&
@@ -272,6 +253,25 @@ export default {
         }
       );
     //직책
+    const dobTypeOptionsReq = {
+      uprCodeUuid: '222',
+      codeLvl:'1'
+    }
+    this.$store.dispatch("comCode/useComCode", dobTypeOptionsReq)
+      .then(
+        (commCode) => {
+          this.dobTypeOptions = commCode;
+        },
+        (error) => {
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+    );
+    //생일타입
     const empRoleOptionsReq = {
       uprCodeUuid: '18',
       codeLvl:'1'
@@ -279,11 +279,9 @@ export default {
     this.$store.dispatch("comCode/useComCode", empRoleOptionsReq)
       .then(
         (commCode) => {
-          console.log(commCode);
           this.empRoleOptions = commCode;
         },
         (error) => {
-          this.loading = false;
           this.message =
             (error.response &&
               error.response.data &&
@@ -294,7 +292,18 @@ export default {
       );
   },
   methods: {
+    getCurrentDate () {
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var yyyy = today.getFullYear()-20;
 
+      today = yyyy+'/' +mm + '/' + dd + '/';
+
+      this.empDob = today
+      console.log(today)
+
+    },
     handleRegister() {
       this.message = "";
       this.successful = false;
@@ -343,7 +352,10 @@ export default {
     onReset () {
       this.username = ""
       this.password = ""
-    }
+    },
+  },
+  beforeMount(){
+    this.getCurrentDate()
   },
 };
 </script>
