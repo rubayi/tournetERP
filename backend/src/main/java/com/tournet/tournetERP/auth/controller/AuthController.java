@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import com.tournet.tournetERP.auth.dto.JwtResponse;
 import com.tournet.tournetERP.auth.dto.LoginRequest;
 import com.tournet.tournetERP.auth.dto.MessageResponse;
-import com.tournet.tournetERP.auth.dto.SignupRequest;
+import com.tournet.tournetERP.auth.dto.UserRequest;
 import com.tournet.tournetERP.auth.entity.ERole;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.entity.Role;
@@ -80,7 +80,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()

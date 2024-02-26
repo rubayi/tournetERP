@@ -71,8 +71,6 @@ public class ComCodeController {
                 comcode.getUprCodeUuid(),
                 comcode.getCodeLvl());
 
-
-
         return new ResponseEntity<>(selectedComcode, HttpStatus.OK);
     }
 

@@ -4,7 +4,7 @@
       <q-form @submit="handleRegister"
               @reset="onReset">
         <div v-if="!successful">
-          <div class="row q-col-gutter-x-md">
+          <div class="row q-col-gutter-x-md" style="max-width: 900px">
             <q-input class="col-6" outlined v-model="username"
                      type="text"
                      label="사용자명(username) *"
@@ -63,7 +63,7 @@
 
             <q-select class="col-3" outlined bottom-slots
                       v-model="empDiv"
-                      :options="titleOptions"
+                      :options="divOptions"
                       option-value="codeValue"
                       option-label="codeKr"
                       label="부서명" />
@@ -77,7 +77,7 @@
 
             <q-select class="col-3" outlined bottom-slots
                        v-model="empRole"
-                       :options="divOptions"
+                       :options="empRoleOptions"
                        option-value="codeValue"
                        option-label="codeKr"
                        label="직책" />
@@ -116,9 +116,16 @@
                      type="text"
                      label="주/도(State) "/>
 
-            <q-input class="col-4" outlined  bottom-slots v-model="empCountry"
-                     type="text"
-                     label="국가(Country) "/>
+<!--            <q-input class="col-4" outlined  bottom-slots v-model="empCountry"-->
+<!--                     type="text"-->
+<!--                     label="국가(Country) "/>-->
+
+            <q-select class="col-4" outlined  bottom-slots
+                      v-model="empCountry"
+                      :options="countryOptions"
+                      option-value="codeValue"
+                      option-label="codeKr"
+                      label="국가(Country)" />
 
 <!--            <q-input class="col-12" v-model="empMemo"-->
 <!--                     type="text"-->
@@ -233,12 +240,12 @@ export default {
   name: "RegisterTN",
 
   setup () {
-    const today = new Date();
+    const viewday = new Date();
 
     return {
       model: ref(null),
 
-      date: ref(today)
+      date: ref(viewday)
     }
   },
   data() {
@@ -273,6 +280,7 @@ export default {
       titleOptions: [],
       empRoleOptions: [],
       dobTypeOptions: [],
+      countryOptions: []
     };
   },
   computed: {
@@ -341,26 +349,8 @@ export default {
             error.toString();
         }
       );
+
     //직책
-    const dobTypeOptionsReq = {
-      uprCodeUuid: '222',
-      codeLvl:'1'
-    }
-    this.$store.dispatch("comCode/useComCode", dobTypeOptionsReq)
-      .then(
-        (commCode) => {
-          this.dobTypeOptions = commCode;
-        },
-        (error) => {
-          this.message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
-    );
-    //생일타입
     const empRoleOptionsReq = {
       uprCodeUuid: '18',
       codeLvl:'1'
@@ -379,17 +369,55 @@ export default {
             error.toString();
         }
       );
+    //생일타입
+    const dobTypeOptionsReq = {
+      uprCodeUuid: '222',
+      codeLvl:'1'
+    }
+    this.$store.dispatch("comCode/useComCode", dobTypeOptionsReq)
+      .then(
+        (commCode) => {
+          this.dobTypeOptions = commCode;
+        },
+        (error) => {
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    //국가코드
+    const countryOptionsReq = {
+      uprCodeUuid: '1',
+      codeLvl:'1'
+    }
+    this.$store.dispatch("comCode/useComCode", countryOptionsReq)
+      .then(
+        (commCode) => {
+          this.countryOptions = commCode;
+        },
+        (error) => {
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
   },
   methods: {
     getCurrentDate () {
-      var today = new Date();
-      var dd = String(today.getDate()).padStart(2, '0');
-      var mm = String(today.getMonth() + 1).padStart(2, '0');
-      var yyyy = today.getFullYear()-20;
+      var viewday = new Date();
+      var dd = String(viewday.getDate()).padStart(2, '0');
+      var mm = String(viewday.getMonth() + 1).padStart(2, '0');
+      var yyyy = viewday.getFullYear()-20;
 
-      today = yyyy+'/' +mm + '/' + dd + '/';
+      viewday = yyyy+'/' +mm + '/' + dd + '/';
 
-      this.empDob = today
+      this.empDob = viewday
 
     },
     handleRegister() {
