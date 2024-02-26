@@ -39,7 +39,7 @@ public class ComCode {
     private int codeOrd;
 
     @Column(name = "UPR_CODE_UUID", nullable = true)
-    private int uprCodeUuid;
+    private Integer uprCodeUuid;
 
     @Column(name = "USE_YN", nullable = true)
     private String useYn;

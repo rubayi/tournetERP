@@ -1,7 +1,15 @@
 import api from "./api";
 
 class ComcodeService {
-  useComCode( comreq ) {
+  getComCodeList() {
+    return api
+      .get("/comCodes/comCodes")
+      .then((response) => {
+        return response.data;
+      });
+  }
+
+  useComCode(comreq) {
     return api
       .post("/comCodes/useComCodeByGrp", comreq)
       .then((response) => {
@@ -9,7 +17,7 @@ class ComcodeService {
       });
   }
 
-  deleteComcode({id}) {
+  deleteComcode({ id }) {
     return api
       .delete("/comCodes/deleteComcode/{id}");
   }
