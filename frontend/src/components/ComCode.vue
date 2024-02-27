@@ -14,14 +14,27 @@
         </div>
       </div>
       <div>
-        <ul class="list no-bullets">
-          <li v-for="comCode in chosenComCodes" :key="comCode.codeUuid">
-            <!-- Display comcode properties here -->
-            {{ comCode.codeUuid }} {{ comCode.codeEn }} {{ comCode.codeKr }}
-            <button @click="editComCode(comCode)">Edit</button>
-            <button @click="deleteComCode(comCode.id)">Delete</button>
-          </li>
-        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th>Code UUID</th>
+              <th>Code EN</th>
+              <th>Code KR</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="comCode in chosenComCodes" :key="comCode.codeUuid">
+              <td>{{ comCode.codeUuid }}</td>
+              <td>{{ comCode.codeEn }}</td>
+              <td>{{ comCode.codeKr }}</td>
+              <td>
+                <button @click="editComCode(comCode)">Edit</button>
+                <button @click="deleteComCode(comCode.id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
