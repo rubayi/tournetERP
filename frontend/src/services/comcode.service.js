@@ -9,6 +9,22 @@ class ComcodeService {
       });
   }
 
+  getMainComCodeList() {
+    return api
+      .get("/comCodes/GrpComCodes")
+      .then((response) => {
+        return response.data;
+      });
+  }
+
+  getComCodeListByGrp(comreq) {
+    return api
+      .post("/comCodes/SearchComCodesByGrp", comreq)
+      .then((response) => {
+        return response.data;
+      });
+  }
+
   useComCode(comreq) {
     return api
       .post("/comCodes/useComCodeByGrp", comreq)

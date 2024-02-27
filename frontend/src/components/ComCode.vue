@@ -1,24 +1,29 @@
 <template>
   <div>
-    <h2>ComCode2</h2>
-    <p>ComCode is a list of common codes used in the system.</p>
-    <p>Here is a list of comcodes:</p>
-
-    <!-- Form for creating and updating comcodes -->
-    <form @submit.prevent="saveComCode">
-      <!-- Input fields for comcode properties go here -->
-      <button type="submit">Save</button>
-    </form>
-
-    <!-- List of comcodes -->
-    <ul>
-      <li v-for="comCode in comCodes" :key="comCode.codeUuid">
-        <!-- Display comcode properties here -->
-        {{ comCode.codeKr }}
-        <button @click="editComCode(comCode)">Edit</button>
-        <button @click="deleteComCode(comCode.id)">Delete</button>
-      </li>
-    </ul>
+    <h3>코드관리</h3>
+    <div class="grid-container">
+      <div>
+        <div class="toc">
+          <ul class="list no-bullets">
+            <li v-for="comCode in comCodes" :key="comCode.codeUuid">
+              <button class="" @click="chooseMainComCode(comCode)">
+                {{ comCode.codeKr }}
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <ul class="list no-bullets">
+          <li v-for="comCode in chosenComCodes" :key="comCode.codeUuid">
+            <!-- Display comcode properties here -->
+            {{ comCode.codeUuid }} {{ comCode.codeEn }} {{ comCode.codeKr }}
+            <button @click="editComCode(comCode)">Edit</button>
+            <button @click="deleteComCode(comCode.id)">Delete</button>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -30,28 +35,33 @@ export default {
       comreq: null,
       comCodes: [],
       // Add a data property for the comcode being edited
-      comCode: null,
+      chosenComCodes: [],
     };
   },
   methods: {
-    // Method for getting all comcodes
     getComCodes() {
-      console.log("getComCodes method called"); // This will log a message when the method is called
-
       this.$store.dispatch("comCode/getComCodeList").then(
         (comCodes) => {
-          console.log("getComCodes successful", comCodes); // This will log a message and the fetched comcodes when the request is successful
           this.comCodes = comCodes;
         },
         (error) => {
-          console.log("getComCodes failed", error); // This will log a message and the error when the request fails
+          console.log("getComCodes failed", error);
         }
       );
     },
-    // Method for saving a comcode (create or update)
+    getMainComCode() {
+      this.$store.dispatch("comCode/getMainComCodeList").then(
+        (comCodes) => {
+          this.comCodes = comCodes;
+          this.chosenComCodes = comCodes;
+        },
+        (error) => {
+          console.log("getMainComCode failed", error);
+        }
+      );
+    },
     saveComCode() {
       if (this.comCode.id) {
-        // Update existing comcode
         // Replace with your actual API call
         this.$store.dispatch("comCode/update", this.comCode).then(
           () => {
@@ -59,7 +69,7 @@ export default {
             this.comCode = null;
           },
           (error) => {
-            // Handle error
+            console.log("saveComCode failed", error);
           }
         );
       } else {
@@ -71,7 +81,7 @@ export default {
             this.comCode = null;
           },
           (error) => {
-            // Handle error
+            console.log("saveComCode failed", error);
           }
         );
       }
@@ -79,6 +89,16 @@ export default {
     // Method for editing a comcode
     editComCode(comCode) {
       this.comCode = Object.assign({}, comCode);
+    },
+    chooseMainComCode(comCode) {
+      this.$store.dispatch("comCode/SearchComCodeListByGrp", comCode).then(
+        (comcodes) => {
+          this.chosenComCodes = comcodes;
+        },
+        (error) => {
+          console.log("chooseMainComCode failed", error);
+        }
+      );
     },
     // Method for deleting a comcode
     deleteComCode(id) {
@@ -88,17 +108,54 @@ export default {
           this.getComCodes();
         },
         (error) => {
-          // Handle error
+          console.log("deleteComCode failed", error);
         }
       );
     },
   },
   created() {
-    this.getComCodes();
+    this.getMainComCode();
   },
 };
 </script>
 
 <style scoped>
-/* Your component styles go here */
+.grid-container {
+  display: grid;
+  grid-template-columns: 20% 50% 30%;
+  gap: 20px;
+}
+.no-bullets {
+  list-style-type: none;
+  border: 1px solid #b9b8b8;
+}
+.toc {
+  border: 1px solid #b9b8b8;
+  padding: 10px;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+}
+
+.list > li {
+  padding: 10px 0; /* Adjust as needed */
+  border-bottom: 1px solid #000;
+}
+
+.list > li:last-child {
+  border-bottom: none;
+}
+
+.plain-button {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
 </style>

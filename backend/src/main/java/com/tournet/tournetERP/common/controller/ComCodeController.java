@@ -14,6 +14,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.method.P;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,6 +49,20 @@ public class ComCodeController {
         return new ResponseEntity<>(comcodes, HttpStatus.OK);
     }
 
+    /**
+     * 공통코드 그룹코드 조회
+     *
+     * @return
+     */
+    @GetMapping("/GrpComCodes")
+    public ResponseEntity<List<ComCode>> GrpComCodes() {
+
+        List<ComCode> comcodes = new ArrayList<ComCode>();
+        comcodes.addAll(comCodeRepository.findByUprCodeUuidIsNullOrderByCodeOrdAsc());
+
+        return new ResponseEntity<>(comcodes, HttpStatus.OK);
+    }
+
     @PostMapping("useComCodeByGrp")
     public ResponseEntity<List<ComCode>> postComCodes(@RequestBody ComCode comcode) {
 
@@ -56,6 +71,14 @@ public class ComCodeController {
                 comcode.getCodeLvl());
 
         return new ResponseEntity<>(comcodesList, HttpStatus.OK);
+    }
+
+    @PostMapping("SearchComCodesByGrp")
+    public ResponseEntity<List<ComCode>> SearchComCodesByGrp(@RequestBody ComCode comcode) {
+
+        List<ComCode> comcodes = comCodeRepository.findByUprCodeUuidOrderByCodeOrdAsc(comcode.getCodeUuid());
+
+        return new ResponseEntity<>(comcodes, HttpStatus.OK);
     }
 
     /**

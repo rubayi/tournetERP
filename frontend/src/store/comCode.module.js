@@ -34,6 +34,30 @@ export const comCode = {
         }
       );
     },
+    getMainComCodeList({ commit }) {
+      return CommonCodeService.getMainComCodeList().then(
+        data => {
+          commit('searchMainCommonCodes', data);
+          return Promise.resolve(data);
+        },
+        error => {
+          commit('comCodeError');
+          return Promise.reject(error);
+        }
+      );
+    },
+    SearchComCodeListByGrp({ commit }, comreq) {
+      return CommonCodeService.getComCodeListByGrp(comreq).then(
+        data => {
+          commit('searchGrpCommonCodes', data);
+          return Promise.resolve(data);
+        },
+        error => {
+          commit('comCodeError');
+          return Promise.reject(error);
+        }
+      );
+    },
     useComCode({ commit }, comreq) {
       return CommonCodeService.useComCode(comreq).then(
         data => {
@@ -74,6 +98,12 @@ export const comCode = {
   },
   mutations: {
     searchCommonCodes(state, data) {
+      state.comCode = data;
+    },
+    searchMainCommonCodes(state, data) {
+      state.comCode = data;
+    },
+    searchGrpCommonCodes(state, data) {
       state.comCode = data;
     },
     searchCommonCode(state, data) {

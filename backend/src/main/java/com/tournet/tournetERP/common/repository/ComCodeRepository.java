@@ -19,6 +19,8 @@ public interface ComCodeRepository extends JpaRepository<ComCode, Long> {
 
     List<ComCode> findAllByOrderByCreatedDtDesc();
 
+    List<ComCode> findByUprCodeUuidIsNullOrderByCodeOrdAsc();
+
     Optional<ComCode> findByCodeUuid(int id);
 
     @Modifying
@@ -32,6 +34,11 @@ public interface ComCodeRepository extends JpaRepository<ComCode, Long> {
             "AND p.useYn = 'Y' " +
             "ORDER BY p.codeOrd")
     List<ComCode> findByUprCodeUuidAndUseYnByOrderByCodeOrdAsc(int uprCodeUuid, String codeLvl);
+
+    @Query("SELECT p FROM ComCode p " +
+            "WHERE p.uprCodeUuid = :codeUuid " +
+            "ORDER BY p.codeOrd")
+    List<ComCode> findByUprCodeUuidOrderByCodeOrdAsc(int codeUuid);
 
     List<ComCode> findByUprCodeUuidAndCodeLvlOrderByCodeOrdAsc(int uprCodeUuid, String codeLvl);
 
