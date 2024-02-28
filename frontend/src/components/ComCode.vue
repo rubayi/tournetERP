@@ -6,7 +6,7 @@
         <div class="toc">
           <ul class="list no-bullets">
             <li v-for="comCode in comCodes" :key="comCode.codeUuid">
-              <button class="" @click="chooseMainComCode(comCode)">
+              <button class="plain-button" @click="chooseMainComCode(comCode)">
                 {{ comCode.codeKr }}
               </button>
             </li>
@@ -36,8 +36,8 @@
         </table>
       </div>
       <div>
-        <div>
-          <h3>코드등록</h3>
+        <div class="toc">
+          <div>코드등록</div>
           <form @submit.prevent="saveComCode">
             <input
               type="number"
@@ -240,8 +240,7 @@ export default {
 }
 
 .list > li {
-  padding: 10px 0; /* Adjust as needed */
-  border-bottom: 1px solid #000;
+  border-bottom: #333333 1px solid;
 }
 
 .list > li:last-child {
@@ -249,13 +248,12 @@ export default {
 }
 
 .plain-button {
-  background: none;
+  background: #efefef;
   border: none;
   padding: 0;
   text-align: left;
   width: 100%;
-  text-decoration: none;
-  color: inherit;
   display: block;
+  padding: 10px 10px;
 }
 </style>
