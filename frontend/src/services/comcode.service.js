@@ -33,13 +33,17 @@ class ComcodeService {
       });
   }
 
-  deleteComcode({ id }) {
+  deleteComcode(id) {
     return api
-      .delete("/comCodes/deleteComcode/{id}");
+      .delete(`/comCodes/deleteComcode/${id}`);
   }
 
   createComcode(comreq) {
     return api.post("/comCodes/createComCode", comreq);
+  }
+
+  updateComcode(comreq) {
+    return api.put(`/comCodes/updateComCode`, comreq);
   }
 }
 

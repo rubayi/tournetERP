@@ -84,9 +84,21 @@ export const comCode = {
 
     },
     createComcode({ commit }, comreq) {
-      return CommonCodeService.createComcode(id).then(
+      return CommonCodeService.createComcode(comreq).then(
         data => {
           commit('createSuccess', data);
+          return Promise.resolve(data);
+        },
+        error => {
+          commit('comCodeError');
+          return Promise.reject(error);
+        }
+      );
+    },
+    updateComcode({ commit }, comreq) {
+      return CommonCodeService.updateComcode(comreq).then(
+        data => {
+          commit('updateSuccess', data);
           return Promise.resolve(data);
         },
         error => {
@@ -113,6 +125,10 @@ export const comCode = {
       state.success = true;
     },
     createSuccess(state) {
+      state.success = true;
+    },
+    updateSuccess(state) {
+      state.success = true;
     },
     comCodeError(state) {
     },

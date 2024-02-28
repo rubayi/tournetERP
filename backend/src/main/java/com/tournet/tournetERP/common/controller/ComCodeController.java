@@ -58,7 +58,7 @@ public class ComCodeController {
     public ResponseEntity<List<ComCode>> GrpComCodes() {
 
         List<ComCode> comcodes = new ArrayList<ComCode>();
-        comcodes.addAll(comCodeRepository.findByUprCodeUuidIsNullOrderByCodeOrdAsc());
+        comcodes.addAll(comCodeRepository.findByUprCodeUuidIsNullOrZeroOrderByCodeOrdAsc());
 
         return new ResponseEntity<>(comcodes, HttpStatus.OK);
     }
@@ -98,11 +98,12 @@ public class ComCodeController {
     }
 
 
-    @PutMapping("/updateComCode/{id}")
-    public ResponseEntity<Map<String, Object>> updateComCode(@PathVariable int id, @RequestBody ComCode comcode) {
+    @PutMapping("/updateComCode")
+    public ResponseEntity<Map<String, Object>> updateComCode(@RequestBody ComCode comcode) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
+        int id = comcode.getCodeUuid();
 
         Optional<ComCode> currentComCode = comCodeRepository.findByCodeUuid(id);
 

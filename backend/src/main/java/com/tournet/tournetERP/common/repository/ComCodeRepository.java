@@ -19,7 +19,8 @@ public interface ComCodeRepository extends JpaRepository<ComCode, Long> {
 
     List<ComCode> findAllByOrderByCreatedDtDesc();
 
-    List<ComCode> findByUprCodeUuidIsNullOrderByCodeOrdAsc();
+    @Query("SELECT c FROM ComCode c WHERE c.uprCodeUuid IS NULL OR c.uprCodeUuid = 0 ORDER BY c.codeOrd ASC")
+    List<ComCode> findByUprCodeUuidIsNullOrZeroOrderByCodeOrdAsc();
 
     Optional<ComCode> findByCodeUuid(int id);
 
