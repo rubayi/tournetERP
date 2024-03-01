@@ -14,26 +14,51 @@
         </div>
       </div>
       <div>
-        <table style="width: 100%">
+        <!-- <table style="width: 100%">
           <thead>
-            <tr>
-              <th style="width: 25%">분류코드</th>
-              <th style="width: 25%">코드명(영문)</th>
-              <th style="width: 25%">코드명(한글)</th>
-              <th style="width: 25%">관리</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="comCode in chosenComCodes" :key="comCode.codeUuid">
-              <td style="text-align: center">{{ comCode.codeUuid }}</td>
-              <td style="text-align: center">{{ comCode.codeEn }}</td>
-              <td style="text-align: center">{{ comCode.codeKr }}</td>
-              <td style="text-align: center">
-                <button @click="editComCode(comCode)">수정/삭제</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <tr>
+                  <th style="width: 25%">분류코드</th>
+                  <th style="width: 25%">코드명(영문)</th>
+                  <th style="width: 25%">코드명(한글)</th>
+                  <th style="width: 25%">관리</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="comCode in chosenComCodes" :key="comCode.codeUuid">
+                  <td style="text-align: center">{{ comCode.codeUuid }}</td>
+                  <td style="text-align: center">{{ comCode.codeEn }}</td>
+                  <td style="text-align: center">{{ comCode.codeKr }}</td>
+                  <td style="text-align: center">
+                    <button @click="editComCode(comCode)">수정/삭제</button>
+                  </td>
+                </tr>
+              </tbody> </table>-->
+        <!-- <q-card class="no-shadow" bordered>
+          <q-card-section>
+            <q-table
+              square
+              class="no-shadow"
+              title="상세코드"
+              :rows="chosenComCodes"
+              :columns="columns"
+              row-key="name"
+              :filter="filter"
+            >
+              <template v-slot:body-cell-edit="props">
+                <q-td :props="props">
+                  <button @click="editComCode(props.row)">수정/삭제</button>
+                </q-td>
+              </template>
+            </q-table>
+          </q-card-section>
+        </q-card> -->
+        <ag-grid-vue
+          :rowData="chosenComCodes"
+          :columnDefs="colDefs"
+          style="height: 500px"
+          class="ag-theme-quartz"
+        >
+        </ag-grid-vue>
       </div>
       <div>
         <div class="toc">
@@ -114,10 +139,75 @@
 </template>
 
 <script>
+import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
+import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
+import { AgGridVue } from "ag-grid-vue3"; // AG Grid Component
+
 export default {
   name: "ComCode",
+  components: {
+    AgGridVue,
+  },
   data() {
     return {
+      colDefs: [
+        {
+          field: "codeUuid",
+          headerName: "분류코드",
+          sortable: true,
+          filter: true,
+          checkboxSelection: true,
+        },
+        {
+          field: "codeEn",
+          headerName: "코드명(영문)",
+          sortable: true,
+          filter: true,
+        },
+        {
+          field: "codeKr",
+          headerName: "코드명(한글)",
+          sortable: true,
+          filter: true,
+        },
+        {
+          field: "edit",
+          headerName: "관리",
+          cellRenderer: function (params) {
+            return `<button @click="editComCode(${params.data})">수정/삭제</button>`;
+          },
+        },
+      ],
+      columns: [
+        {
+          name: "codeUuid",
+          required: true,
+          label: "분류코드",
+          align: "center",
+          field: "codeUuid",
+        },
+        {
+          name: "codeEn",
+          required: true,
+          label: "코드명(영문)",
+          align: "center",
+          field: "codeEn",
+        },
+        {
+          name: "codeKr",
+          required: true,
+          label: "코드명(한글)",
+          align: "center",
+          field: "codeKr",
+        },
+        {
+          name: "edit",
+          required: true,
+          label: "관리",
+          align: "center",
+          name: "edit",
+        },
+      ],
       comreq: null,
       edited: {
         codeUuid: "",
