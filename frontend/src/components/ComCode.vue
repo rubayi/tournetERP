@@ -178,36 +178,6 @@ export default {
           },
         },
       ],
-      columns: [
-        {
-          name: "codeUuid",
-          required: true,
-          label: "분류코드",
-          align: "center",
-          field: "codeUuid",
-        },
-        {
-          name: "codeEn",
-          required: true,
-          label: "코드명(영문)",
-          align: "center",
-          field: "codeEn",
-        },
-        {
-          name: "codeKr",
-          required: true,
-          label: "코드명(한글)",
-          align: "center",
-          field: "codeKr",
-        },
-        {
-          name: "edit",
-          required: true,
-          label: "관리",
-          align: "center",
-          name: "edit",
-        },
-      ],
       comreq: null,
       edited: {
         codeUuid: "",
@@ -220,6 +190,36 @@ export default {
       },
       comCodes: [],
       chosenComCodes: [],
+      // columns: [
+      //   {
+      //     name: "codeUuid",
+      //     required: true,
+      //     label: "분류코드",
+      //     align: "center",
+      //     field: "codeUuid",
+      //   },
+      //   {
+      //     name: "codeEn",
+      //     required: true,
+      //     label: "코드명(영문)",
+      //     align: "center",
+      //     field: "codeEn",
+      //   },
+      //   {
+      //     name: "codeKr",
+      //     required: true,
+      //     label: "코드명(한글)",
+      //     align: "center",
+      //     field: "codeKr",
+      //   },
+      //   {
+      //     name: "edit",
+      //     required: true,
+      //     label: "관리",
+      //     align: "center",
+      //     name: "edit",
+      //   },
+      // ],
     };
   },
   methods: {
