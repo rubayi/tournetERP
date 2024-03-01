@@ -55,6 +55,7 @@
         <ag-grid-vue
           :rowData="chosenComCodes"
           :columnDefs="colDefs"
+          :onCellClicked="onCellClicked"
           style="height: 500px"
           class="ag-theme-quartz"
         >
@@ -139,9 +140,9 @@
 </template>
 
 <script>
-import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
-import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
-import { AgGridVue } from "ag-grid-vue3"; // AG Grid Component
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
+import { AgGridVue } from "ag-grid-vue3";
 
 export default {
   name: "ComCode",
@@ -156,7 +157,7 @@ export default {
           headerName: "분류코드",
           sortable: true,
           filter: true,
-          checkboxSelection: true,
+          // checkboxSelection: true,
         },
         {
           field: "codeEn",
@@ -174,7 +175,10 @@ export default {
           field: "edit",
           headerName: "관리",
           cellRenderer: function (params) {
-            return `<button @click="editComCode(${params.data})">수정/삭제</button>`;
+            return `<button>${params.value}</button>`;
+          },
+          valueGetter: function (params) {
+            return "수정/삭제";
           },
         },
       ],
@@ -223,16 +227,6 @@ export default {
     };
   },
   methods: {
-    // getComCodes() {
-    //   this.$store.dispatch("comCode/getComCodeList").then(
-    //     (comCodes) => {
-    //       this.comCodes = comCodes;
-    //     },
-    //     (error) => {
-    //       console.log("getComCodes failed", error);
-    //     }
-    //   );
-    // },
     getMainComCode() {
       this.$store.dispatch("comCode/getMainComCodeList").then(
         (comCodes) => {
@@ -267,8 +261,10 @@ export default {
         );
       }
     },
-    editComCode(comCode) {
-      this.edited = Object.assign({}, comCode);
+    onCellClicked(params) {
+      if (params.column.getColId() === "edit") {
+        this.edited = Object.assign({}, params.data);
+      }
     },
     chooseMainComCode(comCode) {
       this.$store.dispatch("comCode/SearchComCodeListByGrp", comCode).then(
