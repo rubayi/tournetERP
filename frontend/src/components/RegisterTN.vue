@@ -5,13 +5,15 @@
               @reset="onReset">
         <div v-if="!successful">
           <div class="row q-col-gutter-x-md" style="max-width: 900px">
-            <q-input class="col-6" outlined v-model="username"
+            <q-input class="col-6" outlined
+                     v-model="username"
                      type="text"
                      label="사용자명(username) *"
                      lazy-rules
                      :rules="[ val => val && val.length > 0 || '사용자명을 입력 해 주십시오.']"/>
 
-            <q-input class="col-6" outlined v-model="password"
+            <q-input class="col-6" outlined
+                     v-model="password"
                      type="password"
                      label="암호(password) *"
                      lazy-rules
@@ -428,24 +430,26 @@ export default {
         username: this.username,
         empEmail: this.empEmail,
         password: this.password,
-        empKor: "",
-        empEng: "",
-        empWorkType: "",
-        empDiv: "",
-        empTitle: "",
-        empPhone: "",
-        empWorkPhone: "",
-        empEmailBook: "",
-        empAddress1: "",
-        empAddress2: "",
-        empCity: "",
-        empState: "",
-        empZip: "",
-        empDob: "",
-        empDobType: "",
-        empMemo: "",
-        empStatus: ""
+        empKor: this.empKor,
+        empEng: this.empEng,
+        empWorkType: this.empWorkType.value,
+        empDiv: this.empDiv.value,
+        empTitle: this.empTitle.value,
+        empPhone: this.empPhone,
+        empWorkPhone: this.empWorkPhone,
+        empEmailBook: this.empEmailBook,
+        empAddress1: this.empAddress1,
+        empAddress2: this.empAddress2,
+        empCity: this.empCity,
+        empCountry: this.empCountry.value,
+        empState: this.empState,
+        empZip: this.empZip,
+        empDob: this.empDob,
+        empDobType: this.empDobType.value,
+        empMemo: this.empMemo
       };
+
+      console.log(user);
       this.$store.dispatch("auth/register", user).then(
         (data) => {
           this.message = data.message;
