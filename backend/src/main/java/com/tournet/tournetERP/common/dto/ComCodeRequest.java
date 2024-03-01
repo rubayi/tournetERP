@@ -8,7 +8,7 @@ import java.util.Date;
 
 
 @Data
-public class ComCodeRequestDTO {
+public class ComCodeRequest {
 
     private int codeUuid;
 

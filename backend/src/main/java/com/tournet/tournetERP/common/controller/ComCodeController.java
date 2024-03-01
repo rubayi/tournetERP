@@ -1,7 +1,7 @@
 package com.tournet.tournetERP.common.controller;
 
 import com.tournet.tournetERP.auth.dto.MessageResponse;
-import com.tournet.tournetERP.common.dto.ComCodeRequestDTO;
+import com.tournet.tournetERP.common.dto.ComCodeRequest;
 import com.tournet.tournetERP.common.entity.ComCode;
 import com.tournet.tournetERP.common.repository.ComCodeRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,7 +14,6 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.method.P;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -138,7 +137,7 @@ public class ComCodeController {
 
     @Transactional
     @PostMapping("/createComCode")
-    public ResponseEntity<?> registerComCode(@RequestBody ComCodeRequestDTO comCodeRequest) {
+    public ResponseEntity<?> registerComCode(@RequestBody ComCodeRequest comCodeRequest) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
