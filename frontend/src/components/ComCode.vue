@@ -5,6 +5,11 @@
       <div>
         <div class="toc">
           <ul class="list no-bullets">
+            <li>
+              <button class="plain-button" @click="getMainComCode">
+                전체코드
+              </button>
+            </li>
             <li v-for="comCode in comCodes" :key="comCode.codeUuid">
               <button class="plain-button" @click="chooseMainComCode(comCode)">
                 {{ comCode.codeKr }}
@@ -14,25 +19,6 @@
         </div>
       </div>
       <div>
-        <!-- <table style="width: 100%">
-          <thead>
-                <tr>
-                  <th style="width: 25%">분류코드</th>
-                  <th style="width: 25%">코드명(영문)</th>
-                  <th style="width: 25%">코드명(한글)</th>
-                  <th style="width: 25%">관리</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="comCode in chosenComCodes" :key="comCode.codeUuid">
-                  <td style="text-align: center">{{ comCode.codeUuid }}</td>
-                  <td style="text-align: center">{{ comCode.codeEn }}</td>
-                  <td style="text-align: center">{{ comCode.codeKr }}</td>
-                  <td style="text-align: center">
-                    <button @click="editComCode(comCode)">수정/삭제</button>
-                  </td>
-                </tr>
-              </tbody> </table>-->
         <!-- <q-card class="no-shadow" bordered>
           <q-card-section>
             <q-table
@@ -56,7 +42,7 @@
           :rowData="chosenComCodes"
           :columnDefs="colDefs"
           :onCellClicked="onCellClicked"
-          style="height: 500px"
+          style="height: 1000px; width: 100%"
           class="ag-theme-quartz"
         >
         </ag-grid-vue>
@@ -67,7 +53,7 @@
           <form @submit.prevent="saveComCode">
             <input
               type="number"
-              id="                   "
+              id="codeUuid"
               v-model="edited.codeUuid"
               hidden
             />
@@ -184,10 +170,11 @@ export default {
       ],
       comreq: null,
       edited: {
-        codeUuid: "",
+        codeUuid: 0,
         codeEn: "",
         codeKr: "",
         codeValue: "",
+        codeLvl: "",
         codeOrd: "",
         useYn: "",
         uprCodeUuid: null,
@@ -270,7 +257,16 @@ export default {
       this.$store.dispatch("comCode/SearchComCodeListByGrp", comCode).then(
         (comcodes) => {
           this.chosenComCodes = comcodes;
-          this.edited.uprCodeUuid = comCode.uprCodeUuid;
+          this.edited = {
+            codeUuid: 0,
+            codeEn: "",
+            codeKr: "",
+            codeValue: "",
+            codeOrd: "",
+            useYn: "",
+            codeLvl: "",
+            uprCodeUuid: comCode.uprCodeUuid,
+          };
         },
         (error) => {
           console.log("chooseMainComCode failed", error);
@@ -289,13 +285,14 @@ export default {
     },
     resetForm() {
       this.edited = {
-        codeUuid: "",
+        codeUuid: 0,
         codeEn: "",
         codeKr: "",
         codeValue: "",
         codeOrd: "",
         useYn: "",
-        uprCodeUuid: null,
+        codeLvl: "",
+        uprCodeUuid: this.chosenComCodes[0]?.uprCodeUuid ?? 0,
       };
     },
   },
