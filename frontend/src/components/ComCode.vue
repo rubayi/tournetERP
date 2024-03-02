@@ -24,7 +24,7 @@
           :rowData="chosenComCodes"
           :columnDefs="colDefs"
           :onCellClicked="onCellClicked"
-          style="height: 100%; width: 100%"
+          style="height: 100%"
           class="ag-theme-alpine"
         >
         </ag-grid-vue>
@@ -148,7 +148,7 @@ export default {
           filter: true,
         },
         {
-          field: "button",
+          field: "edit",
           headerName: "관리",
           cellRenderer: function (params) {
             return `<q-btn style="background: #e5e5e5; padding: 5px; cursor: pointer; font-size: 12px;">${params.value}</q-btn>`;
@@ -267,7 +267,7 @@ export default {
 <style scoped>
 .grid-container {
   display: grid;
-  grid-template-columns: 20% 60% 15%;
+  grid-template-columns: 20% 60% auto;
   gap: 20px;
 }
 .no-bullets {
