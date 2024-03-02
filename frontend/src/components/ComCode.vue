@@ -40,7 +40,7 @@
               v-model="edited.codeUuid"
               hidden
             />
-            <div>
+            <div class="spaces">
               <input
                 type="text"
                 placeholder="영문 상세코드명"
@@ -48,7 +48,7 @@
                 v-model="edited.codeEn"
               />
             </div>
-            <div>
+            <div class="spaces">
               <input
                 type="text"
                 placeholder="한글 상세코드명"
@@ -57,7 +57,7 @@
                 required
               />
             </div>
-            <div>
+            <div class="spaces">
               <input
                 type="text"
                 placeholder="코드값 ex) 001"
@@ -66,7 +66,7 @@
                 required
               />
             </div>
-            <div>
+            <div class="spaces">
               <input
                 type="text"
                 placeholder="코드레벨 ex) 0,1,2.."
@@ -75,7 +75,7 @@
                 required
               />
             </div>
-            <div>
+            <div class="spaces">
               <input
                 type="number"
                 placeholder="코드정렬순서"
@@ -84,7 +84,7 @@
                 required
               />
             </div>
-            <div>
+            <div class="spaces">
               <input
                 type="text"
                 placeholder="코드사용여부"
@@ -93,7 +93,7 @@
                 required
               />
             </div>
-            <div>
+            <div class="spaces">
               <button type="submit">
                 {{ edited.codeUuid ? "수정" : "저장" }}
               </button>
@@ -142,10 +142,16 @@ export default {
           filter: true,
         },
         {
-          field: "edit",
+          field: "codeValue",
+          headerName: "코드값",
+          sortable: true,
+          filter: true,
+        },
+        {
+          field: "button",
           headerName: "관리",
           cellRenderer: function (params) {
-            return `<button>${params.value}</button>`;
+            return `<q-btn style="background: #e5e5e5; padding: 5px; cursor: pointer; font-size: 12px;">${params.value}</q-btn>`;
           },
           valueGetter: function (params) {
             return "수정/삭제";
@@ -286,6 +292,8 @@ export default {
   color: rgb(31, 31, 31);
   padding: 15px 15px;
   margin: 5px 5px;
+  text-align: center;
+  font-size: 11px;
   border: 1px solid #000000;
   cursor: pointer;
 }
@@ -296,7 +304,11 @@ export default {
 .list > li:last-child {
   border-bottom: none;
 }
-
+.spaces {
+  margin-top: 10px;
+  margin-top: 10px;
+  align-content: center;
+}
 .plain-button {
   background: #efefef;
   border: none;
