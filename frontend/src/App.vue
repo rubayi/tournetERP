@@ -55,15 +55,6 @@
             ></q-icon>
             {{ currentUser.username }}</q-btn
           >
-          <q-btn v-if="isAdmin" to="/admin" flat stretch class="text-bold"
-            ><q-icon
-              name="fas fa-chart-line"
-              class="q-mr-sm text-white"
-              size="xs"
-            ></q-icon
-            >관리자 대시보드</q-btn
-          >
-
           <q-btn
             v-if="$store.state.auth.user"
             @click="logout"
@@ -83,13 +74,14 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above content-class="bg-grey-1">
-      <q-list v-if="$store.state.auth.user">
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
+      <div v-if="$store.state.auth.user">
+        <div class="q-pa-md q-gutter-sm">
+          <q-tree
+            :nodes="linksData"
+            node-key="label"
+           />
+        </div>
+      </div>
     </q-drawer>
 
     <q-page-container>
@@ -108,100 +100,53 @@
 </template>
 
 <script>
-import EssentialLink from "components/EssentialLink.vue";
 import { useQuasar } from "quasar";
+import { useRouter } from "vue-router"; // Import useRouter from vue-router
+let router;
+const buildMenuTree = (menuItems, parentUuid) => {
+  const filteredMenus = menuItems.filter(menu => menu.upperMenuUuid === parentUuid);
+  return filteredMenus.map(menu => ({
+    menuUuid: menu.menuUuid,
+    upperMenuUuid: menu.upperMenuUuid,
+    menuLvl: menu.menuLvl,
+    icon: menu.menuIcon ? menu.menuIcon :"label",
+    label: menu.menuKor + (menu.menuEng ? ` (${menu.menuEng})` : ''),
+    link: menu.menuUrl,
+    handler: (node)=>{handleMenuClick(node.link)},
+    menuOrd: menu.menuOrd,
+    caption: menu.menuDesc,
+    children: buildMenuTree(menuItems, menu.menuUuid)
+  }));
+};
 
-const linksData = [
-  {
-    title: "현황판",
-    caption: "",
-    icon: "feed",
-    link: "https://quasar.dev",
-  },
-  {
-    title: "공지사항",
-    caption: "",
-    icon: "record_voice_over",
-    link: "https://github.com/quasarframework",
-  },
-  {
-    title: "예약",
-    caption: "신규예약/예약조회",
-    icon: "calendar_month",
-    link: "https://chat.quasar.dev",
-  },
-  {
-    title: "회계",
-    caption: "정산관리/쿠폰관리",
-    icon: "savings",
-    link: "https://forum.quasar.dev",
-  },
-  {
-    title: "업무리포트",
-    caption: "",
-    icon: "trending_up",
-    link: "https://twitter.quasar.dev",
-  },
-  {
-    title: "상품관리",
-    caption: "기본 상품관리",
-    icon: "widgets",
-    link: "https://facebook.quasar.dev",
-  },
-  {
-    title: "가격/휴업관리",
-    caption: "가격관리/각상품리포트관리",
-    icon: "attach_money",
-    link: "https://awesome.quasar.dev",
-  },
-  {
-    title: "차량/비품관리",
-    caption: "",
-    icon: "commute",
-    link: "https://awesome.quasar.dev",
-  },
-  {
-    title: "직원",
-    caption: "직원조회/휴일,당직조회/업체관리",
-    icon: "people",
-    link: "https://awesome.quasar.dev",
-  },
-  {
-    title: "설정",
-    caption: "공통코드관리/세율관리",
-    icon: "miscellaneous_services",
-    link: "/comcode",
-  },
-  {
-    title: "요청게시판",
-    caption: "시스템요청 게시판",
-    icon: "help_outline",
-    link: "https://awesome.quasar.dev",
-  },
-];
+const handleMenuClick = (link) =>{
+  if (link) {
+    router.push(link);
+  }
+};
 
 export default {
   name: "MainLayout",
-  components: { EssentialLink },
   setup() {
     const $q = useQuasar();
-
+    router = useRouter();
     // calling here; equivalent to when component is created
     $q.dark.set(true);
+
   },
   data() {
     return {
       loading: false,
       leftDrawerOpen: false,
-      essentialLinks: linksData,
+      linksData: []
     };
   },
   computed: {
     isAdmin() {
       const user = this.$store.state.auth.user;
       if (user) {
-        if (user.permissions) {
-          return user.permissions.includes("admin");
+        if (user.roles) {
+          return user.roles.includes("ROLE_ADMIN");
         }
       }
       return false;
@@ -215,6 +160,47 @@ export default {
       this.$store.dispatch("auth/logout");
       this.$router.push("/login");
     },
+
+    getMenu() {
+      let menuReq = {
+        role: "ROLE_USER",
+      };
+
+      if (this.isAdmin) {
+        menuReq = {
+          role: "ROLE_ADMIN",
+        };
+      }
+
+      this.$store.dispatch("comMenu/getMainComMenuList", menuReq)
+        .then(
+          (comMenu) => {
+            this.linksData = buildMenuTree(comMenu, 0);
+            console.log(this.linksData);
+          },
+          (error) => {
+            this.message =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString();
+          }
+        );
+    },
   },
+  mounted() {
+    // Call the method to fetch work options if user is admin
+    this.getMenu();
+  },
+  watch: {
+    isAdmin: {
+      handler(newVal) {
+        // When isAdmin changes, update the menu
+        this.getMenu();
+      },
+      immediate: true // Call the handler immediately upon creation
+    }
+  }
 };
 </script>

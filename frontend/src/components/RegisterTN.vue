@@ -449,7 +449,6 @@ export default {
         empMemo: this.empMemo
       };
 
-      console.log(user);
       this.$store.dispatch("auth/register", user).then(
         (data) => {
           this.message = data.message;
