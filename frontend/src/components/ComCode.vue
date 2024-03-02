@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h3>코드관리</h3>
+  <div :style="{ marginLeft: '15px', marginRight: '15px' }">
+    <h5 :style="{ marginTop: '15px', marginBottom: '15px' }">코드관리</h5>
     <div class="grid-container">
       <div>
         <div class="toc">
@@ -18,37 +18,20 @@
           </ul>
         </div>
       </div>
+
       <div>
-        <!-- <q-card class="no-shadow" bordered>
-          <q-card-section>
-            <q-table
-              square
-              class="no-shadow"
-              title="상세코드"
-              :rows="chosenComCodes"
-              :columns="columns"
-              row-key="name"
-              :filter="filter"
-            >
-              <template v-slot:body-cell-edit="props">
-                <q-td :props="props">
-                  <button @click="editComCode(props.row)">수정/삭제</button>
-                </q-td>
-              </template>
-            </q-table>
-          </q-card-section>
-        </q-card> -->
         <ag-grid-vue
           :rowData="chosenComCodes"
           :columnDefs="colDefs"
           :onCellClicked="onCellClicked"
-          style="height: 1000px; width: 100%"
-          class="ag-theme-quartz"
+          style="height: 100%; width: 100%"
+          class="ag-theme-alpine"
         >
         </ag-grid-vue>
       </div>
+
       <div>
-        <div class="toc">
+        <div class="toc inputBox">
           <div>코드등록</div>
           <form @submit.prevent="saveComCode">
             <input
@@ -63,7 +46,6 @@
                 placeholder="영문 상세코드명"
                 id="codeEn"
                 v-model="edited.codeEn"
-                required
               />
             </div>
             <div>
@@ -112,7 +94,9 @@
               />
             </div>
             <div>
-              <button type="submit">저장</button>
+              <button type="submit">
+                {{ edited.codeUuid ? "수정" : "저장" }}
+              </button>
               <button type="reset" @click="resetForm">취소</button>
               <button type="button" @click="deleteComCode(edited.codeUuid)">
                 삭제
@@ -127,7 +111,7 @@
 
 <script>
 import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
 import { AgGridVue } from "ag-grid-vue3";
 
 export default {
@@ -166,6 +150,7 @@ export default {
           valueGetter: function (params) {
             return "수정/삭제";
           },
+          cellClass: "grid-btn",
         },
       ],
       comreq: null,
@@ -181,36 +166,6 @@ export default {
       },
       comCodes: [],
       chosenComCodes: [],
-      // columns: [
-      //   {
-      //     name: "codeUuid",
-      //     required: true,
-      //     label: "분류코드",
-      //     align: "center",
-      //     field: "codeUuid",
-      //   },
-      //   {
-      //     name: "codeEn",
-      //     required: true,
-      //     label: "코드명(영문)",
-      //     align: "center",
-      //     field: "codeEn",
-      //   },
-      //   {
-      //     name: "codeKr",
-      //     required: true,
-      //     label: "코드명(한글)",
-      //     align: "center",
-      //     field: "codeKr",
-      //   },
-      //   {
-      //     name: "edit",
-      //     required: true,
-      //     label: "관리",
-      //     align: "center",
-      //     name: "edit",
-      //   },
-      // ],
     };
   },
   methods: {
@@ -230,7 +185,7 @@ export default {
         this.$store.dispatch("comCode/updateComcode", this.edited).then(
           () => {
             this.getMainComCode();
-            this.edited = null;
+            this.resetForm();
           },
           (error) => {
             console.log("saveComCode failed", error);
@@ -240,7 +195,7 @@ export default {
         this.$store.dispatch("comCode/createComcode", this.edited).then(
           () => {
             this.getMainComCode();
-            this.edited = null;
+            this.resetForm();
           },
           (error) => {
             console.log("saveComCode failed", error);
@@ -265,7 +220,7 @@ export default {
             codeOrd: "",
             useYn: "",
             codeLvl: "",
-            uprCodeUuid: comCode.uprCodeUuid,
+            uprCodeUuid: comCode.codeUuid,
           };
         },
         (error) => {
@@ -282,6 +237,7 @@ export default {
           console.log("deleteComcode failed", error);
         }
       );
+      this.resetForm();
     },
     resetForm() {
       this.edited = {
@@ -305,7 +261,7 @@ export default {
 <style scoped>
 .grid-container {
   display: grid;
-  grid-template-columns: 20% 60% 20%;
+  grid-template-columns: 20% 60% 15%;
   gap: 20px;
 }
 .no-bullets {
@@ -315,13 +271,24 @@ export default {
 .toc {
   border: 1px solid #b9b8b8;
   padding: 10px;
+  background-color: #fff;
+  border-radius: 3px;
 }
-
+.inputBox {
+  color: black;
+}
 .list {
   margin: 0;
   padding: 0;
 }
-
+.grid-btn {
+  background-color: #d1d1d1;
+  color: rgb(31, 31, 31);
+  padding: 15px 15px;
+  margin: 5px 5px;
+  border: 1px solid #000000;
+  cursor: pointer;
+}
 .list > li {
   border-bottom: #333333 1px solid;
 }
