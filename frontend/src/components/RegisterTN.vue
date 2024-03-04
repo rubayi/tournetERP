@@ -3,7 +3,7 @@
 
       <q-form @submit="handleRegister"
               @reset="onReset">
-        <div v-if="successful">
+<!--        <div v-if="successful">-->
           <div class="row q-col-gutter-x-md" style="max-width: 900px">
             <q-input class="col-6" outlined
                      v-model="username"
@@ -223,7 +223,7 @@
             <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
             </div>
           </div>
-        </div>
+<!--        </div>-->
         <div
           v-if="message"
          class="alert"
