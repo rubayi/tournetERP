@@ -25,14 +25,14 @@
           :columnDefs="colDefs"
           :onCellClicked="onCellClicked"
           style="height: 100%"
-          class="ag-theme-alpine"
+          class="ag-theme-quartz-dark"
         >
         </ag-grid-vue>
       </div>
 
       <div>
-        <div class="toc inputBox">
-          <div>코드등록</div>
+        <div class="toc">
+          <div style="padding: 3px">코드등록</div>
           <form @submit.prevent="saveComCode">
             <input
               type="number"
@@ -42,6 +42,7 @@
             />
             <div class="spaces">
               <input
+                class="inputBox"
                 type="text"
                 placeholder="영문 상세코드명"
                 id="codeEn"
@@ -50,6 +51,7 @@
             </div>
             <div class="spaces">
               <input
+                class="inputBox"
                 type="text"
                 placeholder="한글 상세코드명"
                 id="codeKr"
@@ -59,6 +61,7 @@
             </div>
             <div class="spaces">
               <input
+                class="inputBox"
                 type="text"
                 placeholder="코드값 ex) 001"
                 id="codeValue"
@@ -68,6 +71,7 @@
             </div>
             <div class="spaces">
               <input
+                class="inputBox"
                 type="text"
                 placeholder="코드레벨 ex) 0,1,2.."
                 id="codeLvl"
@@ -77,6 +81,7 @@
             </div>
             <div class="spaces">
               <input
+                class="inputBox"
                 type="number"
                 placeholder="코드정렬순서"
                 id="codeOrd"
@@ -86,6 +91,7 @@
             </div>
             <div class="spaces">
               <input
+                class="inputBox"
                 type="text"
                 placeholder="코드사용여부"
                 id="useYn"
@@ -94,11 +100,17 @@
               />
             </div>
             <div class="spaces">
-              <button type="submit">
+              <button type="submit" class="save">
                 {{ edited.codeUuid ? "수정" : "저장" }}
               </button>
-              <button type="reset" @click="resetForm">취소</button>
-              <button type="button" @click="deleteComCode(edited.codeUuid)">
+              <button class="clear" type="reset" @click="resetForm">
+                취소
+              </button>
+              <button
+                class="delete"
+                type="button"
+                @click="deleteComCode(edited.codeUuid)"
+              >
                 삭제
               </button>
             </div>
@@ -111,7 +123,7 @@
 
 <script>
 import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
 import { AgGridVue } from "ag-grid-vue3";
 
 export default {
@@ -151,12 +163,11 @@ export default {
           field: "edit",
           headerName: "관리",
           cellRenderer: function (params) {
-            return `<q-btn style="background: #e5e5e5; padding: 5px; cursor: pointer; font-size: 12px;">${params.value}</q-btn>`;
+            return `<q-btn style="background: #50d427ad; padding: 5px; border-radius: 4px; cursor: pointer; font-size: 12px;">${params.value}</q-btn>`;
           },
           valueGetter: function (params) {
             return "수정/삭제";
           },
-          cellClass: "grid-btn",
         },
       ],
       comreq: null,
@@ -272,50 +283,70 @@ export default {
 }
 .no-bullets {
   list-style-type: none;
-  border: 1px solid #b9b8b8;
+  border: 1px solid rgba(255, 255, 255, 0.16);
 }
 .toc {
-  border: 1px solid #b9b8b8;
+  border: 1px solid rgba(255, 255, 255, 0.16);
   padding: 10px;
-  background-color: #fff;
-  border-radius: 3px;
-}
-.inputBox {
-  color: black;
+  background-color: color-mix(in srgb, #fff, #182230 93%);
+  border-radius: 10px;
 }
 .list {
   margin: 0;
   padding: 0;
 }
-.grid-btn {
-  background-color: #d1d1d1;
-  color: rgb(31, 31, 31);
-  padding: 15px 15px;
-  margin: 5px 5px;
-  text-align: center;
-  font-size: 11px;
-  border: 1px solid #000000;
-  cursor: pointer;
-}
 .list > li {
-  border-bottom: #333333 1px solid;
+  border-bottom: rgba(255, 255, 255, 0.16) 1px solid;
 }
-
 .list > li:last-child {
   border-bottom: none;
 }
 .spaces {
   margin-top: 10px;
   margin-top: 10px;
-  align-content: center;
+}
+.inputBox {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 10px;
+  background-color: color-mix(in srgb, #fff, #182230 97%);
+  border-radius: 3px;
 }
 .plain-button {
-  background: #efefef;
+  color: white;
+  background: color-mix(in srgb, #fff, #182230 97%);
   border: none;
   padding: 0;
   text-align: left;
   width: 100%;
   display: block;
   padding: 10px 10px;
+}
+.save {
+  background: #50d427ad;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  border: none;
+  color: white;
+}
+.clear {
+  background: #ffae00ad;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  border: none;
+  color: white;
+}
+.delete {
+  background: #ff0000ad;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  border: none;
+  color: white;
 }
 </style>
