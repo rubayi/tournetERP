@@ -9,6 +9,15 @@ class ComMenuService {
       });
   }
 
+
+  getComMenuListByGrp() {
+    return api
+      .post("/comMenus/selectComMenusByLvl", comreq)
+      .then((response) => {
+        return response.data;
+      });
+  }
+
   getMainComMenuList(comreq) {
     return api
       .post("/comMenus/useComMenuByRole", comreq)

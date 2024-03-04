@@ -3,7 +3,7 @@
 
       <q-form @submit="handleRegister"
               @reset="onReset">
-        <div v-if="!successful">
+        <div v-if="successful">
           <div class="row q-col-gutter-x-md" style="max-width: 900px">
             <q-input class="col-6" outlined
                      v-model="username"
@@ -246,7 +246,6 @@ export default {
 
     return {
       model: ref(null),
-
       date: ref(viewday)
     }
   },
@@ -291,8 +290,8 @@ export default {
     },
   },
   mounted() {
-    if (this.loggedIn) {
-      this.$router.push("/profile");
+    if (!this.loggedIn) {
+      this.$router.push("/login");
     }
     //근무형태
     const workOptionReq = {

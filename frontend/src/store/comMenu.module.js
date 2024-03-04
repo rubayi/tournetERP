@@ -2,16 +2,16 @@ import ComMenuService from "../services/commenu.service";
 
 const commMenu =
 {
-  codeUuid: null,
-  codeKr: "",
-  codeEn: "",
-  codeAbb: "",
-  codeValue: "",
-  codeLvl: "",
-  codeOrd: null,
-  uprCodeUuid: null,
+  menuUuid: null,
+  menuKor: "",
+  menuEng: "",
+  menuIcon: "",
+  menuUrl: "",
+  menuLvl: "",
+  menuOrd: null,
+  upperMenuUuid: null,
   useYn: "",
-  etc: ""
+  menuDesc: ""
 };
 const initialState = commMenu
   ? { message: "", commMenu }
@@ -22,7 +22,18 @@ export const comMenu = {
   state: initialState,
   actions: {
     getComMenuList({ commit }) {
-      console.log("getComMenuList");
+      return ComMenuService.getComMenuList().then(
+        data => {
+          commit('searchComMenus', data);
+          return Promise.resolve(data);
+        },
+        error => {
+          commit('comMenuError');
+          return Promise.reject(error);
+        }
+      );
+    },
+    getComMenuListByGrp({ commit }) {
       return ComMenuService.getComMenuList().then(
         data => {
           commit('searchComMenus', data);

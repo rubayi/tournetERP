@@ -15,19 +15,19 @@
           <img src="images/logo_tnh2.png" style="width: 100px; height: 53px" />
         </q-toolbar-title>
         <div>
-          <q-btn
-            v-if="!$store.state.auth.user"
-            flat
-            to="/register"
-            stretch
-            class="text-bold"
-            ><q-icon
-              name="fas fa-user-plus"
-              class="q-mr-sm text-white"
-              size="xs"
-            ></q-icon
-            >사용자등록(Register)</q-btn
-          >
+<!--          <q-btn-->
+<!--            v-if="!$store.state.auth.user"-->
+<!--            flat-->
+<!--            to="/register"-->
+<!--            stretch-->
+<!--            class="text-bold"-->
+<!--            ><q-icon-->
+<!--              name="fas fa-user-plus"-->
+<!--              class="q-mr-sm text-white"-->
+<!--              size="xs"-->
+<!--            ></q-icon-->
+<!--            >사용자등록(Register)</q-btn-->
+<!--          >-->
           <q-btn
             v-if="!$store.state.auth.user"
             to="/login"
@@ -176,7 +176,6 @@ export default {
         .then(
           (comMenu) => {
             this.linksData = buildMenuTree(comMenu, 0);
-            console.log(this.linksData);
           },
           (error) => {
             this.message =

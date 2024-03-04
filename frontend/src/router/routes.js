@@ -1,7 +1,8 @@
 import Home from "components/Homehome.vue";
 import Login from "components/LoginTN.vue";
 import Register from "components/RegisterTN.vue";
-import Comcode from "components/ComCode.vue";
+import ComCode from "components/ComCode.vue";
+import ComMenu from "components/ComMenu.vue";
 
 const Profile = () => import("../components/Profile.vue")
 const BoardAdmin = () => import("../components/BoardAdmin.vue")
@@ -35,7 +36,14 @@ const routes = [
     path: "/comcode",
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '/comcode', component: () => Comcode }
+      { path: '/comcode', component: () => ComCode }
+    ]
+  },
+  {
+    path: "/comMenu",
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '/comMenu', component: () => ComMenu }
     ]
   },
   {

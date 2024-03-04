@@ -2,7 +2,7 @@
   <div class="q-pa-md row items-start q-gutter-md">
     <q-card dark bordered class="bg-grey-9 my-card">
       <q-card-section>
-        {{currentUser.username}}
+        <p class="text-subtitle1">{{currentUser.username}}</p>
       </q-card-section>
 
       <q-separator dark inset />

@@ -49,6 +49,21 @@ public class ComMenuController {
         return new ResponseEntity<>(commenus, HttpStatus.OK);
     }
 
+    /**
+     * 메뉴 목록 조회
+     *
+     * @return
+     */
+    @PostMapping("/selectComMenusByGroup")
+    public ResponseEntity<List<ComMenu>> selectComMenusByGroup(@RequestBody ComMenuRequest commenuReq) {
+
+        List<ComMenu> commenus = new ArrayList<>();
+        int menuLvl = Integer.parseInt(String.valueOf(commenuReq.getMenuLvl()));
+        commenus.addAll(comMenuRepository.findAllByMenuLvlOrderByCreatedDtDesc(menuLvl));
+
+        return new ResponseEntity<>(commenus, HttpStatus.OK);
+    }
+
 
     @PostMapping("useComMenuByRole")
     public ResponseEntity<List<ComMenu>> postComMenus(@RequestBody ComMenuRequest commenuReq) {
