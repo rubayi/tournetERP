@@ -108,7 +108,7 @@
 
             <q-input class="col-5" outlined  bottom-slots v-model="empAddress2"
                      type="text"
-                     label="주소1(Address2) "/>
+                     label="주소2(Address2) "/>
 
             <q-input class="col-4" outlined  bottom-slots v-model="empCity"
                      type="text"

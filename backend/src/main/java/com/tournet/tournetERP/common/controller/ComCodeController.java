@@ -109,7 +109,7 @@ public class ComCodeController {
         User modifyingUser = new User();
         modifyingUser.setEmpUuid(userDetails.getEmpUuid());
         /**E: 수정자 정보**/
-        
+
         int id = comcode.getCodeUuid();
 
         Optional<ComCode> currentComCode = comCodeRepository.findByCodeUuid(id);
@@ -124,6 +124,7 @@ public class ComCodeController {
             _comcode.setCodeLvl(comcode.getCodeLvl());
             _comcode.setCodeOrd(comcode.getCodeOrd());
             _comcode.setEtc(comcode.getEtc());
+            _comcode.setUseYn(comcode.getUseYn());
             _comcode.setModifyUser(modifyingUser);
 
             comCodeRepository.save(_comcode);
