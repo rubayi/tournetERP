@@ -19,7 +19,58 @@
       </div>
 
       <q-scroll-area class="toc" style="height: 700px">
-        <q-tree :nodes="userLinksData" node-key="label" default-expand-all />
+        <div class="q-pa-md row q-col-gutter-sm">
+          <q-tree
+            class="col-12 col-sm-6"
+            :nodes="userLinksData"
+            node-key="label"
+            default-expand-all
+            tick-strategy="leaf"
+            v-model="ticked"
+          >
+            <template v-slot:default="{ node, key, label, icon, caption }">
+              <q-item
+                :key="key"
+                clickable
+                v-ripple
+                :class="{ 'bg-grey-8': node.added }"
+                :style="{ padding: '5px' }"
+                @click="chooseMainComMenu(node)"
+              >
+                <q-item-section avatar>
+                  <q-icon :name="icon" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>{{ label }}</q-item-label>
+                  <q-item-label caption>{{ caption }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-tree>
+
+          <div class="col-12 col-sm-6 q-gutter-sm">
+            <div class="text-h6">Selected</div>
+            <div>{{ selected }}</div>
+
+            <q-separator spaced />
+
+            <div class="text-h6">Ticked</div>
+            <div>
+              <div v-for="tick in ticked" :key="`ticked-${tick}`">
+                {{ tick }}
+              </div>
+            </div>
+
+            <q-separator spaced />
+
+            <div class="text-h6">Expanded</div>
+            <div>
+              <div v-for="expand in expanded" :key="`expanded-${expand}`">
+                {{ expand }}
+              </div>
+            </div>
+          </div>
+        </div>
       </q-scroll-area>
 
       <q-scroll-area class="toc" style="height: 700px">
@@ -131,9 +182,6 @@ const buildMenuTree = (menuItems, parentUuid) => {
       (menu.menuEng ? ` (${menu.menuEng})` : "") +
       (menu.menuUrl ? ` :${menu.menuUrl}` : ""),
     link: menu.menuUrl,
-    handler: (node) => {
-      handleMenuClick(node.link);
-    },
     menuOrd: menu.menuOrd,
     menuUrl: menu.menuUrl,
     caption: menu.menuDesc,
@@ -154,9 +202,6 @@ const buildComMenuTree = (menuItems, parentUuid) => {
       (menu.menuEng ? ` (${menu.menuEng})` : "") +
       (menu.menuUrl ? ` :${menu.menuUrl}` : ""),
     link: menu.menuUrl,
-    handler: (node) => {
-      handleMenuClick(node.link);
-    },
     menuOrd: menu.menuOrd,
     menuUrl: menu.menuUrl,
     caption: menu.menuDesc,
@@ -165,7 +210,6 @@ const buildComMenuTree = (menuItems, parentUuid) => {
 };
 export default {
   name: "ComMenu",
-
   data() {
     return {
       roles: [],
@@ -201,6 +245,13 @@ export default {
     getMainComMenu() {
       this.$store.dispatch("comMenu/getComMenuList").then(
         (comMenus) => {
+          comMenus.forEach((link) => {
+            this.userLinksData.forEach((menu) => {
+              if (link.menuUuid === menu.menuUuid) {
+                link.added = true;
+              }
+            });
+          });
           this.linksData = buildComMenuTree(comMenus, 0);
         },
         (error) => {
@@ -221,14 +272,10 @@ export default {
       this.$store.dispatch("comMenu/getMainComMenuList", menuReq).then(
         (comMenu) => {
           this.userLinksData = buildMenuTree(comMenu, 0);
+          this.getMainComMenu();
         },
         (error) => {
-          this.message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+          console.log("getMenu failed", error);
         }
       );
     },
@@ -315,7 +362,6 @@ export default {
   },
   created() {
     this.getAllRoles();
-    this.getMainComMenu();
   },
 };
 </script>
