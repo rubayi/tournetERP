@@ -3,11 +3,13 @@ package com.tournet.tournetERP.auth.repository;
 import java.util.List;
 import java.util.Optional;
 import com.tournet.tournetERP.auth.entity.User;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 @Repository
 public interface EmpRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
@@ -24,11 +26,11 @@ public interface EmpRepository extends JpaRepository<User, Long> {
             "AND (:empEng IS NULL OR u.empEng = :empEng) " +
             "AND (:empUsername IS NULL OR u.username = :empUsername) " +
             "ORDER BY u.empBeginDt DESC")
-    List<User> findByEmpStatusOrEmpKorOrEmpEngOrUsernameOrderByEmpBeginDtDesc(
+    Page<User> findByEmpStatusOrEmpKorOrEmpEngOrUsernameOrderByEmpBeginDtDesc(
             @Param("empStatus") String empStatus,
             @Param("empKor") String empKor,
             @Param("empEng") String empEng,
-            @Param("empUsername") String empUsername
+            @Param("empUsername") String empUsername, Pageable paging
     );
 
     void deleteByEmpUuid(int id);

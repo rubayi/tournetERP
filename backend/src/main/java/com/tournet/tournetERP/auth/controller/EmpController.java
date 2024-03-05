@@ -15,6 +15,9 @@ import com.tournet.tournetERP.auth.repository.EmpRepository;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -56,24 +59,43 @@ public class EmpController {
      * @return
      */
     @PostMapping("/searchEmpByCondition")
-    public ResponseEntity<List<User>> searchEmpByCondition(@RequestBody UserRequest empReq) {
+    public ResponseEntity<Map<String, Object>> searchEmpByCondition(@RequestBody UserRequest empReq) {
 
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+
+        int page = empReq.getPage();
+        int size = empReq.getSize();
+
         if(storUser.isAuthenticated()) {
             String empStatus = empReq.getEmpStatus();
             String empKor = empReq.getEmpKor();
             String empEng = empReq.getEmpEng();
             String username = empReq.getUsername();
 
-            List<User> selectedUsers = empRepository.findByEmpStatusOrEmpKorOrEmpEngOrUsernameOrderByEmpBeginDtDesc(
+            List<User> selectedUsers = new ArrayList<User>();
+            Pageable paging = PageRequest.of(page, size);
+            Page<User> pageUsers;
+
+            pageUsers = empRepository.findByEmpStatusOrEmpKorOrEmpEngOrUsernameOrderByEmpBeginDtDesc(
                     empStatus.isEmpty() ? null : empStatus,
                     empKor.isEmpty() ? null : empKor,
                     empEng.isEmpty() ? null : empEng,
-                    username.isEmpty() ? null : username
+                    username.isEmpty() ? null : username,
+                    paging
             );
 
-            return new ResponseEntity<>(selectedUsers, HttpStatus.OK);
+            selectedUsers = pageUsers.getContent();
+
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("selectedUsers", selectedUsers);
+            response.put("currentPage", pageUsers.getNumber());
+            response.put("totalItems", pageUsers.getTotalElements());
+            response.put("totalPages", pageUsers.getTotalPages());
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
         }
         return null;
     }

@@ -7,11 +7,18 @@
         <ag-grid-vue
           :rowData="emps"
           :columnDefs="colDefs"
-          :onCellClicked="onCellClicked"
-          style="height: 100%"
+          style="width:100%; height: 500px"
           class="ag-theme-quartz-dark"
         >
         </ag-grid-vue>
+        <div class="q-pa-lg flex flex-center">
+        <q-pagination
+          v-model="page"
+          :max="count"
+          direction-links
+          @click="handlePageChange"
+        />
+        </div>
       </div>
 
       <div>
@@ -31,18 +38,20 @@ export default {
   components: {
     AgGridVue,
   },
+
   data() {
     return {
-      searchReq:{
-        empStatus: "",
-        empKor:"",
-        empEng: "",
-        username: "",
-      },
+      //S: Paging SET
+      page: 1, //현재페이지
+      count: 5, //표시할 페이지 개수
+      showPage: 5, //보여줄 row 개수
+      //E: Paging SET
+      
       colDefs: [
         {
           field: "empUuid",
           headerName: "번호",
+          width: 30,
           sortable: true,
           filter: true,
           // checkboxSelection: true,
@@ -50,18 +59,21 @@ export default {
         {
           field: "username",
           headerName: "사용자명",
-          sortable: true,
-          filter: true,
-        },
-        {
-          field: "empEng",
-          headerName: "직원명(영문)",
+          width: 150,
           sortable: true,
           filter: true,
         },
         {
           field: "empKor",
           headerName: "직원명(한글)",
+          width: 150,
+          sortable: true,
+          filter: true,
+        },
+        {
+          field: "empEng",
+          headerName: "직원명(영문)",
+          width: 150,
           sortable: true,
           filter: true,
         },
@@ -72,26 +84,23 @@ export default {
           filter: true,
         },
         {
-          field: "empWorkType",
-          headerName: "근무형태",
-          sortable: true,
-          filter: true,
-        },
-        {
           field: "empDiv",
           headerName: "부서명",
+          width: 100,
           sortable: true,
           filter: true,
         },
         {
           field: "empTitle",
           headerName: "직위",
+          width: 100,
           sortable: true,
           filter: true,
         },
         {
           field: "empPhone",
           headerName: "전화번호",
+          width: 150,
           sortable: true,
           filter: true,
         },
@@ -108,28 +117,14 @@ export default {
           filter: true,
         },
         {
-          field: "empZip",
-          headerName: "우편번호",
-          sortable: true,
-          filter: true,
-        },
-        {
-          field: "empAddress1",
-          headerName: "주소1",
-          sortable: true,
-          filter: true,
-        },
-        {
-          field: "empAddress2",
-          headerName: "주소2",
-          sortable: true,
-          filter: true,
-        },
-        {
-          field: "empCity",
-          headerName: "도시",
-          sortable: true,
-          filter: true,
+          field: "edit",
+          headerName: "관리",
+          cellRenderer: function (params) {
+            return `<q-btn style="background: #50d427ad; padding: 5px; border-radius: 4px; cursor: pointer; font-size: 12px;">${params.value}</q-btn>`;
+          },
+          valueGetter: function (params) {
+            return "수정/삭제";
+          },
         },
 
       ],
@@ -137,11 +132,31 @@ export default {
     };
   },
   methods: {
+    handlePageChange(value) {
+
+      this.searchEmpList();
+    },
+    handlePageSizeChange(event) {
+      this.pageSize = event.target.value;
+      this.page = 1;
+      this.searchEmpList();
+    },
     searchEmpList() {
-      this.$store.dispatch(`empTn/searchEmpList`, this.searchReq)
+      const searchReq = {
+        empStatus: "",
+          empKor:"",
+          empEng: "",
+          username: "",
+          page: this.page - 1,
+          size: this.showPage,
+      }
+      console.log(searchReq);
+      this.$store.dispatch(`empTn/searchEmpList`, searchReq)
         .then(
         (emps) => {
-          this.emps = emps;
+          this.emps = emps.selectedUsers;
+          this.page = emps.currentPage;
+          this.count = emps.totalPages;
         },
         (error) => {
           console.log("searchEmpList failed", error);
@@ -189,43 +204,19 @@ export default {
     resetForm() {
 
     },
-    getDisplayEmp(emp) {
-      return {
-        empUuid: emp.empUuid,
-        username: emp.username,
-        empEmail: emp.empEmail,
-        password: emp.password,
-        empKor: emp.empKor,
-        empEng: emp.empEng,
-        empWorkType: emp.empWorkType,
-        empDiv: emp.empDiv,
-        empTitle: emp.empTitle,
-        empPhone: emp.empPhone,
-        empWorkPhone: emp.empWorkPhone,
-        empEmailBook: emp.empEmailBook,
-        empAddress1: emp.empAddress1,
-        empAddress2: emp.empAddress2,
-        empCity: emp.empCity,
-        empState: emp.empState,
-        empCountry: emp.empCountry,
-        empZip: emp.empZip,
-        empDob: emp.empDob,
-        empDobType: emp.empDobType,
-        empStatus:emp.empStatus,
-        empMemo: emp.empMemo
-      };
-    }
+
   },
   created() {
     this.searchEmpList();
   },
+
 };
 </script>
 
 <style scoped>
 .grid-container {
   display: grid;
-  grid-template-columns: 20% 60% auto;
+  grid-template-columns: 100%;
   gap: 20px;
 }
 .no-bullets {

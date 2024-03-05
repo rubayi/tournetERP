@@ -59,6 +59,10 @@ public class UserRequest {
 
     private Set<String> role;
 
+    private int page;
+
+    private int size;
+
     private int empUuid;
 
     @NotBlank
