@@ -2,8 +2,8 @@ import AuthService from '../services/auth.service';
 
 const user = JSON.parse(localStorage.getItem('user'));
 const initialState = user
-  ? { status: { loggedIn: true }, user}
-  : { status: { loggedIn: false }, user: null};
+  ? { status: { loggedIn: true }, user }
+  : { status: { loggedIn: false }, user: null };
 
 export const auth = {
   namespaced: true,
@@ -39,6 +39,18 @@ export const auth = {
           return Promise.reject(error);
         }
       );
+    },
+    getAllRoles({ commit }) {
+      return AuthService.getAllRoles().then(
+        roles => {
+          commit('searchRoles', roles);
+          return Promise.resolve(roles);
+        },
+        error => {
+          commit('rolesError');
+          return Promise.reject(error);
+        }
+      );
     }
   },
   mutations: {
@@ -63,6 +75,9 @@ export const auth = {
     refreshToken(state, accessToken) {
       state.status.loggedIn = true;
       state.user = { ...state.user, accessToken: accessToken };
-    }
+    },
+    searchRoles(state, roles) {
+      state.roles = roles;
+    },
   }
 };

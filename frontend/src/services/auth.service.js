@@ -22,13 +22,13 @@ class AuthService {
   }
 
   register({ username, empEmail, password,
-             empKor, empEng, empWorkType,
-             empDiv, empTitle, empPhone,
-             empWorkPhone, empEmailBook,
-             empAddress1, empAddress2, empCity,
-             empState, empCountry, empZip,
-             empDob, empDobType,
-             empMemo}) {
+    empKor, empEng, empWorkType,
+    empDiv, empTitle, empPhone,
+    empWorkPhone, empEmailBook,
+    empAddress1, empAddress2, empCity,
+    empState, empCountry, empZip,
+    empDob, empDobType,
+    empMemo }) {
     return api.post("/auth/signup", {
       username, empEmail, password,
       empKor, empEng, empWorkType,
@@ -39,6 +39,10 @@ class AuthService {
       empDob, empDobType,
       empMemo
     });
+  }
+
+  getAllRoles() {
+    return api.get("/auth/getAllroles");
   }
 }
 

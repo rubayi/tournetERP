@@ -1,5 +1,5 @@
 package com.tournet.tournetERP.auth.repository;
-
+import java.util.List;
 import com.tournet.tournetERP.auth.entity.ERole;
 import com.tournet.tournetERP.auth.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +13,7 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
     Optional<Role> findByRoles(ERole name);
 
     Role findFirstByRoles(ERole name);
+
+    @SuppressWarnings("null")
+    List<Role> findAll();
 }
