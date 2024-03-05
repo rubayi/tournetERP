@@ -1,5 +1,11 @@
 package com.tournet.tournetERP.auth.dto;
-
+/**
+ * Spring Security
+ *
+ * @author : rubayi
+ * @fileName : JwtResponse
+ * @since : 2024-02-14
+ */
 import java.util.List;
 import lombok.Data;
 

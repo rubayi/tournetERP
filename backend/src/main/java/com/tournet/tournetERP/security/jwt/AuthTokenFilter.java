@@ -2,7 +2,7 @@ package com.tournet.tournetERP.security.jwt;
 
 import java.io.IOException;
 
-import com.tournet.tournetERP.security.services.UserDetailsServiceImpl;
+import com.tournet.tournetERP.auth.service.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

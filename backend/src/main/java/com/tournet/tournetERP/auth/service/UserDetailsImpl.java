@@ -1,4 +1,12 @@
-package com.tournet.tournetERP.security.services;
+package com.tournet.tournetERP.auth.service;
+
+/**
+ * Please explain the class!!
+ *
+ * @author : rubayi
+ * @fileName : UserDetailsImpl
+ * @since : 2024-03-04
+ */
 
 import java.util.Collection;
 import java.util.List;
@@ -10,11 +18,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-
-@Data
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
 
@@ -53,8 +57,15 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
         return authorities;
+    }
+
+    public Long getEmpUuid() {
+        return empUuid;
+    }
+
+    public String getEmpEmail() {
+        return empEmail;
     }
 
     @Override
@@ -62,6 +73,10 @@ public class UserDetailsImpl implements UserDetails {
         return password;
     }
 
+    @Override
+    public String getUsername() {
+        return username;
+    }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -92,6 +107,4 @@ public class UserDetailsImpl implements UserDetails {
         UserDetailsImpl user = (UserDetailsImpl) o;
         return Objects.equals(empUuid, user.empUuid);
     }
-
-
 }

@@ -59,6 +59,8 @@ public class UserRequest {
 
     private Set<String> role;
 
+    private int empUuid;
+
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;

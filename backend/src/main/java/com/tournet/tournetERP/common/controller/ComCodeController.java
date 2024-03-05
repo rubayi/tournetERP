@@ -1,6 +1,8 @@
 package com.tournet.tournetERP.common.controller;
 
 import com.tournet.tournetERP.auth.dto.MessageResponse;
+import com.tournet.tournetERP.auth.entity.User;
+import com.tournet.tournetERP.auth.service.UserDetailsImpl;
 import com.tournet.tournetERP.common.dto.ComCodeRequest;
 import com.tournet.tournetERP.common.entity.ComCode;
 import com.tournet.tournetERP.common.repository.ComCodeRepository;
@@ -100,8 +102,14 @@ public class ComCodeController {
     @PutMapping("/updateComCode")
     public ResponseEntity<Map<String, Object>> updateComCode(@RequestBody ComCode comcode) {
 
+        /**S: 수정자 정보 **/
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
 
+        User modifyingUser = new User();
+        modifyingUser.setEmpUuid(userDetails.getEmpUuid());
+        /**E: 수정자 정보**/
+        
         int id = comcode.getCodeUuid();
 
         Optional<ComCode> currentComCode = comCodeRepository.findByCodeUuid(id);
@@ -116,6 +124,7 @@ public class ComCodeController {
             _comcode.setCodeLvl(comcode.getCodeLvl());
             _comcode.setCodeOrd(comcode.getCodeOrd());
             _comcode.setEtc(comcode.getEtc());
+            _comcode.setModifyUser(modifyingUser);
 
             comCodeRepository.save(_comcode);
             message = "수정 되었습니다.";

@@ -1,9 +1,10 @@
 import api from "./api";
+import authHeader from "src/services/auth-header";
 
 class ComcodeService {
   getComCodeList() {
     return api
-      .get("/comCodes/comCodes")
+      .get("/comCodes/comCodes", { headers: authHeader() })
       .then((response) => {
         return response.data;
       });
@@ -11,7 +12,7 @@ class ComcodeService {
 
   getMainComCodeList() {
     return api
-      .get("/comCodes/GrpComCodes")
+      .get("/comCodes/GrpComCodes", { headers: authHeader() })
       .then((response) => {
         return response.data;
       });
@@ -19,7 +20,7 @@ class ComcodeService {
 
   getComCodeListByGrp(comreq) {
     return api
-      .post("/comCodes/SearchComCodesByGrp", comreq)
+      .post("/comCodes/SearchComCodesByGrp", comreq, { headers: authHeader() })
       .then((response) => {
         return response.data;
       });
@@ -27,7 +28,7 @@ class ComcodeService {
 
   useComCode(comreq) {
     return api
-      .post("/comCodes/useComCodeByGrp", comreq)
+      .post("/comCodes/useComCodeByGrp", comreq, { headers: authHeader() })
       .then((response) => {
         return response.data;
       });
@@ -35,15 +36,15 @@ class ComcodeService {
 
   deleteComcode(id) {
     return api
-      .delete(`/comCodes/deleteComcode/${id}`);
+      .delete(`/comCodes/deleteComcode/${id}`, { headers: authHeader() });
   }
 
   createComcode(comreq) {
-    return api.post("/comCodes/createComCode", comreq);
+    return api.post("/comCodes/createComCode", comreq, { headers: authHeader() });
   }
 
   updateComcode(comreq) {
-    return api.put(`/comCodes/updateComCode`, comreq);
+    return api.put(`/comCodes/updateComCode`, comreq, { headers: authHeader() });
   }
 }
 

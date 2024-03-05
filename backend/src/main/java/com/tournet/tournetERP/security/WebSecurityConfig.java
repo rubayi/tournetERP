@@ -1,8 +1,8 @@
 package com.tournet.tournetERP.security;
 
+import com.tournet.tournetERP.auth.service.UserDetailsServiceImpl;
 import com.tournet.tournetERP.security.jwt.AuthEntryPointJwt;
 import com.tournet.tournetERP.security.jwt.AuthTokenFilter;
-import com.tournet.tournetERP.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

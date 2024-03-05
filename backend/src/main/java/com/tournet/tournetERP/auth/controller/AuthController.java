@@ -1,5 +1,13 @@
 package com.tournet.tournetERP.auth.controller;
 
+/**
+ * 인증
+ *
+ * @author : rubayi
+ * @fileName : AuthController
+ * @since : 2024-02-14
+ */
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,10 +22,10 @@ import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.entity.Role;
 import com.tournet.tournetERP.auth.repository.EmpRepository;
 import com.tournet.tournetERP.auth.repository.RoleRepository;
+import com.tournet.tournetERP.auth.service.UserDetailsImpl;
 import com.tournet.tournetERP.security.entity.RefreshToken;
 import com.tournet.tournetERP.security.jwt.JwtUtils;
 import com.tournet.tournetERP.security.services.RefreshTokenService;
-import com.tournet.tournetERP.security.services.UserDetailsImpl;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
