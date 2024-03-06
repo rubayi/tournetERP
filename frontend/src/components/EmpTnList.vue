@@ -9,13 +9,13 @@
                   outlined
                   v-model="searchIdx"
                   :options="options"
-                  @click="onChange"
                   label="검색방법 *" />
         <q-select v-if="this.searchIdx == '상태'" class="col-3"
                   outlined
-                  v-model="searchWord"
-                  :options="options"
-                  @click="onChange"
+                  v-model="searchEmpStatus"
+                  :options="empStatusOptions"
+                  option-value="codeValue"
+                  option-label="codeKr"
                   label="검색방법 *" />
         <q-input v-if="this.searchIdx != '상태'" class="col-6" outlined
                  v-model="searchWord"
@@ -87,6 +87,7 @@ export default {
       empEng: "",
       username: "",
       searchWord: "",
+      searchEmpStatus: "",
       colDefs: [
         {
           field: "empUuid",
@@ -171,15 +172,38 @@ export default {
 
       ],
       emps: [],
+      empStatusOptions: []
     };
   },
+  mounted() {
+    //재직상태
+    const empOptionReq = {
+      uprCodeUuid: '15',
+      codeLvl:'1'
+    }
+    this.$store.dispatch("comCode/useComCode", empOptionReq)
+      .then(
+        (commCode) => {
+          this.empStatusOptions = commCode;
+        },
+        (error) => {
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+  },
   methods: {
-    handlePageChange(value) {
+    handlePageChange() {
 
       this.searchEmpList();
     },
 
     searchEmpList() {
+
       if (this.searchIdx === "사용자명") {
         this.username = this.searchWord;
 
@@ -197,7 +221,7 @@ export default {
         this.username = "";
         this.empKor ="";
       } else if(this.searchIdx === "상태") {
-        this.empStatus = this.searchWord;
+        this.empStatus = this.searchEmpStatus.codeValue;
         this.empEng = "";
         this.username = "";
         this.empKor ="";
