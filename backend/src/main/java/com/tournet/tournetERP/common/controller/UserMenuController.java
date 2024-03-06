@@ -85,4 +85,15 @@ public class UserMenuController {
         return ResponseEntity.ok(new MessageResponse(message));
     }
     
+    @PostMapping("/getUserMenus")
+    public ResponseEntity<List<UserMenu>> getUserMenus(@RequestBody UserMenuRequest userMenuRequest) {
+
+        List<UserMenu> userMenus = new ArrayList<>();
+        
+        int roleUuid = userMenuRequest.getRoleUuid();
+
+        userMenus.addAll(userMenuRepository.findByRoleUuid(roleUuid));
+
+        return new ResponseEntity<>(userMenus, HttpStatus.OK);
+    }
 }

@@ -198,7 +198,7 @@ export default {
         );
         this.userLinksData = buildMenuTree(chosenMenus, 0);
       }
-      console.log("newTicked", this.selected);
+      console.log("newTicked", newTicked);
     },
     getAllRoles() {
       this.$store.dispatch("auth/getAllRoles").then(
@@ -234,7 +234,12 @@ export default {
       this.$store.dispatch("comMenu/getMainComMenuList", menuReq).then(
         (comMenu) => {
           this.userLinksData = buildMenuTree(comMenu, 0);
-          this.ticked = comMenu.map((menu) => menu.menuUuid);
+          this.ticked = comMenu.map((menu) => ({
+            menuUuid: menu.menuUuid,
+            menuDelete: menu.menuDelete,
+            menuRead: menu.menuRead,
+            menuWrite: menu.menuWrite,
+          }));
           this.getMainComMenu();
         },
         (error) => {
