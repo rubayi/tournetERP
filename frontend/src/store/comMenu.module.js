@@ -57,6 +57,19 @@ export const comMenu = {
         }
       );
     },
+    getComMenuListForEdit({ commit }, comreq) {
+      return ComMenuService.getComMenuListForEdit(comreq).then(
+        data => {
+          commit('searchMainComMenus', data);
+          return Promise.resolve(data);
+        },
+        error => {
+          commit('comMenuError');
+          return Promise.reject(error);
+        }
+      );
+    },
+
 
     deleteComMenu({ commit }, id) {
       return ComMenuService.deleteComMenu(id).then(

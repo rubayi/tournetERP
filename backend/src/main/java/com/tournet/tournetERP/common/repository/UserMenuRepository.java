@@ -20,4 +20,6 @@ public interface UserMenuRepository extends JpaRepository<UserMenu, Long> {
             "WHERE m.roleUuid = :roleUuid " +
             "AND m.menuUuid = :menuUuid")
     Optional<UserMenu> findByRoleUuidAndMenuUuid(int roleUuid, int menuUuid);
+
+    Optional<UserMenu> findByMenuUuidAndRoleUuid(int menuUuid, long roleUuid);
 }

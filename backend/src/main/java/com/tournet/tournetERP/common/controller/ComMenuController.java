@@ -5,8 +5,12 @@ import com.tournet.tournetERP.auth.entity.ERole;
 import com.tournet.tournetERP.auth.entity.Role;
 import com.tournet.tournetERP.auth.repository.RoleRepository;
 import com.tournet.tournetERP.common.dto.ComMenuRequest;
+import com.tournet.tournetERP.common.dto.ComMenuResponse;
 import com.tournet.tournetERP.common.entity.ComMenu;
+import com.tournet.tournetERP.common.entity.UserMenu;
 import com.tournet.tournetERP.common.repository.ComMenuRepository;
+import com.tournet.tournetERP.common.service.MenuBisService;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +38,9 @@ public class ComMenuController {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Autowired
+    MenuBisService menuBisService;
 
     /**
      * 메뉴 목록 조회
@@ -75,6 +82,22 @@ public class ComMenuController {
         commenus.addAll(comMenuRepository.findAllAndUseYnByOrderByMenuOrdAsc(_role.getRoleUuid()));
 
         return new ResponseEntity<>(commenus, HttpStatus.OK);
+    }
+
+
+    @PostMapping("useComMenuByRoleWithPermit")
+    public ResponseEntity<List<ComMenuResponse>> useComMenuByRoleWithPermit(@RequestBody ComMenuRequest commenuReq) {
+
+        List<ComMenuResponse> resCommenus = new ArrayList<>();
+        List<ComMenu> commenus = new ArrayList<>();
+
+        Role _role = roleRepository.findFirstByRoles(ERole.valueOf(commenuReq.getRole()));
+
+        commenus.addAll(comMenuRepository.findAllAndUseYnByOrderByMenuOrdAsc(_role.getRoleUuid()));
+
+        resCommenus = menuBisService.addDetailForPermit(commenus, _role.getRoleUuid());
+
+        return new ResponseEntity<>(resCommenus, HttpStatus.OK);
     }
 
 

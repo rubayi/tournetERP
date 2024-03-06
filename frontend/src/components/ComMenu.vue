@@ -231,8 +231,10 @@ export default {
         };
         this.selected = chosenRole;
       }
-      this.$store.dispatch("comMenu/getMainComMenuList", menuReq).then(
+      this.$store.dispatch("comMenu/getComMenuListForEdit", menuReq).then(
         (comMenu) => {
+
+          console.log(comMenu);
           this.userLinksData = buildMenuTree(comMenu, 0);
           this.ticked = comMenu.map((menu) => ({
             menuUuid: menu.menuUuid,

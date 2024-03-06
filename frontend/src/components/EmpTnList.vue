@@ -26,32 +26,45 @@
         <div class="q-pa-sm q-gutter-sm">
           <q-btn label="검색" type="submit" color="primary"/>
         </div>
-
       </div>
       </q-form>
-    <div>
     <div class="grid-container">
+      <div class="row">
         <ag-grid-vue
           :rowData="emps"
           :columnDefs="colDefs"
           style="width:100%; height: 500px"
+          :onCellClicked="onCellClicked"
           class="ag-theme-quartz-dark"
         >
         </ag-grid-vue>
-        <div class="q-pa-lg flex flex-center">
-        <q-pagination
-          v-model="page"
-          :max="count"
-          direction-links
-          @click="handlePageChange"
-        />
+        <div class="q-col-lg q-pa-sm flex flex-center">
+          <q-pagination
+            v-model="page"
+            :max="count"
+            direction-links
+            @click="handlePageChange"
+          />
         </div>
       </div>
-
-      <div>
-
+      <div class="toc q-mr-md">
+        <form @submit.prevent="saveEmp">
+          <input
+            type="number"
+            id="codeUuid"
+            v-model="edited.empUuid"
+            hidden
+          />
+          <input
+            type="number"
+            id="codeUuid"
+            v-model="edited.username"
+            hidden
+          />
+        </form>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -88,6 +101,27 @@ export default {
       username: "",
       searchWord: "",
       searchEmpStatus: "",
+      edited: {
+        empUuid: 0,
+        username: "",
+        empEng: "",
+        empKor: "",
+        empWorkType: "",
+        empDiv: "",
+        empEmail: "",
+        empStatus: "",
+        empDob: "",
+        empDobType: "",
+        empMemo: "",
+        empAddress1: "",
+        empAddress2: "",
+        empCity: "",
+        empState: "",
+        empCountry: "",
+        empZip: "",
+        empTitle: "",
+        empRole: "",
+      },
       colDefs: [
         {
           field: "empUuid",
@@ -145,7 +179,14 @@ export default {
         {
           field: "empTitle",
           headerName: "직위",
-          width: 100,
+          width: 50,
+          sortable: true,
+          filter: true,
+        },
+        {
+          field: "empRole",
+          headerName: "직책",
+          width: 50,
           sortable: true,
           filter: true,
         },
@@ -168,8 +209,61 @@ export default {
           sortable: true,
           filter: true,
         },
-
-
+        {
+          field: "empAddress1",
+          headerName: "주소",
+          hide: true,
+        },
+        {
+          field: "empAddress2",
+          headerName: "주소",
+          hide: true,
+        },
+        {
+          field: "empCity",
+          headerName: "주소",
+          hide: true,
+        },
+        {
+          field: "empState",
+          headerName: "주소",
+          hide: true,
+        },
+        {
+          field: "empCountry",
+          headerName: "주소",
+          hide: true,
+        },
+        {
+          field: "empZip",
+          headerName: "주소",
+          hide: true,
+        },
+        {
+          field: "empDob",
+          headerName: "주소",
+          hide: true,
+        },
+        {
+          field: "empDobType",
+          headerName: "주소",
+          hide: true,
+        },
+        {
+          field: "empMemo",
+          headerName: "주소",
+          hide: true,
+        },
+        {
+          field: "empStatus",
+          headerName: "주소",
+          hide: true,
+        },
+        {
+          field: "empEmailBook",
+          headerName: "주소",
+          hide: true,
+        },
       ],
       emps: [],
       empStatusOptions: []
@@ -201,7 +295,6 @@ export default {
 
       this.searchEmpList();
     },
-
     searchEmpList() {
 
       if (this.searchIdx === "사용자명") {
@@ -236,7 +329,6 @@ export default {
           page: (this.page - 1) < 0 ? 0:(this.page - 1),
           size: this.showPage,
       }
-console.log(searchReq);
       this.$store.dispatch(`empTn/searchEmpList`, searchReq)
         .then(
         (emps) => {
@@ -250,8 +342,8 @@ console.log(searchReq);
       );
     },
     saveEmp() {
-      if (this.empMemoed.empUuid) {
-        this.$store.dispatch("empTn/updateEmp", this.empMemoed).then(
+      if (this.edited.empUuid) {
+        this.$store.dispatch("empTn/updateEmp", this.edited).then(
           () => {
             this.resetForm();
           },
@@ -260,7 +352,7 @@ console.log(searchReq);
           }
         );
       } else {
-        this.$store.dispatch("empTn/createEmp", this.empMemoed).then(
+        this.$store.dispatch("empTn/createEmp", this.edited).then(
           () => {
             this.resetForm();
           },
@@ -271,9 +363,10 @@ console.log(searchReq);
       }
     },
     onCellClicked(params) {
-      if (params.column.getColId() === "empMemo") {
-        this.empMemoed = Object.assign({}, params.data);
-      }
+      console.log(params);
+      // if (params.column.gid === "edit") {
+        this.edited = params.data;
+      // }
     },
 
     deleteEmp(id) {
@@ -302,7 +395,7 @@ console.log(searchReq);
 <style scoped>
 .grid-container {
   display: grid;
-  grid-template-columns: 100%;
+  grid-template-columns: 70% 30%;
   gap: 20px;
 }
 .no-bullets {

@@ -25,6 +25,14 @@ class ComMenuService {
       });
   }
 
+  getComMenuListForEdit(comreq) {
+    return api
+      .post("/comMenus/useComMenuByRoleWithPermit", comreq)
+      .then((response) => {
+        return response.data;
+      });
+  }
+
   deleteComMenu(id) {
     return api
       .delete(`/comMenus/deleteComMenu/${id}`);
