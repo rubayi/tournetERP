@@ -19,21 +19,23 @@
       </div>
 
       <q-scroll-area class="toc" style="height: 700px">
+        <q-tree :nodes="userLinksData" node-key="label" default-expand-all />
+      </q-scroll-area>
+
+      <q-scroll-area class="toc" style="height: 700px">
         <q-tree
           :nodes="linksData"
           node-key="menuUuid"
           default-expand-all
           tick-strategy="strict"
           v-model:ticked="ticked"
+          @update:ticked="handleMenuClick"
         />
         <div v-for="tick in ticked" :key="`ticked-${tick}`">
           {{ tick }}
         </div>
       </q-scroll-area>
 
-      <q-scroll-area class="toc" style="height: 700px">
-        <q-tree :nodes="userLinksData" node-key="label" default-expand-all />
-      </q-scroll-area>
       <!-- <div>
         <div class="toc">
           <div>메뉴등록</div>
@@ -191,15 +193,16 @@ export default {
       chosenComMenus: [],
     };
   },
-  watch: {
-    ticked(newVal, oldVal) {
-      // `newVal` is the new value of `ticked`
-      // `oldVal` is the old value of `ticked`
-      console.log("ticked changed", newVal, oldVal);
-      // You can put your logic here...
-    },
-  },
   methods: {
+    handleMenuClick(newTicked) {
+      if (newTicked) {
+        console.log(newTicked);
+        this.chosenComMenus = this.allOfLinks.filter((menu) =>
+          newTicked.includes(menu.menuUuid)
+        );
+        this.userLinksData = buildMenuTree(this.chosenComMenus, 0);
+      }
+    },
     getAllRoles() {
       this.$store.dispatch("auth/getAllRoles").then(
         (roles) => {
