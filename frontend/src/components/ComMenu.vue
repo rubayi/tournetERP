@@ -9,7 +9,7 @@
               <button
                 class="plain-button"
                 @click="getMenu(role)"
-                :class="{ chosen: selected === role.roleUuid }"
+                :class="{ chosen: selected.roleUuid === role.roleUuid }"
               >
                 {{ role.roleUuid }} - {{ role.roles }}
               </button>
@@ -27,12 +27,12 @@
           :nodes="linksData"
           node-key="menuUuid"
           default-expand-all
-          tick-strategy="strict"
+          tick-strategy="leaf"
           v-model:ticked="ticked"
           @update:ticked="handleMenuClick"
         />
-        <div v-for="tick in ticked" :key="`ticked-${tick}`">
-          {{ tick }}
+        <div style="position: absolute; bottom: 0">
+          <button class="save" @click="saveUserMenu">저장</button>
         </div>
       </q-scroll-area>
 
@@ -40,12 +40,6 @@
         <div class="toc">
           <div>메뉴등록</div>
           <form @submit.prevent="saveComMenu">
-            <input
-              type="number"
-              id="menuUuid"
-              v-model="edited.menuUuid"
-              hidden
-            />
             <div class="spaces">
               <input
                 class="inputBox"
@@ -177,7 +171,10 @@ export default {
       allOfLinks: [],
       linksData: [],
       userLinksData: [],
-      selected: null,
+      selected: {
+        role: "ROLE_USER",
+        roleUuid: 1,
+      },
       edited: {
         menuUuid: 0,
         menuEng: "",
@@ -196,12 +193,12 @@ export default {
   methods: {
     handleMenuClick(newTicked) {
       if (newTicked) {
-        console.log(newTicked);
-        this.chosenComMenus = this.allOfLinks.filter((menu) =>
+        const chosenMenus = this.allOfLinks.filter((menu) =>
           newTicked.includes(menu.menuUuid)
         );
-        this.userLinksData = buildMenuTree(this.chosenComMenus, 0);
+        this.userLinksData = buildMenuTree(chosenMenus, 0);
       }
+      console.log("newTicked", this.selected);
     },
     getAllRoles() {
       this.$store.dispatch("auth/getAllRoles").then(
@@ -232,7 +229,7 @@ export default {
         menuReq = {
           role: chosenRole.roles,
         };
-        this.selected = chosenRole?.roleUuid;
+        this.selected = chosenRole;
       }
       this.$store.dispatch("comMenu/getMainComMenuList", menuReq).then(
         (comMenu) => {
@@ -242,6 +239,20 @@ export default {
         },
         (error) => {
           console.log("getMenu failed", error);
+        }
+      );
+    },
+    saveUserMenu() {
+      param = {
+        roleUuid: this.selected.roleUuid,
+        menuUuids: this.ticked,
+      };
+      this.$store.dispatch("userMenu/saveUserMenu", param).then(
+        () => {
+          this.getMenu();
+        },
+        (error) => {
+          console.log("saveUserMenu failed", error);
         }
       );
     },

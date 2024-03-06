@@ -9,7 +9,6 @@ class ComMenuService {
       });
   }
 
-
   getComMenuListByGrp() {
     return api
       .post("/comMenus/selectComMenusByLvl", comreq)
@@ -26,7 +25,6 @@ class ComMenuService {
       });
   }
 
-
   deleteComMenu(id) {
     return api
       .delete(`/comMenus/deleteComMenu/${id}`);
@@ -38,6 +36,15 @@ class ComMenuService {
 
   updateComMenu(comreq) {
     return api.put(`/comMenus/updateComMenu`, comreq);
+  }
+
+  // ------------------ UserMenu ------------------
+  saveUserMenu(comreq) {
+    return api
+      .put("/userMenus/updateUserMenus", comreq)
+      .then((response) => {
+        return response.data;
+      });
   }
 }
 

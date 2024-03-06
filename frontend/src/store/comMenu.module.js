@@ -94,6 +94,18 @@ export const comMenu = {
           return Promise.reject(error);
         }
       );
+    },
+    saveUserMenu({ commit }, comreq) {
+      return ComMenuService.saveUserMenu(comreq).then(
+        data => {
+          commit('userMenuSaveSuccess', data);
+          return Promise.resolve(data);
+        },
+        error => {
+          commit('comMenuError');
+          return Promise.reject(error);
+        }
+      );
     }
   },
   mutations: {
@@ -120,5 +132,8 @@ export const comMenu = {
     },
     comMenuError(state) {
     },
+    userMenuSaveSuccess(state) {
+      state.success = true;
+    }
   }
 };

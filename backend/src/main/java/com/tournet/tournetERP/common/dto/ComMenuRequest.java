@@ -1,10 +1,6 @@
 package com.tournet.tournetERP.common.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
 
