@@ -1,9 +1,36 @@
 <template>
   <div :style="{ marginLeft: '15px', marginRight: '15px' }">
     <h5 :style="{ marginTop: '15px', marginBottom: '15px' }">직원관리</h5>
-    <div class="grid-container">
 
-      <div>
+    <q-form @submit="searchEmpList"
+              @reset="onReset">
+      <div class="row q-col-gutter-sm" style="max-width: 900px">
+        <q-select class="q-pa-sm col-3"
+                  outlined
+                  v-model="searchIdx"
+                  :options="options"
+                  @click="onChange"
+                  label="검색방법 *" />
+        <q-select v-if="this.searchIdx == '상태'" class="col-3"
+                  outlined
+                  v-model="searchWord"
+                  :options="options"
+                  @click="onChange"
+                  label="검색방법 *" />
+        <q-input v-if="this.searchIdx != '상태'" class="col-6" outlined
+                 v-model="searchWord"
+                 type="text"
+                 label="검색어 *"
+                 lazy-rules
+                 :rules="[ val => val && val.length > 0 || '사용자명을 입력 해 주십시오.']"/>
+        <div class="q-pa-sm q-gutter-sm">
+          <q-btn label="검색" type="submit" color="primary"/>
+        </div>
+
+      </div>
+      </q-form>
+    <div>
+    <div class="grid-container">
         <ag-grid-vue
           :rowData="emps"
           :columnDefs="colDefs"
@@ -29,6 +56,7 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { AgGridVue } from "ag-grid-vue3";
@@ -38,7 +66,14 @@ export default {
   components: {
     AgGridVue,
   },
-
+  setup () {
+    return {
+      searchIdx: ref(null),
+      options: [
+        '사용자명', '직원명', '직원명(영문)', '상태'
+      ]
+    }
+  },
   data() {
     return {
       //S: Paging SET
@@ -46,7 +81,12 @@ export default {
       count: 5, //표시할 페이지 개수
       showPage: 5, //보여줄 row 개수
       //E: Paging SET
-      
+
+      empStatus: "",
+      empKor:"",
+      empEng: "",
+      username: "",
+      searchWord: "",
       colDefs: [
         {
           field: "empUuid",
@@ -57,6 +97,17 @@ export default {
           // checkboxSelection: true,
         },
         {
+          field: "edit",
+          headerName: "관리",
+          width: 100,
+          cellRenderer: function (params) {
+            return `<q-btn style="background: #50d427ad; padding: 5px; border-radius: 4px; cursor: pointer; font-size: 12px;">${params.value}</q-btn>`;
+          },
+          valueGetter: function (params) {
+            return "수정/삭제";
+          },
+        },
+        {
           field: "username",
           headerName: "사용자명",
           width: 150,
@@ -65,8 +116,8 @@ export default {
         },
         {
           field: "empKor",
-          headerName: "직원명(한글)",
-          width: 150,
+          headerName: "직원명",
+          width: 100,
           sortable: true,
           filter: true,
         },
@@ -116,16 +167,7 @@ export default {
           sortable: true,
           filter: true,
         },
-        {
-          field: "edit",
-          headerName: "관리",
-          cellRenderer: function (params) {
-            return `<q-btn style="background: #50d427ad; padding: 5px; border-radius: 4px; cursor: pointer; font-size: 12px;">${params.value}</q-btn>`;
-          },
-          valueGetter: function (params) {
-            return "수정/삭제";
-          },
-        },
+
 
       ],
       emps: [],
@@ -136,21 +178,41 @@ export default {
 
       this.searchEmpList();
     },
-    handlePageSizeChange(event) {
-      this.pageSize = event.target.value;
-      this.page = 1;
-      this.searchEmpList();
-    },
+
     searchEmpList() {
+      if (this.searchIdx === "사용자명") {
+        this.username = this.searchWord;
+
+        this.empStatus = "";
+        this.empKor = "";
+        this.empEng ="";
+      } else if(this.searchIdx === "직원명") {
+        this.empKor = this.searchWord;
+        this.empStatus = "";
+        this.username = "";
+        this.empEng ="";
+      } else if(this.searchIdx === "직원명(영문)") {
+        this.empEng = this.searchWord;
+        this.empStatus = "";
+        this.username = "";
+        this.empKor ="";
+      } else if(this.searchIdx === "상태") {
+        this.empStatus = this.searchWord;
+        this.empEng = "";
+        this.username = "";
+        this.empKor ="";
+      }
+
       const searchReq = {
-        empStatus: "",
-          empKor:"",
-          empEng: "",
-          username: "",
-          page: this.page - 1,
+          empStatus: this.empStatus,
+          empKor:this.empKor,
+          empEng: this.empEng,
+          username: this.username,
+
+          page: (this.page - 1) < 0 ? 0:(this.page - 1),
           size: this.showPage,
       }
-      console.log(searchReq);
+console.log(searchReq);
       this.$store.dispatch(`empTn/searchEmpList`, searchReq)
         .then(
         (emps) => {
