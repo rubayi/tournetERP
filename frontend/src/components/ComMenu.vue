@@ -19,7 +19,35 @@
       </div>
 
       <q-scroll-area class="toc" style="height: 700px">
-        <q-tree :nodes="userLinksData" node-key="label" default-expand-all />
+        <q-tree :nodes="userLinksData" node-key="label" default-expand-all>
+          <template v-slot:default="props">
+            <q-item-section>
+              <q-item-label>
+                {{ props.node.label }}
+              </q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-btn
+                flat
+                v-if="props.node.menuDelete"
+                @click.stop="deleteNode(props.node)"
+                >Delete</q-btn
+              >
+              <q-btn
+                flat
+                v-if="props.node.menuRead"
+                @click.stop="readNode(props.node)"
+                >Read</q-btn
+              >
+              <q-btn
+                flat
+                v-if="props.node.menuWrite"
+                @click.stop="writeNode(props.node)"
+                >Write</q-btn
+              >
+            </q-item-section>
+          </template>
+        </q-tree>
       </q-scroll-area>
 
       <q-scroll-area class="toc" style="height: 700px">
@@ -27,7 +55,7 @@
           :nodes="linksData"
           node-key="menuUuid"
           default-expand-all
-          tick-strategy="leaf"
+          tick-strategy="strict"
           v-model:ticked="ticked"
           @update:ticked="handleMenuClick"
         />
@@ -35,88 +63,6 @@
           <button class="save" @click="saveUserMenu">저장</button>
         </div>
       </q-scroll-area>
-
-      <!-- <div>
-        <div class="toc">
-          <div>메뉴등록</div>
-          <form @submit.prevent="saveComMenu">
-            <div class="spaces">
-              <input
-                class="inputBox"
-                type="text"
-                placeholder="영문 상세메뉴명"
-                id="menuEng"
-                v-model="edited.menuEng"
-              />
-            </div>
-            <div class="spaces">
-              <input
-                class="inputBox"
-                type="text"
-                placeholder="한글 상세메뉴명"
-                id="menuKor"
-                v-model="edited.menuKor"
-                required
-              />
-            </div>
-            <div class="spaces">
-              <input
-                class="inputBox"
-                type="text"
-                placeholder="메뉴 URL "
-                id="menuUrl"
-                v-model="edited.menuUrl"
-                required
-              />
-            </div>
-            <div class="spaces">
-              <input
-                class="inputBox"
-                type="text"
-                placeholder="메뉴레벨 ex) 0,1,2.."
-                id="menuLvl"
-                v-model="edited.menuLvl"
-                required
-              />
-            </div>
-            <div class="spaces">
-              <input
-                class="inputBox"
-                type="number"
-                placeholder="메뉴정렬순서"
-                id="menuOrd"
-                v-model="edited.menuOrd"
-                required
-              />
-            </div>
-            <div class="spaces">
-              <input
-                class="inputBox"
-                type="text"
-                placeholder="메뉴사용여부"
-                id="menuOrd"
-                v-model="edited.menuOrd"
-                required
-              />
-            </div>
-            <div class="spaces">
-              <button type="submit" class="save">
-                {{ edited.menuUuid ? "수정" : "저장" }}
-              </button>
-              <button type="reset" class="clear" @click="resetForm">
-                취소
-              </button>
-              <button
-                type="button"
-                class="delete"
-                @click="deleteComMenu(edited.menuUuid)"
-              >
-                삭제
-              </button>
-            </div>
-          </form>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
@@ -139,6 +85,9 @@ const buildMenuTree = (menuItems, parentUuid) => {
     menuOrd: menu.menuOrd,
     menuUrl: menu.menuUrl,
     caption: menu.menuDesc,
+    menuDelete: menu.menuDelete,
+    menuRead: menu.menuRead,
+    menuWrite: menu.menuWrite,
     children: buildMenuTree(menuItems, menu.menuUuid),
   }));
 };
@@ -233,15 +182,9 @@ export default {
       }
       this.$store.dispatch("comMenu/getComMenuListForEdit", menuReq).then(
         (comMenu) => {
-
           console.log(comMenu);
           this.userLinksData = buildMenuTree(comMenu, 0);
-          this.ticked = comMenu.map((menu) => ({
-            menuUuid: menu.menuUuid,
-            menuDelete: menu.menuDelete,
-            menuRead: menu.menuRead,
-            menuWrite: menu.menuWrite,
-          }));
+          this.ticked = comMenu.map((menu) => menu.menuUuid);
           this.getMainComMenu();
         },
         (error) => {

@@ -11,7 +11,10 @@ const commMenu =
   menuOrd: null,
   upperMenuUuid: null,
   useYn: "",
-  menuDesc: ""
+  menuDesc: "",
+  menuDelete: "",
+  menuWrite: "",
+  menuRead: ""
 };
 const initialState = commMenu
   ? { message: "", commMenu }
