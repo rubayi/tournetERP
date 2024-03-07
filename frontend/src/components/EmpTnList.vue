@@ -1,8 +1,7 @@
 <template>
-  <q-page class="q-pa-lg">
+  <div class="q-pa-md q-gutter-sm">
       <div class="text-h4">직원관리</div>
 
-      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 q-py-lg">
       <q-form @submit="searchEmpList"
                 @reset="onReset">
         <div class="row q-col-gutter-sm" style="max-width: 900px">
@@ -30,39 +29,40 @@
             <q-btn label="+ 사용자등록" type="submit" color="green" @click="onClickAdd"/>
           </div>
         </div>
-        </q-form>
-      <div class="col-12">
-        <div class="row">
-          <div class="col-8">
-          <ag-grid-vue
-            :rowData="emps"
-            :columnDefs="colDefs"
-            style="width:100%; height: 500px"
-            :onCellClicked="onCellClicked"
-            class="ag-theme-quartz-dark"
-          >
-          </ag-grid-vue>
-          <div class="q-col-lg q-pa-sm flex flex-center">
-            <q-pagination
-              v-model="page"
-              :max="count"
-              direction-links
-              @click="handlePageChange"
-            />
-          </div>
+      </q-form>
+      <div class="row q-px-lg">
+        <div class="col-8">
+        <ag-grid-vue
+          :rowData="emps"
+          :columnDefs="colDefs"
+          style="width:100%; height: 500px"
+          :onCellClicked="onCellClicked"
+          class="ag-theme-quartz-dark"
+        >
+        </ag-grid-vue>
+        <div class="q-col-lg q-pa-sm flex flex-center">
+          <q-pagination
+            v-model="page"
+            :max="count"
+            direction-links
+            @click="handlePageChange"
+          />
         </div>
-        <div class="q-dialog-centered" style="background-color: #1976D2; width:100%">
-          <q-dialog class="q-dialog-centered" v-model="showForm">
-            <q-form @submit.prevent="saveEmp">
-            <q-card style="width:50%">
-              <q-bar>
-                <div>사용자 정보 관리</div>
-                <q-space />
-                <q-btn dense flat icon="close" v-close-popup>
-                  <q-tooltip>닫기</q-tooltip>
-                </q-btn>
-              </q-bar>
-              <q-card-section>
+      </div>
+    </div>
+      <div class="q-pa-md q-gutter-sm">
+
+        <q-dialog v-model="showForm">
+          <q-card style="width: 700px; max-width: 80vw;">
+            <q-bar class="q-pa-lg">
+              <div>사용자 정보 관리</div>
+              <q-space />
+              <q-btn flat icon="close" v-close-popup>
+                <q-tooltip>닫기</q-tooltip>
+              </q-btn>
+            </q-bar>
+
+            <q-card-section class="scroll">
               <div class="row q-col-gutter-sm">
                 <input
                   id="empUuid"
@@ -213,20 +213,18 @@
                   label="주소2(Address2) "
                 />
 
-                <q-btn v-if="edited.empUuid != 0" :disabled="loading" label="정보수정" type="submit" color="primary"/>
-                <q-btn v-if="edited.empUuid == 0" :disabled="loading" label="사용자등록" type="submit" color="primary"/>
-                <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
               </div>
-              </q-card-section>
-            </q-card>
-            </q-form>
-          </q-dialog>
-        </div>
+            </q-card-section>
+            <q-card-actions align="right">
+              <q-btn v-if="edited.empUuid != 0" :disabled="loading" label="정보수정" type="submit" color="primary"/>
+              <q-btn v-if="edited.empUuid == 0" :disabled="loading" label="사용자등록" type="submit" color="primary"/>
+              <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
       </div>
     </div>
-  </div>
 
-  </q-page>
 </template>
 
 <script>
@@ -242,6 +240,7 @@ export default {
   },
   setup () {
     return {
+
       searchIdx: ref(null),
       bar: ref(false),
       options: [
@@ -684,10 +683,5 @@ export default {
 </script>
 
 <style scoped>
-.q-dialog-centered {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+
 </style>
