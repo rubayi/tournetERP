@@ -14,7 +14,11 @@ const commMenu =
   menuDesc: "",
   menuDelete: "",
   menuWrite: "",
-  menuRead: ""
+  empMenuUuid: "",
+  menuRead: "",
+  role: "",
+  roleUuid: "",
+  uprMenuUuid: "",
 };
 const initialState = commMenu
   ? { message: "", commMenu }

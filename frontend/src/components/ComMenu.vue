@@ -162,6 +162,7 @@ export default {
     getMainComMenu() {
       this.$store.dispatch("comMenu/getComMenuList").then(
         (comMenus) => {
+          console.log(comMenus);
           this.allOfLinks = comMenus;
           this.linksData = buildComMenuTree(comMenus, 0);
         },
