@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr hFf">
-    <q-header elevated class="bg-grey-3 text-blue-grey">
+    <q-header class="bg-dark text-grey-5 shadow-1">
       <q-toolbar>
         <q-btn
           flat
@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          <img src="images/logo_tnh2.png" style="width: 100px; height: 53px" />
+          <img src="images/logo_tnh2.png" style="width: 80px; height: 53px"  class="q-pt-sm"/>
         </q-toolbar-title>
         <div>
 <!--          <q-btn-->

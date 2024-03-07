@@ -1,8 +1,8 @@
 <template>
-  <q-page class="q-pa-sm">
-    <h5>직원관리</h5>
+  <q-page class="q-pa-lg">
+      <div class="text-h4">직원관리</div>
 
-      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 q-py-lg">
       <q-form @submit="searchEmpList"
                 @reset="onReset">
         <div class="row q-col-gutter-sm" style="max-width: 900px">
@@ -27,201 +27,201 @@
           </div>
 
           <div class="q-py-md">
-            <q-btn label="+ 사용자등록" type="submit" color="green" @click="showForm = true"/>
+            <q-btn label="+ 사용자등록" type="submit" color="green" @click="onClickAdd"/>
           </div>
         </div>
         </q-form>
-    <div class="col-12">
-      <div class="row">
-        <div class="col-8">
-        <ag-grid-vue
-          :rowData="emps"
-          :columnDefs="colDefs"
-          style="width:100%; height: 500px"
-          :onCellClicked="onCellClicked"
-          class="ag-theme-quartz-dark"
-        >
-        </ag-grid-vue>
-        <div class="q-col-lg q-pa-sm flex flex-center">
-          <q-pagination
-            v-model="page"
-            :max="count"
-            direction-links
-            @click="handlePageChange"
-          />
-        </div>
-      </div>
-      <q-dialog class="col-4 q-px-md" v-model="showForm">
-        <q-bar>
-          <div>사용자 정보 관리</div>
-
-          <q-space />
-
-          <q-btn dense flat icon="close" v-close-popup>
-            <q-tooltip>Close</q-tooltip>
-          </q-btn>
-        </q-bar>
-
-        <q-form @submit.prevent="saveEmp">
-        <q-card class="col-6 q-pa-md">
-          <div class="row q-col-gutter-sm">
-            <input
-              id="empUuid"
-              v-model="edited.empUuid"
-              hidden
+      <div class="col-12">
+        <div class="row">
+          <div class="col-8">
+          <ag-grid-vue
+            :rowData="emps"
+            :columnDefs="colDefs"
+            style="width:100%; height: 500px"
+            :onCellClicked="onCellClicked"
+            class="ag-theme-quartz-dark"
+          >
+          </ag-grid-vue>
+          <div class="q-col-lg q-pa-sm flex flex-center">
+            <q-pagination
+              v-model="page"
+              :max="count"
+              direction-links
+              @click="handlePageChange"
             />
-            <q-input
-              class="col-4"
-              type="text"
-              id="username"
-              v-model="edited.username"
-              label="사용자명(username)"
-            />
-
-            <q-input
-              class="col-4"
-              type="text"
-              id="empKor"
-              v-model="edited.empKor"
-              label="한글이름(Name Kor)"
-            />
-            <q-input
-              class="col-4"
-              type="text"
-              id="empEng"
-              v-model="edited.empEng"
-              label="영문이름(Name Eng)"
-            />
-            <q-select
-              class="col-3"
-              v-model="edited.empWorkType"
-              :options="workOptions"
-              option-value="codeValue"
-              option-label="codeKr"
-              label="근무형태" />
-            <q-select
-              class="col-3"
-              v-model="edited.empDiv"
-              :options="divOptions"
-              option-value="codeValue"
-              option-label="codeKr"
-              label="부서명" />
-            <q-select
-              class="col-3"
-              v-model="edited.empTitle"
-              :options="titleOptions"
-              option-value="codeValue"
-              option-label="codeKr"
-              label="직위" />
-            <q-select
-              class="col-3"
-              v-model="edited.empRole"
-              :options="empRoleOptions"
-              option-value="codeValue"
-              option-label="codeKr"
-              label="직책" />
-            <q-input
-              class="col-6"
-              type="text"
-              id="username"
-              v-model="edited.empPhone"
-              label="핸드폰(Mobile) *"
-            />
-            <q-input
-              class="col-6"
-              type="text"
-              id="empWorkPhone"
-              v-model="edited.empWorkPhone"
-              label="내선번호(Work Phone) "
-            />
-            <q-input
-              class="col-6"
-              type="text"
-              id="empEmail"
-              v-model="edited.empEmail"
-              label="이메일(Email)"
-            />
-            <q-input
-              class="col-6"
-              type="text"
-              id="empEmailBook"
-              v-model="edited.empEmailBook"
-              label="예약이메일(Email)"
-            />
-            <q-select
-              class="col-6"
-              v-model="edited.empDobType"
-              :options="dobTypeOptions"
-              option-value="codeValue"
-              option-label="codeKr"
-              label="생일타입" />
-
-            <q-input class="col-6" v-model="edited.empDob" mask="####/##/##" :rules="['date']">
-              <template v-slot:append>
-                <q-icon name="event" class="cursor-pointer">
-                  <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                    <q-date v-model="edited.empDob" minimal>
-                      <div class="row items-center justify-end">
-                        <q-btn v-close-popup label="Close" color="primary" flat />
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
-                </q-icon>
-              </template>
-            </q-input>
-            <q-input
-              class="col-3"
-              type="text"
-              id="empZip"
-              v-model="edited.empZip"
-              label="우편번호(Zip)"
-            />
-            <q-input
-              class="col-3"
-              type="text"
-              id="empCity"
-              v-model="edited.empCity"
-              label="도시(City) "
-            />
-            <q-input
-              class="col-3"
-              type="text"
-              id="empState"
-              v-model="edited.empState"
-              label="주/도(State) "
-            />
-            <q-select
-              class="col-3"
-              v-model="empCountry"
-              :options="countryOptions"
-              option-value="codeValue"
-              option-label="codeKr"
-              label="국가(Country)" />
-            <q-input
-              class="col-6"
-              bottom-slots
-              type="text"
-              id="empAddress1"
-              v-model="edited.empAddress1"
-              label="주소1(Address1) "
-            />
-            <q-input
-              class="col-6"
-              bottom-slots
-              type="text"
-              id="empAddress2"
-              v-model="edited.empAddress2"
-              label="주소2(Address2) "
-            />
-
-            <q-btn v-if="edited.empUuid != 0" :disabled="loading" label="정보수정" type="submit" color="primary"/>
-            <q-btn v-if="edited.empUuid == 0" :disabled="loading" label="사용자등록" type="submit" color="primary"/>
-            <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
           </div>
+        </div>
+        <div class="q-dialog-centered" style="background-color: #1976D2; width:100%">
+          <q-dialog class="q-dialog-centered" v-model="showForm">
+            <q-form @submit.prevent="saveEmp">
+            <q-card style="width:50%">
+              <q-bar>
+                <div>사용자 정보 관리</div>
+                <q-space />
+                <q-btn dense flat icon="close" v-close-popup>
+                  <q-tooltip>닫기</q-tooltip>
+                </q-btn>
+              </q-bar>
+              <q-card-section>
+              <div class="row q-col-gutter-sm">
+                <input
+                  id="empUuid"
+                  v-model="edited.empUuid"
+                  hidden
+                />
+                <q-input
+                  class="col-4"
+                  type="text"
+                  id="username"
+                  v-model="edited.username"
+                  label="사용자명(username)"
+                />
 
-        </q-card>
-        </q-form>
-        </q-dialog>
+                <q-input
+                  class="col-4"
+                  type="text"
+                  id="empKor"
+                  v-model="edited.empKor"
+                  label="한글이름(Name Kor)"
+                />
+                <q-input
+                  class="col-4"
+                  type="text"
+                  id="empEng"
+                  v-model="edited.empEng"
+                  label="영문이름(Name Eng)"
+                />
+                <q-select
+                  class="col-3"
+                  v-model="edited.empWorkType"
+                  :options="workOptions"
+                  option-value="codeValue"
+                  option-label="codeKr"
+                  label="근무형태" />
+                <q-select
+                  class="col-3"
+                  v-model="edited.empDiv"
+                  :options="divOptions"
+                  option-value="codeValue"
+                  option-label="codeKr"
+                  label="부서명" />
+                <q-select
+                  class="col-3"
+                  v-model="edited.empTitle"
+                  :options="titleOptions"
+                  option-value="codeValue"
+                  option-label="codeKr"
+                  label="직위" />
+                <q-select
+                  class="col-3"
+                  v-model="edited.empRole"
+                  :options="empRoleOptions"
+                  option-value="codeValue"
+                  option-label="codeKr"
+                  label="직책" />
+                <q-input
+                  class="col-6"
+                  type="text"
+                  id="username"
+                  v-model="edited.empPhone"
+                  label="핸드폰(Mobile) *"
+                />
+                <q-input
+                  class="col-6"
+                  type="text"
+                  id="empWorkPhone"
+                  v-model="edited.empWorkPhone"
+                  label="내선번호(Work Phone) "
+                />
+                <q-input
+                  class="col-6"
+                  type="text"
+                  id="empEmail"
+                  v-model="edited.empEmail"
+                  label="이메일(Email)"
+                />
+                <q-input
+                  class="col-6"
+                  type="text"
+                  id="empEmailBook"
+                  v-model="edited.empEmailBook"
+                  label="예약이메일(Email)"
+                />
+                <q-select
+                  class="col-6"
+                  v-model="edited.empDobType"
+                  :options="dobTypeOptions"
+                  option-value="codeValue"
+                  option-label="codeKr"
+                  label="생일타입" />
+
+                <q-input class="col-6" v-model="edited.empDob" mask="####/##/##" :rules="['date']">
+                  <template v-slot:append>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                        <q-date v-model="edited.empDob" minimal>
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="Close" color="primary" flat />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+                <q-input
+                  class="col-3"
+                  type="text"
+                  id="empZip"
+                  v-model="edited.empZip"
+                  label="우편번호(Zip)"
+                />
+                <q-input
+                  class="col-3"
+                  type="text"
+                  id="empCity"
+                  v-model="edited.empCity"
+                  label="도시(City) "
+                />
+                <q-input
+                  class="col-3"
+                  type="text"
+                  id="empState"
+                  v-model="edited.empState"
+                  label="주/도(State) "
+                />
+                <q-select
+                  class="col-3"
+                  v-model="empCountry"
+                  :options="countryOptions"
+                  option-value="codeValue"
+                  option-label="codeKr"
+                  label="국가(Country)" />
+                <q-input
+                  class="col-6"
+                  bottom-slots
+                  type="text"
+                  id="empAddress1"
+                  v-model="edited.empAddress1"
+                  label="주소1(Address1) "
+                />
+                <q-input
+                  class="col-6"
+                  bottom-slots
+                  type="text"
+                  id="empAddress2"
+                  v-model="edited.empAddress2"
+                  label="주소2(Address2) "
+                />
+
+                <q-btn v-if="edited.empUuid != 0" :disabled="loading" label="정보수정" type="submit" color="primary"/>
+                <q-btn v-if="edited.empUuid == 0" :disabled="loading" label="사용자등록" type="submit" color="primary"/>
+                <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
+              </div>
+              </q-card-section>
+            </q-card>
+            </q-form>
+          </q-dialog>
+        </div>
       </div>
     </div>
   </div>
@@ -655,6 +655,10 @@ export default {
       // }
 
     },
+    onClickAdd(){
+      this.edited = params.data;
+      this.showForm = true;
+    },
 
     deleteEmp(id) {
       this.$store.dispatch("empTn/deleteEmp", id).then(
@@ -680,5 +684,10 @@ export default {
 </script>
 
 <style scoped>
-
+.q-dialog-centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>
