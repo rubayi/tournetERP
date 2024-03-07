@@ -1,35 +1,39 @@
 <template>
-  <div :style="{ marginLeft: '15px', marginRight: '15px' }">
-    <h5 :style="{ marginTop: '15px', marginBottom: '15px' }">직원관리</h5>
+  <q-page class="q-pa-sm">
+    <h5>직원관리</h5>
 
-    <q-form @submit="searchEmpList"
-              @reset="onReset">
-      <div class="row q-col-gutter-sm" style="max-width: 900px">
-        <q-select class="q-pa-sm col-3"
-                  outlined
-                  v-model="searchIdx"
-                  :options="options"
-                  label="검색방법 *" />
-        <q-select v-if="this.searchIdx == '상태'" class="col-3"
-                  outlined
-                  v-model="searchEmpStatus"
-                  :options="empStatusOptions"
-                  option-value="codeValue"
-                  option-label="codeKr"
-                  label="검색방법 *" />
-        <q-input v-if="this.searchIdx != '상태'" class="col-6" outlined
-                 v-model="searchWord"
-                 type="text"
-                 label="검색어 *"
-                 lazy-rules
-                 :rules="[ val => val && val.length > 0 || '사용자명을 입력 해 주십시오.']"/>
-        <div class="q-pa-sm q-gutter-sm">
-          <q-btn label="검색" type="submit" color="primary"/>
+      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+      <q-form @submit="searchEmpList"
+                @reset="onReset">
+        <div class="row q-col-gutter-sm" style="max-width: 900px">
+          <q-select class="col-3"
+                    v-model="searchIdx"
+                    :options="options"
+                    label="검색방법 *" />
+          <q-select v-if="this.searchIdx == '상태'" class="col-3"
+                    v-model="searchEmpStatus"
+                    :options="empStatusOptions"
+                    option-value="codeValue"
+                    option-label="codeKr"
+                    label="재직상태 *" />
+          <q-input v-if="this.searchIdx != '상태'"
+                   v-model="searchWord"
+                   type="text"
+                   label="검색어 *"
+                   lazy-rules
+                   :rules="[ val => val && val.length > 0 || '사용자명을 입력 해 주십시오.']"/>
+          <div class="q-py-md">
+            <q-btn label="검색" type="submit" color="primary"/>
+          </div>
+
+          <div class="q-py-md">
+            <q-btn label="+ 사용자등록" type="submit" color="green" @click="showForm = true"/>
+          </div>
         </div>
-      </div>
-      </q-form>
-    <div class="grid-container">
+        </q-form>
+    <div class="col-12">
       <div class="row">
+        <div class="col-8">
         <ag-grid-vue
           :rowData="emps"
           :columnDefs="colDefs"
@@ -47,25 +51,182 @@
           />
         </div>
       </div>
-      <div class="toc q-mr-md">
-        <form @submit.prevent="saveEmp">
-          <input
-            type="number"
-            id="codeUuid"
-            v-model="edited.empUuid"
-            hidden
-          />
-          <input
-            type="number"
-            id="codeUuid"
-            v-model="edited.username"
-            hidden
-          />
-        </form>
+      <q-dialog class="col-4 q-px-md" v-model="showForm">
+        <q-bar>
+          <div>사용자 정보 관리</div>
+
+          <q-space />
+
+          <q-btn dense flat icon="close" v-close-popup>
+            <q-tooltip>Close</q-tooltip>
+          </q-btn>
+        </q-bar>
+
+        <q-form @submit.prevent="saveEmp">
+        <q-card class="col-6 q-pa-md">
+          <div class="row q-col-gutter-sm">
+            <input
+              id="empUuid"
+              v-model="edited.empUuid"
+              hidden
+            />
+            <q-input
+              class="col-4"
+              type="text"
+              id="username"
+              v-model="edited.username"
+              label="사용자명(username)"
+            />
+
+            <q-input
+              class="col-4"
+              type="text"
+              id="empKor"
+              v-model="edited.empKor"
+              label="한글이름(Name Kor)"
+            />
+            <q-input
+              class="col-4"
+              type="text"
+              id="empEng"
+              v-model="edited.empEng"
+              label="영문이름(Name Eng)"
+            />
+            <q-select
+              class="col-3"
+              v-model="edited.empWorkType"
+              :options="workOptions"
+              option-value="codeValue"
+              option-label="codeKr"
+              label="근무형태" />
+            <q-select
+              class="col-3"
+              v-model="edited.empDiv"
+              :options="divOptions"
+              option-value="codeValue"
+              option-label="codeKr"
+              label="부서명" />
+            <q-select
+              class="col-3"
+              v-model="edited.empTitle"
+              :options="titleOptions"
+              option-value="codeValue"
+              option-label="codeKr"
+              label="직위" />
+            <q-select
+              class="col-3"
+              v-model="edited.empRole"
+              :options="empRoleOptions"
+              option-value="codeValue"
+              option-label="codeKr"
+              label="직책" />
+            <q-input
+              class="col-6"
+              type="text"
+              id="username"
+              v-model="edited.empPhone"
+              label="핸드폰(Mobile) *"
+            />
+            <q-input
+              class="col-6"
+              type="text"
+              id="empWorkPhone"
+              v-model="edited.empWorkPhone"
+              label="내선번호(Work Phone) "
+            />
+            <q-input
+              class="col-6"
+              type="text"
+              id="empEmail"
+              v-model="edited.empEmail"
+              label="이메일(Email)"
+            />
+            <q-input
+              class="col-6"
+              type="text"
+              id="empEmailBook"
+              v-model="edited.empEmailBook"
+              label="예약이메일(Email)"
+            />
+            <q-select
+              class="col-6"
+              v-model="edited.empDobType"
+              :options="dobTypeOptions"
+              option-value="codeValue"
+              option-label="codeKr"
+              label="생일타입" />
+
+            <q-input class="col-6" v-model="edited.empDob" mask="####/##/##" :rules="['date']">
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                    <q-date v-model="edited.empDob" minimal>
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="Close" color="primary" flat />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+            <q-input
+              class="col-3"
+              type="text"
+              id="empZip"
+              v-model="edited.empZip"
+              label="우편번호(Zip)"
+            />
+            <q-input
+              class="col-3"
+              type="text"
+              id="empCity"
+              v-model="edited.empCity"
+              label="도시(City) "
+            />
+            <q-input
+              class="col-3"
+              type="text"
+              id="empState"
+              v-model="edited.empState"
+              label="주/도(State) "
+            />
+            <q-select
+              class="col-3"
+              v-model="empCountry"
+              :options="countryOptions"
+              option-value="codeValue"
+              option-label="codeKr"
+              label="국가(Country)" />
+            <q-input
+              class="col-6"
+              bottom-slots
+              type="text"
+              id="empAddress1"
+              v-model="edited.empAddress1"
+              label="주소1(Address1) "
+            />
+            <q-input
+              class="col-6"
+              bottom-slots
+              type="text"
+              id="empAddress2"
+              v-model="edited.empAddress2"
+              label="주소2(Address2) "
+            />
+
+            <q-btn v-if="edited.empUuid != 0" :disabled="loading" label="정보수정" type="submit" color="primary"/>
+            <q-btn v-if="edited.empUuid == 0" :disabled="loading" label="사용자등록" type="submit" color="primary"/>
+            <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
+          </div>
+
+        </q-card>
+        </q-form>
+        </q-dialog>
       </div>
     </div>
-
   </div>
+
+  </q-page>
 </template>
 
 <script>
@@ -82,9 +243,11 @@ export default {
   setup () {
     return {
       searchIdx: ref(null),
+      bar: ref(false),
       options: [
         '사용자명', '직원명', '직원명(영문)', '상태'
-      ]
+      ],
+
     }
   },
   data() {
@@ -95,12 +258,20 @@ export default {
       showPage: 5, //보여줄 row 개수
       //E: Paging SET
 
+      showForm: false,
+
       empStatus: "",
       empKor:"",
       empEng: "",
       username: "",
       searchWord: "",
       searchEmpStatus: "",
+      workOptions: [],
+      divOptions: [],
+      titleOptions: [],
+      empRoleOptions: [],
+      dobTypeOptions: [],
+      countryOptions: [],
       edited: {
         empUuid: 0,
         username: "",
@@ -289,6 +460,121 @@ export default {
             error.toString();
         }
       );
+    //근무형태
+    const workOptionReq = {
+      uprCodeUuid: '16',
+      codeLvl:'1'
+    }
+    this.$store.dispatch("comCode/useComCode", workOptionReq)
+      .then(
+        (commCode) => {
+          this.workOptions = commCode;
+        },
+        (error) => {
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    //부서명
+    const divOptionsReq = {
+      uprCodeUuid: '19',
+      codeLvl:'1'
+    }
+    this.$store.dispatch("comCode/useComCode", divOptionsReq)
+      .then(
+        (commCode) => {
+          this.divOptions = commCode;
+        },
+        (error) => {
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    //직위
+    const titleOptionsReq = {
+      uprCodeUuid: '17',
+      codeLvl:'1'
+    }
+    this.$store.dispatch("comCode/useComCode", titleOptionsReq)
+      .then(
+        (commCode) => {
+          this.titleOptions = commCode;
+        },
+        (error) => {
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+
+    //직책
+    const empRoleOptionsReq = {
+      uprCodeUuid: '18',
+      codeLvl:'1'
+    }
+    this.$store.dispatch("comCode/useComCode", empRoleOptionsReq)
+      .then(
+        (commCode) => {
+          this.empRoleOptions = commCode;
+        },
+        (error) => {
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    //생일타입
+    const dobTypeOptionsReq = {
+      uprCodeUuid: '222',
+      codeLvl:'1'
+    }
+    this.$store.dispatch("comCode/useComCode", dobTypeOptionsReq)
+      .then(
+        (commCode) => {
+          this.dobTypeOptions = commCode;
+        },
+        (error) => {
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    //국가코드
+    const countryOptionsReq = {
+      uprCodeUuid: '1',
+      codeLvl:'1'
+    }
+    this.$store.dispatch("comCode/useComCode", countryOptionsReq)
+      .then(
+        (commCode) => {
+          this.countryOptions = commCode;
+        },
+        (error) => {
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
   },
   methods: {
     handlePageChange() {
@@ -363,10 +649,11 @@ export default {
       }
     },
     onCellClicked(params) {
-      console.log(params);
+      this.showForm = true;
       // if (params.column.gid === "edit") {
         this.edited = params.data;
       // }
+
     },
 
     deleteEmp(id) {
@@ -393,77 +680,5 @@ export default {
 </script>
 
 <style scoped>
-.grid-container {
-  display: grid;
-  grid-template-columns: 70% 30%;
-  gap: 20px;
-}
-.no-bullets {
-  list-style-type: none;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-}
-.toc {
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  padding: 10px;
-  background-color: color-mix(in srgb, #fff, #182230 93%);
-  border-radius: 10px;
-}
-.list {
-  margin: 0;
-  padding: 0;
-}
-.list > li {
-  border-bottom: rgba(255, 255, 255, 0.16) 1px solid;
-}
-.list > li:last-child {
-  border-bottom: none;
-}
-.spaces {
-  margin-top: 10px;
-  margin-top: 10px;
-}
-.inputBox {
-  width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  padding: 10px;
-  background-color: color-mix(in srgb, #fff, #182230 97%);
-  border-radius: 3px;
-}
-.plain-button {
-  color: white;
-  background: color-mix(in srgb, #fff, #182230 97%);
-  border: none;
-  padding: 0;
-  text-align: left;
-  width: 100%;
-  display: block;
-  padding: 10px 10px;
-}
-.save {
-  background: #50d427ad;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  border: none;
-  color: white;
-}
-.clear {
-  background: #ffae00ad;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  border: none;
-  color: white;
-}
-.delete {
-  background: #ff0000ad;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  border: none;
-  color: white;
-}
+
 </style>

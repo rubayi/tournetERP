@@ -22,9 +22,9 @@ public interface EmpRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u " +
             "WHERE (:empStatus IS NULL OR u.empStatus = :empStatus) " +
-            "AND (:empKor IS NULL OR u.empKor LIKE CONCAT('%', :empKor, '%')) " +
-            "AND (:empEng IS NULL OR u.empEng LIKE CONCAT('%', :empEng, '%')) " +
-            "AND (:empUsername IS NULL OR u.username LIKE CONCAT('%', :empUsername, '%')) " +
+            "AND (:empKor IS NULL OR u.empKor = :empKor) " +
+            "AND (:empEng IS NULL OR u.empEng = :empEng) " +
+            "AND (:empUsername IS NULL OR u.username = :empUsername) " +
             "ORDER BY u.empBeginDt DESC")
     Page<User> findByEmpStatusOrEmpKorOrEmpEngOrUsernameOrderByEmpBeginDtDesc(
             @Param("empStatus") String empStatus,
