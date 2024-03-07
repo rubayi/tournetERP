@@ -19,35 +19,9 @@
       </div>
 
       <q-scroll-area class="toc" style="height: 700px">
-        <q-tree :nodes="userLinksData" node-key="label" default-expand-all>
-          <template v-slot:default="props">
-            <q-item-section>
-              <q-item-label>
-                {{ props.node.label }}
-              </q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <q-btn
-                flat
-                v-if="props.node.menuDelete"
-                @click.stop="deleteNode(props.node)"
-                >Delete</q-btn
-              >
-              <q-btn
-                flat
-                v-if="props.node.menuRead"
-                @click.stop="readNode(props.node)"
-                >Read</q-btn
-              >
-              <q-btn
-                flat
-                v-if="props.node.menuWrite"
-                @click.stop="writeNode(props.node)"
-                >Write</q-btn
-              >
-            </q-item-section>
-          </template>
-        </q-tree>
+        <div v-for="(node, index) in userLinksData" :key="index">
+          <tree-node :node="node"></tree-node>
+        </div>
       </q-scroll-area>
 
       <q-scroll-area class="toc" style="height: 700px">
@@ -68,6 +42,8 @@
 </template>
 
 <script>
+import TreeNode from "./TreeNode.vue";
+
 const buildMenuTree = (menuItems, parentUuid) => {
   const filteredMenus = menuItems.filter(
     (menu) => menu.upperMenuUuid === parentUuid
@@ -113,6 +89,9 @@ const buildComMenuTree = (menuItems, parentUuid) => {
 };
 export default {
   name: "ComMenu",
+  components: {
+    TreeNode,
+  },
   data() {
     return {
       ticked: [],
@@ -181,7 +160,8 @@ export default {
         };
         this.selected = chosenRole;
       }
-      this.$store.dispatch("comMenu/getComMenuListForEdit", menuReq).then(
+      // this.$store.dispatch("comMenu/getComMenuListForEdit", menuReq).then(
+      this.$store.dispatch("comMenu/getMainComMenuList", menuReq).then(
         (comMenu) => {
           console.log(comMenu);
           this.userLinksData = buildMenuTree(comMenu, 0);
