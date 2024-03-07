@@ -1,6 +1,7 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-      <div class="text-h4">직원관리</div>
+    <div class="q-px-lg">
+      <div class="q-py-lg text-h4 text-weight-bold text-blue">직원관리</div>
 
       <q-form @submit="searchEmpList"
                 @reset="onReset">
@@ -26,10 +27,11 @@
           </div>
 
           <div class="q-py-md">
-            <q-btn label="+ 사용자등록" type="submit" color="green" @click="onClickAdd"/>
+            <q-btn label="+ 사용자등록" color="green" @click="onClickAdd"/>
           </div>
         </div>
       </q-form>
+    </div>
       <div class="row q-px-lg">
         <div class="col-8">
         <ag-grid-vue

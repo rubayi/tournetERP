@@ -1,6 +1,8 @@
 <template>
-  <div :style="{ marginLeft: '15px', marginRight: '15px' }">
-    <h5 :style="{ marginTop: '15px', marginBottom: '15px' }">코드관리</h5>
+  <div class="q-pa-md q-gutter-sm">
+    <div class="q-px-lg">
+      <div class="q-py-lg text-h4 text-weight-bold text-blue">코드관리</div>
+    </div>
     <div class="grid-container">
       <div>
         <div class="toc">
