@@ -78,7 +78,7 @@
                   hidden
                 />
                 <q-input
-                  class="col-4"
+                  class="col-3"
                   type="text"
                   id="username"
                   v-model="edited.username"
@@ -86,22 +86,23 @@
                 />
 
                 <q-input
-                  class="col-4"
-                  type="text"
+                  class="col-3"
+                  type="password"
                   id="password"
                   v-model="edited.password"
                   label="암호"
+                  hint="입력하지 않으면 변경되지 않습니다."
                 />
 
                 <q-input
-                  class="col-4"
+                  class="col-3"
                   type="text"
                   id="empKor"
                   v-model="edited.empKor"
                   label="한글이름(Name Kor)"
                 />
                 <q-input
-                  class="col-4"
+                  class="col-3"
                   type="text"
                   id="empEng"
                   v-model="edited.empEng"
