@@ -175,7 +175,7 @@ export default {
       allOfLinks: [],
       previousLinksData: [],
       linksData: [],
-
+      getDataPath: null,
       userLinksData: [],
       selected: {
         role: "ROLE_USER",
@@ -251,12 +251,12 @@ export default {
         }
       );
     },
-    getDataPath(data) {
-      const menu = this.userLinksData.find(
-        (menu) => menu.menuUuid === data.menuUuid
-      );
-      return menu ? menu.orgHierarchy : null;
-    },
+    // getDataPath(data) {
+    //   const menu = this.userLinksData.find(
+    //     (menu) => menu.menuUuid === data.menuUuid
+    //   );
+    //   return menu ? menu.orgHierarchy : null;
+    // },
     saveUserMenu() {
       param = {
         roleUuid: this.selected.roleUuid,
@@ -341,9 +341,7 @@ export default {
       };
     },
   },
-  mounted() {
-    this.getMenu();
-  },
+  mounted() {},
   watch: {
     isAdmin: {
       handler(newVal) {
@@ -354,6 +352,13 @@ export default {
   },
   created() {
     this.getAllRoles();
+    this.getMenu();
+    this.getDataPath = (data) => {
+      const menu = this.userLinksData.find(
+        (menu) => menu.menuUuid === data.menuUuid
+      );
+      return menu ? menu.orgHierarchy : null;
+    };
   },
 };
 </script>
