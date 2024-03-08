@@ -19,9 +19,19 @@
       </div>
 
       <q-scroll-area class="toc" style="height: 700px">
-        <div v-for="(node, index) in userLinksData" :key="index">
+        <ag-grid-vue
+          :treeData="true"
+          :getDataPath="getDataPath"
+          :columnDefs="colDefs"
+          :rowData="userLinksData"
+          @grid-ready="onGridReady"
+          class="ag-theme-quartz-dark"
+          style="height: 600px"
+        >
+        </ag-grid-vue>
+        <!-- <div v-for="(node, index) in userLinksData" :key="index">
           <tree-node :node="node"></tree-node>
-        </div>
+        </div> -->
       </q-scroll-area>
 
       <q-scroll-area class="toc" style="height: 700px">
@@ -42,31 +52,64 @@
 </template>
 
 <script>
-import TreeNode from "./TreeNode.vue";
+// import TreeNode from "./TreeNode.vue";
+import { ref } from "vue";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
+import { AgGridVue } from "ag-grid-vue3";
 
-const buildMenuTree = (menuItems, parentUuid) => {
-  const filteredMenus = menuItems.filter(
-    (menu) => menu.upperMenuUuid === parentUuid
+const buildMenuTree = (
+  menuItems,
+  parentUuid,
+  previousLinksData,
+  parentPath = []
+) => {
+  const modifiedMenuItems = menuItems.map((item) => {
+    const existingItem = previousLinksData.find(
+      (data) => data.menuUuid === item.menuUuid
+    );
+    if (existingItem) {
+      return existingItem;
+    }
+    if (item.upperMenuUuid != null) {
+      item.uprMenuUuid = item.upperMenuUuid;
+      item.menuDelete = item.menuDelete ? "Y" : "N";
+      item.menuRead = item.menuRead ? "Y" : "N";
+      item.menuWrite = item.menuWrite ? "Y" : "N";
+      delete item.upperMenuUuid;
+    }
+    return item;
+  });
+  const filteredMenus = modifiedMenuItems.filter(
+    (menu) => menu.uprMenuUuid == parentUuid
   );
-  return filteredMenus.map((menu) => ({
-    menuUuid: menu.menuUuid,
-    upperMenuUuid: menu.upperMenuUuid,
-    menuLvl: menu.menuLvl,
-    icon: menu.menuIcon ? menu.menuIcon : "label",
-    label:
-      menu.menuKor +
-      (menu.menuEng ? ` (${menu.menuEng})` : "") +
-      (menu.menuUrl ? ` :${menu.menuUrl}` : ""),
-    link: menu.menuUrl,
-    menuOrd: menu.menuOrd,
-    menuUrl: menu.menuUrl,
-    caption: menu.menuDesc,
-    menuDelete: menu.menuDelete,
-    menuRead: menu.menuRead,
-    menuWrite: menu.menuWrite,
-    children: buildMenuTree(menuItems, menu.menuUuid),
-  }));
+  const sortedMenus = filteredMenus.sort((a, b) => a.menuOrd - b.menuOrd);
+  return sortedMenus.map((menu) => {
+    const path = [...parentPath, menu.menuUuid];
+    return {
+      menuUuid: menu.menuUuid,
+      uprMenuUuid: menu.uprMenuUuid,
+      menuLvl: menu.menuLvl,
+      icon: menu.menuIcon ? menu.menuIcon : "label",
+      label: menu.menuKor + (menu.menuUrl ? ` :${menu.menuUrl}` : ""),
+      link: menu.menuUrl,
+      menuOrd: menu.menuOrd,
+      menuUrl: menu.menuUrl,
+      caption: menu.menuDesc,
+      menuDelete: menu.menuDelete,
+      menuRead: menu.menuRead,
+      menuWrite: menu.menuWrite,
+      path: path,
+      children: buildMenuTree(
+        menuItems,
+        menu.menuUuid,
+        previousLinksData,
+        path
+      ),
+    };
+  });
 };
+
 const buildComMenuTree = (menuItems, parentUuid) => {
   const filteredComMenus = menuItems.filter(
     (menu) => menu.upperMenuUuid === parentUuid
@@ -76,10 +119,7 @@ const buildComMenuTree = (menuItems, parentUuid) => {
     upperMenuUuid: menu.upperMenuUuid,
     menuLvl: menu.menuLvl,
     icon: menu.menuIcon ? menu.menuIcon : "label",
-    label:
-      menu.menuKor +
-      (menu.menuEng ? ` (${menu.menuEng})` : "") +
-      (menu.menuUrl ? ` :${menu.menuUrl}` : ""),
+    label: menu.menuKor + (menu.menuUrl ? ` :${menu.menuUrl}` : ""),
     link: menu.menuUrl,
     menuOrd: menu.menuOrd,
     menuUrl: menu.menuUrl,
@@ -90,13 +130,49 @@ const buildComMenuTree = (menuItems, parentUuid) => {
 export default {
   name: "ComMenu",
   components: {
-    TreeNode,
+    // TreeNode,
+    AgGridVue,
   },
   data() {
     return {
+      autoGroupColumnDef: null,
+      colDefs: [
+        {
+          field: "label",
+          headerName: "메뉴이름",
+          monWidth: 150,
+          sortable: true,
+          filter: true,
+        },
+        {
+          field: "menuRead",
+          headerName: "읽기",
+          width: 70,
+          cellRenderer: function (params) {
+            return `<input type="checkbox" name=""/>`;
+          },
+        },
+        {
+          field: "menuWrite",
+          headerName: "쓰기",
+          width: 70,
+          sortable: true,
+          filter: true,
+        },
+        {
+          field: "menuDelete",
+          headerName: "삭제",
+          width: 70,
+          sortable: true,
+          filter: true,
+        },
+      ],
+      right: ref(false),
       ticked: [],
       roles: [],
       allOfLinks: [],
+      previousLinksData: [],
+      getDataPath: [],
       linksData: [],
       userLinksData: [],
       selected: {
@@ -121,12 +197,19 @@ export default {
   methods: {
     handleMenuClick(newTicked) {
       if (newTicked) {
+        this.previousLinksData = this.previousLinksData.filter((data) =>
+          newTicked.includes(data.menuUuid)
+        );
         const chosenMenus = this.allOfLinks.filter((menu) =>
           newTicked.includes(menu.menuUuid)
         );
-        this.userLinksData = buildMenuTree(chosenMenus, 0);
+        this.userLinksData = buildMenuTree(
+          chosenMenus,
+          0,
+          this.previousLinksData,
+          []
+        );
       }
-      console.log("newTicked", newTicked);
     },
     getAllRoles() {
       this.$store.dispatch("auth/getAllRoles").then(
@@ -141,7 +224,6 @@ export default {
     getMainComMenu() {
       this.$store.dispatch("comMenu/getComMenuList").then(
         (comMenus) => {
-          console.log(comMenus);
           this.allOfLinks = comMenus;
           this.linksData = buildComMenuTree(comMenus, 0);
         },
@@ -160,12 +242,19 @@ export default {
         };
         this.selected = chosenRole;
       }
-      // this.$store.dispatch("comMenu/getComMenuListForEdit", menuReq).then(
-      this.$store.dispatch("comMenu/getMainComMenuList", menuReq).then(
+      this.$store.dispatch("comMenu/getComMenuListForEdit", menuReq).then(
         (comMenu) => {
-          console.log(comMenu);
-          this.userLinksData = buildMenuTree(comMenu, 0);
+          this.userLinksData = buildMenuTree(
+            comMenu,
+            0,
+            this.previousLinksData,
+            []
+          );
+          console.log("this.userLinksData", this.userLinksData);
+          this.getDataPath = this.userLinksData.map((menu) => menu.path);
+          console.log("this.getDataPath", this.getDataPath);
           this.ticked = comMenu.map((menu) => menu.menuUuid);
+          this.previousLinksData = comMenu;
           this.getMainComMenu();
         },
         (error) => {
