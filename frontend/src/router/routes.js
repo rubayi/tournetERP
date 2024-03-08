@@ -27,6 +27,13 @@ const routes = [
     ]
   },
   {
+    path: "/login",
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => Login }
+    ]
+  },
+  {
     path: "/comcode",
     component: () => import('layouts/MainLayout.vue'),
     children: [

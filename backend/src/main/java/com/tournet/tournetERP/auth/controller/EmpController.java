@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -33,6 +34,9 @@ public class EmpController {
 
     @Autowired
     EmpRepository empRepository;
+
+    @Autowired
+    PasswordEncoder encoder;
 
     /**
      * 직원 목록 조회
@@ -86,7 +90,6 @@ public class EmpController {
             );
 
             selectedUsers = pageUsers.getContent();
-
 
             Map<String, Object> response = new HashMap<>();
             response.put("selectedUsers", selectedUsers);
@@ -155,6 +158,10 @@ public class EmpController {
             _emp.setEmpDobType(empReq.getEmpDobType());
             _emp.setEmpMemo(empReq.getEmpMemo());
             _emp.setEmpStatus(empReq.getEmpStatus());
+
+            if (empReq.getPassword() != null && !empReq.getPassword().equals("")) {
+                _emp.setPassword(encoder.encode(empReq.getPassword()));
+            }
 
             empRepository.save(_emp);
             message = "수정 되었습니다.";

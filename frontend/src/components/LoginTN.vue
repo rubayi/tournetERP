@@ -1,5 +1,5 @@
 <template>
-  <div  v-if="successful" class="q-pa-md" style="max-width: 400px">
+  <div class="q-pa-md" style="max-width: 400px">
 
       <q-form
         @submit="handleLogin"
@@ -42,20 +42,11 @@ export default {
   name: "LoginTournet",
   data() {
     return {
-      successful: false,
       loading: false,
       message: "",
       username: "",
       password: ""
     };
-  },
-  mounted() {
-    if (!this.loggedIn) {
-      this.successful = true;
-      //this.$router.push("/login");
-    } else {
-      this.$router.push("/profile");
-    }
   },
   computed: {
     loggedIn() {

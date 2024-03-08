@@ -1,4 +1,5 @@
 <template>
+  <component-to-re-render :key="componentKey" />
   <div class="q-pa-md q-gutter-sm">
     <div class="q-px-lg">
       <div class="q-py-lg text-h4 text-weight-bold text-blue">직원관리</div>
@@ -82,6 +83,14 @@
                   id="username"
                   v-model="edited.username"
                   label="사용자명(username)"
+                />
+
+                <q-input
+                  class="col-4"
+                  type="text"
+                  id="password"
+                  v-model="edited.password"
+                  label="암호"
                 />
 
                 <q-input
@@ -302,6 +311,7 @@ export default {
       //E: Paging SET
 
       showForm: false,
+      componentKey: 0,
 
       empStatus: "",
       empKor:"",
@@ -351,7 +361,8 @@ export default {
           headerName: "관리",
           width: 100,
           cellRenderer: function (params) {
-            return `<q-btn style="background: #50d427ad; padding: 5px; border-radius: 4px; cursor: pointer; font-size: 12px;">${params.value}</q-btn>`;
+            return `<q-btn style="background: #50d427ad; padding: 5px; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                    ${params.value}</q-btn>`;
           },
           valueGetter: function (params) {
             return "수정/삭제";
@@ -360,20 +371,14 @@ export default {
         {
           field: "username",
           headerName: "사용자명",
-          width: 150,
+          width: 110,
           sortable: true,
           filter: true,
         },
         {
-          field: "password",
-          headerName: "암호",
-          width: 150,
-          hide: true,
-        },
-        {
           field: "empKor",
           headerName: "직원명",
-          width: 100,
+          width: 120,
           sortable: true,
           filter: true,
         },
@@ -400,14 +405,14 @@ export default {
         {
           field: "empTitle",
           headerName: "직위",
-          width: 50,
+          width: 100,
           sortable: true,
           filter: true,
         },
         {
           field: "empRole",
           headerName: "직책",
-          width: 50,
+          width: 100,
           sortable: true,
           filter: true,
         },
@@ -491,6 +496,7 @@ export default {
     };
   },
   mounted() {
+
     //재직상태
     const empOptionReq = {
       uprCodeUuid: '15',
@@ -628,6 +634,9 @@ export default {
       );
   },
   methods: {
+    forceRerender() {
+      this.componentKey += 1;
+    },
     handlePageChange() {
 
       this.searchEmpList();
@@ -685,6 +694,8 @@ export default {
         this.$store.dispatch("empTn/updateEmp", this.edited).then(
           (response) => {
             alert(response.data.message);
+            this.showForm=false;
+            this.$router.go(0);
           },
           (error) => {
             console.log("saveEmp failed", error);
@@ -709,6 +720,7 @@ export default {
       this.showForm = true;
       // if (params.column.gid === "edit") {
         this.edited = params.data;
+        this.edited.password = "";
       // }
 
     },
