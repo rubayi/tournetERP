@@ -101,7 +101,9 @@
 
 <script>
 import { useQuasar } from "quasar";
-import { useRouter } from "vue-router"; // Import useRouter from vue-router
+import { useRouter } from "vue-router";
+import EventBus from "./common/EventBus";
+
 let router;
 const buildMenuTree = (menuItems, parentUuid) => {
   const filteredMenus = menuItems.filter(menu => menu.upperMenuUuid === parentUuid);
@@ -191,6 +193,12 @@ export default {
   mounted() {
     // Call the method to fetch work options if user is admin
     this.getMenu();
+    EventBus.on("logout", () => {
+      this.logOut();
+    });
+  },
+  beforeUnmount() {
+    EventBus.remove("logout");
   },
   watch: {
     isAdmin: {

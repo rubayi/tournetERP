@@ -6,6 +6,9 @@ import lombok.Data;
 
 @Data
 public class UserRequest {
+
+    private int empUuid;
+
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
@@ -26,6 +29,8 @@ public class UserRequest {
     private String empDiv;
 
     private String empTitle;
+
+    private String empRole;
 
     private String empPhone;
 
@@ -63,10 +68,8 @@ public class UserRequest {
 
     private int size;
 
-    private int empUuid;
 
-    @NotBlank
-    @Size(min = 6, max = 40)
+
     private String password;
 
 }

@@ -21,8 +21,9 @@ export const auth = {
         }
       );
     },
-    refreshToken({ commit }, accessToken) {
-      commit('refreshToken', accessToken);
+    refreshToken(state, accessToken) {
+      state.status.loggedIn = true;
+      state.user = { ...state.user, accessToken: accessToken };
     },
     logout({ commit }) {
       AuthService.logout();

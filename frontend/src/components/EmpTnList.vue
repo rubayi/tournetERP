@@ -4,7 +4,7 @@
       <div class="q-py-lg text-h4 text-weight-bold text-blue">직원관리</div>
 
       <q-form @submit="searchEmpList"
-                @reset="onReset">
+                @reset="resetForm">
         <div class="row q-col-gutter-sm" style="max-width: 900px">
           <q-select class="col-3"
                     v-model="searchIdx"
@@ -15,6 +15,8 @@
                     :options="empStatusOptions"
                     option-value="codeValue"
                     option-label="codeKr"
+                    emit-value
+                    map-options
                     label="재직상태 *" />
           <q-input v-if="this.searchIdx != '상태'"
                    v-model="searchWord"
@@ -64,8 +66,11 @@
               </q-btn>
             </q-bar>
 
+            <q-form @submit="searchEmpList"
+                    @reset="onReset">
             <q-card-section class="scroll">
               <div class="row q-col-gutter-sm">
+
                 <input
                   id="empUuid"
                   v-model="edited.empUuid"
@@ -99,6 +104,8 @@
                   :options="workOptions"
                   option-value="codeValue"
                   option-label="codeKr"
+                  emit-value
+                  map-options
                   label="근무형태" />
                 <q-select
                   class="col-3"
@@ -106,6 +113,8 @@
                   :options="divOptions"
                   option-value="codeValue"
                   option-label="codeKr"
+                  emit-value
+                  map-options
                   label="부서명" />
                 <q-select
                   class="col-3"
@@ -113,6 +122,8 @@
                   :options="titleOptions"
                   option-value="codeValue"
                   option-label="codeKr"
+                  emit-value
+                  map-options
                   label="직위" />
                 <q-select
                   class="col-3"
@@ -120,6 +131,8 @@
                   :options="empRoleOptions"
                   option-value="codeValue"
                   option-label="codeKr"
+                  emit-value
+                  map-options
                   label="직책" />
                 <q-input
                   class="col-6"
@@ -155,6 +168,8 @@
                   :options="dobTypeOptions"
                   option-value="codeValue"
                   option-label="codeKr"
+                  emit-value
+                  map-options
                   label="생일타입" />
 
                 <q-input class="col-6" v-model="edited.empDob" mask="####/##/##" :rules="['date']">
@@ -197,6 +212,8 @@
                   :options="countryOptions"
                   option-value="codeValue"
                   option-label="codeKr"
+                  emit-value
+                  map-options
                   label="국가(Country)" />
                 <q-input
                   class="col-6"
@@ -217,9 +234,10 @@
 
               </div>
             </q-card-section>
+            </q-form>
             <q-card-actions align="right">
-              <q-btn v-if="edited.empUuid != 0" :disabled="loading" label="정보수정" type="submit" color="primary"/>
-              <q-btn v-if="edited.empUuid == 0" :disabled="loading" label="사용자등록" type="submit" color="primary"/>
+              <q-btn v-if="edited.empUuid != 0" :disabled="loading" label="정보수정" @click="onClickSave" color="primary"/>
+              <q-btn v-if="edited.empUuid == 0" :disabled="loading" label="사용자등록" @click="onClickSave" color="primary"/>
               <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
             </q-card-actions>
           </q-card>
@@ -235,6 +253,30 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { AgGridVue } from "ag-grid-vue3";
 
+const empedInit= {
+    empUuid: 0,
+    username: "",
+    password:"",
+    empEng: "",
+    empKor: "",
+    empWorkType: "",
+    empDiv: "",
+    empEmail: "",
+    empStatus: "",
+    empDob: "",
+    empDobType: "",
+    empMemo: "",
+    empAddress1: "",
+    empAddress2: "",
+    empCity: "",
+    empState: "",
+    empCountry: "",
+    empZip: "",
+    empTitle: "",
+    empRole: "",
+}
+
+const initialState = empedInit;
 export default {
   name: "EmpTn",
   components: {
@@ -275,7 +317,8 @@ export default {
       countryOptions: [],
       edited: {
         empUuid: 0,
-        username: "",
+        username:"",
+        password:"",
         empEng: "",
         empKor: "",
         empWorkType: "",
@@ -292,7 +335,7 @@ export default {
         empCountry: "",
         empZip: "",
         empTitle: "",
-        empRole: "",
+        empRole: ""
       },
       colDefs: [
         {
@@ -320,6 +363,12 @@ export default {
           width: 150,
           sortable: true,
           filter: true,
+        },
+        {
+          field: "password",
+          headerName: "암호",
+          width: 150,
+          hide: true,
         },
         {
           field: "empKor",
@@ -470,6 +519,7 @@ export default {
       .then(
         (commCode) => {
           this.workOptions = commCode;
+          console.log(this.workOptions);
         },
         (error) => {
           this.message =
@@ -601,7 +651,7 @@ export default {
         this.username = "";
         this.empKor ="";
       } else if(this.searchIdx === "상태") {
-        this.empStatus = this.searchEmpStatus.codeValue;
+        this.empStatus = this.searchEmpStatus;
         this.empEng = "";
         this.username = "";
         this.empKor ="";
@@ -628,26 +678,32 @@ export default {
         }
       );
     },
-    saveEmp() {
+    onClickSave() {
+
+      console.log(this.edited);
       if (this.edited.empUuid) {
         this.$store.dispatch("empTn/updateEmp", this.edited).then(
-          () => {
-            this.resetForm();
+          (response) => {
+            alert(response.data.message);
           },
           (error) => {
             console.log("saveEmp failed", error);
+
           }
         );
       } else {
-        this.$store.dispatch("empTn/createEmp", this.edited).then(
+
+        this.$store.dispatch("auth/register", this.edited).then(
           () => {
-            this.resetForm();
           },
           (error) => {
             console.log("saveEmp failed", error);
           }
         );
       }
+    },
+    changed($event, val){
+      $event.target.value = val.codeValue;
     },
     onCellClicked(params) {
       this.showForm = true;
@@ -657,7 +713,7 @@ export default {
 
     },
     onClickAdd(){
-      this.edited = params.data;
+      this.edited = initialState;
       this.showForm = true;
     },
 
@@ -673,7 +729,7 @@ export default {
       this.resetForm();
     },
     resetForm() {
-
+      this.edited = initialState;
     },
 
   },

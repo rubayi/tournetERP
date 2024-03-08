@@ -14,21 +14,13 @@ const BoardUser = () => import("../components/BoardUser.vue")
 const routes = [
   {
     path: "/",
-    name: "home",
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => Home }
+      { path: '', component: () => Login }
     ]
   },
   {
     path: "/home",
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => Home }
-    ]
-  },
-  {
-    path: "/login",
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => Login }

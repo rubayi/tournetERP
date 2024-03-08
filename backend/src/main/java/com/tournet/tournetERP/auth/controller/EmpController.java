@@ -100,7 +100,6 @@ public class EmpController {
         return null;
     }
 
-
     /**
      *  직원 개별 조회
      *
@@ -116,11 +115,16 @@ public class EmpController {
         return new ResponseEntity<>(selectedUsers, HttpStatus.OK);
     }
 
-
     @PutMapping("/updateEmp")
     public ResponseEntity<Map<String, Object>> updateEmp(@RequestBody UserRequest empReq) {
 
+        /**S: 수정자 정보 **/
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
+
+        User modifyingUser = new User();
+        modifyingUser.setEmpUuid(userDetails.getEmpUuid());
+        /**E: 수정자 정보**/
 
         int id = empReq.getEmpUuid();
 
@@ -138,6 +142,7 @@ public class EmpController {
             _emp.setEmpWorkPhone(empReq.getEmpWorkPhone());
             _emp.setEmpDiv(empReq.getEmpDiv());
             _emp.setEmpTitle(empReq.getEmpTitle());
+            _emp.setEmpRole(empReq.getEmpRole());
             _emp.setEmpPhone(empReq.getEmpPhone());
             _emp.setEmpEmailBook(empReq.getEmpEmailBook());
             _emp.setEmpAddress1(empReq.getEmpAddress1());
@@ -160,6 +165,44 @@ public class EmpController {
         resMap.put("message", message);
         return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
+
+//    @PutMapping("/updateEmp")
+//    public ResponseEntity<Map<String, Object>> updateEmp(@RequestBody UserUpdateRequest empReq) {
+//
+//        /**S: 수정자 정보 **/
+//        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+//        UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
+//
+//        User modifyingUser = new User();
+//        modifyingUser.setEmpUuid(userDetails.getEmpUuid());
+//        /**E: 수정자 정보**/
+//
+// //       int id = empReq.getEmpUuid();
+//
+////        Optional<ComCode> currentComCode = comCodeRepository.findByCodeUuid(id);
+//
+//        String message = "";
+////        if (currentComCode.isPresent()) {
+////            ComCode _comcode = currentComCode.get();
+////
+////            _comcode.setCodeKr(comcode.getCodeKr());
+////            _comcode.setCodeEn(comcode.getCodeEn());
+////            _comcode.setCodeValue(comcode.getCodeValue());
+////            _comcode.setCodeLvl(comcode.getCodeLvl());
+////            _comcode.setCodeOrd(comcode.getCodeOrd());
+////            _comcode.setEtc(comcode.getEtc());
+////            _comcode.setUseYn(comcode.getUseYn());
+////            _comcode.setModifyUser(modifyingUser);
+////
+////            comCodeRepository.save(_comcode);
+//            message = "수정 되었습니다.";
+////        } else {
+////            message = "수정이 완료 되지 않았습니다.";
+////        }
+//        Map<String, Object> resMap = new HashMap<>();
+//        resMap.put("message", message);
+//        return new ResponseEntity<>(resMap, HttpStatus.OK);
+//    }
 
     @Transactional
     @DeleteMapping("/deleteComcode/{id}")

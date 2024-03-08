@@ -51,6 +51,9 @@ public class User {
     @Column(name = "EMP_TITLE", nullable = true)
     private String empTitle;
 
+    @Column(name = "EMP_ROLE", nullable = true)
+    private String empRole;
+
     @Column(name = "EMP_PHONE", nullable = true)
     private String empPhone;
 

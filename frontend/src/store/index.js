@@ -3,6 +3,7 @@ import { auth } from "./auth.module";
 import { comCode } from "./comCode.module";
 import { comMenu } from "./comMenu.module";
 import { empTn } from "./emp.module";
+import setupInterceptors from '../services/setupInterceptors';
 
 const store = createStore({
   modules: {
@@ -13,4 +14,5 @@ const store = createStore({
   },
 });
 
+setupInterceptors(store);
 export default store;

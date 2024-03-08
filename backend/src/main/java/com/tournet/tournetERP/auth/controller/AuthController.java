@@ -23,6 +23,9 @@ import com.tournet.tournetERP.auth.entity.Role;
 import com.tournet.tournetERP.auth.repository.EmpRepository;
 import com.tournet.tournetERP.auth.repository.RoleRepository;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
+import com.tournet.tournetERP.security.exception.TokenRefreshException;
+import com.tournet.tournetERP.security.dto.TokenRefreshRequest;
+import com.tournet.tournetERP.security.dto.TokenRefreshResponse;
 import com.tournet.tournetERP.security.entity.RefreshToken;
 import com.tournet.tournetERP.security.jwt.JwtUtils;
 import com.tournet.tournetERP.security.services.RefreshTokenService;
@@ -35,12 +38,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -166,5 +164,20 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("등록 되었습니다."));
+    }
+
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
+        String requestRefreshToken = request.getRefreshToken();
+
+        return refreshTokenService.findByToken(requestRefreshToken)
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    String token = jwtUtils.generateTokenFromUsername(user.getUsername());
+                    return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
+                })
+                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
+                        "Refresh token is not in database!"));
     }
 }

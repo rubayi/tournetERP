@@ -1,3 +1,5 @@
+import EventBus from "../common/EventBus";
+
 export default function authHeader() {
   let user = JSON.parse(localStorage.getItem('user'));
 

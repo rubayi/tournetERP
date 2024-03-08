@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.tournet.tournetERP.auth.repository.EmpRepository;
-import com.tournet.tournetERP.exception.TokenRefreshException;
+import com.tournet.tournetERP.security.exception.TokenRefreshException;
 import com.tournet.tournetERP.security.entity.RefreshToken;
 import com.tournet.tournetERP.security.repository.RefreshTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
