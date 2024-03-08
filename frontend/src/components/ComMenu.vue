@@ -21,17 +21,15 @@
       <q-scroll-area class="toc" style="height: 700px">
         <ag-grid-vue
           :treeData="true"
-          :getDataPath="getDataPath"
           :columnDefs="colDefs"
           :rowData="userLinksData"
+          :autoGroupColumnDef="autoGroupColumnDef"
           @grid-ready="onGridReady"
           class="ag-theme-quartz-dark"
           style="height: 600px"
+          :getDataPath="getDataPath"
         >
         </ag-grid-vue>
-        <!-- <div v-for="(node, index) in userLinksData" :key="index">
-          <tree-node :node="node"></tree-node>
-        </div> -->
       </q-scroll-area>
 
       <q-scroll-area class="toc" style="height: 700px">
@@ -52,18 +50,11 @@
 </template>
 
 <script>
-// import TreeNode from "./TreeNode.vue";
-import { ref } from "vue";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { AgGridVue } from "ag-grid-vue3";
 
-const buildMenuTree = (
-  menuItems,
-  parentUuid,
-  previousLinksData,
-  parentPath = []
-) => {
+const buildMenuTree = (menuItems, previousLinksData) => {
   const modifiedMenuItems = menuItems.map((item) => {
     const existingItem = previousLinksData.find(
       (data) => data.menuUuid === item.menuUuid
@@ -80,12 +71,11 @@ const buildMenuTree = (
     }
     return item;
   });
-  const filteredMenus = modifiedMenuItems.filter(
-    (menu) => menu.uprMenuUuid == parentUuid
-  );
-  const sortedMenus = filteredMenus.sort((a, b) => a.menuOrd - b.menuOrd);
-  return sortedMenus.map((menu) => {
-    const path = [...parentPath, menu.menuUuid];
+  return modifiedMenuItems.map((menu) => {
+    const path = [menu.menuUuid];
+    if (menu.uprMenuUuid) {
+      path.unshift(menu.uprMenuUuid);
+    }
     return {
       menuUuid: menu.menuUuid,
       uprMenuUuid: menu.uprMenuUuid,
@@ -100,12 +90,6 @@ const buildMenuTree = (
       menuRead: menu.menuRead,
       menuWrite: menu.menuWrite,
       path: path,
-      children: buildMenuTree(
-        menuItems,
-        menu.menuUuid,
-        previousLinksData,
-        path
-      ),
     };
   });
 };
@@ -130,44 +114,57 @@ const buildComMenuTree = (menuItems, parentUuid) => {
 export default {
   name: "ComMenu",
   components: {
-    // TreeNode,
     AgGridVue,
   },
   data() {
     return {
-      autoGroupColumnDef: null,
       colDefs: [
-        {
-          field: "label",
-          headerName: "메뉴이름",
-          monWidth: 150,
-          sortable: true,
-          filter: true,
-        },
         {
           field: "menuRead",
           headerName: "읽기",
-          width: 70,
+          maxWidth: 70,
           cellRenderer: function (params) {
-            return `<input type="checkbox" name=""/>`;
+            if (params.data.menuRead === "Y") {
+              return `<input type="checkbox" name="menuRead" checked/>`;
+            } else if (params.data.menuRead === "N") {
+              return `<input type="checkbox" name="menuRead"/>`;
+            }
           },
+          cellEditor: "booleanEditor",
         },
         {
           field: "menuWrite",
           headerName: "쓰기",
-          width: 70,
-          sortable: true,
-          filter: true,
+          maxWidth: 70,
+          cellRenderer: function (params) {
+            if (params.data.menuWrite === "Y") {
+              return `<input type="checkbox" name="menuWrite" checked/>`;
+            } else if (params.data.menuWrite === "N") {
+              return `<input type="checkbox" name="menuWrite"/>`;
+            }
+          },
+          cellEditor: "booleanEditor",
         },
         {
           field: "menuDelete",
           headerName: "삭제",
-          width: 70,
-          sortable: true,
-          filter: true,
+          maxWidth: 70,
+          cellRenderer: function (params) {
+            if (params.data.menuDelete === "Y") {
+              return `<input type="checkbox" name="menuDelete" checked/>`;
+            } else if (params.data.menuDelete === "N") {
+              return `<input type="checkbox" name="menuDelete"/>`;
+            }
+          },
+          cellEditor: "booleanEditor",
         },
       ],
-      right: ref(false),
+      autoGroupColumnDef: {
+        headerName: "메뉴이름",
+        minWidth: 150,
+        field: "label",
+        cellRenderer: "agGroupCellRenderer",
+      },
       ticked: [],
       roles: [],
       allOfLinks: [],
@@ -203,12 +200,7 @@ export default {
         const chosenMenus = this.allOfLinks.filter((menu) =>
           newTicked.includes(menu.menuUuid)
         );
-        this.userLinksData = buildMenuTree(
-          chosenMenus,
-          0,
-          this.previousLinksData,
-          []
-        );
+        this.userLinksData = buildMenuTree(chosenMenus, this.previousLinksData);
       }
     },
     getAllRoles() {
@@ -244,15 +236,8 @@ export default {
       }
       this.$store.dispatch("comMenu/getComMenuListForEdit", menuReq).then(
         (comMenu) => {
-          this.userLinksData = buildMenuTree(
-            comMenu,
-            0,
-            this.previousLinksData,
-            []
-          );
-          console.log("this.userLinksData", this.userLinksData);
+          this.userLinksData = buildMenuTree(comMenu, this.previousLinksData);
           this.getDataPath = this.userLinksData.map((menu) => menu.path);
-          console.log("this.getDataPath", this.getDataPath);
           this.ticked = comMenu.map((menu) => menu.menuUuid);
           this.previousLinksData = comMenu;
           this.getMainComMenu();
