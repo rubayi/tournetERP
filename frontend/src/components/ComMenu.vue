@@ -72,16 +72,21 @@ const buildMenuTree = (menuItems, previousLinksData) => {
     return item;
   });
   return modifiedMenuItems.map((menu) => {
-    const path = [menu.menuUuid];
+    const orgHierarchy = [menu.menuKor];
     if (menu.uprMenuUuid) {
-      path.unshift(menu.uprMenuUuid);
+      const uprMenu = menuItems.find(
+        (item) => item.menuUuid == menu.uprMenuUuid
+      );
+      if (uprMenu) {
+        orgHierarchy.unshift(uprMenu.menuKor);
+      }
     }
     return {
       menuUuid: menu.menuUuid,
       uprMenuUuid: menu.uprMenuUuid,
       menuLvl: menu.menuLvl,
       icon: menu.menuIcon ? menu.menuIcon : "label",
-      label: menu.menuKor + (menu.menuUrl ? ` :${menu.menuUrl}` : ""),
+      label: menu.menuKor,
       link: menu.menuUrl,
       menuOrd: menu.menuOrd,
       menuUrl: menu.menuUrl,
@@ -89,7 +94,7 @@ const buildMenuTree = (menuItems, previousLinksData) => {
       menuDelete: menu.menuDelete,
       menuRead: menu.menuRead,
       menuWrite: menu.menuWrite,
-      path: path,
+      orgHierarchy: orgHierarchy,
     };
   });
 };
@@ -169,8 +174,8 @@ export default {
       roles: [],
       allOfLinks: [],
       previousLinksData: [],
-      getDataPath: [],
       linksData: [],
+
       userLinksData: [],
       selected: {
         role: "ROLE_USER",
@@ -237,7 +242,6 @@ export default {
       this.$store.dispatch("comMenu/getComMenuListForEdit", menuReq).then(
         (comMenu) => {
           this.userLinksData = buildMenuTree(comMenu, this.previousLinksData);
-          this.getDataPath = this.userLinksData.map((menu) => menu.path);
           this.ticked = comMenu.map((menu) => menu.menuUuid);
           this.previousLinksData = comMenu;
           this.getMainComMenu();
@@ -246,6 +250,12 @@ export default {
           console.log("getMenu failed", error);
         }
       );
+    },
+    getDataPath(data) {
+      const menu = this.userLinksData.find(
+        (menu) => menu.menuUuid === data.menuUuid
+      );
+      return menu ? menu.orgHierarchy : null;
     },
     saveUserMenu() {
       param = {
