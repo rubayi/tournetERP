@@ -4,8 +4,7 @@
     <div class="q-px-lg">
       <div class="q-py-lg text-h4 text-weight-bold text-blue">직원관리</div>
 
-      <q-form @submit="searchEmpList"
-                @reset="resetForm">
+      <q-form @submit="searchEmpList">
         <div class="row q-col-gutter-sm" style="max-width: 900px">
           <q-select class="col-3"
                     v-model="searchIdx"
@@ -23,20 +22,19 @@
                    v-model="searchWord"
                    type="text"
                    label="검색어 *"
-                   lazy-rules
-                   :rules="[ val => val && val.length > 0 || '사용자명을 입력 해 주십시오.']"/>
+                   />
           <div class="q-py-md">
             <q-btn label="검색" type="submit" color="primary"/>
+            <q-btn style="margin-left: 5px" label="전체검색" color="secondary" @click="onReset"/>
           </div>
-
-          <div class="q-py-md">
+          <div class="q-pa-md">
             <q-btn label="+ 사용자등록" color="green" @click="onClickAdd"/>
           </div>
         </div>
       </q-form>
     </div>
       <div class="row q-px-lg">
-        <div class="col-8">
+        <div class="col-10">
         <ag-grid-vue
           :rowData="emps"
           :columnDefs="colDefs"
@@ -67,8 +65,7 @@
               </q-btn>
             </q-bar>
 
-            <q-form @submit="searchEmpList"
-                    @reset="onReset">
+            <q-form>
             <q-card-section class="scroll">
               <div class="row q-col-gutter-sm">
 
@@ -82,10 +79,13 @@
                   type="text"
                   id="username"
                   v-model="edited.username"
-                  label="사용자명(username)"
+                  label="사용자명(username) *"
+                  lazy-rules
+                  :rules="[ val => val != '' || '사용자명을 입력 해 주십시오.']"
                 />
 
                 <q-input
+                  v-if="edited.empUuid != 0"
                   class="col-3"
                   type="password"
                   id="password"
@@ -95,11 +95,23 @@
                 />
 
                 <q-input
+                  v-if="edited.empUuid == 0"
+                  class="col-3"
+                  type="password"
+                  id="password"
+                  v-model="edited.password"
+                  label="암호* "
+                  lazy-rules
+                  :rules="[ val => !!val  || '암호를 입력 해 주십시오.']"
+                />
+                <q-input
                   class="col-3"
                   type="text"
                   id="empKor"
                   v-model="edited.empKor"
-                  label="한글이름(Name Kor)"
+                  label="이름(한글이름) *"
+                  lazy-rules
+                  :rules="[ val => !!val  || '한글이름 입력 해 주십시오.']"
                 />
                 <q-input
                   class="col-3"
@@ -144,13 +156,17 @@
                   emit-value
                   map-options
                   label="직책" />
+
                 <q-input
                   class="col-6"
                   type="text"
                   id="username"
                   v-model="edited.empPhone"
-                  label="핸드폰(Mobile) *"
+                  label="핸드폰 *"
+                  lazy-rules
+                  :rules="[ val => val && val.length > 0 || '핸드폰 번호를 입력 해 주십시오.']"
                 />
+
                 <q-input
                   class="col-6"
                   type="text"
@@ -158,13 +174,16 @@
                   v-model="edited.empWorkPhone"
                   label="내선번호(Work Phone) "
                 />
+
                 <q-input
                   class="col-6"
                   type="text"
-                  id="empEmail"
                   v-model="edited.empEmail"
-                  label="이메일(Email)"
+                  label="이메일* "
+                  lazy-rules
+                  :rules="[ val => val && val.length > 0 || '이메일을 입력 해 주십시오.']"
                 />
+
                 <q-input
                   class="col-6"
                   type="text"
@@ -246,9 +265,9 @@
             </q-card-section>
             </q-form>
             <q-card-actions align="right">
-              <q-btn v-if="edited.empUuid != 0" :disabled="loading" label="정보수정" @click="onClickSave" color="primary"/>
-              <q-btn v-if="edited.empUuid == 0" :disabled="loading" label="사용자등록" @click="onClickSave" color="primary"/>
-              <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
+              <q-btn v-if="edited.empUuid != 0" label="정보수정" @click="onClickSave" color="primary"/>
+              <q-btn v-if="edited.empUuid == 0" label="사용자등록" @click="onClickSave" color="primary"/>
+              <q-btn label="초기화" color="primary" flat class="q-ml-sm" @click="resetForm"/>
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -263,30 +282,10 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { AgGridVue } from "ag-grid-vue3";
 
-const empedInit= {
-    empUuid: 0,
-    username: "",
-    password:"",
-    empEng: "",
-    empKor: "",
-    empWorkType: "",
-    empDiv: "",
-    empEmail: "",
-    empStatus: "",
-    empDob: "",
-    empDobType: "",
-    empMemo: "",
-    empAddress1: "",
-    empAddress2: "",
-    empCity: "",
-    empState: "",
-    empCountry: "",
-    empZip: "",
-    empTitle: "",
-    empRole: "",
-}
 
-const initialState = empedInit;
+
+
+
 export default {
   name: "EmpTn",
   components: {
@@ -326,6 +325,29 @@ export default {
       empRoleOptions: [],
       dobTypeOptions: [],
       countryOptions: [],
+      initEdited : {
+        empUuid: 0,
+        username: "",
+        password: "",
+        empEng: "",
+        empKor: "",
+        empWorkType: "",
+        empDiv: "",
+        empEmail: "",
+        empStatus: "",
+        empDob: "",
+        empDobType: "",
+        empMemo: "",
+        empAddress1: "",
+        empAddress2: "",
+        empCity: "",
+        empState: "",
+        empCountry: "",
+        empZip: "",
+        empTitle: "",
+        empRole: "",
+      },
+      updateEdited:{},
       edited: {
         empUuid: 0,
         username:"",
@@ -635,9 +657,7 @@ export default {
       );
   },
   methods: {
-    forceRerender() {
-      this.componentKey += 1;
-    },
+
     handlePageChange() {
 
       this.searchEmpList();
@@ -691,22 +711,27 @@ export default {
     onClickSave() {
 
       console.log(this.edited);
-      if (this.edited.empUuid) {
+      if (this.edited.empUuid != 0) {
         this.$store.dispatch("empTn/updateEmp", this.edited).then(
           (response) => {
             alert(response.data.message);
+            this.resetForm();
             this.showForm=false;
-            this.$router.go(0);
+            this.handlePageChange();
           },
           (error) => {
             console.log("saveEmp failed", error);
-
           }
         );
       } else {
 
-        this.$store.dispatch("auth/register", this.edited).then(
-          () => {
+        this.$store.dispatch("auth/register", this.edited)
+          .then(
+          (response) => {
+            alert(response.data.message);
+            this.resetForm();
+            this.showForm=false;
+            this.handlePageChange();
           },
           (error) => {
             console.log("saveEmp failed", error);
@@ -714,19 +739,18 @@ export default {
         );
       }
     },
-    changed($event, val){
-      $event.target.value = val.codeValue;
-    },
+
     onCellClicked(params) {
       this.showForm = true;
       // if (params.column.gid === "edit") {
+        params.data.password = "";
+        this.updateEdited = Object.assign({}, params.data);
         this.edited = params.data;
-        this.edited.password = "";
       // }
 
     },
     onClickAdd(){
-      this.edited = initialState;
+      this.edited = Object.assign({}, this.initEdited);
       this.showForm = true;
     },
 
@@ -741,9 +765,24 @@ export default {
       );
       this.resetForm();
     },
+
     resetForm() {
-      this.edited = initialState;
+        console.log(this.updateEdited);
+      if (this.edited.empUuid != 0) {
+          this.edited = this.updateEdited;
+      } else {
+          this.edited = Object.assign({}, this.initEdited);
+      }
     },
+    onReset () {
+      this.searchIdx = "";
+      this.searchWord = "";
+      this.username = "";
+      this.empStatus = "";
+      this.empKor = "";
+      this.empEng ="";
+      this.searchEmpList();
+    }
 
   },
   created() {

@@ -8,9 +8,7 @@ package com.tournet.tournetERP.auth.controller;
  * @since : 2024-02-14
  */
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.tournet.tournetERP.auth.dto.JwtResponse;
@@ -32,6 +30,7 @@ import com.tournet.tournetERP.security.services.RefreshTokenService;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -94,13 +93,18 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRequest signUpRequest) {
+
+        String message = "등록 되었습니다.";
+
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            message = "이미 등록 된 사용자명 입니다.";
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("이미 등록 된 사용자명 입니다."));
         }
 
         if (userRepository.existsByEmpEmail(signUpRequest.getEmpEmail())) {
+            message = "이미 등록 된 이메일 입니다.";
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("이미 등록 된 이메일 입니다."));
@@ -163,7 +167,10 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("등록 되었습니다."));
+
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("message", message);
+        return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
     @PostMapping("/refreshtoken")

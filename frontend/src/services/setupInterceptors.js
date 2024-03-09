@@ -20,16 +20,15 @@ const setup = (store) => {
   axiosInstance.interceptors.response.use(
 
     (res) => {
-      console.log("======1===========");
       return res;
     },
     async (err) => {
-      console.log("======2===========");
       const originalConfig = err.config;
 
       if (originalConfig.url !== "/auth/signin" && err.response) {
         // Access Token was expired
         console.log(err.response.data);
+        alert(err.response.data.message);
         if ((err.response.status === 401 && !originalConfig._retry)) {
           originalConfig._retry = true;
 
