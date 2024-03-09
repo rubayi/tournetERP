@@ -26,10 +26,13 @@
           :autoGroupColumnDef="autoGroupColumnDef"
           @grid-ready="onGridReady"
           class="ag-theme-quartz-dark"
-          style="height: 600px"
+          style="height: 630px"
           :getDataPath="getDataPath"
         >
         </ag-grid-vue>
+        <div style="position: absolute; bottom: 0">
+          <button class="save" @click="saveUserMenu">저장</button>
+        </div>
       </q-scroll-area>
 
       <q-scroll-area class="toc" style="height: 700px">
@@ -41,9 +44,6 @@
           v-model:ticked="ticked"
           @update:ticked="handleMenuClick"
         />
-        <div style="position: absolute; bottom: 0">
-          <button class="save" @click="saveUserMenu">저장</button>
-        </div>
       </q-scroll-area>
     </div>
   </div>
@@ -175,7 +175,7 @@ export default {
       allOfLinks: [],
       previousLinksData: [],
       linksData: [],
-      getDataPath: null,
+      // getDataPath: null,
       userLinksData: [],
       selected: {
         role: "ROLE_USER",
@@ -251,12 +251,13 @@ export default {
         }
       );
     },
-    // getDataPath(data) {
-    //   const menu = this.userLinksData.find(
-    //     (menu) => menu.menuUuid === data.menuUuid
-    //   );
-    //   return menu ? menu.orgHierarchy : null;
-    // },
+    getDataPath(data) {
+      console.log("getDataPath", data);
+      const menu = this.userLinksData.find(
+        (menu) => menu.menuUuid === data.menuUuid
+      );
+      return menu ? menu.orgHierarchy : null;
+    },
     saveUserMenu() {
       param = {
         roleUuid: this.selected.roleUuid,
@@ -353,12 +354,12 @@ export default {
   created() {
     this.getAllRoles();
     this.getMenu();
-    this.getDataPath = (data) => {
-      const menu = this.userLinksData.find(
-        (menu) => menu.menuUuid === data.menuUuid
-      );
-      return menu ? menu.orgHierarchy : null;
-    };
+    // this.getDataPath = (data) => {
+    //   const menu = this.userLinksData.find(
+    //     (menu) => menu.menuUuid === data.menuUuid
+    //   );
+    //   return menu ? menu.orgHierarchy : null;
+    // };
   },
 };
 </script>
