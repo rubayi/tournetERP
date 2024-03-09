@@ -11,9 +11,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Data
+@EntityListeners(AuditingEntityListener.class) // 날짜 자동 입력 용
 @Table(name = "APP_EMP",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "empEmail")
@@ -93,12 +95,15 @@ public class User {
     @Column(name = "EMP_STATUS", nullable = true)
     private String empStatus;
 
-    @CreatedDate
-    @Column(name = "EMP_BEGIN_DT", nullable = true, updatable = false)
+    @Column(name = "EMP_BEGIN_DT", nullable = true)
     private String empBeginDt;
 
-    @Column(name = "EMP_END_DT", nullable = true, updatable = false)
+    @Column(name = "EMP_END_DT", nullable = true)
     private String empEndDt;
+
+    @LastModifiedDate
+    @Column(name = "MODIFIED_DT", nullable = false)
+    private Date modifiedDt;
 
     @NotBlank
     @Size(max = 50)

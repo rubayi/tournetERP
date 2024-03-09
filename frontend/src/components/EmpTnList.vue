@@ -283,8 +283,28 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import { AgGridVue } from "ag-grid-vue3";
 
 
-
-
+const initialData = {
+    empUuid: 0,
+    username: "",
+    password: "",
+    empEng: "",
+    empKor: "",
+    empWorkType: "",
+    empDiv: "",
+    empEmail: "",
+    empStatus: "",
+    empDob: "",
+    empDobType: "",
+    empMemo: "",
+    empAddress1: "",
+    empAddress2: "",
+    empCity: "",
+    empState: "",
+    empCountry: "",
+    empZip: "",
+    empTitle: "",
+    empRole: "",
+}
 
 export default {
   name: "EmpTn",
@@ -325,51 +345,9 @@ export default {
       empRoleOptions: [],
       dobTypeOptions: [],
       countryOptions: [],
-      initEdited : {
-        empUuid: 0,
-        username: "",
-        password: "",
-        empEng: "",
-        empKor: "",
-        empWorkType: "",
-        empDiv: "",
-        empEmail: "",
-        empStatus: "",
-        empDob: "",
-        empDobType: "",
-        empMemo: "",
-        empAddress1: "",
-        empAddress2: "",
-        empCity: "",
-        empState: "",
-        empCountry: "",
-        empZip: "",
-        empTitle: "",
-        empRole: "",
-      },
+      initEdited : initialData,
       updateEdited:{},
-      edited: {
-        empUuid: 0,
-        username:"",
-        password:"",
-        empEng: "",
-        empKor: "",
-        empWorkType: "",
-        empDiv: "",
-        empEmail: "",
-        empStatus: "",
-        empDob: "",
-        empDobType: "",
-        empMemo: "",
-        empAddress1: "",
-        empAddress2: "",
-        empCity: "",
-        empState: "",
-        empCountry: "",
-        empZip: "",
-        empTitle: "",
-        empRole: ""
-      },
+      edited: initialData,
       colDefs: [
         {
           field: "empUuid",
@@ -424,6 +402,12 @@ export default {
           width: 100,
           sortable: true,
           filter: true,
+          cellRenderer: function (params) {
+              return `${params.value}`;
+          },
+          valueGetter: function (params) {
+            return this.getValueName(params.data.empDiv, this.divOptions)
+          }.bind(this)
         },
         {
           field: "empTitle",
@@ -431,6 +415,12 @@ export default {
           width: 100,
           sortable: true,
           filter: true,
+            cellRenderer: function (params) {
+                return `${params.value}`;
+            },
+            valueGetter: function (params) {
+                return this.getValueName(params.data.empDiv, this.titleOptions)
+            }.bind(this)
         },
         {
           field: "empRole",
@@ -438,6 +428,12 @@ export default {
           width: 100,
           sortable: true,
           filter: true,
+            cellRenderer: function (params) {
+                return `${params.value}`;
+            },
+            valueGetter: function (params) {
+                return this.getValueName(params.data.empDiv, this.empRoleOptions)
+            }.bind(this)
         },
         {
           field: "empPhone",
@@ -657,7 +653,11 @@ export default {
       );
   },
   methods: {
+    getValueName(param, dataset){
 
+        const foundItem = dataset.find(item => item.codeValue === param);
+        return foundItem ? foundItem.codeKr : '';
+    },
     handlePageChange() {
 
       this.searchEmpList();
@@ -697,8 +697,7 @@ export default {
           size: this.showPage,
       }
       this.$store.dispatch(`empTn/searchEmpList`, searchReq)
-        .then(
-        (emps) => {
+        .then((emps) => {
           this.emps = emps.selectedUsers;
           this.page = emps.currentPage;
           this.count = emps.totalPages;
@@ -717,7 +716,7 @@ export default {
             alert(response.data.message);
             this.resetForm();
             this.showForm=false;
-            this.handlePageChange();
+          //  this.handlePageChange();
           },
           (error) => {
             console.log("saveEmp failed", error);
