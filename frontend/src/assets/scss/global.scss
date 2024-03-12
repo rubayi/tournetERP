@@ -1,0 +1,45 @@
+:root {
+  /*
+   * Oxford used for Navigation Menu Background
+   */
+  --dark-cornflower-blue: #1c2e62;
+  /*
+  /*
+   * Dark Cornflower Blue used for Navigation Menu Background
+   */
+  --space-cadet: #122350;
+
+  /*
+   * Highlight color
+   */
+  --highlight-yellow: #ffff00;
+
+  /*
+   * This is --q-primary with a lower opacity. It is used for highlighting
+   * items on hover
+   */
+  --q-primary-hover: rgba(40, 81, 187, 0.06);
+}
+
+/*
+ * When list items are hovered by default use the primary colors
+ */
+.q-item.q-hoverable:hover {
+  color: var(--q-primary);
+  background-color: var(--q-primary-hover);
+  .q-item__section.column.q-item__section--side {
+    color: var(--q-primary);
+  }
+}
+
+// Short-hand to apply flex-grow-1 for different elements throughout the application
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+// Apply to banner element within DrawerComp to stay in place even with scroll
+.sticky-drawer-banner {
+  position: sticky;
+  top: 50px;
+  z-index: 999;
+}

@@ -1,0 +1,79 @@
+// Reduces the distance between the ag grid date input and the calendar icon
+.ag-theme-alpine,
+.ag-ltr,
+input[class^="ag-"][type="date"]::-webkit-calendar-picker-indicator {
+  margin-left: 0;
+}
+
+// Reduces the distance between the ag grid date input and the filter icon
+.ag-theme-alpine .ag-ltr .ag-floating-filter-button {
+  margin-left: 5px;
+}
+
+.ag-header-cell-text {
+  font-size: 14px;
+}
+
+// Ag Grid Header can now overflow for the dropdown
+.ag-header,
+.ag-header-viewport,
+.ag-floating-filter-full-body,
+.ag-header-row,
+.ag-header-cell {
+  overflow: visible !important;
+}
+
+// Ag Grid Header is above rows to allow for the dropdown
+.ag-header {
+  z-index: 1;
+}
+
+// This ensures that pinned header is above the non pinned columns and the multiselect dropdown options (z-index: 100)
+.ag-pinned-left-header,
+.ag-pinned-right-header {
+  z-index: 101;
+  background-color: #f8f8f8;
+}
+
+// This ensures that pinned column data is above the non pinned columns and the multiselect dropdown options (z-index: 100)
+.ag-pinned-left-cols-container,
+.ag-pinned-right-cols-container {
+  z-index: 101;
+}
+
+// The included ag grid popup should be above all headers and columns
+.ag-popup-child {
+  z-index: 102;
+}
+
+// Sets the height font size
+// of the grid floating filter components to be the same as the multiselect
+.ag-theme-alpine input[class^='ag-']:not([type]),
+.ag-theme-alpine input[class^='ag-'][type='text'],
+.ag-theme-alpine input[class^='ag-'][type='number'],
+.ag-theme-alpine input[class^='ag-'][type='tel'],
+.ag-theme-alpine input[class^='ag-'][type='date'],
+.ag-theme-alpine input[class^='ag-'][type='datetime-local'],
+.ag-theme-alpine textarea[class^='ag-'] {
+  font-size: 14px;
+  min-height: 35px;
+}
+
+// Sets the padding of the header cells and header group (filters) cells
+.ag-theme-alpine .ag-header-cell,
+.ag-theme-alpine .ag-header-group-cell {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+// Sets the group header text to be the same font size as the ag-header-cell-text
+.ag-header-group-text {
+  font-size: 14px;
+}
+
+.ag-header-group-cell-with-group {
+  .ag-header-group-cell-label {
+    padding-left: 5px;
+    border: 1px solid rgb(138 138 138);
+  }
+}
