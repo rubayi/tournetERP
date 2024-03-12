@@ -1,0 +1,67 @@
+<template>
+  <div
+    v-for="(n, index) in options"
+    :class="colnum"
+    :value="index"
+    :key="index"
+  >
+    <q-radio
+      v-model="inputValue"
+      checked-icon="task_alt"
+      :disable="disabled"
+      :label="n.label"
+      :model-value="inputValue"
+      unchecked-icon="panorama_fish_eye"
+      :val="n.value"
+    >
+      <slot name="label" />
+    </q-radio>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref } from "vue";
+import { useSyncModelValue } from "@/utils/helpers/useSyncModelValue";
+//Type
+import { SelectOption } from "@/types/SelectOption";
+
+export default defineComponent({
+  name: "RadioGroupComp",
+  props: {
+    modelValue: {
+      type: [String, Number, Object],
+      default: () => null,
+    },
+    colnum: {
+      type: String,
+      default: "col-4",
+    },
+    options: {
+      type: Array as () => SelectOption[],
+      required: true,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: ["update:modelValue"],
+  setup(props, { emit }) {
+    const inputValue = ref<boolean>(false);
+
+    useSyncModelValue(
+      props,
+      "modelValue",
+      emit,
+      "update:modelValue",
+      inputValue
+    );
+
+    return {
+      inputValue,
+    };
+  },
+});
+</script>
+
+<style lang="scss"></style>

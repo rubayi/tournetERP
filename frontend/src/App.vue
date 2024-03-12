@@ -1,6 +1,6 @@
 <template>
-  <q-layout view="hHh Lpr hFf">
-    <q-header class="bg-dark text-grey-5 shadow-1">
+  <q-layout view="hHh lpR fFf">
+    <q-header class="topNav" elevated>
       <q-toolbar>
         <q-btn
           flat
@@ -10,24 +10,26 @@
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-
+        <router-link to="/">
+          <img src="images/mainlogorev.png" class="toplogo" />
+        </router-link>
         <q-toolbar-title>
-          <img src="images/logo_tnh2.png" style="width: 80px; height: 53px"  class="q-pt-sm"/>
+          <!-- <img src="images/mainlogorev.png" class="toplogo" /> -->
         </q-toolbar-title>
         <div>
-<!--          <q-btn-->
-<!--            v-if="!$store.state.auth.user"-->
-<!--            flat-->
-<!--            to="/register"-->
-<!--            stretch-->
-<!--            class="text-bold"-->
-<!--            ><q-icon-->
-<!--              name="fas fa-user-plus"-->
-<!--              class="q-mr-sm text-white"-->
-<!--              size="xs"-->
-<!--            ></q-icon-->
-<!--            >사용자등록(Register)</q-btn-->
-<!--          >-->
+          <!--          <q-btn-->
+          <!--            v-if="!$store.state.auth.user"-->
+          <!--            flat-->
+          <!--            to="/register"-->
+          <!--            stretch-->
+          <!--            class="text-bold"-->
+          <!--            ><q-icon-->
+          <!--              name="fas fa-user-plus"-->
+          <!--              class="q-mr-sm text-white"-->
+          <!--              size="xs"-->
+          <!--            ></q-icon-->
+          <!--            >사용자등록(Register)</q-btn-->
+          <!--          >-->
           <q-btn
             v-if="!$store.state.auth.user"
             to="/login"
@@ -76,10 +78,7 @@
     <q-drawer v-model="leftDrawerOpen" show-if-above content-class="bg-grey-1">
       <div v-if="$store.state.auth.user">
         <div class="q-pa-md q-gutter-sm">
-          <q-tree
-            :nodes="linksData"
-            node-key="label"
-           />
+          <q-tree :nodes="linksData" node-key="label" />
         </div>
       </div>
     </q-drawer>
@@ -106,22 +105,26 @@ import EventBus from "./common/EventBus";
 
 let router;
 const buildMenuTree = (menuItems, parentUuid) => {
-  const filteredMenus = menuItems.filter(menu => menu.upperMenuUuid === parentUuid);
-  return filteredMenus.map(menu => ({
+  const filteredMenus = menuItems.filter(
+    (menu) => menu.upperMenuUuid === parentUuid
+  );
+  return filteredMenus.map((menu) => ({
     menuUuid: menu.menuUuid,
     upperMenuUuid: menu.upperMenuUuid,
     menuLvl: menu.menuLvl,
-    icon: menu.menuIcon ? menu.menuIcon :"label",
-    label: menu.menuKor + (menu.menuEng ? ` (${menu.menuEng})` : ''),
+    icon: menu.menuIcon ? menu.menuIcon : "label",
+    label: menu.menuKor + (menu.menuEng ? ` (${menu.menuEng})` : ""),
     link: menu.menuUrl,
-    handler: (node)=>{handleMenuClick(node.link)},
+    handler: (node) => {
+      handleMenuClick(node.link);
+    },
     menuOrd: menu.menuOrd,
     caption: menu.menuDesc,
-    children: buildMenuTree(menuItems, menu.menuUuid)
+    children: buildMenuTree(menuItems, menu.menuUuid),
   }));
 };
 
-const handleMenuClick = (link) =>{
+const handleMenuClick = (link) => {
   if (link) {
     router.push(link);
   }
@@ -134,13 +137,12 @@ export default {
     router = useRouter();
     // calling here; equivalent to when component is created
     $q.dark.set(true);
-
   },
   data() {
     return {
       loading: false,
       leftDrawerOpen: false,
-      linksData: []
+      linksData: [],
     };
   },
   computed: {
@@ -174,20 +176,19 @@ export default {
         };
       }
 
-      this.$store.dispatch("comMenu/getMainComMenuList", menuReq)
-        .then(
-          (comMenu) => {
-            this.linksData = buildMenuTree(comMenu, 0);
-          },
-          (error) => {
-            this.message =
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-              error.message ||
-              error.toString();
-          }
-        );
+      this.$store.dispatch("comMenu/getMainComMenuList", menuReq).then(
+        (comMenu) => {
+          this.linksData = buildMenuTree(comMenu, 0);
+        },
+        (error) => {
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
     },
   },
   mounted() {
@@ -206,8 +207,143 @@ export default {
         // When isAdmin changes, update the menu
         this.getMenu();
       },
-      immediate: true // Call the handler immediately upon creation
-    }
-  }
+      immediate: true, // Call the handler immediately upon creation
+    },
+  },
 };
 </script>
+<style lang="scss">
+.topNav {
+  background-image: url("~@/assets/top_main.png");
+  font-family: Raleway;
+  font-weight: 500;
+  color: #f0eeee;
+  padding: 0.5rem;
+}
+.toplogo {
+  height: 2.4rem;
+  margin-right: 0.8rem;
+}
+.part_title {
+  font-size: 22px;
+  color: #000;
+  font-weight: normal;
+  font-family: Raleway;
+  font-weight: bold;
+}
+
+.fieldset {
+  border: 1px solid #ddd;
+  background-color: #faf9f9;
+  border-top: none;
+  padding: 0.5em;
+  margin: 0.5em 2px;
+  margin-bottom: 1rem;
+}
+
+.fieldset > h1 {
+  font-size: 1em;
+  font-weight: bold;
+  margin: -1em -0.5em 0;
+}
+
+.fieldset > h1 > span {
+  float: left;
+}
+
+.fieldset > h1:before {
+  border-top: 1px solid #ddd;
+  content: " ";
+  float: left;
+  margin: 0.5em 2px 0 -1px;
+  width: 0.75em;
+}
+
+.fieldset > h1:after {
+  border-top: 1px solid #ddd;
+  content: " ";
+  display: block;
+  height: 1.5em;
+  left: 2px;
+  margin: 0 1px 0 0;
+  overflow: hidden;
+  position: relative;
+  top: 0.5em;
+}
+.fieldset02 {
+  border: 1px solid #ddd;
+  border-top: none;
+  padding: 0.5em;
+  margin: 1em 2px;
+}
+
+.fieldset02 > h1 {
+  font-size: 1em;
+  font-weight: bold;
+  margin: -1em -0.5em 0;
+}
+
+.fieldset02 > h1 > span {
+  float: left;
+  height: 1em;
+  margin: -2.9em 0.5em 0;
+}
+
+.fieldset02 > h1:before {
+  border-top: 1px solid #ddd;
+  content: " ";
+  float: left;
+  margin: 0.5em 2px 0 -1px;
+  width: 0.9em;
+}
+
+.fieldset02 > h1:after {
+  border-top: 1px solid #ddd;
+  content: "";
+  display: block;
+  height: 1.2em;
+  left: 2px;
+  margin: 0 1px 0 11.2em;
+  overflow: hidden;
+  position: relative;
+  top: 0.5em;
+}
+
+.fieldset03 {
+  border: none;
+  padding: 0.5em;
+  margin: 0.5em 2px;
+}
+
+.fieldset03 > h1 {
+  font-size: 1em;
+  font-weight: bold;
+  margin: -1em -0.5em 0;
+}
+
+.fieldset03 > h1 > span {
+  float: left;
+  height: 1em;
+  margin: -2.9em 0.5em 0;
+}
+
+.fieldset03 > h1:before {
+  border-top: 1px solid #ddd;
+  content: " ";
+  float: left;
+  margin: 0.5em 2px 0 -1px;
+  width: 0.9em;
+}
+
+.fieldset03 > h1:after {
+  border-top: 1px solid #ddd;
+  content: "";
+  display: block;
+  height: 1.2em;
+  left: 2px;
+  margin: 0 1px 0 9em;
+  overflow: hidden;
+  position: relative;
+  top: 0.5em;
+}
+</style>
