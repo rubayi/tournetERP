@@ -4,7 +4,6 @@
     :column-defs="columnDefs"
     :context="context"
     :framework-components="frameworkComponents"
-    :grid-options="internalGridOptions"
     :overlay-loading-template="overlayLoadingTemplate"
     :overlay-no-rows-template="overlayNoRowsTemplate"
     :pagination="pagination"
@@ -27,7 +26,7 @@
 import { AgGridVue } from "ag-grid-vue3";
 import { defineComponent, ref, watch } from "vue";
 import { ColDef, GridOptions } from "ag-grid-community";
-import { useTableApi } from "@/utils/helpers/useTableApi";
+import { useTableApi } from "src/utils/helpers/useTableApi";
 
 export default defineComponent({
   name: "TableComp",
@@ -104,7 +103,7 @@ export default defineComponent({
       () => props.rowData,
       (newVal) => {
         if (internalGridOptions.value.api && newVal) {
-          internalGridOptions.value.api.setRowData(newVal);
+          //internalGridOptions.value.api.setRowData(newVal);
         }
       },
       { immediate: true, deep: true }

@@ -92,14 +92,20 @@ public class User {
     @Column(name = "EMP_MEMO", nullable = true)
     private String empMemo;
 
-    @Column(name = "EMP_STATUS", nullable = true)
-    private String empStatus;
+    @Column(name = "BACK_COLOR", nullable = true)
+    private String backColor;
+
+    @Column(name = "FONT_COLOR", nullable = true)
+    private String fontColor;
 
     @Column(name = "EMP_BEGIN_DT", nullable = true)
     private String empBeginDt;
 
     @Column(name = "EMP_END_DT", nullable = true)
     private String empEndDt;
+
+    @Column(name = "EMP_STATUS", nullable = true)
+    private String empStatus;
 
     @LastModifiedDate
     @Column(name = "MODIFIED_DT", nullable = false)

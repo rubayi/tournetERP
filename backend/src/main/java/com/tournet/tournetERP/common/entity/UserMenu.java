@@ -21,15 +21,6 @@ public class UserMenu {
     @Column(name = "MENU_UUID", nullable = true)
     private int menuUuid;
 
-    @Column(name = "MENU_READ", nullable = true)
-    private String menuRead;
-
-    @Column(name = "MENU_WRITE", nullable = true)
-    private String menuWrite;
-
-    @Column(name = "MENU_DELETE", nullable = true)
-    private String menuDelete;
-
     public UserMenu() {
     }
 

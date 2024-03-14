@@ -1,6 +1,8 @@
 package com.tournet.tournetERP.auth.dto;
 
 import java.util.Set;
+
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -56,7 +58,7 @@ public class UserRequest {
 
     private String empMemo;
 
-    private String empStatus;
+ private String empStatus;
 
     private String empBeginDt;
 
@@ -64,11 +66,21 @@ public class UserRequest {
 
     private Set<String> role;
 
+    private String backColor;
+
+    private String fontColor;
+
+    private long menuAuthUuid;
+
+    private String menuRead; //읽기
+
+    private String menuUpdate; //수정
+
+    private String menuDelete; //삭제
+
     private int page;
 
     private int size;
-
-
 
     private String password;
 

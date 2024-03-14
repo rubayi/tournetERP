@@ -91,9 +91,6 @@ const buildMenuTree = (menuItems, previousLinksData) => {
       menuOrd: menu.menuOrd,
       menuUrl: menu.menuUrl,
       caption: menu.menuDesc,
-      menuDelete: menu.menuDelete,
-      menuRead: menu.menuRead,
-      menuWrite: menu.menuWrite,
       orgHierarchy: orgHierarchy,
     };
   });
@@ -124,45 +121,6 @@ export default {
   data() {
     return {
       colDefs: [
-        {
-          field: "menuRead",
-          headerName: "읽기",
-          maxWidth: 70,
-          cellRenderer: function (params) {
-            if (params.data.menuRead === "Y") {
-              return `<input type="checkbox" name="menuRead" checked/>`;
-            } else if (params.data.menuRead === "N") {
-              return `<input type="checkbox" name="menuRead"/>`;
-            }
-          },
-          cellEditor: "booleanEditor",
-        },
-        {
-          field: "menuWrite",
-          headerName: "쓰기",
-          maxWidth: 70,
-          cellRenderer: function (params) {
-            if (params.data.menuWrite === "Y") {
-              return `<input type="checkbox" name="menuWrite" checked/>`;
-            } else if (params.data.menuWrite === "N") {
-              return `<input type="checkbox" name="menuWrite"/>`;
-            }
-          },
-          cellEditor: "booleanEditor",
-        },
-        {
-          field: "menuDelete",
-          headerName: "삭제",
-          maxWidth: 70,
-          cellRenderer: function (params) {
-            if (params.data.menuDelete === "Y") {
-              return `<input type="checkbox" name="menuDelete" checked/>`;
-            } else if (params.data.menuDelete === "N") {
-              return `<input type="checkbox" name="menuDelete"/>`;
-            }
-          },
-          cellEditor: "booleanEditor",
-        },
       ],
       autoGroupColumnDef: {
         headerName: "메뉴이름",

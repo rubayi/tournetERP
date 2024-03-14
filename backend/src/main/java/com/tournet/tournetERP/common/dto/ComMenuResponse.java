@@ -49,12 +49,6 @@ public class ComMenuResponse {
 
     private Date modifiedDt; //최종수정일
 
-    private String menuRead;
-
-    private String menuWrite;
-
-    private String menuDelete;
-
     private long empMenuUuid;
 
     @Builder
@@ -73,10 +67,8 @@ public class ComMenuResponse {
             Date createdDt, //생성일
             int createdBy, //생성자
             int modifiedBy, //최종수정자
-            Date modifiedDt, //최종수정일
-            String menuRead,
-            String menuWrite,
-            String menuDelete
+            Date modifiedDt //최종수정일
+
     ) {
         this.menuUuid = menuUuid;
         this.uprMenuUuid = uprMenuUuid;
@@ -93,9 +85,6 @@ public class ComMenuResponse {
         this.createdBy = createdBy;
         this.modifiedBy = modifiedBy;
         this.modifiedDt = modifiedDt;
-        this.menuRead = menuRead;
-        this.menuWrite = menuWrite;
-        this.menuDelete = menuDelete;
 
     }
 }

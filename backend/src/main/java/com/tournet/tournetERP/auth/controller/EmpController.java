@@ -158,6 +158,14 @@ public class EmpController {
             _emp.setEmpDobType(empReq.getEmpDobType());
             _emp.setEmpMemo(empReq.getEmpMemo());
             _emp.setEmpStatus(empReq.getEmpStatus());
+
+
+            _emp.setBackColor(empReq.getBackColor());
+            _emp.setFontColor(empReq.getFontColor());
+            _emp.setEmpDobType(empReq.getEmpDobType());
+            _emp.setEmpMemo(empReq.getEmpMemo());
+            _emp.setEmpStatus(empReq.getEmpStatus());
+
             //_emp.setModifyUser(modifyingUser);
 
             if (empReq.getPassword() != null && !empReq.getPassword().equals("")) {

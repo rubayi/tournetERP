@@ -42,10 +42,6 @@ public class UserMenuController {
         if (currentUserMenu.isPresent()) {
             UserMenu userMenu = currentUserMenu.get();
 
-            userMenu.setMenuDelete(userMenuRequest.getMenuDelete());
-            userMenu.setMenuRead(userMenuRequest.getMenuRead());
-            userMenu.setMenuWrite(userMenuRequest.getMenuWrite());
-
             userMenuRepository.save(userMenu);
             message = "수정되었습니다.";
         } else {
@@ -74,9 +70,6 @@ public class UserMenuController {
             UserMenu userMenu = new UserMenu();
             userMenu.setMenuUuid(menuUuid);
             userMenu.setRoleUuid(roleUuid);
-            userMenu.setMenuDelete(userMenuRequest.getMenuDelete());
-            userMenu.setMenuRead(userMenuRequest.getMenuRead());
-            userMenu.setMenuWrite(userMenuRequest.getMenuWrite());
 
             userMenuRepository.save(userMenu);
             message = "등록되었습니다.";

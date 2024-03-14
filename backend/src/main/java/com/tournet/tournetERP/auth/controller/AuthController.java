@@ -94,7 +94,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRequest signUpRequest) {
 
-        String message = "등록 되었습니다.";
+        String message = "";
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             message = "이미 등록 된 사용자명 입니다.";
@@ -167,7 +167,7 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
 
-
+        message = "사용자 등록이 완료 되었습니다.";
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("message", message);
         return new ResponseEntity<>(resMap, HttpStatus.OK);

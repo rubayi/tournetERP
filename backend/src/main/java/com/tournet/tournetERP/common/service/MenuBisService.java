@@ -59,10 +59,7 @@ public class MenuBisService {
                         curMenu.getCreatedDt(),
                         curMenu.getCreatedBy(),
                         (curMenu.getModifiedBy() != null ? curMenu.getModifiedBy(): 0),
-                        curMenu.getModifiedDt(),
-                        tempMenu.getMenuRead(),
-                        tempMenu.getMenuWrite(),
-                        tempMenu.getMenuDelete());
+                        curMenu.getModifiedDt());
                         menuWithPermit.add(_menuRes);
             });
         }
