@@ -32,6 +32,7 @@
       v-if="$store.state.auth.user"
       v-model="leftDrawerOpen"
       show-if-above
+      bordered
     >
       <div v-if="$store.state.auth.user">
         <div class="navigation-menu-container">
@@ -64,7 +65,7 @@ const buildMenuTree = (menuItems, parentUuid) => {
     upperMenuUuid: menu.upperMenuUuid,
     menuLvl: menu.menuLvl,
     icon: menu.menuIcon ? menu.menuIcon : "label",
-    label: menu.menuKor + (menu.menuEng ? ` (${menu.menuEng})` : ""),
+    label: menu.menuKor,
     link: menu.menuUrl,
     handler: (node) => {
       handleMenuClick(node.link);
@@ -86,7 +87,6 @@ export default {
   setup() {
     const $q = useQuasar();
     router = useRouter();
-    $q.dark.set(true);
   },
   data() {
     return {
@@ -164,6 +164,8 @@ export default {
 </script>
 <style lang="scss">
 .navigation-drawer {
+  padding: 10px;
+  margin: 5px;
   overflow: hidden;
   .navigation-menu-container {
     overflow: "hidden";
@@ -174,7 +176,6 @@ export default {
   background-image: url("images/top_main.png");
   font-family: Raleway;
   font-weight: 500;
-  color: #f0eeee;
   padding: 0.5rem;
 }
 .toplogo {
@@ -183,7 +184,6 @@ export default {
 }
 .part_title {
   font-size: 22px;
-  color: #000;
   font-weight: normal;
   font-family: Raleway;
   font-weight: bold;

@@ -1,28 +1,27 @@
 <template>
-  <ag-grid-vue
-    class="ag-theme-alpine grid"
-    :columnDefs="columnDefs"
-    :rowData="rowData"
-    style="width:100%; height: 500px"
+  <q-pagination
+      vModel="page"
+      :max="max"
+      direction-links
   />
 </template>
 
 <script lang="ts">
-import { AgGridVue } from "ag-grid-vue3";
 import { defineComponent, ref } from "vue";
 
 const columnDefs = ref([]);
 const rowData = ref([]);
 export default defineComponent({
-  name: "TableComp",
   components: {
-    AgGridVue
   },
   props: {
-    columnDefs: Array,
-    rowData: Array
+    vModel: Array,
+    max: Array,
   },
-
+  mounted() {
+    console.log('Received columnDefs:', this.columnDefs);
+    console.log('Received rowData:', this.rowData);
+  }
 
 });
 </script>

@@ -34,17 +34,22 @@
       </q-form>
     </div>
     <div class="row q-px-lg">
-      <div class="col-10">
-        <ag-grid-vue
-            :rowData="emps"
-            :columnDefs="colDefs"
-            style="width:100%; height: 500px"
+      <div class="col-12">
+        <table-comp
+            id="memberform-grid"
+            class="ag-theme-alpine grid"
+            :column-defs="colDefs"
+            :row-data="emps"
             :onCellClicked="onCellClicked"
-            class="ag-theme-quartz-dark"
-        >
-        </ag-grid-vue>
+        />
         <div class="q-col-lg q-pa-sm flex flex-center">
-          <q-pagination
+<!--          <q-pagination-->
+<!--              v-model="page"-->
+<!--              :max="count"-->
+<!--              direction-links-->
+<!--              @click="handlePageChange"-->
+<!--          />-->
+          <page-comp
               v-model="page"
               :max="count"
               direction-links
@@ -278,20 +283,21 @@
 
 <script>
 import { ref } from 'vue';
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
-import { AgGridVue } from "ag-grid-vue3";
 import { EmpFormTableConfig } from "src/views/emp/EmpSimpleFormTableConfig";
 import { initialData } from "src/views/emp/EmpData";
-import { getCommonValue } from 'src/utils/common.js'; // Adjust the path as per your project structure
+import { getCommonValue } from 'src/utils/common.js'; // 공통코드 값
 
+//Component
+import TableComp from "src/components/table/TableComp.vue";
+import PageComp from "src/components/table/PaginationRenderer.vue";
 
 //const initialData = EmpData;
 
 export default {
   name: "EmpTn",
   components: {
-    AgGridVue,
+    TableComp,
+    PageComp
   },
   setup () {
     return {
@@ -309,7 +315,7 @@ export default {
       //S: Paging SET
       page: 1, //현재페이지
       count: 5, //표시할 페이지 개수
-      showPage: 5, //보여줄 row 개수
+      showPage: 15, //보여줄 row 개수
       //E: Paging SET
 
       showForm: false,
@@ -418,7 +424,7 @@ export default {
         this.$store.dispatch("auth/register", this.edited)
             .then(
                 (response) => {
-                  alert(response.data.message);
+                  alert(response.message);
                   this.resetForm();
                   this.showForm=false;
                   this.handlePageChange();

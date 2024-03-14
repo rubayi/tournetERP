@@ -25,7 +25,7 @@ public interface EmpRepository extends JpaRepository<User, Long> {
             "AND (:empKor IS NULL OR u.empKor = :empKor) " +
             "AND (:empEng IS NULL OR u.empEng = :empEng) " +
             "AND (:empUsername IS NULL OR u.username = :empUsername) " +
-            "ORDER BY u.empBeginDt DESC")
+            "ORDER BY u.modifiedDt DESC")
     Page<User> findByEmpStatusOrEmpKorOrEmpEngOrUsernameOrderByModifiedDtDesc(
             @Param("empStatus") String empStatus,
             @Param("empKor") String empKor,
