@@ -21,6 +21,7 @@ export const comCode = {
   namespaced: true,
   state: initialState,
   actions: {
+
     getComCodeList({ commit }) {
       console.log("getComCodeList");
       return CommonCodeService.getComCodeList().then(

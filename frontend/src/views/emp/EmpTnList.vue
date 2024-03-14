@@ -283,6 +283,8 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import { AgGridVue } from "ag-grid-vue3";
 import { EmpFormTableConfig } from "src/views/emp/EmpSimpleFormTableConfig";
 import { initialData } from "src/views/emp/EmpData";
+import { getCommonValue } from 'src/utils/common.js'; // Adjust the path as per your project structure
+
 
 //const initialData = EmpData;
 
@@ -334,26 +336,15 @@ export default {
     };
   },
   methods: {
-    getCommonCode(upCode, codeLvl, propName) {
-      const req = {
-        uprCodeUuid: upCode,
-        codeLvl: codeLvl
-      };
-      this.$store.dispatch("comCode/useComCode", req)
-          .then(
-              (commCode) => {
-                this[propName] = commCode;
-              },
-              (error) => {
-                this.message =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-              }
-          );
+    //S: 공통코드값 가져오기
+    async getCommonCode(req) {
+      try {
+        this[req.dataName] = await getCommonValue(req);
+      } catch (error) {
+        console.error(error);
+      }
     },
+    //E: 공통코드값 가져오기
     getValueName(param, dataset){
 
       const foundItem = dataset.find(item => item.codeValue === param);
@@ -486,19 +477,21 @@ export default {
   created() {
     this.searchEmpList();
     //부서명
-    this.getCommonCode('19', '1', 'divOptions');
+    this.getCommonCode({upCode: '19', codeLvl:'1', dataName:'divOptions'});
     //직위
-    this.getCommonCode('17', '1', 'titleOptions');
+    this.getCommonCode({upCode: '17', codeLvl:'1', dataName:'titleOptions'});
     //국가코드
-    this.getCommonCode('1', '1', 'countryOptions');
+    //this.getCommonCode('1', '1', 'countryOptions');
+    this.getCommonCode({upCode: '1', codeLvl:'1', dataName:'countryOptions'});
     //생일타입
-    this.getCommonCode('222', '1', 'dobTypeOptions');
+    this.getCommonCode({upCode: '222', codeLvl:'1', dataName:'dobTypeOptions'});
     //직책
-    this.getCommonCode('18', '1', 'empRoleOptions');
+    this.getCommonCode({upCode: '18', codeLvl:'1', dataName:'empRoleOptions'});
     //근무형태
-    this.getCommonCode('16', '1', 'workOptions');
+    // this.getCommonCode('16', '1', 'workOptions');
+    this.getCommonCode({upCode: '16', codeLvl:'1', dataName:'workOptions'});
     //재직상태
-    this.getCommonCode('15', '1', 'empStatusOptions');
+    this.getCommonCode({upCode: '15', codeLvl:'1', dataName:'empStatusOptions'});
   },
 
 };
