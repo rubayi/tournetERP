@@ -2,34 +2,36 @@
   <q-layout view="hHh lpR fFf">
     <q-header class="topNav" elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
         <router-link to="/">
           <img src="images/mainlogorev.png" class="toplogo" />
         </router-link>
-        <q-toolbar-title>
-          <!-- <img src="images/mainlogorev.png" class="toplogo" /> -->
-        </q-toolbar-title>
-        <div>
-          <!--          <q-btn-->
-          <!--            v-if="!$store.state.auth.user"-->
-          <!--            flat-->
-          <!--            to="/register"-->
-          <!--            stretch-->
-          <!--            class="text-bold"-->
-          <!--            ><q-icon-->
-          <!--              name="fas fa-user-plus"-->
-          <!--              class="q-mr-sm text-white"-->
-          <!--              size="xs"-->
-          <!--            ></q-icon-->
-          <!--            >사용자등록(Register)</q-btn-->
-          <!--          >-->
+        <q-toolbar-title> Tourtnet Hawaii ERP </q-toolbar-title>
+        <q-btn
+          aria-label="Home"
+          dense
+          flat
+          icon="house"
+          round
+          @click="$router.push('/')"
+        />
+        <q-btn
+          aria-label="Menu"
+          dense
+          flat
+          icon="menu"
+          round
+          @click="leftDrawerOpen = !leftDrawerOpen"
+        />
+        <q-btn
+          aria-label="Logout"
+          dense
+          flat
+          icon="right-icon"
+          round
+          v-if="$store.state.auth.user"
+          @click="logout"
+        />
+        <!-- <div>
           <q-btn
             v-if="!$store.state.auth.user"
             to="/login"
@@ -71,10 +73,14 @@
             ></q-icon
             >로그아웃(Logout)</q-btn
           >
-        </div>
+        </div> -->
       </q-toolbar>
     </q-header>
 
+    <navigation-drawer
+      v-if="currentUserIsLoggedIn"
+      v-model="openNavigationDrawer"
+    />
     <q-drawer v-model="leftDrawerOpen" show-if-above content-class="bg-grey-1">
       <div v-if="$store.state.auth.user">
         <div class="q-pa-md q-gutter-sm">
