@@ -11,8 +11,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import NavigationMenu from "@/components/navigation/NavigationMenu.vue";
-import UserInfo from "@/components/navigation/UserInfo.vue";
+import NavigationMenu from "./NavigationMenu.vue";
+import UserInfo from "./UserInfo.vue";
 
 export default defineComponent({
   name: "NavigationDrawer",

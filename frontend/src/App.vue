@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header class="topNav" elevated>
+    <q-header v-if="$store.state.auth.user" class="topNav" elevated>
       <q-toolbar>
         <router-link to="/">
           <img src="images/mainlogorev.png" class="toplogo" />
@@ -22,85 +22,30 @@
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-        <q-btn
-          aria-label="Logout"
-          dense
-          flat
-          icon="right-icon"
-          round
-          v-if="$store.state.auth.user"
-          @click="logout"
-        />
-        <!-- <div>
-          <q-btn
-            v-if="!$store.state.auth.user"
-            to="/login"
-            flat
-            stretch
-            class="text-bold"
-          >
-            <q-icon
-              name="fas fa-sign-in-alt"
-              class="q-mr-sm text-white"
-              size="xs"
-            ></q-icon
-            >로그인(Login)</q-btn
-          >
-          <q-btn
-            v-if="$store.state.auth.user"
-            to="/profile"
-            flat
-            stretch
-            class="text-bold"
-            ><q-icon
-              name="fas fa-user-circle"
-              class="q-mr-sm text-white"
-              size="xs"
-            ></q-icon>
-            {{ currentUser.username }}</q-btn
-          >
-          <q-btn
-            v-if="$store.state.auth.user"
-            @click="logout"
-            flat
-            stretch
-            class="text-bold"
-          >
-            <q-icon
-              name="fas fa-sign-out-alt"
-              class="q-mr-sm text-white"
-              size="xs"
-            ></q-icon
-            >로그아웃(Logout)</q-btn
-          >
-        </div> -->
+        <q-btn v-if="$store.state.auth.user" @click="logout" flat round
+          ><q-icon name="logout" class="q-mr-sm text-white" size="sm" />
+        </q-btn>
       </q-toolbar>
     </q-header>
-
-    <navigation-drawer
-      v-if="currentUserIsLoggedIn"
-      v-model="openNavigationDrawer"
-    />
-    <q-drawer v-model="leftDrawerOpen" show-if-above content-class="bg-grey-1">
+    <q-drawer
+      class="navigation-drawer"
+      v-if="$store.state.auth.user"
+      v-model="leftDrawerOpen"
+      show-if-above
+    >
       <div v-if="$store.state.auth.user">
-        <div class="q-pa-md q-gutter-sm">
+        <div class="navigation-menu-container">
           <q-tree :nodes="linksData" node-key="label" />
+        </div>
+        <div>
+          <!-- <user-info /> -->
         </div>
       </div>
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container style="background-color: #f0eeee">
       <router-view />
     </q-page-container>
-
-    <q-footer elevated class="bg-grey-8 text-white">
-      <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar> </q-avatar>
-          <div></div>
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer>
   </q-layout>
 </template>
 
@@ -141,7 +86,6 @@ export default {
   setup() {
     const $q = useQuasar();
     router = useRouter();
-    // calling here; equivalent to when component is created
     $q.dark.set(true);
   },
   data() {
@@ -219,8 +163,15 @@ export default {
 };
 </script>
 <style lang="scss">
+.navigation-drawer {
+  overflow: hidden;
+  .navigation-menu-container {
+    overflow: "hidden";
+    height: calc(100% - 70px);
+  }
+}
 .topNav {
-  background-image: url("~@/assets/top_main.png");
+  background-image: url("images/top_main.png");
   font-family: Raleway;
   font-weight: 500;
   color: #f0eeee;

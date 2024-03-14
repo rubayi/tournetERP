@@ -1,39 +1,51 @@
 <template>
-  <div class="q-pa-md" style="max-width: 400px">
+  <div class="q-pa-md" style="max-width: 400px; background-color: black">
+    <q-form @submit="handleLogin" @reset="onReset" class="q-gutter-md">
+      <q-input
+        filled
+        v-model="username"
+        type="text"
+        class="form-control"
+        label="사용자명(username) *"
+        lazy-rules
+        :rules="[
+          (val) => (val && val.length > 0) || '사용자명을 입력 해 주십시오.',
+        ]"
+      />
+      <q-input
+        filled
+        v-model="password"
+        type="password"
+        class="form-control"
+        label="암호(password) *"
+        lazy-rules
+        :rules="[
+          (val) => (val !== null && val !== '') || '암호를 입력 해 주십시오.',
+        ]"
+      />
 
-      <q-form
-        @submit="handleLogin"
-        @reset="onReset"
-        class="q-gutter-md"
-      >
-        <q-input filled
-                 v-model="username"
-                 type="text"
-                 class="form-control"
-                 label="사용자명(username) *"
-                 lazy-rules
-                 :rules="[ val => val && val.length > 0 || '사용자명을 입력 해 주십시오.']"/>
-        <q-input filled
-                 v-model="password"
-                 type="password"
-                 class="form-control"
-                 label="암호(password) *"
-                 lazy-rules
-                 :rules="[
-                  val => val !== null && val !== '' || '암호를 입력 해 주십시오.',
-                ]"/>
+      <div>
+        <q-btn
+          :disabled="loading"
+          label="로그인"
+          type="submit"
+          color="primary"
+        />
+        <q-btn
+          label="초기화"
+          type="reset"
+          color="primary"
+          flat
+          class="q-ml-sm"
+        />
+      </div>
 
-        <div>
-          <q-btn :disabled="loading" label="로그인" type="submit" color="primary"/>
-          <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
+      <div>
+        <div v-if="message" class="alert alert-danger" role="alert">
+          {{ message }}
         </div>
-
-        <div>
-          <div v-if="message" class="alert alert-danger" role="alert">
-            {{ message }}
-          </div>
-        </div>
-      </q-form>
+      </div>
+    </q-form>
   </div>
 </template>
 
@@ -45,7 +57,7 @@ export default {
       loading: false,
       message: "",
       username: "",
-      password: ""
+      password: "",
     };
   },
   computed: {
@@ -60,11 +72,11 @@ export default {
   },
   methods: {
     handleLogin() {
-      this.loading = true
-      this.message = ""
+      this.loading = true;
+      this.message = "";
       const user = {
         username: this.username,
-        password: this.password
+        password: this.password,
       };
       this.$store.dispatch("auth/login", user).then(
         () => {
@@ -81,14 +93,12 @@ export default {
         }
       );
     },
-    onReset () {
-      this.username = ""
-      this.password = ""
-    }
+    onReset() {
+      this.username = "";
+      this.password = "";
+    },
   },
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
