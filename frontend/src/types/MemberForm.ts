@@ -1,72 +1,62 @@
+// MemberFormClass.ts
+import { MemberFormInterface } from './MemberFormInterface';
 import { getNumberMemberValue } from "@/utils/helpers/ConstructorHelper";
 import { MemberPermissionForm } from "@/types/MemberPermissionForm";
-import { OfficeForm } from "@/types/OfficeForm";
 
-export interface IMemberForm {
-  memID: number | null;
-  userID: string | null;
-  firstName: string | null;
-  midName: string | null;
-  lastName: string | null;
-  position: string | null;
-  password: string | null;
-  oldPassword: string | null;
-  phoneNumber: string | null;
-  email: string | null;
-  administrator: boolean | false;
-  expiredUser: boolean | false;
-  displayuser: boolean | false;
-  officeid: number | 0;
-  officename: OfficeForm;
-  reportLevelList: string[];
-  userNameID: string | null;
-  lastUpdated: string | null;
-
-  securityForm: MemberPermissionForm;
-}
-
-export class MemberForm implements IMemberForm {
-  public memID: number | null;
-  public userID: string | null;
-  public firstName: string | null;
-  public midName: string | null;
-  public lastName: string | null;
-  public position: string | null;
+export class MemberForm implements MemberFormInterface {
+  public empUuid: number | null;
+  public username: string | null;
+  public empKor: string | null;
+  public empEng: string | null;
+  public empWorkType: string | null;
+  public empDiv: string | null;
   public password: string | null;
-  public oldPassword: string | null;
-  public phoneNumber: string | null;
+  public empEmail: string | null;
+  public empEmailBook: string | null;
+  public empPhone: string | null;
+  public empWorkPhone: string | null;
   public email: string | null;
-  public administrator: boolean | false;
+  public empStatus: string | null;
+  public empDob: string | null;
+  public empDobType: string | false;
+  public empAddress1: string | null;
+  public empAddress2: string | null;
+  public empState: string | null;
+  public empCountry: string | null;
+  public empZip: string | null;
+  public empTitle: string | null;
+  public empRole: string | null;
+  public empMemo: string | null;
 
-  public expiredUser: boolean | false;
-  public displayuser: boolean | false;
-  public officeid: number | 0;
-  public officename: OfficeForm;
-  public reportLevelList: string[];
-  public userNameID: string | null;
-  public lastUpdated: string | null;
   public securityForm: MemberPermissionForm;
 
-  constructor(obj?: IMemberForm) {
-    this.memID = getNumberMemberValue(obj && obj.memID);
-    this.userID = (obj && obj.userID) || "";
-    this.firstName = (obj && obj.firstName) || "";
-    this.midName = (obj && obj.midName) || "";
-    this.lastName = (obj && obj.lastName) || "";
-    this.position = (obj && obj.position) || "";
+  constructor(obj?: MemberFormInterface) {
+    this.empUuid = getNumberMemberValue(obj && obj.empUuid);
+    this.username = (obj && obj.username) || "";
+    this.empKor = (obj && obj.empKor) || "";
+    this.empEng = (obj && obj.empEng) || "";
+    this.empWorkType = (obj && obj.empWorkType) || "";
+    this.empDiv = (obj && obj.empDiv) || "";
     this.password = (obj && obj.password) || "";
-    this.oldPassword = (obj && obj.oldPassword) || "";
-    this.phoneNumber = (obj && obj.phoneNumber) || "";
+    this.empEmail = (obj && obj.empEmail) || "";
+    this.empPhone = (obj && obj.empPhone) || "";
+    this.empWorkPhone = (obj && obj.empWorkPhone) || "";
     this.email = (obj && obj.email) || "";
+    this.empEmailBook = (obj && obj.empEmailBook) || "";
+    this.empStatus = (obj && obj.empStatus) || "";
+    this.empDob = (obj && obj.empDob) || "";
+    this.empDobType = (obj && obj.empDobType) || "";
+    this.empAddress1 = (obj && obj.empAddress1) || "";
+    this.empAddress2 = (obj && obj.empAddress2) || "";
 
-    this.administrator = (obj && obj.administrator) || false;
-    this.expiredUser = (obj && obj.expiredUser) || false;
-    this.displayuser = (obj && obj.displayuser) || false;
-    this.officeid = (obj && obj.officeid) || 0;
-    this.officename = (obj && obj.officename) || new OfficeForm();
-    this.reportLevelList = (obj && obj.reportLevelList) || [];
-    this.userNameID = (obj && obj.userNameID) || "";
-    this.lastUpdated = (obj && obj.lastUpdated) || "";
+    this.empState = (obj && obj.empState) || "";
+    this.empCountry = (obj && obj.empCountry) || "";
+
+    this.empZip = (obj && obj.empZip) || "";
+    this.empTitle = (obj && obj.empTitle) || "";
+    this.empRole = (obj && obj.empRole) || "";
+
+    this.empMemo = (obj && obj.empMemo) || "";
 
     this.securityForm = (obj && obj.securityForm) || new MemberPermissionForm();
   }

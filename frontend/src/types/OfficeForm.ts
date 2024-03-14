@@ -1,5 +1,5 @@
-import { getNumberMemberValue } from "@/utils/helpers/ConstructorHelper";
-import { CodeForm } from "@/types/CodeForm";
+import { getNumberMemberValue } from "../utils/helpers/ConstructorHelper";
+import { CodeForm } from "../types/CodeForm";
 
 export interface IOfficeForm {
   officeid: number | null;

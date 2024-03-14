@@ -22,7 +22,7 @@
                    v-model="searchWord"
                    type="text"
                    label="검색어 *"
-                   />
+          />
           <div class="q-py-md">
             <q-btn label="검색" type="submit" color="primary"/>
             <q-btn style="margin-left: 5px" label="전체검색" color="secondary" @click="onReset"/>
@@ -33,173 +33,173 @@
         </div>
       </q-form>
     </div>
-      <div class="row q-px-lg">
-        <div class="col-10">
+    <div class="row q-px-lg">
+      <div class="col-10">
         <ag-grid-vue
-          :rowData="emps"
-          :columnDefs="colDefs"
-          style="width:100%; height: 500px"
-          :onCellClicked="onCellClicked"
-          class="ag-theme-quartz-dark"
+            :rowData="emps"
+            :columnDefs="colDefs"
+            style="width:100%; height: 500px"
+            :onCellClicked="onCellClicked"
+            class="ag-theme-quartz-dark"
         >
         </ag-grid-vue>
         <div class="q-col-lg q-pa-sm flex flex-center">
           <q-pagination
-            v-model="page"
-            :max="count"
-            direction-links
-            @click="handlePageChange"
+              v-model="page"
+              :max="count"
+              direction-links
+              @click="handlePageChange"
           />
         </div>
       </div>
     </div>
-      <div class="q-pa-md q-gutter-sm">
+    <div class="q-pa-md q-gutter-sm">
 
-        <q-dialog v-model="showForm">
-          <q-card style="width: 700px; max-width: 80vw;">
-            <q-bar class="q-pa-lg">
-              <div>사용자 정보 관리</div>
-              <q-space />
-              <q-btn flat icon="close" v-close-popup>
-                <q-tooltip>닫기</q-tooltip>
-              </q-btn>
-            </q-bar>
+      <q-dialog v-model="showForm">
+        <q-card style="width: 700px; max-width: 80vw;">
+          <q-bar class="q-pa-lg">
+            <div>사용자 정보 관리</div>
+            <q-space />
+            <q-btn flat icon="close" v-close-popup>
+              <q-tooltip>닫기</q-tooltip>
+            </q-btn>
+          </q-bar>
 
-            <q-form>
+          <q-form>
             <q-card-section class="scroll">
               <div class="row q-col-gutter-sm">
 
                 <input
-                  id="empUuid"
-                  v-model="edited.empUuid"
-                  hidden
+                    id="empUuid"
+                    v-model="edited.empUuid"
+                    hidden
                 />
                 <q-input
-                  class="col-3"
-                  type="text"
-                  id="username"
-                  v-model="edited.username"
-                  label="사용자명(username) *"
-                  lazy-rules
-                  :rules="[ val => val != '' || '사용자명을 입력 해 주십시오.']"
-                />
-
-                <q-input
-                  v-if="edited.empUuid != 0"
-                  class="col-3"
-                  type="password"
-                  id="password"
-                  v-model="edited.password"
-                  label="암호"
-                  hint="입력하지 않으면 변경되지 않습니다."
+                    class="col-3"
+                    type="text"
+                    id="username"
+                    v-model="edited.username"
+                    label="사용자명(username) *"
+                    lazy-rules
+                    :rules="[ val => val != '' || '사용자명을 입력 해 주십시오.']"
                 />
 
                 <q-input
-                  v-if="edited.empUuid == 0"
-                  class="col-3"
-                  type="password"
-                  id="password"
-                  v-model="edited.password"
-                  label="암호* "
-                  lazy-rules
-                  :rules="[ val => !!val  || '암호를 입력 해 주십시오.']"
+                    v-if="edited.empUuid != 0"
+                    class="col-3"
+                    type="password"
+                    id="password"
+                    v-model="edited.password"
+                    label="암호"
+                    hint="입력하지 않으면 변경되지 않습니다."
+                />
+
+                <q-input
+                    v-if="edited.empUuid == 0"
+                    class="col-3"
+                    type="password"
+                    id="password"
+                    v-model="edited.password"
+                    label="암호* "
+                    lazy-rules
+                    :rules="[ val => !!val  || '암호를 입력 해 주십시오.']"
                 />
                 <q-input
-                  class="col-3"
-                  type="text"
-                  id="empKor"
-                  v-model="edited.empKor"
-                  label="이름(한글이름) *"
-                  lazy-rules
-                  :rules="[ val => !!val  || '한글이름 입력 해 주십시오.']"
+                    class="col-3"
+                    type="text"
+                    id="empKor"
+                    v-model="edited.empKor"
+                    label="이름(한글이름) *"
+                    lazy-rules
+                    :rules="[ val => !!val  || '한글이름 입력 해 주십시오.']"
                 />
                 <q-input
-                  class="col-3"
-                  type="text"
-                  id="empEng"
-                  v-model="edited.empEng"
-                  label="영문이름(Name Eng)"
+                    class="col-3"
+                    type="text"
+                    id="empEng"
+                    v-model="edited.empEng"
+                    label="영문이름(Name Eng)"
                 />
                 <q-select
-                  class="col-3"
-                  v-model="edited.empWorkType"
-                  :options="workOptions"
-                  option-value="codeValue"
-                  option-label="codeKr"
-                  emit-value
-                  map-options
-                  label="근무형태" />
+                    class="col-3"
+                    v-model="edited.empWorkType"
+                    :options="workOptions"
+                    option-value="codeValue"
+                    option-label="codeKr"
+                    emit-value
+                    map-options
+                    label="근무형태" />
                 <q-select
-                  class="col-3"
-                  v-model="edited.empDiv"
-                  :options="divOptions"
-                  option-value="codeValue"
-                  option-label="codeKr"
-                  emit-value
-                  map-options
-                  label="부서명" />
+                    class="col-3"
+                    v-model="edited.empDiv"
+                    :options="divOptions"
+                    option-value="codeValue"
+                    option-label="codeKr"
+                    emit-value
+                    map-options
+                    label="부서명" />
                 <q-select
-                  class="col-3"
-                  v-model="edited.empTitle"
-                  :options="titleOptions"
-                  option-value="codeValue"
-                  option-label="codeKr"
-                  emit-value
-                  map-options
-                  label="직위" />
+                    class="col-3"
+                    v-model="edited.empTitle"
+                    :options="titleOptions"
+                    option-value="codeValue"
+                    option-label="codeKr"
+                    emit-value
+                    map-options
+                    label="직위" />
                 <q-select
-                  class="col-3"
-                  v-model="edited.empRole"
-                  :options="empRoleOptions"
-                  option-value="codeValue"
-                  option-label="codeKr"
-                  emit-value
-                  map-options
-                  label="직책" />
+                    class="col-3"
+                    v-model="edited.empRole"
+                    :options="empRoleOptions"
+                    option-value="codeValue"
+                    option-label="codeKr"
+                    emit-value
+                    map-options
+                    label="직책" />
 
                 <q-input
-                  class="col-6"
-                  type="text"
-                  id="username"
-                  v-model="edited.empPhone"
-                  label="핸드폰 *"
-                  lazy-rules
-                  :rules="[ val => val && val.length > 0 || '핸드폰 번호를 입력 해 주십시오.']"
+                    class="col-6"
+                    type="text"
+                    id="username"
+                    v-model="edited.empPhone"
+                    label="핸드폰 *"
+                    lazy-rules
+                    :rules="[ val => val && val.length > 0 || '핸드폰 번호를 입력 해 주십시오.']"
                 />
 
                 <q-input
-                  class="col-6"
-                  type="text"
-                  id="empWorkPhone"
-                  v-model="edited.empWorkPhone"
-                  label="내선번호(Work Phone) "
+                    class="col-6"
+                    type="text"
+                    id="empWorkPhone"
+                    v-model="edited.empWorkPhone"
+                    label="내선번호(Work Phone) "
                 />
 
                 <q-input
-                  class="col-6"
-                  type="text"
-                  v-model="edited.empEmail"
-                  label="이메일* "
-                  lazy-rules
-                  :rules="[ val => val && val.length > 0 || '이메일을 입력 해 주십시오.']"
+                    class="col-6"
+                    type="text"
+                    v-model="edited.empEmail"
+                    label="이메일* "
+                    lazy-rules
+                    :rules="[ val => val && val.length > 0 || '이메일을 입력 해 주십시오.']"
                 />
 
                 <q-input
-                  class="col-6"
-                  type="text"
-                  id="empEmailBook"
-                  v-model="edited.empEmailBook"
-                  label="예약이메일(Email)"
+                    class="col-6"
+                    type="text"
+                    id="empEmailBook"
+                    v-model="edited.empEmailBook"
+                    label="예약이메일(Email)"
                 />
                 <q-select
-                  class="col-6"
-                  v-model="edited.empDobType"
-                  :options="dobTypeOptions"
-                  option-value="codeValue"
-                  option-label="codeKr"
-                  emit-value
-                  map-options
-                  label="생일타입" />
+                    class="col-6"
+                    v-model="edited.empDobType"
+                    :options="dobTypeOptions"
+                    option-value="codeValue"
+                    option-label="codeKr"
+                    emit-value
+                    map-options
+                    label="생일타입" />
 
                 <q-input class="col-6" v-model="edited.empDob" mask="####/##/##" :rules="['date']">
                   <template v-slot:append>
@@ -215,64 +215,64 @@
                   </template>
                 </q-input>
                 <q-input
-                  class="col-3"
-                  type="text"
-                  id="empZip"
-                  v-model="edited.empZip"
-                  label="우편번호(Zip)"
+                    class="col-3"
+                    type="text"
+                    id="empZip"
+                    v-model="edited.empZip"
+                    label="우편번호(Zip)"
                 />
                 <q-input
-                  class="col-3"
-                  type="text"
-                  id="empCity"
-                  v-model="edited.empCity"
-                  label="도시(City) "
+                    class="col-3"
+                    type="text"
+                    id="empCity"
+                    v-model="edited.empCity"
+                    label="도시(City) "
                 />
                 <q-input
-                  class="col-3"
-                  type="text"
-                  id="empState"
-                  v-model="edited.empState"
-                  label="주/도(State) "
+                    class="col-3"
+                    type="text"
+                    id="empState"
+                    v-model="edited.empState"
+                    label="주/도(State) "
                 />
                 <q-select
-                  class="col-3"
-                  v-model="empCountry"
-                  :options="countryOptions"
-                  option-value="codeValue"
-                  option-label="codeKr"
-                  emit-value
-                  map-options
-                  label="국가(Country)" />
+                    class="col-3"
+                    v-model="empCountry"
+                    :options="countryOptions"
+                    option-value="codeValue"
+                    option-label="codeKr"
+                    emit-value
+                    map-options
+                    label="국가(Country)" />
                 <q-input
-                  class="col-6"
-                  bottom-slots
-                  type="text"
-                  id="empAddress1"
-                  v-model="edited.empAddress1"
-                  label="주소1(Address1) "
+                    class="col-6"
+                    bottom-slots
+                    type="text"
+                    id="empAddress1"
+                    v-model="edited.empAddress1"
+                    label="주소1(Address1) "
                 />
                 <q-input
-                  class="col-6"
-                  bottom-slots
-                  type="text"
-                  id="empAddress2"
-                  v-model="edited.empAddress2"
-                  label="주소2(Address2) "
+                    class="col-6"
+                    bottom-slots
+                    type="text"
+                    id="empAddress2"
+                    v-model="edited.empAddress2"
+                    label="주소2(Address2) "
                 />
 
               </div>
             </q-card-section>
-            </q-form>
-            <q-card-actions align="right">
-              <q-btn v-if="edited.empUuid != 0" label="정보수정" @click="onClickSave" color="primary"/>
-              <q-btn v-if="edited.empUuid == 0" label="사용자등록" @click="onClickSave" color="primary"/>
-              <q-btn label="초기화" color="primary" flat class="q-ml-sm" @click="resetForm"/>
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
-      </div>
+          </q-form>
+          <q-card-actions align="right">
+            <q-btn v-if="edited.empUuid != 0" label="정보수정" @click="onClickSave" color="primary"/>
+            <q-btn v-if="edited.empUuid == 0" label="사용자등록" @click="onClickSave" color="primary"/>
+            <q-btn label="초기화" color="primary" flat class="q-ml-sm" @click="resetForm"/>
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
+  </div>
 
 </template>
 
@@ -281,33 +281,10 @@ import { ref } from 'vue';
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { AgGridVue } from "ag-grid-vue3";
-//Table
-import { GridOptions } from "ag-grid-community";
-import { EmpFormTableConfig } from "@/views/member/EmpFormTableConfig";
+import { EmpFormTableConfig } from "src/views/emp/EmpSimpleFormTableConfig";
+import { initialData } from "src/views/emp/EmpData";
 
-
-const initialData = {
-    empUuid: 0,
-    username: "",
-    password: "",
-    empEng: "",
-    empKor: "",
-    empWorkType: "",
-    empDiv: "",
-    empEmail: "",
-    empStatus: "",
-    empDob: "",
-    empDobType: "",
-    empMemo: "",
-    empAddress1: "",
-    empAddress2: "",
-    empCity: "",
-    empState: "",
-    empCountry: "",
-    empZip: "",
-    empTitle: "",
-    empRole: "",
-}
+//const initialData = EmpData;
 
 export default {
   name: "EmpTn",
@@ -315,9 +292,6 @@ export default {
     AgGridVue,
   },
   setup () {
-    const frameworkComponents = EmpFormTableConfig.frameworkComponents;
-    const columns = EmpFormTableConfig.columns;
-
     return {
 
       searchIdx: ref(null),
@@ -354,158 +328,38 @@ export default {
       initEdited : initialData,
       updateEdited:{},
       edited: initialData,
-      colDefs: [
-      ],
+      colDefs: EmpFormTableConfig.columns(),
       emps: [],
       empStatusOptions: []
     };
   },
-  mounted() {
-
-    //재직상태
-    const empOptionReq = {
-      uprCodeUuid: '15',
-      codeLvl:'1'
-    }
-    this.$store.dispatch("comCode/useComCode", empOptionReq)
-      .then(
-        (commCode) => {
-          this.empStatusOptions = commCode;
-        },
-        (error) => {
-          this.message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
-      );
-    //근무형태
-    const workOptionReq = {
-      uprCodeUuid: '16',
-      codeLvl:'1'
-    }
-    this.$store.dispatch("comCode/useComCode", workOptionReq)
-      .then(
-        (commCode) => {
-          this.workOptions = commCode;
-          console.log(this.workOptions);
-        },
-        (error) => {
-          this.message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
-      );
-    //부서명
-    const divOptionsReq = {
-      uprCodeUuid: '19',
-      codeLvl:'1'
-    }
-    this.$store.dispatch("comCode/useComCode", divOptionsReq)
-      .then(
-        (commCode) => {
-          this.divOptions = commCode;
-        },
-        (error) => {
-          this.message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
-      );
-    //직위
-    const titleOptionsReq = {
-      uprCodeUuid: '17',
-      codeLvl:'1'
-    }
-    this.$store.dispatch("comCode/useComCode", titleOptionsReq)
-      .then(
-        (commCode) => {
-          this.titleOptions = commCode;
-        },
-        (error) => {
-          this.message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
-      );
-
-    //직책
-    const empRoleOptionsReq = {
-      uprCodeUuid: '18',
-      codeLvl:'1'
-    }
-    this.$store.dispatch("comCode/useComCode", empRoleOptionsReq)
-      .then(
-        (commCode) => {
-          this.empRoleOptions = commCode;
-        },
-        (error) => {
-          this.message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
-      );
-    //생일타입
-    const dobTypeOptionsReq = {
-      uprCodeUuid: '222',
-      codeLvl:'1'
-    }
-    this.$store.dispatch("comCode/useComCode", dobTypeOptionsReq)
-      .then(
-        (commCode) => {
-          this.dobTypeOptions = commCode;
-        },
-        (error) => {
-          this.message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
-      );
-    //국가코드
-    const countryOptionsReq = {
-      uprCodeUuid: '1',
-      codeLvl:'1'
-    }
-    this.$store.dispatch("comCode/useComCode", countryOptionsReq)
-      .then(
-        (commCode) => {
-          this.countryOptions = commCode;
-        },
-        (error) => {
-          this.message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
-      );
-  },
   methods: {
+    getCommonCode(upCode, codeLvl, propName) {
+      const req = {
+        uprCodeUuid: upCode,
+        codeLvl: codeLvl
+      };
+      this.$store.dispatch("comCode/useComCode", req)
+          .then(
+              (commCode) => {
+                this[propName] = commCode;
+              },
+              (error) => {
+                this.message =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+              }
+          );
+    },
     getValueName(param, dataset){
 
-        const foundItem = dataset.find(item => item.codeValue === param);
-        return foundItem ? foundItem.codeKr : '';
+      const foundItem = dataset.find(item => item.codeValue === param);
+      return foundItem ? foundItem.codeKr : '';
     },
     handlePageChange() {
-
       this.searchEmpList();
     },
     searchEmpList() {
@@ -534,63 +388,62 @@ export default {
       }
 
       const searchReq = {
-          empStatus: this.empStatus,
-          empKor:this.empKor,
-          empEng: this.empEng,
-          username: this.username,
+        empStatus: this.empStatus,
+        empKor:this.empKor,
+        empEng: this.empEng,
+        username: this.username,
 
-          page: (this.page - 1) < 0 ? 0:(this.page - 1),
-          size: this.showPage,
+        page: (this.page - 1) < 0 ? 0:(this.page - 1),
+        size: this.showPage,
       }
       this.$store.dispatch(`empTn/searchEmpList`, searchReq)
-        .then((emps) => {
-          this.emps = emps.selectedUsers;
-          this.page = emps.currentPage;
-          this.count = emps.totalPages;
-        },
-        (error) => {
-          console.log("searchEmpList failed", error);
-        }
-      );
+          .then((emps) => {
+                this.emps = emps.selectedUsers;
+                this.page = emps.currentPage;
+                this.count = emps.totalPages;
+              },
+              (error) => {
+                console.log("searchEmpList failed", error);
+              }
+          );
     },
     onClickSave() {
 
       console.log(this.edited);
       if (this.edited.empUuid != 0) {
         this.$store.dispatch("empTn/updateEmp", this.edited).then(
-          (response) => {
-            alert(response.data.message);
-            this.resetForm();
-            this.showForm=false;
-          //  this.handlePageChange();
-          },
-          (error) => {
-            console.log("saveEmp failed", error);
-          }
+            (response) => {
+              alert(response.data.message);
+              this.resetForm();
+              this.showForm=false;
+              //  this.handlePageChange();
+            },
+            (error) => {
+              console.log("saveEmp failed", error);
+            }
         );
       } else {
 
         this.$store.dispatch("auth/register", this.edited)
-          .then(
-          (response) => {
-            alert(response.data.message);
-            this.resetForm();
-            this.showForm=false;
-            this.handlePageChange();
-          },
-          (error) => {
-            console.log("saveEmp failed", error);
-          }
-        );
+            .then(
+                (response) => {
+                  alert(response.data.message);
+                  this.resetForm();
+                  this.showForm=false;
+                  this.handlePageChange();
+                },
+                (error) => {
+                  console.log("saveEmp failed", error);
+                }
+            );
       }
     },
-
     onCellClicked(params) {
       this.showForm = true;
       // if (params.column.gid === "edit") {
-        params.data.password = "";
-        this.updateEdited = Object.assign({}, params.data);
-        this.edited = params.data;
+      params.data.password = "";
+      this.updateEdited = Object.assign({}, params.data);
+      this.edited = params.data;
       // }
 
     },
@@ -601,22 +454,22 @@ export default {
 
     deleteEmp(id) {
       this.$store.dispatch("empTn/deleteEmp", id).then(
-        () => {
-          //this.getMainEmp();
-        },
-        (error) => {
-          console.log("deleteEmp failed", error);
-        }
+          () => {
+            //this.getMainEmp();
+          },
+          (error) => {
+            console.log("deleteEmp failed", error);
+          }
       );
       this.resetForm();
     },
 
     resetForm() {
-        console.log(this.updateEdited);
+      console.log(this.updateEdited);
       if (this.edited.empUuid != 0) {
-          this.edited = this.updateEdited;
+        this.edited = this.updateEdited;
       } else {
-          this.edited = Object.assign({}, this.initEdited);
+        this.edited = Object.assign({}, this.initEdited);
       }
     },
     onReset () {
@@ -632,6 +485,20 @@ export default {
   },
   created() {
     this.searchEmpList();
+    //부서명
+    this.getCommonCode('19', '1', 'divOptions');
+    //직위
+    this.getCommonCode('17', '1', 'titleOptions');
+    //국가코드
+    this.getCommonCode('1', '1', 'countryOptions');
+    //생일타입
+    this.getCommonCode('222', '1', 'dobTypeOptions');
+    //직책
+    this.getCommonCode('18', '1', 'empRoleOptions');
+    //근무형태
+    this.getCommonCode('16', '1', 'workOptions');
+    //재직상태
+    this.getCommonCode('15', '1', 'empStatusOptions');
   },
 
 };

@@ -22,7 +22,17 @@ module.exports = configure(function (/* ctx */) {
       warnings: true,
       errors: true
     },
-
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader'
+          }
+        }
+      ]
+    },
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
     // preFetch: true,
 
