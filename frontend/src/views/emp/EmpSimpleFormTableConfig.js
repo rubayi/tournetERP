@@ -3,6 +3,19 @@ export class EmpFormTableConfig {
     static columns() {
         return [
             {
+                field: "edit",
+                headerName: "관리",
+                width: 100,
+                flex: null,
+                cellStyle: { 'justify-content': 'center' },
+                cellRenderer: function (params) {
+                    return `<div style="display: flex; justify-content: center;"><img src="images/folder.svg" style="width: 20px; height: 20px;" /></div>`;
+                },
+                valueGetter: function (params) {
+                    return "수정/삭제";
+                },
+            },
+            {
                 field: "empUuid",
                 headerName: "번호",
                 width: 40,
@@ -17,19 +30,6 @@ export class EmpFormTableConfig {
                 sortable: true,
                 filter: true,
             },
-            {
-                field: "edit",
-                headerName: "관리",
-                width: 100,
-                cellRenderer: function (params) {
-                    return `<q-btn style="background: #50d427ad; padding: 5px; border-radius: 4px; cursor: pointer; font-size: 12px;">
-                    ${params.value}</q-btn>`;
-                },
-                valueGetter: function (params) {
-                    return "수정/삭제";
-                },
-            },
-
             {
                 field: "empKor",
                 headerName: "직원명",

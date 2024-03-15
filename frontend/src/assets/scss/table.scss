@@ -48,13 +48,13 @@ input[class^="ag-"][type="date"]::-webkit-calendar-picker-indicator {
 
 // Sets the height font size
 // of the grid floating filter components to be the same as the multiselect
-.ag-theme-alpine input[class^='ag-']:not([type]),
-.ag-theme-alpine input[class^='ag-'][type='text'],
-.ag-theme-alpine input[class^='ag-'][type='number'],
-.ag-theme-alpine input[class^='ag-'][type='tel'],
-.ag-theme-alpine input[class^='ag-'][type='date'],
-.ag-theme-alpine input[class^='ag-'][type='datetime-local'],
-.ag-theme-alpine textarea[class^='ag-'] {
+.ag-theme-alpine input[class^="ag-"]:not([type]),
+.ag-theme-alpine input[class^="ag-"][type="text"],
+.ag-theme-alpine input[class^="ag-"][type="number"],
+.ag-theme-alpine input[class^="ag-"][type="tel"],
+.ag-theme-alpine input[class^="ag-"][type="date"],
+.ag-theme-alpine input[class^="ag-"][type="datetime-local"],
+.ag-theme-alpine textarea[class^="ag-"] {
   font-size: 14px;
   min-height: 35px;
 }

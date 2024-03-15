@@ -5,12 +5,15 @@
     :rowData="rowData"
     :getRowHeight="getRowHeight"
     :headerHeight="50"
+    :defaultColDef="defaultColDef"
     style="width: 100%; height: 600px"
   />
 </template>
 
 <script lang="ts">
 import { AgGridVue } from "ag-grid-vue3";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -24,11 +27,14 @@ export default defineComponent({
   },
   setup() {
     const getRowHeight = () => {
-      return 50;
+      return 45;
     };
-
+    const defaultColDef = {
+      flex: 1,
+    };
     return {
       getRowHeight,
+      defaultColDef,
     };
   },
 });
@@ -38,7 +44,7 @@ export default defineComponent({
 .ag-theme-alpine .ag-cell {
   display: flex;
   align-items: center;
-  justify-content: center;
+  // justify-content: center;
 }
 .ag-header-cell {
   background-image: url("src/assets/top_main.png");
