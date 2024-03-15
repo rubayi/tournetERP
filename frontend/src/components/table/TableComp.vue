@@ -3,29 +3,43 @@
     class="ag-theme-alpine grid"
     :columnDefs="columnDefs"
     :rowData="rowData"
-    style="width:100%; height: 500px"
+    :getRowHeight="getRowHeight"
+    :headerHeight="50"
+    style="width: 100%; height: 600px"
   />
 </template>
 
 <script lang="ts">
 import { AgGridVue } from "ag-grid-vue3";
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 
-const columnDefs = ref([]);
-const rowData = ref([]);
 export default defineComponent({
   name: "TableComp",
   components: {
-    AgGridVue
+    AgGridVue,
   },
   props: {
     columnDefs: Array,
-    rowData: Array
+    rowData: Array,
+  },
+  setup() {
+    const getRowHeight = () => {
+      return 50;
+    };
+
+    return {
+      getRowHeight,
+    };
   },
 });
 </script>
 
 <style lang="scss">
+.ag-theme-alpine .ag-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .ag-header-cell {
   background-image: url("src/assets/top_main.png");
   color: #fff;
