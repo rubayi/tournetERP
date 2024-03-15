@@ -3,35 +3,35 @@
   <div class="q-pa-md q-gutter-sm">
     <div class="q-px-lg">
       <div class="q-py-lg text-h4 text-weight-bold text-blue">직원관리</div>
+        <q-form @submit="searchEmpList">
+            <div class="row q-col-gutter-sm" style="max-width: 900px">
+                <q-select class="col-3"
+                          v-model="searchIdx"
+                          :options="options"
+                          label="검색방법 *" />
+                <q-select v-if="this.searchIdx == '상태'" class="col-3"
+                          v-model="searchEmpStatus"
+                          :options="empStatusOptions"
+                          option-value="codeValue"
+                          option-label="codeKr"
+                          emit-value
+                          map-options
+                          label="재직상태 *" />
+                <q-input v-if="this.searchIdx != '상태'"
+                         v-model="searchWord"
+                         type="text"
+                         label="검색어 *"
+                />
+                <div class="q-py-md">
+                    <q-btn label="검색" type="submit" color="primary"/>
+                    <q-btn style="margin-left: 5px" label="전체검색" color="secondary" @click="onReset"/>
+                </div>
+                <div class="q-pa-md">
+                    <q-btn label="+ 사용자등록" color="green" @click="createAction"/>
+                </div>
+            </div>
+        </q-form>
 
-      <q-form @submit="searchEmpList">
-        <div class="row q-col-gutter-sm" style="max-width: 900px">
-          <q-select class="col-3"
-                    v-model="searchIdx"
-                    :options="options"
-                    label="검색방법 *" />
-          <q-select v-if="this.searchIdx == '상태'" class="col-3"
-                    v-model="searchEmpStatus"
-                    :options="empStatusOptions"
-                    option-value="codeValue"
-                    option-label="codeKr"
-                    emit-value
-                    map-options
-                    label="재직상태 *" />
-          <q-input v-if="this.searchIdx != '상태'"
-                   v-model="searchWord"
-                   type="text"
-                   label="검색어 *"
-          />
-          <div class="q-py-md">
-            <q-btn label="검색" type="submit" color="primary"/>
-            <q-btn style="margin-left: 5px" label="전체검색" color="secondary" @click="onReset"/>
-          </div>
-          <div class="q-pa-md">
-            <q-btn label="+ 사용자등록" color="green" @click="createAction"/>
-          </div>
-        </div>
-      </q-form>
     </div>
     <div class="row q-px-lg">
       <div class="col-12">
@@ -40,12 +40,12 @@
             class="ag-theme-alpine grid"
             :column-defs="colDefs"
             :row-data="emps"
-            :onCellClicked="onCellClicked"
+            :on-cell-clicked="openAction"
         />
         <div class="q-col-lg q-pa-sm flex flex-center">
           <page-comp
               v-model="page"
-              :max="count"
+              :max="showPage"
               direction-links
               @click="handlePageChange"
           />
@@ -53,11 +53,11 @@
       </div>
     </div>
     <emp-form-drawer
-        :openDrawer="openDrawer"
+        :open-drawer="openDrawer"
         drawerWidth="500"
         :dataVal="edited"
+        :on-close-click="closeAction"
     />
-
   </div>
 
 </template>
@@ -80,7 +80,7 @@ export default {
   components: {
     TableComp,
     PageComp,
-    EmpFormDrawer
+    EmpFormDrawer,
   },
   setup () {
     return {
@@ -97,8 +97,8 @@ export default {
     return {
       //S: Paging SET
       page: 1, //현재페이지
-      count: 5, //표시할 페이지 개수
-      showPage: 15, //보여줄 row 개수
+      showPage: 5, //표시할 페이지 개수
+      count: 10, //보여줄 row 개수
       //E: Paging SET
 
       componentKey: 0,
@@ -113,7 +113,7 @@ export default {
       titleOptions: [],
       empRoleOptions: [],
       dobTypeOptions: [],
-      countryOptions: [],
+      showPageryOptions: [],
       initEdited : initialData,
       updateEdited:{},
       edited: initialData,
@@ -137,15 +137,20 @@ export default {
     createAction() {
       this.edited = initialData;
       this.openDrawer = !this.openDrawer;
-      console.log(this.edited);
     },
 
     /* Edit */
-    openAction(empVal) {
-      this.edited = empVal;
+    openAction(params) {
+      params.data.password = "";
+      this.updateEdited = Object.assign({}, params.data);
+      this.edited = params.data;
       this.openDrawer = !this.openDrawer;
     },
 
+    closeAction() {
+        this.edited = initialData;
+        this.openDrawer = !this.openDrawer;
+    },
 
     handlePageChange() {
       this.searchEmpList();
@@ -181,15 +186,14 @@ export default {
         empKor:this.empKor,
         empEng: this.empEng,
         username: this.username,
-
         page: (this.page - 1) < 0 ? 0:(this.page - 1),
-        size: this.showPage,
+        size: this.count,
       }
       this.$store.dispatch(`empTn/searchEmpList`, searchReq)
           .then((emps) => {
                 this.emps = emps.selectedUsers;
                 this.page = emps.currentPage;
-                this.count = emps.totalPages;
+                this.showPage = emps.totalPages;
               },
               (error) => {
                 console.log("searchEmpList failed", error);
@@ -226,15 +230,7 @@ export default {
             );
       }
     },
-    onCellClicked(params) {
-      this.openDrawer = true;
-      // if (params.column.gid === "edit") {
-      params.data.password = "";
-      this.updateEdited = Object.assign({}, params.data);
-      this.edited = params.data;
-      // }
 
-    },
 
     deleteEmp(id) {
       this.$store.dispatch("empTn/deleteEmp", id).then(
@@ -274,8 +270,8 @@ export default {
     //직위
     this.getCommonCode({upCode: '17', codeLvl:'1', dataName:'titleOptions'});
     //국가코드
-    //this.getCommonCode('1', '1', 'countryOptions');
-    this.getCommonCode({upCode: '1', codeLvl:'1', dataName:'countryOptions'});
+    //this.getCommonCode('1', '1', 'showPageryOptions');
+    this.getCommonCode({upCode: '1', codeLvl:'1', dataName:'showPageryOptions'});
     //생일타입
     this.getCommonCode({upCode: '222', codeLvl:'1', dataName:'dobTypeOptions'});
     //직책

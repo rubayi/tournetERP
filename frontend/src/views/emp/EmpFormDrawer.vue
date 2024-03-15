@@ -1,11 +1,13 @@
 <template>
   <div id="empform-drawer">
     <drawer-comp
-        :openDrawer="openDrawer"
+        :open-drawer="openDrawer"
         :drawerWidth="drawerWidth"
+        :on-close-click="onCloseClick"
     >
       <div class="flex flex-grow-1 q-pa-md">
-        <emp-form-drawer-content>
+        <emp-form-drawer-content
+            :dataVal="dataVal">
 
         </emp-form-drawer-content>
 
@@ -21,10 +23,6 @@ import { defineComponent, ref, watch } from "vue";
 import DrawerComp from "src/components/drawers/DrawerComp.vue";
 import EmpFormDrawerContent from "src/views/emp/EmpFormDrawerContent.vue";
 
-const openDrawer = ref([]);
-const drawerWidth = ref([]);
-const dataVal = ref([]);
-
 export default defineComponent({
   name: "EmpFormDrawer",
   components: {
@@ -35,14 +33,14 @@ export default defineComponent({
     openDrawer: Boolean,
     drawerWidth: Number,
     dataVal: Array,
+    onCloseClick:Function,
   },
   setup(props, { emit }) {
 
   },
-
   mounted() {
+    console.log('Received dataVal:', this.dataVal);
     console.log('Received openDrawer:', this.openDrawer);
-    console.log('Received drawerWidth:', this.drawerWidth);
   }
 });
 </script>
