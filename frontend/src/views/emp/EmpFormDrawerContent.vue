@@ -54,15 +54,15 @@
                         v-model="edited.empEng"
                         label="영문이름(Name Eng)"
                 />
-<!--                <q-select-->
-<!--                        class="col-3"-->
-<!--                        v-model="edited.empWorkType"-->
-<!--                        :options="workOptions"-->
-<!--                        option-value="codeValue"-->
-<!--                        option-label="codeKr"-->
-<!--                        emit-value-->
-<!--                        map-options-->
-<!--                        label="근무형태" />-->
+                <q-select
+                        class="col-3"
+                        v-model="edited.empWorkType"
+                        :options="lcSecedOptions.workOptions"
+                        option-value="codeValue"
+                        option-label="codeKr"
+                        emit-value
+                        map-options
+                        label="근무형태" />
 <!--                <q-select-->
 <!--                        class="col-3"-->
 <!--                        v-model="edited.empDiv"-->
@@ -152,14 +152,19 @@ export default defineComponent({
   },
   props: {
     dataVal: Object,
+    selectOptions: Array,
   },
   setup(props, { emit }) {
     const edited = ref(props.dataVal);
+    const lcSecedOptions = ref(props.selectOptions);
 
-      return {
-          edited,
-      };
+    return {
+      edited,
+      lcSecedOptions,
+    };
+
   },
+
   mounted() {
     console.log('111Received dataVal:', this.dataVal);
   }

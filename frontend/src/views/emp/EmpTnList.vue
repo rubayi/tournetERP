@@ -57,6 +57,7 @@
         drawerWidth="500"
         :dataVal="edited"
         :on-close-click="closeAction"
+        :select-options="selectOptions"
     />
   </div>
 
@@ -113,7 +114,7 @@ export default {
       titleOptions: [],
       empRoleOptions: [],
       dobTypeOptions: [],
-      showPageryOptions: [],
+      showCountryOptions: [],
       initEdited : initialData,
       updateEdited:{},
       edited: initialData,
@@ -145,6 +146,37 @@ export default {
       this.updateEdited = Object.assign({}, params.data);
       this.edited = params.data;
       this.openDrawer = !this.openDrawer;
+    },
+
+    saveAction() {
+
+        if (this.edited.empUuid != 0) {
+            this.$store.dispatch("empTn/updateEmp", this.edited).then(
+                (response) => {
+                    alert(response.data.message);
+                    this.resetForm();
+                    this.openDrawer=false;
+                    //  this.handlePageChange();
+                },
+                (error) => {
+                    console.log("saveEmp failed", error);
+                }
+            );
+        } else {
+
+            this.$store.dispatch("auth/register", this.edited)
+                .then(
+                    (response) => {
+                        alert(response.message);
+                        this.resetForm();
+                        this.openDrawer=false;
+                        this.handlePageChange();
+                    },
+                    (error) => {
+                        console.log("saveEmp failed", error);
+                    }
+                );
+        }
     },
 
     closeAction() {
@@ -200,37 +232,6 @@ export default {
               }
           );
     },
-    onClickSave() {
-
-      if (this.edited.empUuid != 0) {
-        this.$store.dispatch("empTn/updateEmp", this.edited).then(
-            (response) => {
-              alert(response.data.message);
-              this.resetForm();
-              this.openDrawer=false;
-              //  this.handlePageChange();
-            },
-            (error) => {
-              console.log("saveEmp failed", error);
-            }
-        );
-      } else {
-
-        this.$store.dispatch("auth/register", this.edited)
-            .then(
-                (response) => {
-                  alert(response.message);
-                  this.resetForm();
-                  this.openDrawer=false;
-                  this.handlePageChange();
-                },
-                (error) => {
-                  console.log("saveEmp failed", error);
-                }
-            );
-      }
-    },
-
 
     deleteEmp(id) {
       this.$store.dispatch("empTn/deleteEmp", id).then(
@@ -270,8 +271,7 @@ export default {
     //직위
     this.getCommonCode({upCode: '17', codeLvl:'1', dataName:'titleOptions'});
     //국가코드
-    //this.getCommonCode('1', '1', 'showPageryOptions');
-    this.getCommonCode({upCode: '1', codeLvl:'1', dataName:'showPageryOptions'});
+    this.getCommonCode({upCode: '1', codeLvl:'1', dataName:'showCountryOptions'});
     //생일타입
     this.getCommonCode({upCode: '222', codeLvl:'1', dataName:'dobTypeOptions'});
     //직책
@@ -281,6 +281,7 @@ export default {
     this.getCommonCode({upCode: '16', codeLvl:'1', dataName:'workOptions'});
     //재직상태
     this.getCommonCode({upCode: '15', codeLvl:'1', dataName:'empStatusOptions'});
+
   },
 
 };
