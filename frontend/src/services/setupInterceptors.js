@@ -2,7 +2,6 @@ import axiosInstance from "./api";
 import TokenService from "./token.service";
 
 const setup = (store) => {
-  console.log("======3===========");
   axiosInstance.interceptors.request.use(
     (config) => {
       const token = TokenService.getLocalAccessToken();
@@ -27,7 +26,6 @@ const setup = (store) => {
 
       if (originalConfig.url !== "/auth/signin" && err.response) {
         // Access Token was expired
-        console.log(err.response.data);
         alert(err.response.data.message);
         if ((err.response.status === 401 && !originalConfig._retry)) {
           originalConfig._retry = true;

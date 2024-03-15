@@ -1,4 +1,3 @@
-
 export class EmpFormTableConfig {
 
     static columns() {
@@ -6,7 +5,7 @@ export class EmpFormTableConfig {
             {
                 field: "empUuid",
                 headerName: "번호",
-                width: 30,
+                width: 40,
                 sortable: true,
                 filter: true,
                 // checkboxSelection: true,
@@ -30,6 +29,7 @@ export class EmpFormTableConfig {
                     return "수정/삭제";
                 },
             },
+
             {
                 field: "empKor",
                 headerName: "직원명",
@@ -50,6 +50,7 @@ export class EmpFormTableConfig {
                 sortable: true,
                 filter: true,
             },
+
             {
                 field: "empPhone",
                 headerName: "전화번호",

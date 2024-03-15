@@ -6,7 +6,7 @@ export class EmpFormTableConfig {
       {
           field: "empUuid",
           headerName: "번호",
-          width: 30,
+          width: 50,
           sortable: true,
           filter: true,
           // checkboxSelection: true,

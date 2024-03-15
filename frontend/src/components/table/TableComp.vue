@@ -22,16 +22,14 @@ export default defineComponent({
     columnDefs: Array,
     rowData: Array
   },
-
-
 });
 </script>
 
 <style lang="scss">
 .ag-header-cell {
-  background-image: url("~@/assets/top_main.png");
+  background-image: url("src/assets/top_main.png");
   color: #fff;
-  color: var(--ag-background-color, #fff);
+  color: var(--ag-background-color, #0c2c8b);
 }
 .ag-header-cell-label {
   justify-content: center;

@@ -91,7 +91,7 @@ export default defineComponent({
 }
 
 .main-title {
-  background-image: url("~@/assets/top_main.png");
+  background-image: url("src/assets/top_main.png");
   font-family: Raleway;
   font-weight: 500;
   color: #f0eeee;

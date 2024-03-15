@@ -28,7 +28,7 @@ export default defineComponent({
 
 <style lang="scss">
 .ag-header-cell {
-  background-image: url("~@/assets/top_main.png");
+  background-image: url("src/assets/top_main.png");
   color: #fff;
   color: var(--ag-background-color, #fff);
 }
