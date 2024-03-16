@@ -29,6 +29,8 @@
     </q-header>
     <q-drawer
       class="navigation-drawer"
+      overlay
+      :width="240"
       v-if="$store.state.auth.user"
       v-model="leftDrawerOpen"
       show-if-above
