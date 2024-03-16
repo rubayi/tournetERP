@@ -7,7 +7,8 @@
     :headerHeight="50"
     :onCellClicked="onCellClicked"
     :defaultColDef="defaultColDef"
-    style="width: 100%; height: 600px"
+    :domLayout="'autoHeight'"
+    style="width: 100%; height: 100%"
   />
 </template>
 

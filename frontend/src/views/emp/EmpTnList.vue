@@ -1,50 +1,61 @@
 <template>
   <component-to-re-render :key="componentKey" />
-  <div class="q-pa-md q-gutter-sm">
-    <div class="q-px-lg">
-      <div class="q-py-lg text-h4 text-weight-bold text-blue">직원관리</div>
-      <q-form @submit="searchEmpList">
-        <div class="row q-col-gutter-sm" style="max-width: 900px">
-          <q-select
-            class="col-3"
-            v-model="searchIdx"
-            :options="options"
-            label="검색방법 *"
-          />
-          <q-select
-            v-if="this.searchIdx == '상태'"
-            class="col-3"
-            v-model="searchEmpStatus"
-            :options="empStatusOptions"
-            option-value="codeValue"
-            option-label="codeKr"
-            emit-value
-            map-options
-            label="재직상태 *"
-          />
-          <q-input
-            v-if="this.searchIdx != '상태'"
-            v-model="searchWord"
-            type="text"
-            label="검색어 *"
-          />
-          <div class="q-py-md">
-            <q-btn label="검색" type="submit" color="primary" />
-            <q-btn
-              style="margin-left: 5px"
-              label="전체검색"
-              color="secondary"
-              @click="onReset"
-            />
-          </div>
-          <div class="q-pa-md">
-            <q-btn label="+ 사용자등록" color="green" @click="createAction" />
-          </div>
+  <div id="officeform">
+    <q-page class="q-pa-md">
+      <div class="row">
+        <div class="col q-pr-md flex items-center">
+          <span class="part_title text-primary">
+            <q-icon name="person" class="q-ml-xs q-mr-md" size="md"></q-icon
+            >직원관리</span
+          >
         </div>
-      </q-form>
-    </div>
-    <div class="row q-px-lg">
-      <div class="col-12">
+        <div class="col-5 text-right">
+          <q-form @submit="searchEmpList">
+            <div class="row q-col-gutter-sm justify-end">
+              <q-select
+                class="col-2"
+                v-model="searchIdx"
+                :options="options"
+                label="검색방법 *"
+              />
+              <q-select
+                v-if="this.searchIdx == '상태'"
+                class="col-3"
+                v-model="searchEmpStatus"
+                :options="empStatusOptions"
+                option-value="codeValue"
+                option-label="codeKr"
+                emit-value
+                map-options
+                label="재직상태 *"
+              />
+              <q-input
+                v-if="this.searchIdx != '상태'"
+                v-model="searchWord"
+                type="text"
+                label="검색어 *"
+              />
+              <div class="q-py-md">
+                <q-btn label="검색" type="submit" color="primary" />
+                <q-btn
+                  style="margin-left: 5px"
+                  label="전체검색"
+                  color="secondary"
+                  @click="onReset"
+                />
+              </div>
+              <div class="q-pa-md">
+                <q-btn
+                  label="+ 사용자등록"
+                  color="green"
+                  @click="createAction"
+                />
+              </div>
+            </div>
+          </q-form>
+        </div>
+      </div>
+      <div class="col-auto text-right">
         <table-comp
           id="memberform-grid"
           class="ag-theme-alpine grid"
@@ -61,13 +72,15 @@
           />
         </div>
       </div>
-    </div>
-    <emp-form-drawer
-      :open-drawer="openDrawer"
-      :drawer-width=800
-      :dataVal="edited"
-      :on-close-click="closeAction"
-     />
+
+      <emp-form-drawer
+        :open-drawer="openDrawer"
+        :drawer-width="800"
+        :dataVal="edited"
+        :on-close-click="closeAction"
+        :select-options="selectOptions"
+      />
+    </q-page>
   </div>
 </template>
 
@@ -296,4 +309,14 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss">
+#officeform {
+  #officeform-grid-container {
+    flex-grow: 1;
+
+    #officeform-grid {
+      height: 100%;
+    }
+  }
+}
+</style>
