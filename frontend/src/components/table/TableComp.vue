@@ -5,6 +5,7 @@
     :rowData="rowData"
     :getRowHeight="getRowHeight"
     :headerHeight="50"
+    :onCellClicked="onCellClicked"
     :defaultColDef="defaultColDef"
     style="width: 100%; height: 600px"
   />
@@ -24,6 +25,7 @@ export default defineComponent({
   props: {
     columnDefs: Array,
     rowData: Array,
+    onCellClicked: Function,
   },
   setup() {
     const getRowHeight = () => {

@@ -1,13 +1,151 @@
 <template>
   <div id="empform-drawer">
     <drawer-comp
-        :openDrawer="openDrawer"
+        :open-drawer="openDrawer"
         :drawerWidth="drawerWidth"
+        :on-close-click="onCloseClick"
     >
       <div class="flex flex-grow-1 q-pa-md">
-        <emp-form-drawer-content>
+          <q-card-section>
+              <q-form v-if="edited">
+                  <q-card-section>
+                      <div class="row q-col-gutter-lg">
+                          <input
+                                  id="empUuid"
+                                  v-model="edited.empUuid"
+                                  hidden
+                          />
+                          <q-input
+                                  class="col-6"
+                                  type="text"
+                                  id="username"
+                                  v-model="edited.username"
+                                  label="사용자명(username) *"
+                                  stack-label
+                                  lazy-rules
+                                  :rules="[ val => val != '' || '사용자명을 입력 해 주십시오.']"
+                          />
+                          <q-input
+                                  v-if="edited.empUuid != 0"
+                                  class="col-3"
+                                  type="password"
+                                  id="password"
+                                  v-model="edited.password"
+                                  label="암호"
+                                  hint="입력하지 않으면 변경되지 않습니다."
+                          />
 
-        </emp-form-drawer-content>
+                          <q-input
+                                  v-if="edited.empUuid == 0"
+                                  class="col-3"
+                                  type="password"
+                                  id="password"
+                                  v-model="edited.password"
+                                  label="암호* "
+                                  lazy-rules
+                                  :rules="[ val => !!val  || '암호를 입력 해 주십시오.']"
+                          />
+                          <q-input
+                                  class="col-3"
+                                  type="text"
+                                  id="empKor"
+                                  v-model="edited.empKor"
+                                  label="이름(한글이름) *"
+                                  lazy-rules
+                                  :rules="[ val => !!val  || '한글이름 입력 해 주십시오.']"
+                          />
+                          <q-input
+                                  class="col-3"
+                                  type="text"
+                                  id="empEng"
+                                  v-model="edited.empEng"
+                                  label="영문이름(Name Eng)"
+                          />
+                          <q-select
+                                  class="col-3"
+                                  v-model="edited.empWorkType"
+                                  :options="lcSecedOptions.workOptions"
+                                  option-value="codeValue"
+                                  option-label="codeKr"
+                                  emit-value
+                                  map-options
+                                  label="근무형태" />
+                          <!--                <q-select-->
+                          <!--                        class="col-3"-->
+                          <!--                        v-model="edited.empDiv"-->
+                          <!--                        :options="divOptions"-->
+                          <!--                        option-value="codeValue"-->
+                          <!--                        option-label="codeKr"-->
+                          <!--                        emit-value-->
+                          <!--                        map-options-->
+                          <!--                        label="부서명" />-->
+                          <!--                <q-select-->
+                          <!--                        class="col-3"-->
+                          <!--                        v-model="edited.empTitle"-->
+                          <!--                        :options="titleOptions"-->
+                          <!--                        option-value="codeValue"-->
+                          <!--                        option-label="codeKr"-->
+                          <!--                        emit-value-->
+                          <!--                        map-options-->
+                          <!--                        label="직위" />-->
+                          <!--                <q-select-->
+                          <!--                        class="col-3"-->
+                          <!--                        v-model="edited.empRole"-->
+                          <!--                        :options="empRoleOptions"-->
+                          <!--                        option-value="codeValue"-->
+                          <!--                        option-label="codeKr"-->
+                          <!--                        emit-value-->
+                          <!--                        map-options-->
+                          <!--                        label="직책" />-->
+
+                          <q-input
+                                  class="col-6"
+                                  type="text"
+                                  id="username"
+                                  v-model="edited.empPhone"
+                                  label="핸드폰 *"
+                                  lazy-rules
+                                  :rules="[ val => val && val.length > 0 || '핸드폰 번호를 입력 해 주십시오.']"
+                          />
+
+                          <q-input
+                                  class="col-6"
+                                  type="text"
+                                  id="empWorkPhone"
+                                  v-model="edited.empWorkPhone"
+                                  label="내선번호(Work Phone) "
+                          />
+
+                          <q-input
+                                  class="col-6"
+                                  type="text"
+                                  v-model="edited.empEmail"
+                                  label="이메일* "
+                                  lazy-rules
+                                  :rules="[ val => val && val.length > 0 || '이메일을 입력 해 주십시오.']"
+                          />
+
+                          <q-input
+                                  class="col-6"
+                                  type="text"
+                                  id="empEmailBook"
+                                  v-model="edited.empEmailBook"
+                                  label="예약이메일(Email)"
+                          />
+                          <!--                <q-select-->
+                          <!--                        class="col-6"-->
+                          <!--                        v-model="edited.empDobType"-->
+                          <!--                        :options="dobTypeOptions"-->
+                          <!--                        option-value="codeValue"-->
+                          <!--                        option-label="codeKr"-->
+                          <!--                        emit-value-->
+                          <!--                        map-options-->
+                          <!--                        label="생일타입" />-->
+                      </div>
+                  </q-card-section>
+              </q-form>
+
+          </q-card-section>
 
       </div>
     </drawer-comp>
@@ -19,30 +157,31 @@ import { defineComponent, ref, watch } from "vue";
 
 // Components
 import DrawerComp from "src/components/drawers/DrawerComp.vue";
-import EmpFormDrawerContent from "src/views/emp/EmpFormDrawerContent.vue";
-
-const openDrawer = ref([]);
-const drawerWidth = ref([]);
-const dataVal = ref([]);
 
 export default defineComponent({
   name: "EmpFormDrawer",
   components: {
     DrawerComp,
-    EmpFormDrawerContent
   },
   props: {
     openDrawer: Boolean,
     drawerWidth: Number,
     dataVal: Array,
+    onCloseClick:Function,
+    selectOptions:Array,
   },
   setup(props, { emit }) {
-
+      const edited = ref(props.dataVal);
+      const lcSecedOptions = ref(props.selectOptions);
+      return {
+          edited,
+          lcSecedOptions,
+      };
   },
-
   mounted() {
+    console.log('Received dataVal:', this.dataVal);
     console.log('Received openDrawer:', this.openDrawer);
-    console.log('Received drawerWidth:', this.drawerWidth);
+      console.log('Received selectOptions:', this.selectOptions);
   }
 });
 </script>

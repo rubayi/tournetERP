@@ -4,14 +4,6 @@ export class EmpFormTableConfig {
     '<span class="ag-overlay-loading-center">Please wait while your Data are loading</span>';
   static columns = [
       {
-          field: "empUuid",
-          headerName: "번호",
-          width: 50,
-          sortable: true,
-          filter: true,
-          // checkboxSelection: true,
-      },
-      {
           field: "edit",
           headerName: "관리",
           width: 100,
@@ -22,6 +14,14 @@ export class EmpFormTableConfig {
           valueGetter: function (params) {
               return "수정/삭제";
           },
+      },
+      {
+          field: "empUuid",
+          headerName: "번호",
+          width: 50,
+          sortable: true,
+          filter: true,
+          // checkboxSelection: true,
       },
       {
           field: "username",

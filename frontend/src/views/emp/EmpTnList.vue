@@ -3,7 +3,6 @@
   <div class="q-pa-md q-gutter-sm">
     <div class="q-px-lg">
       <div class="q-py-lg text-h4 text-weight-bold text-blue">직원관리</div>
-
       <q-form @submit="searchEmpList">
         <div class="row q-col-gutter-sm" style="max-width: 900px">
           <q-select
@@ -51,12 +50,12 @@
           class="ag-theme-alpine grid"
           :column-defs="colDefs"
           :row-data="emps"
-          :onCellClicked="onCellClicked"
+          :on-cell-clicked="openAction"
         />
         <div class="q-col-lg q-pa-sm flex flex-center">
           <page-comp
             v-model="page"
-            :max="count"
+            :max="showPage"
             direction-links
             @click="handlePageChange"
           />
@@ -64,9 +63,11 @@
       </div>
     </div>
     <emp-form-drawer
-      :openDrawer="openDrawer"
+      :open-drawer="openDrawer"
       drawerWidth="500"
       :dataVal="edited"
+      :on-close-click="closeAction"
+      :select-options="selectOptions"
     />
   </div>
 </template>
@@ -102,8 +103,8 @@ export default {
     return {
       //S: Paging SET
       page: 1, //현재페이지
-      count: 5, //표시할 페이지 개수
-      showPage: 15, //보여줄 row 개수
+      showPage: 5, //표시할 페이지 개수
+      count: 10, //보여줄 row 개수
       //E: Paging SET
 
       componentKey: 0,
@@ -118,7 +119,7 @@ export default {
       titleOptions: [],
       empRoleOptions: [],
       dobTypeOptions: [],
-      countryOptions: [],
+      showCountryOptions: [],
       initEdited: initialData,
       updateEdited: {},
       edited: initialData,
@@ -141,12 +142,46 @@ export default {
     createAction() {
       this.edited = initialData;
       this.openDrawer = !this.openDrawer;
-      console.log(this.edited);
     },
 
     /* Edit */
-    openAction(empVal) {
-      this.edited = empVal;
+    openAction(params) {
+      params.data.password = "";
+      this.updateEdited = Object.assign({}, params.data);
+      this.edited = params.data;
+      this.openDrawer = !this.openDrawer;
+    },
+
+    saveAction() {
+      if (this.edited.empUuid != 0) {
+        this.$store.dispatch("empTn/updateEmp", this.edited).then(
+          (response) => {
+            alert(response.data.message);
+            this.resetForm();
+            this.openDrawer = false;
+            //  this.handlePageChange();
+          },
+          (error) => {
+            console.log("saveEmp failed", error);
+          }
+        );
+      } else {
+        this.$store.dispatch("auth/register", this.edited).then(
+          (response) => {
+            alert(response.message);
+            this.resetForm();
+            this.openDrawer = false;
+            this.handlePageChange();
+          },
+          (error) => {
+            console.log("saveEmp failed", error);
+          }
+        );
+      }
+    },
+
+    closeAction() {
+      this.edited = initialData;
       this.openDrawer = !this.openDrawer;
     },
 
@@ -183,55 +218,19 @@ export default {
         empKor: this.empKor,
         empEng: this.empEng,
         username: this.username,
-
         page: this.page - 1 < 0 ? 0 : this.page - 1,
-        size: this.showPage,
+        size: this.count,
       };
       this.$store.dispatch(`empTn/searchEmpList`, searchReq).then(
         (emps) => {
           this.emps = emps.selectedUsers;
           this.page = emps.currentPage;
-          this.count = emps.totalPages;
+          this.showPage = emps.totalPages;
         },
         (error) => {
           console.log("searchEmpList failed", error);
         }
       );
-    },
-    onClickSave() {
-      if (this.edited.empUuid != 0) {
-        this.$store.dispatch("empTn/updateEmp", this.edited).then(
-          (response) => {
-            alert(response.data.message);
-            this.resetForm();
-            this.openDrawer = false;
-            //  this.handlePageChange();
-          },
-          (error) => {
-            console.log("saveEmp failed", error);
-          }
-        );
-      } else {
-        this.$store.dispatch("auth/register", this.edited).then(
-          (response) => {
-            alert(response.message);
-            this.resetForm();
-            this.openDrawer = false;
-            this.handlePageChange();
-          },
-          (error) => {
-            console.log("saveEmp failed", error);
-          }
-        );
-      }
-    },
-    onCellClicked(params) {
-      this.openDrawer = true;
-      // if (params.column.gid === "edit") {
-      params.data.password = "";
-      this.updateEdited = Object.assign({}, params.data);
-      this.edited = params.data;
-      // }
     },
 
     deleteEmp(id) {
@@ -275,11 +274,10 @@ export default {
       dataName: "titleOptions",
     });
     //국가코드
-    //this.getCommonCode('1', '1', 'countryOptions');
     this.getCommonCode({
       upCode: "1",
       codeLvl: "1",
-      dataName: "countryOptions",
+      dataName: "showCountryOptions",
     });
     //생일타입
     this.getCommonCode({
