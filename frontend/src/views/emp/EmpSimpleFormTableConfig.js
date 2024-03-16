@@ -18,7 +18,8 @@ export class EmpFormTableConfig {
             {
                 field: "empUuid",
                 headerName: "번호",
-                width: 40,
+                width: 100,
+                flex: null,
                 sortable: true,
                 filter: true,
                 // checkboxSelection: true,
@@ -69,6 +70,7 @@ export class EmpFormTableConfig {
                 headerName: "예약이메일",
                 sortable: true,
                 filter: true,
+                // resizable: false
             },
             {
                 field: "empAddress1",
@@ -124,6 +126,7 @@ export class EmpFormTableConfig {
                 field: "empEmailBook",
                 headerName: "주소",
                 hide: true,
+                resizable: false
             },
         ];
     }
