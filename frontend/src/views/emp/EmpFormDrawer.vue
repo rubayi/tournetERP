@@ -276,6 +276,12 @@ export default defineComponent({
       upCode: "15",
       codeLvl: "1"
     }, empStatusOptions);
+
+
+    watch(() => props.dataVal, (newVal) => {
+      edited.value = { ...newVal }; // Update the edited ref with the new value
+    });
+
     return {
       edited,
       divOptions,
