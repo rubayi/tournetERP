@@ -38,6 +38,44 @@
     >
       <div v-if="$store.state.auth.user">
         <div class="navigation-menu-container">
+          <!-- <q-list>
+            <div v-for="item in linksData" :key="item.label">
+              <q-item-label v-if="item.headerLabel" header>
+                {{ item.headerLabel }}
+              </q-item-label>
+              <expansion-item-comp
+                v-else-if="item.expandChildren && !item.hide"
+                :content-inset-level="0"
+                :focused="item.focused"
+                :icon="item.icon"
+                :label="item.label"
+              >
+                <item-comp
+                  v-for="child in item.children"
+                  :external-u-r-l="child.externalURL"
+                  :focused="child?.focused"
+                  :hide="child.hide"
+                  :icon="child.icon"
+                  :label="child.label"
+                  :menu-options="child.children"
+                  :open-menu-on-hover="child.children?.length > 0"
+                  :to="child.to"
+                  :key="child.label"
+                />
+              </expansion-item-comp>
+              <item-comp
+                v-else-if="!item.expandChildren && !item.hide"
+                :focused="item.focused"
+                :hide="item.hide"
+                :icon="item.icon"
+                :label="item.label"
+                :menu-options="item.children"
+                :open-menu-on-hover="item.children?.length > 0"
+                :to="item.to"
+                :key="item.label"
+              />
+            </div>
+          </q-list> -->
           <q-tree :nodes="linksData" node-key="label" />
         </div>
         <div>

@@ -7,8 +7,10 @@
     :headerHeight="50"
     :onCellClicked="onCellClicked"
     :defaultColDef="defaultColDef"
-    :domLayout="'autoHeight'"
-    style="width: 100%; height: 100%"
+    style="width: 100%; min-height: 800px; overflow: auto"
+    :pagination="pagination"
+    pagination-auto-page-size="auto"
+    :pagination-page-size="paginationPageSize"
   />
 </template>
 
@@ -27,6 +29,14 @@ export default defineComponent({
     columnDefs: Array,
     rowData: Array,
     onCellClicked: Function,
+    pagination: {
+      type: Boolean,
+      default: true,
+    },
+    paginationPageSize: {
+      type: Number,
+      default: 15,
+    },
   },
   setup() {
     const getRowHeight = () => {

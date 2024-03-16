@@ -55,7 +55,7 @@
           </q-form>
         </div>
       </div>
-      <div class="col-auto text-right">
+      <div id="officeform-grid-container" class="row">
         <table-comp
           id="memberform-grid"
           class="ag-theme-alpine grid"
@@ -63,14 +63,6 @@
           :row-data="emps"
           :on-cell-clicked="openAction"
         />
-        <div class="q-col-lg q-pa-sm flex flex-center">
-          <page-comp
-            :page-val="page"
-            :max="showPage"
-            direction-links
-            @click="handlePageChange"
-          />
-        </div>
       </div>
 
       <emp-form-drawer
@@ -92,7 +84,7 @@ import { getCommonValue } from "src/utils/common.js"; // 공통코드 값
 
 //Component
 import TableComp from "src/components/table/TableComp.vue";
-import PageComp from "src/components/table/PaginationRenderer.vue";
+// import PageComp from "src/components/table/PaginationRenderer.vue";
 // Layout
 import EmpFormDrawer from "src/views/emp/EmpFormDrawer.vue";
 
@@ -100,7 +92,7 @@ export default {
   name: "EmpTn",
   components: {
     TableComp,
-    PageComp,
+    // PageComp,
     EmpFormDrawer,
   },
   setup() {
