@@ -1,9 +1,11 @@
 <template>
+  <div v-if="lcPageData">
   <q-pagination
-      vModel="page"
-      :max="max"
+      v-model="lcPageData"
+      :max="lcMax"
       direction-links
   />
+  </div>
 </template>
 
 <script lang="ts">
@@ -15,14 +17,17 @@ export default defineComponent({
   components: {
   },
   props: {
-    vModel: Array,
-    max: Array,
+    pageVal: Number,
+    max: Number,
   },
-  mounted() {
-    console.log('Received columnDefs:', this.columnDefs);
-    console.log('Received rowData:', this.rowData);
-  }
-
+  setup(props, { emit }) {
+    const lcPageData = ref(props.pageVal || 0);
+    const lcMax = ref(props.max || 0);
+    return {
+      lcPageData,
+      lcMax
+    };
+  },
 });
 </script>
 

@@ -54,7 +54,7 @@
         />
         <div class="q-col-lg q-pa-sm flex flex-center">
           <page-comp
-            v-model="page"
+            :page-val="page"
             :max="showPage"
             direction-links
             @click="handlePageChange"
@@ -64,11 +64,10 @@
     </div>
     <emp-form-drawer
       :open-drawer="openDrawer"
-      drawerWidth="500"
+      :drawer-width=800
       :dataVal="edited"
       :on-close-click="closeAction"
-      :select-options="selectOptions"
-    />
+     />
   </div>
 </template>
 
@@ -114,18 +113,11 @@ export default {
       username: "",
       searchWord: "",
       searchEmpStatus: "",
-      workOptions: [],
-      divOptions: [],
-      titleOptions: [],
-      empRoleOptions: [],
-      dobTypeOptions: [],
-      showCountryOptions: [],
       initEdited: initialData,
       updateEdited: {},
       edited: initialData,
       colDefs: EmpFormTableConfig.columns(),
       emps: [],
-      empStatusOptions: [],
     };
   },
   methods: {

@@ -11,9 +11,7 @@ export class EmpFormTableConfig {
                 cellRenderer: function (params) {
                     return `<div style="display: flex; justify-content: center;"><img src="images/folder.svg" style="width: 20px; height: 20px;" /></div>`;
                 },
-                valueGetter: function (params) {
-                    return "수정/삭제";
-                },
+
             },
             {
                 field: "empUuid",
@@ -70,7 +68,6 @@ export class EmpFormTableConfig {
                 headerName: "예약이메일",
                 sortable: true,
                 filter: true,
-                // resizable: false
             },
             {
                 field: "empAddress1",

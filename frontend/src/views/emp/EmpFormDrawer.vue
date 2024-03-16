@@ -64,39 +64,39 @@
                           <q-select
                                   class="col-3"
                                   v-model="edited.empWorkType"
-                                  :options="lcSecedOptions.workOptions"
+                                  :options="workOptions"
                                   option-value="codeValue"
                                   option-label="codeKr"
                                   emit-value
                                   map-options
                                   label="근무형태" />
-                          <!--                <q-select-->
-                          <!--                        class="col-3"-->
-                          <!--                        v-model="edited.empDiv"-->
-                          <!--                        :options="divOptions"-->
-                          <!--                        option-value="codeValue"-->
-                          <!--                        option-label="codeKr"-->
-                          <!--                        emit-value-->
-                          <!--                        map-options-->
-                          <!--                        label="부서명" />-->
-                          <!--                <q-select-->
-                          <!--                        class="col-3"-->
-                          <!--                        v-model="edited.empTitle"-->
-                          <!--                        :options="titleOptions"-->
-                          <!--                        option-value="codeValue"-->
-                          <!--                        option-label="codeKr"-->
-                          <!--                        emit-value-->
-                          <!--                        map-options-->
-                          <!--                        label="직위" />-->
-                          <!--                <q-select-->
-                          <!--                        class="col-3"-->
-                          <!--                        v-model="edited.empRole"-->
-                          <!--                        :options="empRoleOptions"-->
-                          <!--                        option-value="codeValue"-->
-                          <!--                        option-label="codeKr"-->
-                          <!--                        emit-value-->
-                          <!--                        map-options-->
-                          <!--                        label="직책" />-->
+                          <q-select
+                                  class="col-3"
+                                  v-model="edited.empDiv"
+                                  :options="divOptions"
+                                  option-value="codeValue"
+                                  option-label="codeKr"
+                                  emit-value
+                                  map-options
+                                  label="부서명" />
+                          <q-select
+                                  class="col-3"
+                                  v-model="edited.empTitle"
+                                  :options="titleOptions"
+                                  option-value="codeValue"
+                                  option-label="codeKr"
+                                  emit-value
+                                  map-options
+                                  label="직위" />
+                          <q-select
+                                  class="col-3"
+                                  v-model="edited.empRole"
+                                  :options="empRoleOptions"
+                                  option-value="codeValue"
+                                  option-label="codeKr"
+                                  emit-value
+                                  map-options
+                                  label="직책" />
 
                           <q-input
                                   class="col-6"
@@ -132,15 +132,75 @@
                                   v-model="edited.empEmailBook"
                                   label="예약이메일(Email)"
                           />
-                          <!--                <q-select-->
-                          <!--                        class="col-6"-->
-                          <!--                        v-model="edited.empDobType"-->
-                          <!--                        :options="dobTypeOptions"-->
-                          <!--                        option-value="codeValue"-->
-                          <!--                        option-label="codeKr"-->
-                          <!--                        emit-value-->
-                          <!--                        map-options-->
-                          <!--                        label="생일타입" />-->
+                          <q-select
+                                  class="col-6"
+                                  v-model="edited.empDobType"
+                                  :options="dobTypeOptions"
+                                  option-value="codeValue"
+                                  option-label="codeKr"
+                                  emit-value
+                                  map-options
+                                  label="생일타입" />
+                        <q-input class="col-6" v-model="edited.empDob" mask="####/##/##" :rules="['date']">
+                          <template v-slot:append>
+                            <q-icon name="event" class="cursor-pointer">
+                              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                <q-date v-model="edited.empDob" minimal>
+                                  <div class="row items-center justify-end">
+                                    <q-btn v-close-popup label="Close" color="primary" flat />
+                                  </div>
+                                </q-date>
+                              </q-popup-proxy>
+                            </q-icon>
+                          </template>
+                        </q-input>
+                        <q-input
+                            class="col-3"
+                            type="text"
+                            id="empZip"
+                            v-model="edited.empZip"
+                            label="우편번호(Zip)"
+                        />
+                        <q-input
+                            class="col-3"
+                            type="text"
+                            id="empCity"
+                            v-model="edited.empCity"
+                            label="도시(City) "
+                        />
+                        <q-input
+                            class="col-3"
+                            type="text"
+                            id="empState"
+                            v-model="edited.empState"
+                            label="주/도(State) "
+                        />
+                        <q-select
+                            class="col-3"
+                            v-model="edited.empCountry"
+                            :options="countryOptions"
+                            option-value="codeValue"
+                            option-label="codeKr"
+                            emit-value
+                            map-options
+                            label="국가(Country)" />
+                        <q-input
+                            class="col-6"
+                            bottom-slots
+                            type="text"
+                            id="empAddress1"
+                            v-model="edited.empAddress1"
+                            label="주소1(Address1) "
+                        />
+                        <q-input
+                            class="col-6"
+                            bottom-slots
+                            type="text"
+                            id="empAddress2"
+                            v-model="edited.empAddress2"
+                            label="주소2(Address2) "
+                        />
+
                       </div>
                   </q-card-section>
               </q-form>
@@ -157,6 +217,7 @@ import { defineComponent, ref, watch } from "vue";
 
 // Components
 import DrawerComp from "src/components/drawers/DrawerComp.vue";
+import {getCommonValue} from "src/utils/common";
 
 export default defineComponent({
   name: "EmpFormDrawer",
@@ -166,22 +227,68 @@ export default defineComponent({
   props: {
     openDrawer: Boolean,
     drawerWidth: Number,
-    dataVal: Array,
+    dataVal: Object,
     onCloseClick:Function,
-    selectOptions:Array,
+
   },
   setup(props, { emit }) {
-      const edited = ref(props.dataVal);
-      const lcSecedOptions = ref(props.selectOptions);
-      return {
-          edited,
-          lcSecedOptions,
-      };
+    const edited = ref(props.dataVal);
+    const workOptions = ref([]);
+    const divOptions = ref([]);
+    const titleOptions = ref([]);
+    const empRoleOptions = ref([]);
+    const dobTypeOptions = ref([]);
+    const countryOptions = ref([]);
+    const empStatusOptions =  ref([]);
+
+    /* 공통코드값 가져오기 */
+    async function getCommonCode(req, targetDataName) {
+      try {
+        targetDataName.value = await getCommonValue(req);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    //부서명
+    getCommonCode({ upCode: "19", codeLvl: "1"}, divOptions);
+    //직위
+    getCommonCode({upCode: "17",codeLvl: "1"}, titleOptions);
+    //국가코드
+    getCommonCode({
+      upCode: "1",
+      codeLvl: "1"
+    }, countryOptions );
+    //생일타입
+    getCommonCode({
+      upCode: "222",
+      codeLvl: "1"
+    }, dobTypeOptions);
+    //직책
+    getCommonCode({
+      upCode: "18",
+      codeLvl: "1"
+    }, empRoleOptions);
+    //근무형태
+    getCommonCode({ upCode: "16", codeLvl: "1"}, workOptions);
+    //재직상태
+    getCommonCode({
+      upCode: "15",
+      codeLvl: "1"
+    }, empStatusOptions);
+    return {
+      edited,
+      divOptions,
+      workOptions,
+      titleOptions,
+      empRoleOptions,
+      dobTypeOptions,
+      countryOptions
+    };
   },
   mounted() {
     console.log('Received dataVal:', this.dataVal);
     console.log('Received openDrawer:', this.openDrawer);
-      console.log('Received selectOptions:', this.selectOptions);
   }
 });
 </script>
