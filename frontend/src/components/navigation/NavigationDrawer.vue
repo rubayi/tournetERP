@@ -12,11 +12,10 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import NavigationMenu from "./NavigationMenu.vue";
-import UserInfo from "./UserInfo.vue";
 
 export default defineComponent({
   name: "NavigationDrawer",
-  components: { NavigationMenu, UserInfo },
+  components: { NavigationMenu },
 });
 </script>
 

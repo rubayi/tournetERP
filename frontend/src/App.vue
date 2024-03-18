@@ -27,6 +27,7 @@
         </q-btn>
       </q-toolbar>
     </q-header>
+
     <q-drawer
       class="navigation-drawer"
       overlay
@@ -36,9 +37,8 @@
       show-if-above
       bordered
     >
-      <div v-if="$store.state.auth.user">
-        <div class="navigation-menu-container">
-          <!-- <q-list>
+      <div class="navigation-menu-container">
+        <!-- <q-list>
             <div v-for="item in linksData" :key="item.label">
               <q-item-label v-if="item.headerLabel" header>
                 {{ item.headerLabel }}
@@ -76,10 +76,30 @@
               />
             </div>
           </q-list> -->
-          <q-tree :nodes="linksData" node-key="label" />
-        </div>
-        <div>
-          <!-- <user-info /> -->
+        <q-tree :nodes="linksData" node-key="label" />
+      </div>
+      <q-img
+        class="absolute-bottom"
+        src="https://cdn.quasar.dev/img/material.png"
+        style="height: 100px"
+      />
+      <div id="user-info">
+        <div class="full-width q-pa-sm absolute-bottom">
+          <q-btn class="full-width logout-button" @click="logout">
+            <div class="row items-center text-left full-width">
+              <q-icon left name="logout"></q-icon>
+              <div class="text-left">
+                <div class="text-weight-bold">
+                  {{
+                    $store.state.auth.user
+                      ? $store.state.auth.user.username
+                      : "(Not Logged In)"
+                  }}
+                </div>
+                <div class="logout-text">Logout</div>
+              </div>
+            </div>
+          </q-btn>
         </div>
       </div>
     </q-drawer>
@@ -217,6 +237,16 @@ body {
     height: calc(100% - 70px);
   }
 }
+#user-info > * {
+  color: var(--dark-cornflower-blue);
+  .logout-button {
+    background-color: white !important;
+  }
+  .logout-text {
+    margin-top: -5px;
+    font-size: 12px;
+  }
+}
 .topNav {
   background-image: url("images/top_main.png");
   font-family: Raleway;
@@ -233,7 +263,6 @@ body {
   font-family: Raleway;
   font-weight: bold;
 }
-
 .fieldset {
   border: 1px solid #ddd;
   background-color: #faf9f9;
@@ -242,17 +271,14 @@ body {
   margin: 0.5em 2px;
   margin-bottom: 1rem;
 }
-
 .fieldset > h1 {
   font-size: 1em;
   font-weight: bold;
   margin: -1em -0.5em 0;
 }
-
 .fieldset > h1 > span {
   float: left;
 }
-
 .fieldset > h1:before {
   border-top: 1px solid #ddd;
   content: " ";
@@ -260,7 +286,6 @@ body {
   margin: 0.5em 2px 0 -1px;
   width: 0.75em;
 }
-
 .fieldset > h1:after {
   border-top: 1px solid #ddd;
   content: " ";
@@ -278,19 +303,16 @@ body {
   padding: 0.5em;
   margin: 1em 2px;
 }
-
 .fieldset02 > h1 {
   font-size: 1em;
   font-weight: bold;
   margin: -1em -0.5em 0;
 }
-
 .fieldset02 > h1 > span {
   float: left;
   height: 1em;
   margin: -2.9em 0.5em 0;
 }
-
 .fieldset02 > h1:before {
   border-top: 1px solid #ddd;
   content: " ";
@@ -298,7 +320,6 @@ body {
   margin: 0.5em 2px 0 -1px;
   width: 0.9em;
 }
-
 .fieldset02 > h1:after {
   border-top: 1px solid #ddd;
   content: "";
@@ -310,25 +331,21 @@ body {
   position: relative;
   top: 0.5em;
 }
-
 .fieldset03 {
   border: none;
   padding: 0.5em;
   margin: 0.5em 2px;
 }
-
 .fieldset03 > h1 {
   font-size: 1em;
   font-weight: bold;
   margin: -1em -0.5em 0;
 }
-
 .fieldset03 > h1 > span {
   float: left;
   height: 1em;
   margin: -2.9em 0.5em 0;
 }
-
 .fieldset03 > h1:before {
   border-top: 1px solid #ddd;
   content: " ";
@@ -336,7 +353,6 @@ body {
   margin: 0.5em 2px 0 -1px;
   width: 0.9em;
 }
-
 .fieldset03 > h1:after {
   border-top: 1px solid #ddd;
   content: "";
