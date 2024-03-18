@@ -203,6 +203,11 @@ export default {
 };
 </script>
 <style lang="scss">
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap");
+
+body {
+  font-family: "Raleway", sans-serif;
+}
 .navigation-drawer {
   padding: 10px;
   margin: 5px;
