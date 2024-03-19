@@ -237,7 +237,6 @@ export default defineComponent({
 
     /* 공통코드값 가져오기 */
     async function getCommonCode(req, targetDataName) {
-      console.log(req);
       try {
         targetDataName.value = await getCommonValue(req);
       } catch (error) {

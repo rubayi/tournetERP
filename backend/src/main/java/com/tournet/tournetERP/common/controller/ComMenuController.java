@@ -1,5 +1,11 @@
 package com.tournet.tournetERP.common.controller;
-
+/**
+ * 메뉴관리
+ *
+ * @author : rubayi
+ * @fileName : ComMenuController
+ * @since : 2024-03-01
+ */
 import com.tournet.tournetERP.auth.dto.MessageResponse;
 import com.tournet.tournetERP.auth.entity.ERole;
 import com.tournet.tournetERP.auth.entity.Role;
