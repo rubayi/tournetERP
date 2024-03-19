@@ -2,7 +2,7 @@ import CommonCodeService from "../services/comcode.service";
 
 const commCode =
 {
-  codeUuid: null,
+  codeUuid: 0,
   codeKr: "",
   codeEn: "",
   codeAbb: "",

@@ -26,13 +26,13 @@ public class UserRequest {
 
     private String empImg;
 
-    private String empWorkType;
+    private long empWorkType;
 
-    private String empDiv;
+    private long empDiv;
 
-    private String empTitle;
+    private long empTitle;
 
-    private String empRole;
+    private long empRole;
 
     private String empPhone;
 
@@ -48,17 +48,17 @@ public class UserRequest {
 
     private String empState;
 
-    private String empCountry;
+    private long empCountry;
 
     private String empZip;
 
     private String empDob;
 
-    private String empDobType;
+    private long empDobType;
 
     private String empMemo;
 
- private String empStatus;
+    private long empStatus;
 
     private String empBeginDt;
 

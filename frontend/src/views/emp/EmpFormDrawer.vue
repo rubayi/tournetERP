@@ -4,72 +4,66 @@
         :open-drawer="openDrawer"
         :drawerWidth="drawerWidth"
         :on-close-click="onCloseClick"
+
     >
       <div class="flex flex-grow-1 q-pa-md">
           <q-card-section>
               <q-form v-if="edited">
                   <q-card-section>
                       <div class="row q-col-gutter-lg">
-                          <input
-                                  id="empUuid"
-                                  v-model="edited.empUuid"
-                                  hidden
+                          <input id="empUuid"
+                                 v-model="edited.empUuid"
+                                 hidden
                           />
-                          <q-input
-                                  class="col-6"
-                                  type="text"
-                                  id="username"
-                                  v-model="edited.username"
-                                  label="사용자명(username) *"
-                                  stack-label
-                                  lazy-rules
-                                  :rules="[ val => val != '' || '사용자명을 입력 해 주십시오.']"
+                          <q-input class="col-6"
+                                   type="text"
+                                   id="username"
+                                   v-model="edited.username"
+                                   label="사용자명(username) *"
+                                   stack-label
+                                   lazy-rules
+                                   :rules="[ val => val != '' || '사용자명을 입력 해 주십시오.']"
                           />
-                          <q-input
-                                  v-if="edited.empUuid != 0"
-                                  class="col-3"
-                                  type="password"
-                                  id="password"
-                                  v-model="edited.password"
-                                  label="암호"
-                                  hint="입력하지 않으면 변경되지 않습니다."
+                          <q-input v-if="edited.empUuid != 0"
+                                   class="col-3"
+                                   type="password"
+                                   id="password"
+                                   v-model="edited.password"
+                                   label="암호"
+                                   hint="입력하지 않으면 변경되지 않습니다."
                           />
 
-                          <q-input
-                                  v-if="edited.empUuid == 0"
-                                  class="col-3"
-                                  type="password"
-                                  id="password"
-                                  v-model="edited.password"
-                                  label="암호* "
-                                  lazy-rules
-                                  :rules="[ val => !!val  || '암호를 입력 해 주십시오.']"
+                          <q-input v-if="edited.empUuid == 0"
+                                   class="col-3"
+                                   type="password"
+                                   id="password"
+                                   v-model="edited.password"
+                                   label="암호* "
+                                   lazy-rules
+                                   :rules="[ val => !!val  || '암호를 입력 해 주십시오.']"
                           />
-                          <q-input
-                                  class="col-3"
-                                  type="text"
-                                  id="empKor"
-                                  v-model="edited.empKor"
-                                  label="이름(한글이름) *"
-                                  lazy-rules
-                                  :rules="[ val => !!val  || '한글이름 입력 해 주십시오.']"
+                          <q-input class="col-3"
+                                   type="text"
+                                   id="empKor"
+                                   v-model="edited.empKor"
+                                   label="이름(한글이름) *"
+                                   lazy-rules
+                                   :rules="[ val => !!val  || '한글이름 입력 해 주십시오.']"
                           />
-                          <q-input
-                                  class="col-3"
-                                  type="text"
-                                  id="empEng"
-                                  v-model="edited.empEng"
-                                  label="영문이름(Name Eng)"
+                          <q-input class="col-3"
+                                   type="text"
+                                   id="empEng"
+                                   v-model="edited.empEng"
+                                   label="영문이름(Name Eng)"
                           />
-                          <q-select
-                                  class="col-3"
-                                  v-model="edited.empWorkType"
-                                  :options="workOptions"
-                                  option-value="codeValue"
-                                  option-label="codeKr"
-                                  emit-value
-                                  map-options
-                                  label="근무형태" />
+                          <q-select class="col-3"
+                                    v-model="edited.empWorkType"
+                                    :options="workOptions"
+                                    option-value="codeValue"
+                                    option-label="codeKr"
+                                    emit-value
+                                    map-options
+                                    label="근무형태" />
                           <q-select
                                   class="col-3"
                                   v-model="edited.empDiv"
@@ -243,6 +237,7 @@ export default defineComponent({
 
     /* 공통코드값 가져오기 */
     async function getCommonCode(req, targetDataName) {
+      console.log(req);
       try {
         targetDataName.value = await getCommonValue(req);
       } catch (error) {
@@ -251,29 +246,29 @@ export default defineComponent({
     }
 
     //부서명
-    getCommonCode({ upCode: "19", codeLvl: "1"}, divOptions);
+    getCommonCode({ upCode: 19, codeLvl: "1"}, divOptions);
     //직위
-    getCommonCode({upCode: "17",codeLvl: "1"}, titleOptions);
+    getCommonCode({upCode: 17,codeLvl: "1"}, titleOptions);
     //국가코드
     getCommonCode({
-      upCode: "1",
+      upCode: 1,
       codeLvl: "1"
     }, countryOptions );
     //생일타입
     getCommonCode({
-      upCode: "222",
+      upCode: 222,
       codeLvl: "1"
     }, dobTypeOptions);
     //직책
     getCommonCode({
-      upCode: "18",
+      upCode: 18,
       codeLvl: "1"
     }, empRoleOptions);
     //근무형태
-    getCommonCode({ upCode: "16", codeLvl: "1"}, workOptions);
+    getCommonCode({ upCode: 16, codeLvl: "1"}, workOptions);
     //재직상태
     getCommonCode({
-      upCode: "15",
+      upCode: 15,
       codeLvl: "1"
     }, empStatusOptions);
 

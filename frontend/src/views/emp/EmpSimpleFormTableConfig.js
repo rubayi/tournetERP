@@ -58,6 +58,20 @@ export class EmpFormTableConfig {
                 filter: true,
             },
             {
+            field: "empDivName",
+            headerName: "부서",
+            width: 150,
+            sortable: true,
+            filter: true,
+            },
+            {
+              field: "empStatusName",
+              headerName: "상태",
+              width: 150,
+              sortable: true,
+              filter: true,
+            },
+            {
                 field: "empWorkPhone",
                 headerName: "내선번호",
                 sortable: true,
@@ -66,8 +80,7 @@ export class EmpFormTableConfig {
             {
                 field: "empEmailBook",
                 headerName: "예약이메일",
-                sortable: true,
-                filter: true,
+                hide: true,
             },
             {
                 field: "empAddress1",
@@ -91,7 +104,7 @@ export class EmpFormTableConfig {
             },
             {
                 field: "empCountry",
-                headerName: "주소",
+                headerName: "국가",
                 hide: true,
             },
             {
@@ -101,13 +114,13 @@ export class EmpFormTableConfig {
             },
             {
                 field: "empDob",
-                headerName: "주소",
+                headerName: "생일",
                 hide: true,
             },
             {
-                field: "empDobType",
-                headerName: "주소",
-                hide: true,
+              field: "empDobType",
+              headerName: "생일타입",
+              hide: true,
             },
             {
                 field: "empMemo",
@@ -119,12 +132,7 @@ export class EmpFormTableConfig {
                 headerName: "주소",
                 hide: true,
             },
-            {
-                field: "empEmailBook",
-                headerName: "주소",
-                hide: true,
-                resizable: false
-            },
+
         ];
     }
 }

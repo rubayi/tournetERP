@@ -18,7 +18,7 @@ public class ComCode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CODE_UUID", nullable = false)
-    private int codeUuid;
+    private long codeUuid;
 
     @Column(name = "CODE_KR", nullable = true)
     private String codeKr;
@@ -39,7 +39,7 @@ public class ComCode {
     private int codeOrd;
 
     @Column(name = "UPR_CODE_UUID", nullable = true)
-    private Integer uprCodeUuid;
+    private long uprCodeUuid;
 
     @Column(name = "USE_YN", nullable = true)
     private String useYn;

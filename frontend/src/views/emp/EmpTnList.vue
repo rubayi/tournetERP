@@ -22,7 +22,7 @@
                 v-if="this.searchIdx == '상태'"
                 class="col-3"
                 v-model="searchEmpStatus"
-                :options="empStatusOptions"
+                :options="statusOptions"
                 option-value="codeValue"
                 option-label="codeKr"
                 emit-value
@@ -70,7 +70,6 @@
         :drawer-width="800"
         :dataVal="edited"
         :on-close-click="closeAction"
-        :select-options="selectOptions"
       />
     </q-page>
   </div>
@@ -121,6 +120,13 @@ export default {
       initEdited: initialData,
       updateEdited: {},
       edited: initialData,
+      divOptions:[],
+      statusOptions:[],
+      workOptions:[],
+      roleOptions:[],
+      countryOptions:[],
+      dobTypeOptions:[],
+      titleOptions:[],
       colDefs: EmpFormTableConfig.columns(),
       emps: [],
     };
@@ -263,37 +269,25 @@ export default {
   created() {
     this.searchEmpList();
     //부서명
-    this.getCommonCode({ upCode: "19", codeLvl: "1", dataName: "divOptions" });
+    this.getCommonCode({ upCode: 19, codeLvl: "1", dataName: "divOptions" });
     //직위
     this.getCommonCode({
-      upCode: "17",
+      upCode: 17,
       codeLvl: "1",
       dataName: "titleOptions",
     });
-    //국가코드
-    this.getCommonCode({
-      upCode: "1",
-      codeLvl: "1",
-      dataName: "showCountryOptions",
-    });
-    //생일타입
-    this.getCommonCode({
-      upCode: "222",
-      codeLvl: "1",
-      dataName: "dobTypeOptions",
-    });
     //직책
     this.getCommonCode({
-      upCode: "18",
+      upCode: 18,
       codeLvl: "1",
       dataName: "empRoleOptions",
     });
     //근무형태
     // this.getCommonCode('16', '1', 'workOptions');
-    this.getCommonCode({ upCode: "16", codeLvl: "1", dataName: "workOptions" });
+    this.getCommonCode({ upCode: 16, codeLvl: "1", dataName: "workOptions" });
     //재직상태
     this.getCommonCode({
-      upCode: "15",
+      upCode: 15,
       codeLvl: "1",
       dataName: "empStatusOptions",
     });

@@ -22,26 +22,26 @@ public interface ComCodeRepository extends JpaRepository<ComCode, Long> {
     @Query("SELECT c FROM ComCode c WHERE c.uprCodeUuid IS NULL OR c.uprCodeUuid = 0 ORDER BY c.codeOrd ASC")
     List<ComCode> findByUprCodeUuidIsNullOrZeroOrderByCodeOrdAsc();
 
-    Optional<ComCode> findByCodeUuid(int id);
+    Optional<ComCode> findByCodeUuid(long id);
 
     @Modifying
     @CacheEvict(cacheNames = "comcode", allEntries = true)
     @Query("DELETE FROM ComCode p WHERE p.codeUuid = :id")
-    void deleteByCodeUuid(@Param("id") int id);
+    void deleteByCodeUuid(@Param("id") long id);
 
     @Query("SELECT p FROM ComCode p " +
             "WHERE p.uprCodeUuid = :uprCodeUuid " +
             "AND p.codeLvl = :codeLvl " +
             "AND p.useYn = 'Y' " +
             "ORDER BY p.codeOrd")
-    List<ComCode> findByUprCodeUuidAndUseYnByOrderByCodeOrdAsc(int uprCodeUuid, String codeLvl);
+    List<ComCode> findByUprCodeUuidAndUseYnByOrderByCodeOrdAsc(long uprCodeUuid, String codeLvl);
 
     @Query("SELECT p FROM ComCode p " +
             "WHERE p.uprCodeUuid = :codeUuid " +
             "ORDER BY p.codeOrd")
-    List<ComCode> findByUprCodeUuidOrderByCodeOrdAsc(int codeUuid);
+    List<ComCode> findByUprCodeUuidOrderByCodeOrdAsc(long codeUuid);
 
-    List<ComCode> findByUprCodeUuidAndCodeLvlOrderByCodeOrdAsc(int uprCodeUuid, String codeLvl);
+    List<ComCode> findByUprCodeUuidAndCodeLvlOrderByCodeOrdAsc(long uprCodeUuid, String codeLvl);
 
 
 }

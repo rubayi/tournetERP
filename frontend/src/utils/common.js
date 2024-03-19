@@ -2,13 +2,15 @@ import store from "../store";
 
 export function getCommonValue(comReq) {
   const req = {
-    uprCodeUuid: comReq.upCode,
+    codeUuid: comReq.upCode,
     codeLvl: comReq.codeLvl
   };
+
+
   return store.dispatch("comCode/useComCode", req)
     .then(
       (commCode) => {
-        return commCode;
+          return commCode;
       },
       (error) => {
         const errorMessage =
