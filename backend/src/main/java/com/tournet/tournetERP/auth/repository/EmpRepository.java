@@ -13,7 +13,34 @@ import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 @Repository
-public interface EmpRepository extends PagingAndSortingRepository<User,Long>,
-        JpaSpecificationExecutor<User> {
+public interface EmpRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
+
+    Boolean existsByUsername(String username);
+
+    Boolean existsByEmpEmail(String email);
+
+    List<User> findAllByOrderByEmpBeginDtDesc();
+
+
+    @Query("SELECT u FROM User u " +
+            "WHERE (:empStatus IS NULL OR u.empStatus = :empStatus) " +
+            "AND (:empKor IS NULL OR u.empKor LIKE CONCAT('%', :empKor, '%')) " +
+            "AND (:empEng IS NULL OR u.empEng LIKE CONCAT('%', :empEng, '%')) " +
+            "AND (:empUsername IS NULL OR u.username LIKE CONCAT('%', :empUsername, '%')) " +
+            "OR (:empStatus IS NULL AND :empKor IS NULL AND :empEng IS NULL AND :empUsername IS NULL) " +
+            "ORDER BY u.modifiedDt DESC")
+    List<User> findByEmpStatusOrEmpKorOrEmpEngOrUsernameOrderByModifiedDtDesc(
+            @Param("empStatus") Long empStatus,
+            @Param("empKor") String empKor,
+            @Param("empEng") String empEng,
+            @Param("empUsername") String empUsername
+    );
+
+    void deleteByEmpUuid(long id);
+
+    Optional<User> findByEmpUuid(long id);
+
+    User findFirstByEmpUuid(long empUuid);
     
 }

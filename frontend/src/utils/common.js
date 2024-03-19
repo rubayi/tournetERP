@@ -10,7 +10,6 @@ export function getCommonValue(comReq) {
   return store.dispatch("comCode/useComCode", req)
     .then(
       (commCode) => {
-        console.log(req);
           return commCode;
       },
       (error) => {

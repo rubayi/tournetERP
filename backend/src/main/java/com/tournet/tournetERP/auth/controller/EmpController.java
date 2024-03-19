@@ -12,15 +12,11 @@ package com.tournet.tournetERP.auth.controller;
 import com.tournet.tournetERP.auth.dto.UserRequest;
 import com.tournet.tournetERP.auth.dto.UserResponse;
 import com.tournet.tournetERP.auth.entity.User;
-import com.tournet.tournetERP.auth.repository.EmpJpaRepository;
 import com.tournet.tournetERP.auth.repository.EmpRepository;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
 import com.tournet.tournetERP.auth.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -29,7 +25,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import org.modelmapper.ModelMapper;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -37,7 +32,7 @@ import org.modelmapper.ModelMapper;
 public class EmpController {
 
     @Autowired
-    EmpJpaRepository empRepository;
+    EmpRepository empRepository;
 
     @Autowired
     UserService userService;
@@ -118,15 +113,15 @@ public class EmpController {
         modifyingUser.setEmpUuid(userDetails.getEmpUuid());
         /**E: 수정자 정보**/
 
-        Long id = (long) empReq.getEmpUuid();
+        long id = (long) empReq.getEmpUuid();
 
-        User currentEmp = empRepository.findByEmpUuid(id);
+        Optional<User> currentEmp = empRepository.findByEmpUuid(id);
 
         String message = "";
 
         if(storUser.isAuthenticated()) {
-            if (currentEmp != null) {
-                User _emp = currentEmp;
+            if (currentEmp.isPresent()) {
+                User _emp = currentEmp.get();
 
                 _emp.setEmpKor(empReq.getEmpKor());
                 _emp.setEmpEng(empReq.getEmpEng());
@@ -149,7 +144,6 @@ public class EmpController {
                 _emp.setEmpDobType(empReq.getEmpDobType());
                 _emp.setEmpMemo(empReq.getEmpMemo());
                 _emp.setEmpStatus(empReq.getEmpStatus());
-
 
                 _emp.setBackColor(empReq.getBackColor());
                 _emp.setFontColor(empReq.getFontColor());

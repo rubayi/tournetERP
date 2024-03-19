@@ -3,7 +3,9 @@ package com.tournet.tournetERP.auth.service;
 import com.tournet.tournetERP.auth.dto.UserRequest;
 import com.tournet.tournetERP.auth.dto.UserResponse;
 import com.tournet.tournetERP.auth.entity.User;
-import com.tournet.tournetERP.auth.repository.EmpJpaRepository;
+import com.tournet.tournetERP.auth.repository.EmpRepository;
+import com.tournet.tournetERP.common.entity.ComCode;
+import com.tournet.tournetERP.common.repository.ComCodeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,11 @@ import java.util.stream.Collectors;
 public class UserService {
 
     @Autowired
-    EmpJpaRepository empRepository;
+    EmpRepository empRepository;
+
+
+    @Autowired
+    ComCodeRepository comcodeRepository;
     public List<UserResponse> findEmpsList(UserRequest empReq) {
 
         ModelMapper modelMapper=new ModelMapper();
@@ -35,7 +41,7 @@ public class UserService {
         String username = empReq.getUsername();
 
         List<User> selectedUsers = empRepository.findByEmpStatusOrEmpKorOrEmpEngOrUsernameOrderByModifiedDtDesc(
-                empStatus == 0 ? 0 : empStatus,
+                empStatus == 0 ? null : empStatus,
                 empKor.isEmpty() ? null : empKor,
                 empEng.isEmpty() ? null : empEng,
                 username.isEmpty() ? null : username
@@ -50,13 +56,12 @@ public class UserService {
                     userResponse.setEmpEng(user.getEmpEng());
                     userResponse.setEmpImg(user.getEmpImg());
                     
-                    userResponse.setEmpWorkTypeName(user.getEmpWorkTypeName().getCodeKr() != "" ? user.getEmpWorkTypeName().getCodeKr() : "");
-                    userResponse.setEmpDivName(user.getEmpDivName().getCodeKr() != "" ? user.getEmpDivName().getCodeKr() : "");
-                    userResponse.setEmpTitleName(user.getEmpTitleName().getCodeKr() != "" ? user.getEmpTitleName().getCodeKr() : "");
-                    userResponse.setEmpRoleName(user.getEmpRoleName().getCodeKr() != "" ? user.getEmpRoleName().getCodeKr() : "");
-                    userResponse.setEmpDobTypeName(user.getEmpDobTypeName().getCodeKr() != "" ? user.getEmpDobTypeName().getCodeKr() : "");
-                    userResponse.setEmpStatusName(user.getEmpStatusName().getCodeKr() != "" ? user.getEmpStatusName().getCodeKr() : "");
-
+                    userResponse.setEmpWorkTypeName(fetchCodeKr(user.getEmpWorkType()));
+                    userResponse.setEmpDivName(fetchCodeKr(user.getEmpDiv()));
+                    userResponse.setEmpTitleName(fetchCodeKr(user.getEmpTitle()));
+                    userResponse.setEmpRoleName(fetchCodeKr(user.getEmpRole()));
+                    userResponse.setEmpDobTypeName(fetchCodeKr(user.getEmpDobType()));
+                    userResponse.setEmpStatusName(fetchCodeKr(user.getEmpStatus()));
 
                     userResponse.setEmpWorkType(user.getEmpWorkType());
                     userResponse.setEmpDiv(user.getEmpDiv());
@@ -90,11 +95,20 @@ public class UserService {
     }
 
 
-    public UserResponse findByEmpUuid(int id) {
+    public UserResponse findByEmpUuid(long id) {
         ModelMapper modelMapper=new ModelMapper();
 
         UserResponse findUser = modelMapper.map(empRepository.findFirstByEmpUuid(id), UserResponse.class);
 
         return findUser;
+    }
+
+    private String fetchCodeKr(long codeUuid) {
+        ComCode comcode = comcodeRepository.findFirstByCodeUuid(codeUuid);
+        if (comcode != null) {
+            return comcode.getCodeKr();
+        } else {
+            return null;
+        }
     }
 }

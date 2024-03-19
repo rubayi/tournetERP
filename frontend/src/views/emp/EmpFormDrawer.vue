@@ -59,7 +59,7 @@
                           <q-select class="col-3"
                                     v-model="edited.empWorkType"
                                     :options="workOptions"
-                                    option-value="codeValue"
+                                    option-value="codeUuid"
                                     option-label="codeKr"
                                     emit-value
                                     map-options
@@ -68,7 +68,7 @@
                                   class="col-3"
                                   v-model="edited.empDiv"
                                   :options="divOptions"
-                                  option-value="codeValue"
+                                  option-value="codeUuid"
                                   option-label="codeKr"
                                   emit-value
                                   map-options
@@ -77,7 +77,7 @@
                                   class="col-3"
                                   v-model="edited.empTitle"
                                   :options="titleOptions"
-                                  option-value="codeValue"
+                                  option-value="codeUuid"
                                   option-label="codeKr"
                                   emit-value
                                   map-options
@@ -86,7 +86,7 @@
                                   class="col-3"
                                   v-model="edited.empRole"
                                   :options="empRoleOptions"
-                                  option-value="codeValue"
+                                  option-value="codeUuid"
                                   option-label="codeKr"
                                   emit-value
                                   map-options
@@ -130,7 +130,7 @@
                                   class="col-6"
                                   v-model="edited.empDobType"
                                   :options="dobTypeOptions"
-                                  option-value="codeValue"
+                                  option-value="codeUuid"
                                   option-label="codeKr"
                                   emit-value
                                   map-options
@@ -173,7 +173,7 @@
                             class="col-3"
                             v-model="edited.empCountry"
                             :options="countryOptions"
-                            option-value="codeValue"
+                            option-value="codeUuid"
                             option-label="codeKr"
                             emit-value
                             map-options

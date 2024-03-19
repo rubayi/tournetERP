@@ -48,11 +48,11 @@ public class ComCode {
     private String etc;
 
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "CREATED_BY", referencedColumnName = "EMP_UUID")
     private User createUser;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "MODIFIED_BY", referencedColumnName = "EMP_UUID")
     private User modifyUser;
 

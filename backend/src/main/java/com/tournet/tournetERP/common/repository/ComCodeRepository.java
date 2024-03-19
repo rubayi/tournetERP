@@ -24,6 +24,8 @@ public interface ComCodeRepository extends JpaRepository<ComCode, Long> {
 
     Optional<ComCode> findByCodeUuid(long id);
 
+    ComCode findFirstByCodeUuid(long id);
+
     @Modifying
     @CacheEvict(cacheNames = "comcode", allEntries = true)
     @Query("DELETE FROM ComCode p WHERE p.codeUuid = :id")

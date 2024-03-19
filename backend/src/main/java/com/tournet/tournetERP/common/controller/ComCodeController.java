@@ -67,13 +67,11 @@ public class ComCodeController {
     @PostMapping("useComCodeByGrp")
     public ResponseEntity<List<ComCode>> postComCodes(@RequestBody ComCode comcode) {
 
-
         List<ComCode> comcodesList = comCodeRepository.findByUprCodeUuidAndUseYnByOrderByCodeOrdAsc(
                 comcode.getUprCodeUuid(),
                 comcode.getCodeLvl());
 
-
-
+        System.out.println(comcodesList);
         return new ResponseEntity<>(comcodesList, HttpStatus.OK);
     }
 

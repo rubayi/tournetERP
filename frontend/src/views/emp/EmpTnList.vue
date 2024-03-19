@@ -6,8 +6,7 @@
         <div class="col q-pr-md flex items-center">
           <span class="part_title text-primary">
             <q-icon name="person" class="q-ml-xs q-mb-xs" size="md"></q-icon
-            >직원관리</span
-          >
+            >직원관리</span>
         </div>
         <div class="col-5 text-right">
           <q-form @submit="searchEmpList">

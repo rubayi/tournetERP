@@ -20,9 +20,9 @@
         <q-header class="commonThead text-white" height-hint="98">
           <q-toolbar class="col-12">
             <slot name="header" v-if="onCloseClick" />
-            <q-toolbar-title v-if="!hasHeaderSlot">
-              <i :class="iconTitle"></i> {{ title }}
-            </q-toolbar-title>
+<!--            <q-toolbar-title v-if="!hasHeaderSlot">-->
+<!--              <i :class="iconTitle"></i> {{ title }}-->
+<!--            </q-toolbar-title>-->
             <q-btn flat icon="close" round @click="onCloseClick" />
           </q-toolbar>
           <div class="bg-white"></div>

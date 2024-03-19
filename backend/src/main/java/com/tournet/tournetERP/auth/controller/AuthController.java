@@ -18,7 +18,6 @@ import com.tournet.tournetERP.auth.dto.UserRequest;
 import com.tournet.tournetERP.auth.entity.ERole;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.entity.Role;
-import com.tournet.tournetERP.auth.repository.EmpJpaRepository;
 import com.tournet.tournetERP.auth.repository.EmpRepository;
 import com.tournet.tournetERP.auth.repository.RoleRepository;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
@@ -48,7 +47,7 @@ public class AuthController {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    EmpJpaRepository userRepository;
+    EmpRepository userRepository;
 
     @Autowired
     RoleRepository roleRepository;

@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.tournet.tournetERP.auth.repository.EmpJpaRepository;
 import com.tournet.tournetERP.auth.repository.EmpRepository;
 import com.tournet.tournetERP.security.exception.TokenRefreshException;
 import com.tournet.tournetERP.security.entity.RefreshToken;
@@ -23,7 +22,7 @@ public class RefreshTokenService {
     private RefreshTokenRepository refreshTokenRepository;
 
     @Autowired
-    private EmpJpaRepository userRepository;
+    private EmpRepository userRepository;
 
     public Optional<RefreshToken> findByToken(String token) {
         return refreshTokenRepository.findByToken(token);
@@ -32,7 +31,7 @@ public class RefreshTokenService {
     public RefreshToken createRefreshToken(Long userId) {
         RefreshToken refreshToken = new RefreshToken();
 
-        refreshToken.setUser(userRepository.findByEmpUuid(userId));
+        refreshToken.setUser(userRepository.findByEmpUuid(userId).get());
         refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
         refreshToken.setToken(UUID.randomUUID().toString());
 
@@ -51,6 +50,6 @@ public class RefreshTokenService {
 
     @Transactional
     public int deleteByUserId(Long userId) {
-        return refreshTokenRepository.deleteByUser(userRepository.findByEmpUuid(userId));
+        return refreshTokenRepository.deleteByUser(userRepository.findByEmpUuid(userId).get());
     }
 }
