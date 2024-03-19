@@ -1,48 +1,51 @@
 <template>
   <div id="drawer-comp">
     <div
-        v-if="openDrawer"
-        class="fullscreen q-drawer__backdrop"
-        style="background-color: rgba(0, 0, 0, 0.4)"
+      aria-hidden="true"
+      v-if="openDrawer"
+      class="fullscreen q-drawer__backdrop"
+      style="background-color: rgba(0, 0, 0, 0.4)"
+    ></div>
+    <q-drawer
+      behavior="desktop"
+      elevated
+      side="right"
+      show-if-above
+      bordered
+      overlay
+      v-model="innerOpenDrawer"
+      :width="drawerWidth"
+      @update:model-value="innerOpenDrawer = $event"
     >
-      <q-drawer
-          elevated
-          side="right"
-          show-if-above
-          bordered
-          overlay
-          v-model="innerOpenDrawer"
-          :width="drawerWidth"
-      >
-        <q-layout view="hHh lpR fFf">
-          <q-header class="commonThead text-white" height-hint="98">
-            <q-toolbar class="col-12">
-              <slot name="header" v-if="onCloseClick"/>
-                  <q-btn flat icon="close" round @click="onCloseClick" />
-            </q-toolbar>
-            <div class="bg-white">
-
+      <q-layout view="hHh lpR fFf">
+        <q-header class="commonThead text-white" height-hint="98">
+          <q-toolbar class="col-12">
+            <slot name="header" v-if="onCloseClick" />
+            <q-toolbar-title v-if="!hasHeaderSlot">
+              <i :class="iconTitle"></i> {{ title }}
+            </q-toolbar-title>
+            <q-btn flat icon="close" round @click="onCloseClick" />
+          </q-toolbar>
+          <div class="bg-white"></div>
+        </q-header>
+        <q-page-container>
+          <q-page>
+            <slot />
+          </q-page>
+        </q-page-container>
+        <q-footer bordered class="bg-white">
+          <q-toolbar>
+            <div class="q-gutter-md">
+              <!--              <q-btn-->
+              <!--                  color="white"-->
+              <!--                  text-color="primary"-->
+              <!--                  @click="onCloseClick"-->
+              <!--              />-->
             </div>
-          </q-header>
-          <q-page-container>
-            <q-page>
-              <slot />
-            </q-page>
-          </q-page-container>
-          <q-footer bordered class="bg-white">
-            <q-toolbar>
-              <div class="q-gutter-md">
-                <!--              <q-btn-->
-                <!--                  color="white"-->
-                <!--                  text-color="primary"-->
-                <!--                  @click="onCloseClick"-->
-                <!--              />-->
-              </div>
-            </q-toolbar>
-          </q-footer>
-        </q-layout>
-      </q-drawer>
-    </div>
+          </q-toolbar>
+        </q-footer>
+      </q-layout>
+    </q-drawer>
   </div>
 </template>
 
@@ -51,32 +54,31 @@ import { defineComponent, ref, watch } from "vue";
 
 export default defineComponent({
   name: "DrawerComp",
-  components: {
-
-  },
+  components: {},
   props: {
     openDrawer: Boolean,
     drawerWidth: Number,
-    onCloseClick: Function
+    onCloseClick: Function,
   },
 
   setup(props, { emit, slots }) {
     const innerOpenDrawer = ref(props.openDrawer);
-    watch(() => props.openDrawer, (newValue) => {
-      innerOpenDrawer.value = newValue;
-    });
+    watch(
+      () => props.openDrawer,
+      (newValue) => {
+        innerOpenDrawer.value = newValue;
+      }
+    );
     return {
-      innerOpenDrawer
-    }
+      innerOpenDrawer,
+    };
   },
 
-  methods: {
-
-  },
+  methods: {},
   mounted() {
-    console.log('Received openDrawer:', this.openDrawer);
-    console.log('Received drawerWidth:', this.drawerWidth);
-  }
+    console.log("Received openDrawer:", this.openDrawer);
+    console.log("Received drawerWidth:", this.drawerWidth);
+  },
 });
 </script>
 

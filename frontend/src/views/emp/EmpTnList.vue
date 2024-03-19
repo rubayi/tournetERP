@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col q-pr-md flex items-center">
           <span class="part_title text-primary">
-            <q-icon name="person" class="q-ml-xs q-mr-md" size="md"></q-icon
+            <q-icon name="person" class="q-ml-xs q-mb-xs" size="md"></q-icon
             >직원관리</span
           >
         </div>

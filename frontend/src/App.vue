@@ -76,7 +76,12 @@
               />
             </div>
           </q-list> -->
-        <q-tree :nodes="linksData" node-key="label" />
+        <q-tree
+          :nodes="linksData"
+          node-key="label"
+          default-expand-icon="expand_more"
+          default-collapsed-icon="chevron_right"
+        />
       </div>
       <q-img
         class="absolute-bottom"
@@ -151,7 +156,7 @@ export default {
   data() {
     return {
       loading: false,
-      leftDrawerOpen: false,
+      leftDrawerOpen: true,
       linksData: [],
     };
   },
@@ -246,6 +251,19 @@ body {
     margin-top: -5px;
     font-size: 12px;
   }
+}
+.my-custom-tree .q-tree__node .q-tree__node-header-container {
+  /* your styles here */
+  background-color: #f10b0b;
+  color: #333;
+}
+
+.my-custom-tree
+  .q-tree__node
+  .q-tree__node-header-container
+  .q-item__section--side
+  .q-icon {
+  display: none;
 }
 .topNav {
   background-image: url("images/top_main.png");

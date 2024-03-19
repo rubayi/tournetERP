@@ -1,36 +1,50 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <div class="q-px-lg">
-      <div class="q-py-lg text-h4 text-weight-bold text-blue">코드관리</div>
-    </div>
-    <div class="grid-container">
-      <div>
-        <div class="toc">
-          <ul class="list no-bullets">
-            <li>
-              <button class="plain-button" @click="getMainComCode">
-                전체코드
-              </button>
-            </li>
-            <li v-for="comCode in comCodes" :key="comCode.codeUuid">
-              <button class="plain-button" @click="chooseMainComCode(comCode)">
-                {{ comCode.codeKr }}
-              </button>
-            </li>
-          </ul>
+  <component-to-re-render :key="componentKey" />
+  <div id="officeform">
+    <q-page class="q-pa-md">
+      <div class="row">
+        <div class="col q-pr-md flex items-center">
+          <span class="part_title text-primary">
+            <q-icon name="code" class="q-ml-xs q-mb-xs" size="md"></q-icon>
+            코드관리</span
+          >
+        </div>
+        <div class="col-5 text-right">
+          <div class="row q-col-gutter-sm justify-end">
+            <q-select
+              class="col-6"
+              v-model="searchIdx"
+              :options="comCodes"
+              option-label="codeKr"
+              emit-value
+              map-options
+              label="코드분류 *"
+              @update:modelValue="chooseMainComCode"
+            />
+            <div class="q-pa-md">
+              <q-btn label="+ 코드등록" color="green" @click="createAction" />
+            </div>
+          </div>
         </div>
       </div>
 
-      <div>
-        <ag-grid-vue
-          :rowData="chosenComCodes"
-          :columnDefs="colDefs"
-          :onCellClicked="onCellClicked"
-          style="height: 100%"
-          class="ag-theme-quartz-dark"
-        >
-        </ag-grid-vue>
+      <div id="officeform-grid-container" class="row">
+        <table-comp
+          :row-data="chosenComCodes"
+          :column-defs="colDefs"
+          :on-cell-clicked="openAction"
+          class="ag-theme-alpine grid"
+          id="memberform-grid"
+        />
       </div>
+
+      <code-form-drawer
+        :open-drawer="openDrawer"
+        :drawer-width="500"
+        :data-val="edited"
+        :on-close-click="closeAction"
+        :select-options="selectOptions"
+      />
 
       <div>
         <div class="toc">
@@ -118,80 +132,55 @@
             </div>
           </form>
         </div>
-      </div>
-    </div>
+      </div></q-page
+    >
   </div>
 </template>
 
 <script>
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
-import { AgGridVue } from "ag-grid-vue3";
+import { ref } from "vue";
+import { CodeFormTableConfig } from "src/views/code/CodeFormTableConfig";
+import { initialData } from "src/views/code/CodeData";
+import TableComp from "src/components/table/TableComp.vue";
+import CodeFormDrawer from "src/views/code/CodeFormDrawer.vue";
 
 export default {
   name: "ComCode",
   components: {
-    AgGridVue,
+    TableComp,
+    CodeFormDrawer,
+  },
+  setup() {
+    return {
+      openDrawer: ref(false),
+      searchIdx: ref(null),
+      bar: ref(false),
+    };
   },
   data() {
     return {
-      colDefs: [
-        {
-          field: "codeUuid",
-          headerName: "분류코드",
-          sortable: true,
-          filter: true,
-          // checkboxSelection: true,
-        },
-        {
-          field: "codeEn",
-          headerName: "코드명(영문)",
-          sortable: true,
-          filter: true,
-        },
-        {
-          field: "codeKr",
-          headerName: "코드명(한글)",
-          sortable: true,
-          filter: true,
-        },
-        {
-          field: "codeValue",
-          headerName: "코드값",
-          sortable: true,
-          filter: true,
-        },
-        {
-          field: "edit",
-          headerName: "관리",
-          cellRenderer: function (params) {
-            return `<q-btn style="background: #50d427ad; padding: 5px; border-radius: 4px; cursor: pointer; font-size: 12px;">${params.value}</q-btn>`;
-          },
-          valueGetter: function (params) {
-            return "수정/삭제";
-          },
-        },
-      ],
+      colDefs: CodeFormTableConfig.columns(),
       comreq: null,
-      edited: {
-        codeUuid: 0,
-        codeEn: "",
-        codeKr: "",
-        codeValue: "",
-        codeLvl: "",
-        codeOrd: "",
-        useYn: "",
-        uprCodeUuid: null,
-      },
-      comCodes: [],
+      edited: initialData,
+      comCodes: [{ codeKr: "전체코드" }],
       chosenComCodes: [],
     };
   },
   methods: {
+    createAction() {
+      this.edited = initialData;
+      this.openDrawer = !this.openDrawer;
+    },
+    openAction(params) {
+      params.data.password = "";
+      this.updateEdited = Object.assign({}, params.data);
+      this.edited = params.data;
+      this.openDrawer = !this.openDrawer;
+    },
     getMainComCode() {
       this.$store.dispatch("comCode/getMainComCodeList").then(
         (comCodes) => {
-          this.comCodes = comCodes;
+          this.comCodes = [...this.comCodes, ...comCodes];
           this.chosenComCodes = comCodes;
         },
         (error) => {
@@ -228,6 +217,10 @@ export default {
       }
     },
     chooseMainComCode(comCode) {
+      if (comCode.codeKr === "전체코드") {
+        this.getMainComCode();
+        return;
+      }
       this.$store.dispatch("comCode/SearchComCodeListByGrp", comCode).then(
         (comcodes) => {
           this.chosenComCodes = comcodes;
@@ -270,6 +263,10 @@ export default {
         uprCodeUuid: this.chosenComCodes[0]?.uprCodeUuid ?? 0,
       };
     },
+    closeAction() {
+      this.edited = initialData;
+      this.openDrawer = !this.openDrawer;
+    },
   },
   created() {
     this.getMainComCode();
@@ -277,78 +274,26 @@ export default {
 };
 </script>
 
-<style scoped>
-.grid-container {
-  display: grid;
-  grid-template-columns: 20% 60% auto;
-  gap: 20px;
+<style lang="scss">
+#officeform {
+  #officeform-grid-container {
+    flex-grow: 1;
+
+    #officeform-grid {
+      height: 100%;
+    }
+  }
 }
-.no-bullets {
-  list-style-type: none;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+.ag-theme-alpine .ag-cell {
+  display: flex;
+  align-items: center;
 }
-.toc {
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  padding: 10px;
-  background-color: color-mix(in srgb, #fff, #182230 93%);
-  border-radius: 10px;
+.ag-header-cell {
+  background-image: url("src/assets/top_main.png");
+  color: #fff;
+  color: var(--ag-background-color, #0c2c8b);
 }
-.list {
-  margin: 0;
-  padding: 0;
-}
-.list > li {
-  border-bottom: rgba(255, 255, 255, 0.16) 1px solid;
-}
-.list > li:last-child {
-  border-bottom: none;
-}
-.spaces {
-  margin-top: 10px;
-  margin-top: 10px;
-}
-.inputBox {
-  width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  padding: 10px;
-  background-color: color-mix(in srgb, #fff, #182230 97%);
-  border-radius: 3px;
-}
-.plain-button {
-  color: white;
-  background: color-mix(in srgb, #fff, #182230 97%);
-  border: none;
-  padding: 0;
-  text-align: left;
-  width: 100%;
-  display: block;
-  padding: 10px 10px;
-}
-.save {
-  background: #50d427ad;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  border: none;
-  color: white;
-}
-.clear {
-  background: #ffae00ad;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  border: none;
-  color: white;
-}
-.delete {
-  background: #ff0000ad;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  border: none;
-  color: white;
+.ag-header-cell-label {
+  justify-content: center;
 }
 </style>
