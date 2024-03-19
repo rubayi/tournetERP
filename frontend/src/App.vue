@@ -232,6 +232,7 @@ export default {
 
 body {
   font-family: "Raleway", sans-serif;
+  overflow: hidden;
 }
 .navigation-drawer {
   padding: 10px;
@@ -252,22 +253,9 @@ body {
     font-size: 12px;
   }
 }
-.my-custom-tree .q-tree__node .q-tree__node-header-container {
-  /* your styles here */
-  background-color: #f10b0b;
-  color: #333;
-}
-
-.my-custom-tree
-  .q-tree__node
-  .q-tree__node-header-container
-  .q-item__section--side
-  .q-icon {
-  display: none;
-}
 .topNav {
   background-image: url("images/top_main.png");
-  font-family: Raleway;
+  font-family: "Raleway", sans-serif;
   font-weight: 500;
   padding: 0.5rem;
 }

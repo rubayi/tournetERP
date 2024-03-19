@@ -7,15 +7,14 @@
       style="background-color: rgba(0, 0, 0, 0.4)"
     ></div>
     <q-drawer
+      v-show="openDrawer"
       behavior="desktop"
       elevated
       side="right"
-      show-if-above
       bordered
       overlay
       v-model="innerOpenDrawer"
       :width="drawerWidth"
-      @update:model-value="innerOpenDrawer = $event"
     >
       <q-layout view="hHh lpR fFf">
         <q-header class="commonThead text-white" height-hint="98">
@@ -35,12 +34,29 @@
         </q-page-container>
         <q-footer bordered class="bg-white">
           <q-toolbar>
+            <q-space v-if="drawerWidth > 50" />
             <div class="q-gutter-md">
-              <!--              <q-btn-->
-              <!--                  color="white"-->
-              <!--                  text-color="primary"-->
-              <!--                  @click="onCloseClick"-->
-              <!--              />-->
+              <q-btn
+                color="green"
+                icon="add"
+                :label="saveButtonLabel"
+                text-color="white"
+                @click="onSaveClick"
+              />
+              <q-btn
+                color="red"
+                icon="delete"
+                :label="deleteButtonLabel"
+                text-color="white"
+                @click="onDeleteClick"
+              />
+              <q-btn
+                color="white"
+                icon="arrow_right"
+                :label="cancleButtonLabel"
+                text-color="blue"
+                @click="onCloseClick"
+              />
             </div>
           </q-toolbar>
         </q-footer>
@@ -59,6 +75,20 @@ export default defineComponent({
     openDrawer: Boolean,
     drawerWidth: Number,
     onCloseClick: Function,
+    onSaveClick: Function,
+    onDeleteClick: Function,
+    saveButtonLabel: {
+      type: String,
+      default: "저장",
+    },
+    deleteButtonLabel: {
+      type: String,
+      default: "삭제",
+    },
+    cancleButtonLabel: {
+      type: String,
+      default: "취소",
+    },
   },
 
   setup(props, { emit, slots }) {

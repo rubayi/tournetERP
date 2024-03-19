@@ -54,11 +54,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.ag-theme-alpine .ag-cell {
-  display: flex;
-  align-items: center;
-  // justify-content: center;
-}
+// .ag-theme-alpine .ag-cell {
+//   display: flex;
+//   align-items: center;
+//   // justify-content: center;
+// }
 .ag-header-cell {
   background-image: url("src/assets/top_main.png");
   color: #fff;

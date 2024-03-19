@@ -43,10 +43,12 @@
         :drawer-width="500"
         :data-val="edited"
         :on-close-click="closeAction"
+        :on-save-click="saveComCode"
+        :on-delete-click="deleteComCode"
         :select-options="selectOptions"
       />
 
-      <div>
+      <!-- <div>
         <div class="toc">
           <div style="padding: 3px">코드등록</div>
           <form @submit.prevent="saveComCode">
@@ -132,8 +134,8 @@
             </div>
           </form>
         </div>
-      </div></q-page
-    >
+      </div> -->
+    </q-page>
   </div>
 </template>
 

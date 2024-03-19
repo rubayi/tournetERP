@@ -4,6 +4,8 @@
       :open-drawer="openDrawer"
       :drawerWidth="drawerWidth"
       :on-close-click="onCloseClick"
+      :on-save-click="onSaveClick"
+      :on-delete-click="onDeleteClick"
     >
       <div class="flex flex-grow-1 q-pa-md">
         <q-card-section>
@@ -93,6 +95,8 @@ export default defineComponent({
     drawerWidth: Number,
     dataVal: Object,
     onCloseClick: Function,
+    onSaveClick: Function,
+    onDeleteClick: Function,
   },
   setup(props, { emit }) {
     const edited = ref(props.dataVal);
