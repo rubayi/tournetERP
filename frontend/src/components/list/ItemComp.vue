@@ -161,6 +161,8 @@ export default {
 
 <style type="text/scss" lang="scss">
 #item-comp {
+  padding: 0;
+  margin: 0;
   // Adds the focus highlight to item components outside of a list
   .focused .q-focus-helper {
     background: currentColor;

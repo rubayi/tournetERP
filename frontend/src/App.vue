@@ -59,7 +59,7 @@
       <q-img
         class="absolute-bottom"
         src="https://cdn.quasar.dev/img/material.png"
-        style="height: 100px"
+        style="height: 75px"
       />
       <div id="user-info">
         <div class="full-width q-pa-sm absolute-bottom">
@@ -223,8 +223,8 @@ body {
   overflow: hidden;
 }
 .navigation-drawer {
-  padding: 10px;
-  margin: 5px;
+  // padding: 10px;
+  // margin: 5px;
   overflow: hidden;
   .navigation-menu-container {
     overflow: "hidden";

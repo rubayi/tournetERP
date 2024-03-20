@@ -3,7 +3,7 @@
     <list-comp id="navigation-menu" padding>
       <div v-for="item in menuOptionsWithPathHighlighted" :key="item.label">
         <item-comp
-          v-if="item.children?.length <= 0"
+          v-if="item.children?.length <= 0 && item.children"
           :focused="item.focused"
           :hide="item.hide"
           :icon="item.icon"
@@ -33,6 +33,7 @@
             :open-menu-on-hover="child.children?.length > 0"
             :to="child.link"
             :key="child.label"
+            class="my-item-comp"
           />
         </expansion-item-comp>
         <item-comp
@@ -46,6 +47,7 @@
           :open-menu-on-hover="item.children?.length > 0"
           :to="item.link"
           :key="item.label + '-if'"
+          class="my-item-comp"
         />
       </div>
     </list-comp>
@@ -103,4 +105,8 @@ export default defineComponent({
 });
 </script>
 
-<style type="text/scss" lang="scss"></style>
+<style type="text/scss" lang="scss">
+.my-item-comp {
+  background-color: #ececec;
+}
+</style>

@@ -10,4 +10,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.q-list {
+  padding: 0;
+}
+</style>
