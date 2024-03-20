@@ -93,31 +93,38 @@
           default-collapsed-icon="chevron_right"
         />
       </div>
-<!--      <q-img-->
-<!--        class="absolute-bottom"-->
-<!--        src="https://cdn.quasar.dev/img/material.png"-->
-<!--        style="height: 100px"-->
-<!--      />-->
-<!--      <div id="user-info">-->
-<!--        <div class="full-width q-pa-sm absolute-bottom">-->
-<!--          <q-btn class="full-width logout-button" @click="logout">-->
-<!--            <div class="row items-center text-left full-width">-->
-<!--              <q-icon left name="logout"></q-icon>-->
-<!--              <div class="text-left">-->
-<!--                <div class="text-weight-bold">-->
-<!--                  {{-->
-<!--                    $store.state.auth.user-->
-<!--                      ? $store.state.auth.user.username-->
-<!--                      : "(Not Logged In)"-->
-<!--                  }}-->
-<!--                </div>-->
-<!--                <div class="logout-text">Logout</div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </q-btn>-->
-<!--        </div>-->
-<!--      </div>-->
+      <q-img
+        class="absolute-bottom"
+        src="https://cdn.quasar.dev/img/material.png"
+        style="height: 100px"
+      />
+      <div id="user-info">
+        <div class="full-width q-pa-sm absolute-bottom">
+          <q-btn class="full-width logout-button" @click="logout">
+            <div class="row items-center text-left full-width">
+              <q-icon left name="logout"></q-icon>
+              <div class="text-left">
+                <div class="text-weight-bold">
+                  {{
+                    $store.state.auth.user
+                      ? $store.state.auth.user.username
+                      : "(Not Logged In)"
+                  }}
+                </div>
+                <div class="logout-text">Logout</div>
+              </div>
+            </div>
+          </q-btn>
+        </div>
+      </div>
     </q-drawer>
+    <q-btn
+      class="drawer-toggle-button"
+      :style="{ left: drawerButtonPosition }"
+      icon="menu"
+      dense
+      @click="leftDrawerOpen = !leftDrawerOpen"
+    />
 
     <q-page-container style="background-color: #f0eeee">
       <router-view />
@@ -182,6 +189,9 @@ export default {
     },
     currentUser() {
       return this.$store.state.auth.user;
+    },
+    drawerButtonPosition() {
+      return this.leftDrawerOpen ? "240px" : "0px";
     },
   },
   methods: {
@@ -250,8 +260,26 @@ body {
   overflow: hidden;
   .navigation-menu-container {
     overflow: "hidden";
+    color: #3f3f3f;
+    background-color: white;
     height: calc(100% - 70px);
   }
+}
+.drawer-toggle-button {
+  position: fixed;
+  left: 0px;
+  top: 50%;
+  font-size: 10px;
+  transform: translateY(-50%);
+  background-color: rgb(255, 255, 255);
+  border-top: 1px solid #3f3f3f;
+  border-right: 1px solid #3f3f3f;
+  border-bottom: 1px solid #3f3f3f;
+  z-index: 2; /* Ensure the button is above the drawer */
+  width: 25px; /* Set the width of the button */
+  height: 30px; /* Set the height of the button */
+  border-radius: 0 50% 50% 0; /* Make the right of the button circular */
+  overflow: hidden; /* Hide the bottom half of the button */
 }
 #user-info > * {
   color: var(--dark-cornflower-blue);
