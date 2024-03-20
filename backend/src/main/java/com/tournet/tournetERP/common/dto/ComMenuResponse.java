@@ -19,7 +19,7 @@ public class ComMenuResponse {
 
     private int menuUuid;
 
-    private long uprMenuUuid;
+    private long upperMenuUuid;
 
     private long roleUuid;
 
@@ -54,7 +54,7 @@ public class ComMenuResponse {
     @Builder
     public ComMenuResponse(
             int menuUuid,
-            long uprMenuUuid,
+            long upperMenuUuid,
             long roleUuid,
             long menuLvl,
             String menuIcon,
@@ -71,7 +71,7 @@ public class ComMenuResponse {
 
     ) {
         this.menuUuid = menuUuid;
-        this.uprMenuUuid = uprMenuUuid;
+        this.upperMenuUuid = upperMenuUuid;
         this.roleUuid = roleUuid;
         this.menuLvl = menuLvl;
         this.menuIcon = menuIcon;

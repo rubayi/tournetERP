@@ -1,100 +1,54 @@
 <template>
-  <div :style="{ marginLeft: '15px', marginRight: '15px' }">
-    <h5 :style="{ marginTop: '15px', marginBottom: '15px' }">메뉴 권한 관리</h5>
-    <div class="grid-container">
-      <div>
-        <div class="toc">
-          <ul class="list no-bullets">
-            <li v-for="role in roles" :key="role.roleUuid">
-              <button
-                class="plain-button"
-                @click="getMenu(role)"
-                :class="{ chosen: selected.roleUuid === role.roleUuid }"
-              >
-                {{ role.roleUuid }} - {{ role.roles }}
-              </button>
-            </li>
-          </ul>
+  <component-to-re-render :key="componentKey" />
+  <div id="officeform">
+    <q-page class="q-pa-md">
+      <div class="row">
+        <div class="col q-pr-md flex items-center">
+          <span class="part_title text-primary">
+            <q-icon name="menu" class="q-ml-xs q-mb-xs" size="md"></q-icon>
+            메뉴 권한 관리</span
+          >
         </div>
       </div>
 
-      <q-scroll-area class="toc" style="height: 700px">
-        <ag-grid-vue
-          :treeData="true"
-          :columnDefs="colDefs"
-          :rowData="userLinksData"
-          :autoGroupColumnDef="autoGroupColumnDef"
-          @grid-ready="onGridReady"
-          class="ag-theme-quartz-dark"
-          style="height: 630px"
-          :getDataPath="getDataPath"
-        >
-        </ag-grid-vue>
-        <div style="position: absolute; bottom: 0">
-          <button class="save" @click="saveUserMenu">저장</button>
+      <div class="grid-container">
+        <div>
+          <div class="toc">
+            <ul class="list no-bullets">
+              <li v-for="role in roles" :key="role.roleUuid">
+                <button
+                  class="plain-button"
+                  @click="getMenu(role)"
+                  :class="{ chosen: selected.roleUuid === role.roleUuid }"
+                >
+                  {{ role.roleUuid }} - {{ role.roles }}
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
-      </q-scroll-area>
 
-      <q-scroll-area class="toc" style="height: 700px">
-        <q-tree
-          :nodes="linksData"
-          node-key="menuUuid"
-          default-expand-all
-          tick-strategy="strict"
-          v-model:ticked="ticked"
-          @update:ticked="handleMenuClick"
-        />
-      </q-scroll-area>
-    </div>
+        <div class="toc">
+          <navigation-menu :menu-options="userLinksData" />
+        </div>
+
+        <q-scroll-area class="toc" style="height: 700px">
+          <q-tree
+            :nodes="linksData"
+            node-key="menuUuid"
+            default-expand-all
+            tick-strategy="strict"
+            v-model:ticked="ticked"
+            @update:ticked="handleMenuClick"
+          />
+        </q-scroll-area>
+      </div>
+    </q-page>
   </div>
 </template>
 
 <script>
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
-import { AgGridVue } from "ag-grid-vue3";
-
-const buildMenuTree = (menuItems, previousLinksData) => {
-  const modifiedMenuItems = menuItems.map((item) => {
-    const existingItem = previousLinksData.find(
-      (data) => data.menuUuid === item.menuUuid
-    );
-    if (existingItem) {
-      return existingItem;
-    }
-    if (item.upperMenuUuid != null) {
-      item.uprMenuUuid = item.upperMenuUuid;
-      item.menuDelete = item.menuDelete ? "Y" : "N";
-      item.menuRead = item.menuRead ? "Y" : "N";
-      item.menuWrite = item.menuWrite ? "Y" : "N";
-      delete item.upperMenuUuid;
-    }
-    return item;
-  });
-  return modifiedMenuItems.map((menu) => {
-    const orgHierarchy = [menu.menuKor];
-    if (menu.uprMenuUuid) {
-      const uprMenu = menuItems.find(
-        (item) => item.menuUuid == menu.uprMenuUuid
-      );
-      if (uprMenu) {
-        orgHierarchy.unshift(uprMenu.menuKor);
-      }
-    }
-    return {
-      menuUuid: menu.menuUuid,
-      uprMenuUuid: menu.uprMenuUuid,
-      menuLvl: menu.menuLvl,
-      icon: menu.menuIcon ? menu.menuIcon : "label",
-      label: menu.menuKor,
-      link: menu.menuUrl,
-      menuOrd: menu.menuOrd,
-      menuUrl: menu.menuUrl,
-      caption: menu.menuDesc,
-      orgHierarchy: orgHierarchy,
-    };
-  });
-};
+import NavigationMenu from "./navigation/NavigationMenu.vue";
 
 const buildComMenuTree = (menuItems, parentUuid) => {
   const filteredComMenus = menuItems.filter(
@@ -116,24 +70,15 @@ const buildComMenuTree = (menuItems, parentUuid) => {
 export default {
   name: "ComMenu",
   components: {
-    AgGridVue,
+    NavigationMenu,
   },
   data() {
     return {
-      colDefs: [
-      ],
-      autoGroupColumnDef: {
-        headerName: "메뉴이름",
-        minWidth: 150,
-        field: "label",
-        cellRenderer: "agGroupCellRenderer",
-      },
       ticked: [],
       roles: [],
       allOfLinks: [],
       previousLinksData: [],
       linksData: [],
-      // getDataPath: null,
       userLinksData: [],
       selected: {
         role: "ROLE_USER",
@@ -163,7 +108,7 @@ export default {
         const chosenMenus = this.allOfLinks.filter((menu) =>
           newTicked.includes(menu.menuUuid)
         );
-        this.userLinksData = buildMenuTree(chosenMenus, this.previousLinksData);
+        this.userLinksData = buildComMenuTree(chosenMenus, 0);
       }
     },
     getAllRoles() {
@@ -199,9 +144,9 @@ export default {
       }
       this.$store.dispatch("comMenu/getComMenuListForEdit", menuReq).then(
         (comMenu) => {
-          this.userLinksData = buildMenuTree(comMenu, this.previousLinksData);
           this.ticked = comMenu.map((menu) => menu.menuUuid);
           this.previousLinksData = comMenu;
+          this.userLinksData = buildComMenuTree(comMenu, 0);
           this.getMainComMenu();
         },
         (error) => {
@@ -312,12 +257,6 @@ export default {
   created() {
     this.getAllRoles();
     this.getMenu();
-    // this.getDataPath = (data) => {
-    //   const menu = this.userLinksData.find(
-    //     (menu) => menu.menuUuid === data.menuUuid
-    //   );
-    //   return menu ? menu.orgHierarchy : null;
-    // };
   },
 };
 </script>
@@ -325,7 +264,7 @@ export default {
 <style scoped>
 .grid-container {
   display: grid;
-  grid-template-columns: 20% 40% auto;
+  grid-template-columns: 30% 30% auto;
   gap: 20px;
 }
 .no-bullets {
@@ -333,66 +272,31 @@ export default {
   border: 1px solid rgba(255, 255, 255, 0.16);
 }
 .toc {
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(171, 171, 171);
   padding: 10px;
-  background-color: color-mix(in srgb, #fff, #182230 93%);
-  border-radius: 10px;
+  background-color: white;
+  border-radius: 3px;
 }
 .list {
   margin: 0;
   padding: 0;
 }
-.list > li {
-  border-bottom: rgba(255, 255, 255, 0.16) 1px solid;
-}
-.list > li:last-child {
-  border-bottom: none;
-}
-.spaces {
-  margin-top: 10px;
-  margin-top: 10px;
-}
-.inputBox {
-  width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  padding: 10px;
-  background-color: color-mix(in srgb, #fff, #182230 97%);
-  border-radius: 3px;
-}
 .plain-button {
-  color: white;
-  background: color-mix(in srgb, #fff, #182230 97%);
+  color: rgb(0, 0, 0);
+  background: white;
   border: none;
   padding: 0;
   text-align: left;
   width: 100%;
   display: block;
-  padding: 10px 10px;
+  padding: 13px 13px;
   cursor: pointer;
 }
 .chosen {
-  background: color-mix(in srgb, #fff, #182230 87%);
+  background: #d3d3d3;
 }
 .save {
   background: #50d427ad;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  border: none;
-  color: white;
-}
-.clear {
-  background: #ffae00ad;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  border: none;
-  color: white;
-}
-.delete {
-  background: #ff0000ad;
   padding: 8px;
   border-radius: 4px;
   cursor: pointer;

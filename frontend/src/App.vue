@@ -181,7 +181,6 @@ export default {
       this.$store.dispatch("comMenu/getMainComMenuList", menuReq).then(
         (comMenu) => {
           this.linksData = buildMenuTree(comMenu, 0);
-          console.log(this.linksData);
         },
         (error) => {
           this.message =
