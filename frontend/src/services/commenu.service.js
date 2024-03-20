@@ -46,14 +46,6 @@ class ComMenuService {
     return api.put(`/comMenus/updateComMenu`, comreq);
   }
 
-  // ------------------ UserMenu ------------------
-  saveUserMenu(comreq) {
-    return api
-      .put("/userMenus/updateUserMenus", comreq)
-      .then((response) => {
-        return response.data;
-      });
-  }
 }
 
 export default new ComMenuService();

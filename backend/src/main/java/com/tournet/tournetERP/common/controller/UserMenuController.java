@@ -30,6 +30,7 @@ public class UserMenuController {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @SuppressWarnings("null")
     @PutMapping("/updateUserMenus")
     public ResponseEntity<Map<String, Object>> updateUserMenus(@RequestBody UserMenuRequest userMenuRequest) {
 
@@ -76,6 +77,34 @@ public class UserMenuController {
         }
 
         return ResponseEntity.ok(new MessageResponse(message));
+    }
+
+    @Transactional
+    @PostMapping("/deleteUserMenus")
+    public ResponseEntity<Map<String, Object>> deleteUserMenus(@RequestBody UserMenuRequest userMenuRequest) {
+
+        int menuUuid = userMenuRequest.getMenuUuid();
+        int roleUuid = userMenuRequest.getRoleUuid();
+
+        Optional<UserMenu> currentUserMenu = userMenuRepository.findByRoleUuidAndMenuUuid(roleUuid, menuUuid);
+
+        String message = "";
+        if (currentUserMenu.isPresent()) {
+            UserMenu userMenu = currentUserMenu.get();
+            if (userMenu != null) {
+                userMenuRepository.delete(userMenu);
+                message = "삭제되었습니다.";
+            } else {
+                message = "삭제가 완료 되지 않았습니다.";
+            }
+        } else {
+            message = "삭제가 완료 되지 않았습니다.";
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", message);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
     @PostMapping("/getUserMenus")

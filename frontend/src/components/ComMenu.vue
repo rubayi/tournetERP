@@ -9,6 +9,11 @@
             메뉴 권한 관리</span
           >
         </div>
+        <div class="col-5 text-right">
+          <div class="q-pa-sm">
+            <q-btn label="+ 메뉴수정" color="green" @click="saveUserMenu" />
+          </div>
+        </div>
       </div>
 
       <div class="grid-container">
@@ -32,7 +37,7 @@
           <navigation-menu :menu-options="userLinksData" />
         </div>
 
-        <q-scroll-area class="toc" style="height: 700px">
+        <q-scroll-area class="toc" style="height: 800px">
           <q-tree
             :nodes="linksData"
             node-key="menuUuid"
@@ -102,9 +107,9 @@ export default {
   methods: {
     handleMenuClick(newTicked) {
       if (newTicked) {
-        this.previousLinksData = this.previousLinksData.filter((data) =>
-          newTicked.includes(data.menuUuid)
-        );
+        // this.previousLinksData = this.previousLinksData.filter((data) =>
+        //   newTicked.includes(data.menuUuid)
+        // );
         const chosenMenus = this.allOfLinks.filter((menu) =>
           newTicked.includes(menu.menuUuid)
         );
@@ -162,18 +167,38 @@ export default {
       return menu ? menu.orgHierarchy : null;
     },
     saveUserMenu() {
-      param = {
-        roleUuid: this.selected.roleUuid,
-        menuUuids: this.ticked,
-      };
-      this.$store.dispatch("userMenu/saveUserMenu", param).then(
-        () => {
-          this.getMenu();
-        },
-        (error) => {
-          console.log("saveUserMenu failed", error);
-        }
-      );
+      this.ticked.forEach((tickedItem) => {
+        const param = {
+          roleUuid: this.selected.roleUuid,
+          menuUuid: tickedItem,
+        };
+        this.$store.dispatch("userMenu/saveUserMenu", param).then(
+          () => {
+            console.log("saveUserMenu success");
+            this.getMenu();
+          },
+          (error) => {
+            console.log("saveUserMenu failed", error);
+          }
+        );
+      });
+      this.previousLinksData
+        .filter((data) => !this.ticked.includes(data.menuUuid))
+        .forEach((tickedItem) => {
+          const param = {
+            roleUuid: this.selected.roleUuid,
+            menuUuid: tickedItem.menuUuid,
+          };
+          this.$store.dispatch("userMenu/deleteUserMenu", param).then(
+            () => {
+              console.log("deleteUserMenu success");
+              this.getMenu();
+            },
+            (error) => {
+              console.log("deleteUserMenu failed", error);
+            }
+          );
+        });
     },
     saveComMenu() {
       if (this.edited.menuUuid) {
@@ -294,14 +319,5 @@ export default {
 }
 .chosen {
   background: #d3d3d3;
-}
-.save {
-  background: #50d427ad;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  border: none;
-  color: white;
 }
 </style>
