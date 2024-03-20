@@ -20,9 +20,9 @@
         <q-header class="commonThead text-white" height-hint="98">
           <q-toolbar class="col-12">
             <slot name="header" v-if="onCloseClick" />
-<!--            <q-toolbar-title v-if="!hasHeaderSlot">-->
-<!--              <i :class="iconTitle"></i> {{ title }}-->
-<!--            </q-toolbar-title>-->
+            <!--            <q-toolbar-title v-if="!hasHeaderSlot">-->
+            <!--              <i :class="iconTitle"></i> {{ title }}-->
+            <!--            </q-toolbar-title>-->
             <q-btn flat icon="close" round @click="onCloseClick" />
           </q-toolbar>
           <div class="bg-white"></div>
@@ -41,14 +41,14 @@
                 icon="add"
                 :label="saveButtonLabel"
                 text-color="white"
-                @click="onSaveClick"
+                @click="handleSaveClick"
               />
               <q-btn
                 color="red"
                 icon="delete"
                 :label="deleteButtonLabel"
                 text-color="white"
-                @click="onDeleteClick"
+                @click="handleDeleteClick"
               />
               <q-btn
                 color="white"
@@ -75,8 +75,6 @@ export default defineComponent({
     openDrawer: Boolean,
     drawerWidth: Number,
     onCloseClick: Function,
-    onSaveClick: Function,
-    onDeleteClick: Function,
     saveButtonLabel: {
       type: String,
       default: "저장",
@@ -99,16 +97,21 @@ export default defineComponent({
         innerOpenDrawer.value = newValue;
       }
     );
+    const handleSaveClick = () => {
+      emit("save", "save");
+    };
+    const handleDeleteClick = () => {
+      emit("delete", "delete");
+    };
     return {
       innerOpenDrawer,
+      handleSaveClick,
+      handleDeleteClick,
     };
   },
 
   methods: {},
-  mounted() {
-    console.log("Received openDrawer:", this.openDrawer);
-    console.log("Received drawerWidth:", this.drawerWidth);
-  },
+  mounted() {},
 });
 </script>
 
@@ -118,12 +121,10 @@ export default defineComponent({
     top: 0 !important;
   }
 }
-
 .changes-indicator {
   -webkit-animation: pulse 2s ease-out 0s infinite;
   animation: pulse 2s ease-out 0s infinite;
 }
-
 .commonThead {
   background-image: url("src/assets/top_main.png");
 }

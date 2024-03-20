@@ -119,7 +119,7 @@ public class EmpController {
 
         String message = "";
 
-        if(storUser.isAuthenticated()) {
+        if (storUser.isAuthenticated()) {
             if (currentEmp.isPresent()) {
                 User _emp = currentEmp.get();
 
@@ -151,7 +151,7 @@ public class EmpController {
                 _emp.setEmpMemo(empReq.getEmpMemo());
                 _emp.setEmpStatus(empReq.getEmpStatus());
 
-//            _emp.setModifyUser(modifyingUser);
+                //            _emp.setModifyUser(modifyingUser);
 
                 if (empReq.getPassword() != null && !empReq.getPassword().equals("")) {
                     _emp.setPassword(encoder.encode(empReq.getPassword()));
@@ -171,6 +171,18 @@ public class EmpController {
         return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
+    @Transactional
+    @DeleteMapping("/deleteEmp/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable long id) {
+        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+
+        if(storUser.isAuthenticated()) {
+            empRepository.deleteByEmpUuid(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
 
     @Transactional
     @DeleteMapping("/deleteComcode/{id}")

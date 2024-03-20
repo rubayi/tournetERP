@@ -4,8 +4,8 @@
       :open-drawer="openDrawer"
       :drawerWidth="drawerWidth"
       :on-close-click="onCloseClick"
-      :on-save-click="onSaveClick"
-      :on-delete-click="onDeleteClick"
+      @save="handleSaveData"
+      @delete="handleDeleteData"
     >
       <div class="flex flex-grow-1 q-pa-md">
         <q-card-section>
@@ -95,27 +95,32 @@ export default defineComponent({
     drawerWidth: Number,
     dataVal: Object,
     onCloseClick: Function,
-    onSaveClick: Function,
-    onDeleteClick: Function,
   },
   setup(props, { emit }) {
     const edited = ref(props.dataVal);
 
+    function handleSaveData(data) {
+      emit("save", edited.value);
+    }
+
+    function handleDeleteData(data) {
+      emit("delete", edited.value.codeUuid);
+    }
+
     watch(
       () => props.dataVal,
       (newVal) => {
-        edited.value = { ...newVal }; // Update the edited ref with the new value
+        edited.value = { ...newVal };
       }
     );
 
     return {
       edited,
+      handleSaveData,
+      handleDeleteData,
     };
   },
-  mounted() {
-    console.log("Received dataVal:", this.dataVal);
-    console.log("Received openDrawer:", this.openDrawer);
-  },
+  mounted() {},
 });
 </script>
 

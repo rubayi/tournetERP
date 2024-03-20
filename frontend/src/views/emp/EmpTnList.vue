@@ -6,7 +6,8 @@
         <div class="col q-pr-md flex items-center">
           <span class="part_title text-primary">
             <q-icon name="person" class="q-ml-xs q-mb-xs" size="md"></q-icon
-            >직원관리</span>
+            >직원관리</span
+          >
         </div>
         <div class="col-5 text-right">
           <q-form @submit="searchEmpList">
@@ -63,12 +64,13 @@
           :on-cell-clicked="openAction"
         />
       </div>
-
       <emp-form-drawer
         :open-drawer="openDrawer"
         :drawer-width="800"
         :dataVal="edited"
         :on-close-click="closeAction"
+        @save="saveAction"
+        @delete="deleteEmp"
       />
     </q-page>
   </div>
@@ -119,13 +121,13 @@ export default {
       initEdited: initialData,
       updateEdited: {},
       edited: initialData,
-      divOptions:[],
-      statusOptions:[],
-      workOptions:[],
-      roleOptions:[],
-      countryOptions:[],
-      dobTypeOptions:[],
-      titleOptions:[],
+      // divOptions: [],
+      // statusOptions: [],
+      // workOptions: [],
+      // roleOptions: [],
+      // countryOptions: [],
+      // dobTypeOptions: [],
+      // titleOptions: [],
       colDefs: EmpFormTableConfig.columns(),
       emps: [],
     };
@@ -154,21 +156,21 @@ export default {
       this.openDrawer = !this.openDrawer;
     },
 
-    saveAction() {
-      if (this.edited.empUuid != 0) {
-        this.$store.dispatch("empTn/updateEmp", this.edited).then(
+    saveAction(editedData) {
+      if (editedData.empUuid != 0) {
+        this.$store.dispatch("empTn/updateEmp", editedData).then(
           (response) => {
             alert(response.data.message);
             this.resetForm();
             this.openDrawer = false;
-            //  this.handlePageChange();
+            this.handlePageChange();
           },
           (error) => {
             console.log("saveEmp failed", error);
           }
         );
       } else {
-        this.$store.dispatch("auth/register", this.edited).then(
+        this.$store.dispatch("auth/register", editedData).then(
           (response) => {
             alert(response.message);
             this.resetForm();
@@ -181,20 +183,16 @@ export default {
         );
       }
     },
-
     closeAction() {
       this.edited = initialData;
       this.openDrawer = !this.openDrawer;
     },
-
     handlePageChange() {
       this.searchEmpList();
     },
-
     searchEmpList() {
       if (this.searchIdx === "사용자명") {
         this.username = this.searchWord;
-
         this.empStatus = "";
         this.empKor = "";
         this.empEng = "";
@@ -214,7 +212,6 @@ export default {
         this.username = "";
         this.empKor = "";
       }
-
       const searchReq = {
         empStatus: this.empStatus,
         empKor: this.empKor,
@@ -234,11 +231,13 @@ export default {
         }
       );
     },
-
     deleteEmp(id) {
       this.$store.dispatch("empTn/deleteEmp", id).then(
-        () => {
-          //this.getMainEmp();
+        (response) => {
+          alert(response.data.message);
+          this.resetForm();
+          this.openDrawer = false;
+          this.handlePageChange();
         },
         (error) => {
           console.log("deleteEmp failed", error);
@@ -246,9 +245,7 @@ export default {
       );
       this.resetForm();
     },
-
     resetForm() {
-      console.log(this.updateEdited);
       if (this.edited.empUuid != 0) {
         this.edited = this.updateEdited;
       } else {
@@ -293,7 +290,6 @@ export default {
   },
 };
 </script>
-
 <style lang="scss">
 #officeform {
   #officeform-grid-container {

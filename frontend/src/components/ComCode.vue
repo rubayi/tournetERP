@@ -43,98 +43,9 @@
         :drawer-width="500"
         :data-val="edited"
         :on-close-click="closeAction"
-        :on-save-click="saveComCode"
-        :on-delete-click="deleteComCode"
-        :select-options="selectOptions"
+        @save="saveComCode"
+        @delete="deleteComCode"
       />
-
-      <!-- <div>
-        <div class="toc">
-          <div style="padding: 3px">코드등록</div>
-          <form @submit.prevent="saveComCode">
-            <input
-              type="number"
-              id="codeUuid"
-              v-model="edited.codeUuid"
-              hidden
-            />
-            <div class="spaces">
-              <input
-                class="inputBox"
-                type="text"
-                placeholder="영문 상세코드명"
-                id="codeEn"
-                v-model="edited.codeEn"
-              />
-            </div>
-            <div class="spaces">
-              <input
-                class="inputBox"
-                type="text"
-                placeholder="한글 상세코드명"
-                id="codeKr"
-                v-model="edited.codeKr"
-                required
-              />
-            </div>
-            <div class="spaces">
-              <input
-                class="inputBox"
-                type="text"
-                placeholder="코드값 ex) 001"
-                id="codeValue"
-                v-model="edited.codeValue"
-                required
-              />
-            </div>
-            <div class="spaces">
-              <input
-                class="inputBox"
-                type="text"
-                placeholder="코드레벨 ex) 0,1,2.."
-                id="codeLvl"
-                v-model="edited.codeLvl"
-                required
-              />
-            </div>
-            <div class="spaces">
-              <input
-                class="inputBox"
-                type="number"
-                placeholder="코드정렬순서"
-                id="codeOrd"
-                v-model="edited.codeOrd"
-                required
-              />
-            </div>
-            <div class="spaces">
-              <input
-                class="inputBox"
-                type="text"
-                placeholder="코드사용여부"
-                id="useYn"
-                v-model="edited.useYn"
-                required
-              />
-            </div>
-            <div class="spaces">
-              <button type="submit" class="save">
-                {{ edited.codeUuid ? "수정" : "저장" }}
-              </button>
-              <button class="clear" type="reset" @click="resetForm">
-                취소
-              </button>
-              <button
-                class="delete"
-                type="button"
-                @click="deleteComCode(edited.codeUuid)"
-              >
-                삭제
-              </button>
-            </div>
-          </form>
-        </div>
-      </div> -->
     </q-page>
   </div>
 </template>
@@ -190,22 +101,25 @@ export default {
         }
       );
     },
-    saveComCode() {
-      if (this.edited.codeUuid) {
-        this.$store.dispatch("comCode/updateComcode", this.edited).then(
-          () => {
-            this.getMainComCode();
-            this.resetForm();
+    saveComCode(editedData) {
+      console.log("editedData", editedData);
+      if (editedData.codeUuid) {
+        this.$store.dispatch("comCode/updateComcode", editedData).then(
+          (response) => {
+            alert(response.data.message);
+            this.openDrawer = false;
+            this.handlePageChange();
           },
           (error) => {
             console.log("saveComCode failed", error);
           }
         );
       } else {
-        this.$store.dispatch("comCode/createComcode", this.edited).then(
-          () => {
-            this.getMainComCode();
-            this.resetForm();
+        this.$store.dispatch("comCode/createComcode", editedData).then(
+          (response) => {
+            alert(response.data.message);
+            this.openDrawer = false;
+            this.handlePageChange();
           },
           (error) => {
             console.log("saveComCode failed", error);
@@ -244,14 +158,15 @@ export default {
     },
     deleteComCode(id) {
       this.$store.dispatch("comCode/deleteComcode", id).then(
-        () => {
-          this.getMainComCode();
+        (response) => {
+          alert(response.data.message);
+          this.openDrawer = false;
+          this.handlePageChange();
         },
         (error) => {
           console.log("deleteComcode failed", error);
         }
       );
-      this.resetForm();
     },
     resetForm() {
       this.edited = {
@@ -265,6 +180,10 @@ export default {
         uprCodeUuid: this.chosenComCodes[0]?.uprCodeUuid ?? 0,
       };
     },
+    handlePageChange() {
+      this.resetForm();
+      this.getMainComCode();
+    },
     closeAction() {
       this.edited = initialData;
       this.openDrawer = !this.openDrawer;
@@ -275,7 +194,6 @@ export default {
   },
 };
 </script>
-
 <style lang="scss">
 #officeform {
   #officeform-grid-container {
