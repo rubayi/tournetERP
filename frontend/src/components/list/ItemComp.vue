@@ -12,7 +12,7 @@
       @mouseover="setListMouseOver(true)"
     >
       <q-item-section v-if="icon" avatar>
-        <q-icon :name="icon" size="xs" />
+        <q-icon :name="icon" size="sm" />
       </q-item-section>
       <q-item-section>{{ label }}</q-item-section>
       <q-item-section v-if="openMenuOnHover" avatar>
@@ -35,13 +35,12 @@
               'not-focused': !focusOnItem(item),
             }"
             clickable
-            :external-u-r-l="item.externalURL"
             :icon="item.icon"
             :label="item.label"
+            :key="item.label"
             :open-menu-on-hover="item.openMenuOnHover"
             :replace="item.replace"
             :to="item.to"
-            :key="item.label"
           >
           </item-comp>
         </list-comp>
@@ -74,6 +73,10 @@ export default {
     label: {
       type: String,
       default: "",
+    },
+    menuLvl: {
+      type: Number,
+      default: 0,
     },
     menuOptions: {
       type: Array,
@@ -130,8 +133,8 @@ export default {
     }
 
     function goToExternalLink() {
-      if (props.externalURL) {
-        window.open(props.externalURL, "_blank");
+      if (props.link) {
+        window.location.href = props.link;
       }
     }
 

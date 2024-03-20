@@ -243,9 +243,9 @@ body {
   border-top: 1px solid #3f3f3f;
   border-right: 1px solid #3f3f3f;
   border-bottom: 1px solid #3f3f3f;
-  z-index: 2; /* Ensure the button is above the drawer */
-  width: 25px; /* Set the width of the button */
-  height: 30px; /* Set the height of the button */
+  z-index: 2;
+  width: 25px;
+  height: 30px;
   border-radius: 0 50% 50% 0; /* Make the right of the button circular */
   overflow: hidden; /* Hide the bottom half of the button */
 }

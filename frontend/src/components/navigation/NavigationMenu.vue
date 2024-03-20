@@ -1,10 +1,19 @@
 <template>
-  <q-scroll-area style="height: calc(100%); border-right: 1px solid #ddd">
+  <q-scroll-area style="height: calc(100%)">
     <list-comp id="navigation-menu" padding>
       <div v-for="item in menuOptionsWithPathHighlighted" :key="item.label">
-        <q-item-label v-if="item.headerLabel" header>
-          {{ item.headerLabel }}
-        </q-item-label>
+        <item-comp
+          v-if="item.children?.length <= 0"
+          :focused="item.focused"
+          :hide="item.hide"
+          :icon="item.icon"
+          :label="item.label"
+          :menuLvl="item.menuLvl"
+          :menu-options="item.children"
+          :open-menu-on-hover="item.children?.length > 0"
+          :to="item.link"
+          :key="item.label"
+        />
         <expansion-item-comp
           v-else-if="item.children && !item.hide"
           :content-inset-level="0"
@@ -19,6 +28,7 @@
             :hide="child.hide"
             :icon="child.icon"
             :label="child.label"
+            :menuLvl="item.menuLvl"
             :menu-options="child.children"
             :open-menu-on-hover="child.children?.length > 0"
             :to="child.link"
@@ -31,10 +41,11 @@
           :hide="item.hide"
           :icon="item.icon"
           :label="item.label"
+          :menuLvl="item.menuLvl"
           :menu-options="item.children"
           :open-menu-on-hover="item.children?.length > 0"
           :to="item.link"
-          :key="item.label"
+          :key="item.label + '-if'"
         />
       </div>
     </list-comp>
