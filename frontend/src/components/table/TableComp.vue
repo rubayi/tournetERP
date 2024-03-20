@@ -10,7 +10,7 @@
     style="width: 100%; min-height: 800px; overflow: auto"
     :pagination="pagination"
     pagination-auto-page-size="auto"
-    :pagination-page-size="paginationPageSize"
+    paginationPageSize="paginationPageSize"
   />
 </template>
 

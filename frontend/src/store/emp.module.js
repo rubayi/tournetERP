@@ -62,6 +62,7 @@ export const empTn = {
     },
 
     updateEmp({ commit }, comreq) {
+      console.log(comreq);
       return EmpService.updateEmp(comreq).then(
         data => {
           commit('updateSuccess', data);

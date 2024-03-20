@@ -62,6 +62,7 @@ public class UserService {
                     userResponse.setEmpRoleName(fetchCodeKr(user.getEmpRole()));
                     userResponse.setEmpDobTypeName(fetchCodeKr(user.getEmpDobType()));
                     userResponse.setEmpStatusName(fetchCodeKr(user.getEmpStatus()));
+                    userResponse.setEmpCountryName(fetchCodeKr(user.getEmpCountry()));
 
                     userResponse.setEmpWorkType(user.getEmpWorkType());
                     userResponse.setEmpDiv(user.getEmpDiv());

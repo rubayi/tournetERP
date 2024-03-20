@@ -70,7 +70,6 @@
         :dataVal="edited"
         :on-close-click="closeAction"
         @save="saveAction"
-        @delete="deleteEmp"
       />
     </q-page>
   </div>
@@ -121,13 +120,6 @@ export default {
       initEdited: initialData,
       updateEdited: {},
       edited: initialData,
-      // divOptions: [],
-      // statusOptions: [],
-      // workOptions: [],
-      // roleOptions: [],
-      // countryOptions: [],
-      // dobTypeOptions: [],
-      // titleOptions: [],
       colDefs: EmpFormTableConfig.columns(),
       emps: [],
     };
@@ -157,31 +149,32 @@ export default {
     },
 
     saveAction(editedData) {
-      if (editedData.empUuid != 0) {
-        this.$store.dispatch("empTn/updateEmp", editedData).then(
-          (response) => {
-            alert(response.data.message);
-            this.resetForm();
-            this.openDrawer = false;
-            this.handlePageChange();
-          },
-          (error) => {
-            console.log("saveEmp failed", error);
-          }
-        );
-      } else {
-        this.$store.dispatch("auth/register", editedData).then(
-          (response) => {
-            alert(response.message);
-            this.resetForm();
-            this.openDrawer = false;
-            this.handlePageChange();
-          },
-          (error) => {
-            console.log("saveEmp failed", error);
-          }
-        );
-      }
+      // console.log(editedData);
+      // if (editedData.empUuid != 0) {
+      //   this.$store.dispatch("empTn/updateEmp", editedData).then(
+      //     (response) => {
+      //       alert(response.data.message);
+      //       this.resetForm();
+      //       this.openDrawer = false;
+      //       this.handlePageChange();
+      //     },
+      //     (error) => {
+      //       console.log("saveEmp failed", error);
+      //     }
+      //   );
+      // } else {
+      //   this.$store.dispatch("auth/register", editedData).then(
+      //     (response) => {
+      //       alert(response.message);
+      //       this.resetForm();
+      //       this.openDrawer = false;
+      //       this.handlePageChange();
+      //     },
+      //     (error) => {
+      //       console.log("saveEmp failed", error);
+      //     }
+      //   );
+      // }
     },
     closeAction() {
       this.edited = initialData;
