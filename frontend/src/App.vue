@@ -48,50 +48,13 @@
       bordered
     >
       <div class="navigation-menu-container">
-        <!-- <q-list>
-            <div v-for="item in linksData" :key="item.label">
-              <q-item-label v-if="item.headerLabel" header>
-                {{ item.headerLabel }}
-              </q-item-label>
-              <expansion-item-comp
-                v-else-if="item.expandChildren && !item.hide"
-                :content-inset-level="0"
-                :focused="item.focused"
-                :icon="item.icon"
-                :label="item.label"
-              >
-                <item-comp
-                  v-for="child in item.children"
-                  :external-u-r-l="child.externalURL"
-                  :focused="child?.focused"
-                  :hide="child.hide"
-                  :icon="child.icon"
-                  :label="child.label"
-                  :menu-options="child.children"
-                  :open-menu-on-hover="child.children?.length > 0"
-                  :to="child.to"
-                  :key="child.label"
-                />
-              </expansion-item-comp>
-              <item-comp
-                v-else-if="!item.expandChildren && !item.hide"
-                :focused="item.focused"
-                :hide="item.hide"
-                :icon="item.icon"
-                :label="item.label"
-                :menu-options="item.children"
-                :open-menu-on-hover="item.children?.length > 0"
-                :to="item.to"
-                :key="item.label"
-              />
-            </div>
-          </q-list> -->
-        <q-tree
+        <navigation-menu :menu-options="linksData" />
+        <!-- <q-tree
           :nodes="linksData"
           node-key="label"
           default-expand-icon="expand_more"
           default-collapsed-icon="chevron_right"
-        />
+        /> -->
       </div>
       <q-img
         class="absolute-bottom"
@@ -119,6 +82,7 @@
       </div>
     </q-drawer>
     <q-btn
+      v-if="$store.state.auth.user"
       class="drawer-toggle-button"
       :style="{ left: drawerButtonPosition }"
       icon="menu"
@@ -135,7 +99,8 @@
 <script>
 import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
-import EventBus from "./common/EventBus";
+import eventBus from "./common/EventBus";
+import NavigationMenu from "./components/navigation/NavigationMenu.vue";
 
 let router;
 const buildMenuTree = (menuItems, parentUuid) => {
@@ -157,7 +122,6 @@ const buildMenuTree = (menuItems, parentUuid) => {
     children: buildMenuTree(menuItems, menu.menuUuid),
   }));
 };
-
 const handleMenuClick = (link) => {
   if (link) {
     router.push(link);
@@ -166,6 +130,9 @@ const handleMenuClick = (link) => {
 
 export default {
   name: "MainLayout",
+  components: {
+    NavigationMenu,
+  },
   setup() {
     const $q = useQuasar();
     router = useRouter();
@@ -214,6 +181,7 @@ export default {
       this.$store.dispatch("comMenu/getMainComMenuList", menuReq).then(
         (comMenu) => {
           this.linksData = buildMenuTree(comMenu, 0);
+          console.log(this.linksData);
         },
         (error) => {
           this.message =
@@ -229,12 +197,12 @@ export default {
   mounted() {
     // Call the method to fetch work options if user is admin
     this.getMenu();
-    EventBus.on("logout", () => {
+    eventBus.on("logout", () => {
       this.logOut();
     });
   },
   beforeUnmount() {
-    EventBus.remove("logout");
+    eventBus.remove("logout");
   },
   watch: {
     isAdmin: {

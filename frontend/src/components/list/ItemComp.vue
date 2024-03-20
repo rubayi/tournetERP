@@ -50,15 +50,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import DebounceHelper from "@/utils/helpers/DebounceHelper";
-import URLHelper from "@/utils/helpers/URLHelper";
-import { defineComponent, computed, ref, watch } from "vue";
-import ListComp from "@/components/list/ListComp.vue";
-import MenuComp from "@/components/list/MenuComp.vue";
-import router from "@/router";
+<script>
+import { ref, watch, computed } from "vue";
+import ListComp from "./ListComp.vue";
+import MenuComp from "./MenuComp.vue";
 
-export default defineComponent({
+export default {
   name: "ItemComp",
   components: { ListComp, MenuComp },
   props: {
@@ -107,7 +104,7 @@ export default defineComponent({
     let leftDrawerOpen = ref(true);
     const showMenuOptions = computed(() => {
       if (props.menuOptions) {
-        return props.menuOptions.filter((m: any) => !m.hide);
+        return props.menuOptions.filter((m) => !m.hide);
       } else {
         return props.menuOptions;
       }
@@ -117,39 +114,31 @@ export default defineComponent({
       openMenu.value = menuMouseOver.value || listMouseOver.value;
     }
 
-    function setListMouseOver(value: boolean) {
+    function setListMouseOver(value) {
       if (value) {
         menuMouseOver.value = false;
       }
       listMouseOver.value = value;
     }
 
-    function setMenuMouseOver(value: boolean) {
+    function setMenuMouseOver(value) {
       menuMouseOver.value = value;
     }
 
-    function focusOnItem(item: any) {
+    function focusOnItem(item) {
       return item.to && item.focused;
     }
 
     function goToExternalLink() {
       if (props.externalURL) {
-        URLHelper.goToURLInNewTab(props.externalURL);
-      }
-      // Reloads the page again if on an Add page without adding a router entry
-      else if (
-        props.to &&
-        props.to.includes("?mode=") &&
-        router.currentRoute.value.fullPath === props.to
-      ) {
-        router.go(0);
+        window.open(props.externalURL, "_blank");
       }
     }
 
     watch(
       () => [menuMouseOver.value, listMouseOver.value],
       () => {
-        DebounceHelper.debounce(setMenuOpen, 150, this);
+        setTimeout(setMenuOpen, 150);
       }
     );
 
@@ -164,7 +153,7 @@ export default defineComponent({
       goToExternalLink,
     };
   },
-});
+};
 </script>
 
 <style type="text/scss" lang="scss">
