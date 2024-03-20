@@ -42,12 +42,11 @@ public class MenuAuthController {
     MenuAuthRepository menuAuthRepository;
 
     @PostMapping("/selectMenuAuths")
-    public ResponseEntity<Map<String, Object>> selectMenuAuths (@PathVariable int id,
-                                                                @RequestBody MenuAuth menuAuthReq) {
+    public ResponseEntity<Map<String, Object>> selectMenuAuths (@RequestBody MenuAuth menuAuthReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        List<MenuAuth> currentMenuAuths = menuAuthRepository.findAllByOrderByModifiedDtDesc();
+        List<MenuAuth> currentMenuAuths = menuAuthRepository.findAllByEmpUuidOrderByModifiedDtDesc(menuAuthReq.getEmpUuid());
 
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("menuAuths", currentMenuAuths);
@@ -74,7 +73,7 @@ public class MenuAuthController {
     }
 
     @PutMapping("/updateMenuAuth/{id}")
-    public ResponseEntity<Map<String, Object>> updateMenuAuth(@PathVariable int id, @RequestBody MenuAuth menuAuthReq) {
+    public ResponseEntity<Map<String, Object>> updateMenuAuth(@PathVariable long id, @RequestBody MenuAuth menuAuthReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 

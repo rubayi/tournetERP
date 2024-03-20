@@ -6,6 +6,15 @@
           <img src="images/mainlogorev.png" class="toplogo" />
         </router-link>
         <q-toolbar-title> Tourtnet Hawaii ERP </q-toolbar-title>
+        <div id="user-info">
+          <div class="text-weight-bold">
+            {{
+              $store.state.auth.user
+                ? $store.state.auth.user.username
+                : "(Not Logged In)"
+            }}
+          </div>
+        </div>
         <q-btn
           aria-label="Home"
           dense
@@ -22,6 +31,7 @@
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
+
         <q-btn v-if="$store.state.auth.user" @click="logout" flat round
           ><q-icon name="logout" class="q-mr-sm text-white" size="sm" />
         </q-btn>
@@ -83,30 +93,30 @@
           default-collapsed-icon="chevron_right"
         />
       </div>
-      <q-img
-        class="absolute-bottom"
-        src="https://cdn.quasar.dev/img/material.png"
-        style="height: 100px"
-      />
-      <div id="user-info">
-        <div class="full-width q-pa-sm absolute-bottom">
-          <q-btn class="full-width logout-button" @click="logout">
-            <div class="row items-center text-left full-width">
-              <q-icon left name="logout"></q-icon>
-              <div class="text-left">
-                <div class="text-weight-bold">
-                  {{
-                    $store.state.auth.user
-                      ? $store.state.auth.user.username
-                      : "(Not Logged In)"
-                  }}
-                </div>
-                <div class="logout-text">Logout</div>
-              </div>
-            </div>
-          </q-btn>
-        </div>
-      </div>
+<!--      <q-img-->
+<!--        class="absolute-bottom"-->
+<!--        src="https://cdn.quasar.dev/img/material.png"-->
+<!--        style="height: 100px"-->
+<!--      />-->
+<!--      <div id="user-info">-->
+<!--        <div class="full-width q-pa-sm absolute-bottom">-->
+<!--          <q-btn class="full-width logout-button" @click="logout">-->
+<!--            <div class="row items-center text-left full-width">-->
+<!--              <q-icon left name="logout"></q-icon>-->
+<!--              <div class="text-left">-->
+<!--                <div class="text-weight-bold">-->
+<!--                  {{-->
+<!--                    $store.state.auth.user-->
+<!--                      ? $store.state.auth.user.username-->
+<!--                      : "(Not Logged In)"-->
+<!--                  }}-->
+<!--                </div>-->
+<!--                <div class="logout-text">Logout</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </q-btn>-->
+<!--        </div>-->
+<!--      </div>-->
     </q-drawer>
 
     <q-page-container style="background-color: #f0eeee">

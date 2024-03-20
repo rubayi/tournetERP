@@ -23,7 +23,7 @@ public class MenuAuth {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MENU_AUTH_UUID", nullable = false)
-    private int menuAuthUuid; //등급UUID
+    private long menuAuthUuid; //등급UUID
 
     @Column(name = "MENU_UUID", nullable = true)
     private long menuUuid; //읽기
@@ -39,6 +39,13 @@ public class MenuAuth {
 
     @Column(name = "MENU_DELETE", nullable = true)
     private String menuDelete; //삭제
+
+    @Column(name = "EMP_UUID", nullable = false)
+    private long empUuid;
+
+    @LastModifiedDate
+    @Column(name = "MODIFIED_DT", nullable = false)
+    private Date modifiedDt;
 
     public MenuAuth () {
     }

@@ -25,13 +25,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MenuAuthRepository extends JpaRepository<MenuAuth,Long> {
 
-    Optional<MenuAuth> findByMenuAuthUuid(int id);
+    Optional<MenuAuth> findByMenuAuthUuid(long id);
 
-    List<MenuAuth> findAllByOrderByModifiedDtDesc();
+    List<MenuAuth> findAllByEmpUuidOrderByModifiedDtDesc(long id);
 
     @Modifying
-    @Query("DELETE FROM MenuAuth p WHERE p.menuAuthUuid = :menuAuthUuid")
-    void deleteByMenuAuthUuid(@Param("id") int menuAuthUuid);
+    void deleteByMenuAuthUuid(@Param("id") long menuAuthUuid);
 
 
 }
