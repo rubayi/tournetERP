@@ -13,5 +13,6 @@ export default {
 <style scoped>
 .q-list {
   padding: 0;
+  color: #363636;
 }
 </style>
