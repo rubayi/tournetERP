@@ -180,7 +180,7 @@ public class User {
                 String empPhone, String empEmailBook, String empAddress1,
                 String empAddress2, String empCity, String empState, long empCountry,
                 String empZip, String empDob, long empDobType,
-                String empMemo, long empStatus
+                String empMemo, long empStatus, long modifiedBy
     ) {
         this.username = username;
         this.empEmail = empEmail;
@@ -205,6 +205,7 @@ public class User {
         this.empDobType = empDobType;
         this.empMemo = empMemo;
         this.empStatus = empStatus;
+        this.modifiedBy = modifiedBy;
     }
 
     // getters and setters

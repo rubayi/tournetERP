@@ -74,6 +74,7 @@ export default defineComponent({
         auth.actions.register({ commit: () => {}, state: {} },edited.value).then(
           (response) => {
             alert(response.message);
+            emitCloseDrawer();
           },
           (error) => {
             console.log("saveEmp failed", error);

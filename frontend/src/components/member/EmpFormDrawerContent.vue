@@ -8,7 +8,7 @@
               <div class="row q-col-gutter-lg">
                 <input id="empUuid" v-model="edited.empUuid" hidden />
                 <q-input
-                  class="col-6"
+                  class="col-3"
                   type="text"
                   id="username"
                   v-model="edited.username"
@@ -44,7 +44,6 @@
                   id="empKor"
                   v-model="edited.empKor"
                   label="이름(한글이름) *"
-                  lazy-rules
                   :rules="[(val) => !!val || '한글이름 입력 해 주십시오.']"
                 />
                 <q-input
@@ -94,13 +93,22 @@
                   map-options
                   label="직책"
                 />
+                <q-select
+                  class="col-4"
+                  v-model="edited.empStatus"
+                  :options="empStatusOptions"
+                  option-value="codeUuid"
+                  option-label="codeKr"
+                  emit-value
+                  map-options
+                  label="재직상태"
+                />
                 <q-input
-                  class="col-6"
+                  class="col-4"
                   type="text"
                   id="username"
                   v-model="edited.empPhone"
                   label="핸드폰 *"
-                  lazy-rules
                   :rules="[
                     (val) =>
                       (val && val.length > 0) ||
@@ -108,32 +116,31 @@
                   ]"
                 />
                 <q-input
-                  class="col-6"
+                  class="col-4"
                   type="text"
                   id="empWorkPhone"
                   v-model="edited.empWorkPhone"
                   label="내선번호(Work Phone) "
                 />
                 <q-input
-                  class="col-6"
+                  class="col-3"
                   type="text"
                   v-model="edited.empEmail"
                   label="이메일* "
-                  lazy-rules
                   :rules="[
                     (val) =>
                       (val && val.length > 0) || '이메일을 입력 해 주십시오.',
                   ]"
                 />
                 <q-input
-                  class="col-6"
+                  class="col-3"
                   type="text"
                   id="empEmailBook"
                   v-model="edited.empEmailBook"
                   label="예약이메일(Email)"
                 />
                 <q-select
-                  class="col-6"
+                  class="col-3"
                   v-model="edited.empDobType"
                   :options="dobTypeOptions"
                   option-value="codeUuid"
@@ -143,7 +150,7 @@
                   label="생일타입"
                 />
                 <q-input
-                  class="col-6"
+                  class="col-3"
                   v-model="edited.empDob"
                   mask="####/##/##"
                   :rules="['date']"
@@ -216,6 +223,7 @@
                   v-model="edited.empAddress2"
                   label="주소2(Address2) "
                 />
+
               </div>
             </q-card-section>
           </q-form>
@@ -287,6 +295,7 @@ export default defineComponent({
       empRoleOptions,
       dobTypeOptions,
       countryOptions,
+      empStatusOptions
     };
   },
 

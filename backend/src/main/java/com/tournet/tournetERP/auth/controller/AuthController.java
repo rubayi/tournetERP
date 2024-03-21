@@ -94,6 +94,11 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRequest signUpRequest) {
 
+        /**S: 수정자 정보 **/
+        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
+        /**E: 수정자 정보**/
+
         String message = "";
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -131,7 +136,8 @@ public class AuthController {
                 signUpRequest.getEmpDob(),
                 signUpRequest.getEmpDobType(),
                 signUpRequest.getEmpMemo(),
-                signUpRequest.getEmpStatus()
+                signUpRequest.getEmpStatus(),
+                userDetails.getEmpUuid()
                 );
 
         Set<String> strRoles = signUpRequest.getRole();

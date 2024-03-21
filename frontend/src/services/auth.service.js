@@ -1,5 +1,6 @@
 import api from "./api";
 import TokenService from "./token.service";
+import authHeader from "src/services/auth-header";
 
 class AuthService {
   login({ username, password }) {
@@ -38,7 +39,7 @@ class AuthService {
       empState, empCountry, empZip,
       empDob, empDobType,
       empMemo
-    });
+    }, { headers: authHeader() });
   }
 
   getAllRoles() {
