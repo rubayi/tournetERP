@@ -4,6 +4,8 @@
       :open-drawer="openDrawer"
       :drawerWidth="drawerWidth"
       :on-close-click="onCloseClick"
+      :title="제목"
+      :iconTitle="folder"
       @save="handleSaveData"
       @delete="handleDeleteData"
     >

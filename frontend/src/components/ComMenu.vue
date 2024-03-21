@@ -45,6 +45,7 @@
             tick-strategy="strict"
             v-model:ticked="ticked"
             @update:ticked="handleMenuClick"
+            class="custom-tree"
           />
         </q-scroll-area>
       </div>
@@ -320,4 +321,11 @@ export default {
 .chosen {
   background: #d3d3d3;
 }
+/* .custom-tree ::v-deep .q-tree__node {
+  padding: 8px;
+}
+.custom-tree ::v-deep .q-tree__node--child {
+  padding-left: 22px;
+  padding-top: 0px;
+} */
 </style>
