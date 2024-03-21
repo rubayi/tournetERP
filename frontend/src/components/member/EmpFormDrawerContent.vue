@@ -1,5 +1,5 @@
 <template>
-  <div id="empform-drawer">
+  <div id="emp-form-drawer-content">
 
       <div class="flex flex-grow-1 q-pa-md">
         <q-card-section>
@@ -230,17 +230,15 @@ import { defineComponent, ref, watch } from "vue";
 import { getCommonValue } from "src/utils/common";
 
 export default defineComponent({
-  name: "EmpFormDrawer",
-  components: {
-  },
+  name: "EmpFormDrawerContent",
+
   props: {
-    openDrawer: Boolean,
-    drawerWidth: Number,
     dataVal: Object,
-    onCloseClick: Function,
   },
+  emits: ["update:dataVal"],
   setup(props, { emit }) {
     const edited = ref(props.dataVal);
+
     const workOptions = ref([]);
     const divOptions = ref([]);
     const titleOptions = ref([]);
@@ -249,13 +247,12 @@ export default defineComponent({
     const countryOptions = ref([]);
     const empStatusOptions = ref([]);
 
-    function handleSaveData(data) {
-      emit("save", edited.value);
-    }
+    watch(() => props.dataVal, (newVal) => {
 
-    function handleDeleteData(data) {
-      emit("delete", edited.value.empUuid);
-    }
+      emit('update:dataVal', newVal);
+      edited.value = newVal;
+    }, { deep: true, immediate: true });
+
 
     /* 공통코드값 가져오기 */
     async function getCommonCode(req, targetDataName) {
@@ -281,12 +278,6 @@ export default defineComponent({
     //재직상태
     getCommonCode({upCode: 15,codeLvl: "1"},empStatusOptions);
 
-    watch(
-      () => props.dataVal,
-      (newVal) => {
-        edited.value = { ...newVal };
-      }
-    );
 
     return {
       edited,
@@ -296,8 +287,6 @@ export default defineComponent({
       empRoleOptions,
       dobTypeOptions,
       countryOptions,
-      handleSaveData,
-      handleDeleteData,
     };
   },
 

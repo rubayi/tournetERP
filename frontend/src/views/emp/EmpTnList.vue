@@ -69,7 +69,8 @@
         :drawer-width="800"
         :dataVal="edited"
         :on-close-click="closeAction"
-        @save="saveAction"
+        @update:openDrawer="openDrawer = $event"
+        @drawer-closed="searchEmpList"
       />
     </q-page>
   </div>
@@ -88,7 +89,7 @@ import TableComp from "src/components/table/TableComp.vue";
 import EmpFormDrawer from "src/views/emp/EmpFormDrawer.vue";
 
 export default {
-  name: "EmpTn",
+  name: "EmpTnList",
   components: {
     TableComp,
     // PageComp,
@@ -148,34 +149,6 @@ export default {
       this.openDrawer = !this.openDrawer;
     },
 
-    saveAction(editedData) {
-      // console.log(editedData);
-      // if (editedData.empUuid != 0) {
-      //   this.$store.dispatch("empTn/updateEmp", editedData).then(
-      //     (response) => {
-      //       alert(response.data.message);
-      //       this.resetForm();
-      //       this.openDrawer = false;
-      //       this.handlePageChange();
-      //     },
-      //     (error) => {
-      //       console.log("saveEmp failed", error);
-      //     }
-      //   );
-      // } else {
-      //   this.$store.dispatch("auth/register", editedData).then(
-      //     (response) => {
-      //       alert(response.message);
-      //       this.resetForm();
-      //       this.openDrawer = false;
-      //       this.handlePageChange();
-      //     },
-      //     (error) => {
-      //       console.log("saveEmp failed", error);
-      //     }
-      //   );
-      // }
-    },
     closeAction() {
       this.edited = initialData;
       this.openDrawer = !this.openDrawer;
@@ -280,6 +253,8 @@ export default {
       codeLvl: "1",
       dataName: "empStatusOptions",
     });
+
+
   },
 };
 </script>

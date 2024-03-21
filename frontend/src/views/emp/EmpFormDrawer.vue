@@ -1,5 +1,5 @@
 <template>
-  <div id="empform-drawer">
+  <div id="emp-form-drawer">
     <drawer-comp
       :open-drawer="openDrawer"
       :drawerWidth="drawerWidth"
@@ -9,9 +9,7 @@
     >
       <div class="flex flex-grow-1 q-pa-md">
         <emp-form-drawer-content
-          :drawer-width="800"
-          :dataVal="edited"
-          :on-close-click="onCloseClick"/>
+            :data-val="edited"/>
 
         <emp-form-drawer-menu-auth>
 
@@ -45,23 +43,28 @@ export default defineComponent({
     onCloseClick: Function,
     handlePageChange: Function,
   },
+  emits: ["update:dataVal", "update:openDrawer"],
   setup(props, { emit }) {
     const edited = ref(props.dataVal);
-    const openDrawer = ref(props.openDrawer);
+    const eOpenDrawer = ref(props.openDrawer);
+
     const updateEdited = {};
     const initEdited = {};
 
     watch(() => props.dataVal, (newVal) => {
       edited.value = { ...newVal };
-    });
+      console.log(edited.value);
+    }, { deep: true });
+
 
     function handleSaveData(data) {
+
       if (edited.value.empUuid != 0) {
         empTn.actions.updateEmp({ commit: () => {}, state: {} }, edited.value).then(
           (response) => {
             alert(response.data.message);
             emitCloseDrawer();
-            resetForm();
+
           },
           (error) => {
             console.log("saveEmp failed", error);
@@ -71,7 +74,6 @@ export default defineComponent({
         auth.actions.register({ commit: () => {}, state: {} },edited.value).then(
           (response) => {
             alert(response.message);
-            resetForm();
           },
           (error) => {
             console.log("saveEmp failed", error);
@@ -81,7 +83,9 @@ export default defineComponent({
     }
 
     function emitCloseDrawer() {
+      console.log("close");
       emit("update:openDrawer", false);
+      emit("drawer-closed");
     }
 
     function resetForm() {
@@ -97,6 +101,7 @@ export default defineComponent({
 
     return {
       edited,
+      eOpenDrawer,
       handleSaveData,
       handleDeleteData,
     };
