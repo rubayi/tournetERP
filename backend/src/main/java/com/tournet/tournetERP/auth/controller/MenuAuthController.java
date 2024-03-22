@@ -1,4 +1,4 @@
-package com.tournet.tournetERP.common.controller;
+package com.tournet.tournetERP.auth.controller;
 
 /**
  * 메뉴 관리
@@ -10,9 +10,8 @@ package com.tournet.tournetERP.common.controller;
 import java.util.*;
 
 import com.tournet.tournetERP.auth.dto.MessageResponse;
-import com.tournet.tournetERP.common.dto.MenuAuthRequest;
-import com.tournet.tournetERP.common.entity.MenuAuth;
-import com.tournet.tournetERP.common.repository.MenuAuthRepository;
+import com.tournet.tournetERP.auth.entity.MenuAuth;
+import com.tournet.tournetERP.auth.repository.MenuAuthRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,7 +45,7 @@ public class MenuAuthController {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        List<MenuAuth> currentMenuAuths = menuAuthRepository.findAllByEmpUuidOrderByModifiedDtDesc(menuAuthReq.getEmpUuid());
+        List<MenuAuth> currentMenuAuths = menuAuthRepository.findAll();
 
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("menuAuths", currentMenuAuths);
@@ -63,9 +62,7 @@ public class MenuAuthController {
         MenuAuth _menuAuth = new MenuAuth();
 
         _menuAuth.setMenuAuthUuid(menuAuthReq.getMenuAuthUuid());
-        _menuAuth.setMenuRead(menuAuthReq.getMenuRead());
-        _menuAuth.setMenuUpdate(menuAuthReq.getMenuUpdate());
-        _menuAuth.setMenuDelete(menuAuthReq.getMenuDelete());
+        _menuAuth.setAuthYn(menuAuthReq.getAuthYn());
 
         menuAuthRepository.save(_menuAuth);
 
@@ -86,9 +83,8 @@ public class MenuAuthController {
             MenuAuth _menuAuth = currentMenuAuth.get();
 
             _menuAuth.setMenuAuthUuid(menuAuthReq.getMenuAuthUuid());
-            _menuAuth.setMenuRead(menuAuthReq.getMenuRead());
-            _menuAuth.setMenuUpdate(menuAuthReq.getMenuUpdate());
-            _menuAuth.setMenuDelete(menuAuthReq.getMenuDelete());
+            _menuAuth.setMenuAuthName(menuAuthReq.getMenuAuthName());
+            _menuAuth.setAuthYn(menuAuthReq.getAuthYn());
 
             menuAuthRepository.save(_menuAuth);
 

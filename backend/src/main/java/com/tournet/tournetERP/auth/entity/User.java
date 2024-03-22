@@ -136,40 +136,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_uuid"))
     private Set<Role> roles = new HashSet<>();
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "emp_work_type", referencedColumnName = "code_uuid", insertable = false, updatable = false)
-//    @NotFound(action = NotFoundAction.IGNORE)
-//    private ComCode empWorkTypeName;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "emp_div", referencedColumnName = "code_uuid", insertable = false, updatable = false)
-//    @NotFound(action = NotFoundAction.IGNORE)
-//    private ComCode empDivName;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "emp_title", referencedColumnName = "code_uuid", insertable = false, updatable = false)
-//    @NotFound(action = NotFoundAction.IGNORE)
-//    private ComCode empTitleName;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "emp_role", referencedColumnName = "code_uuid", insertable = false, updatable = false)
-//    @NotFound(action = NotFoundAction.IGNORE)
-//    private ComCode empRoleName;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "emp_country", referencedColumnName = "code_uuid", insertable = false, updatable = false)
-//    @NotFound(action = NotFoundAction.IGNORE)
-//    private ComCode empCountryName;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "emp_dob_type", referencedColumnName = "code_uuid", insertable = false, updatable = false)
-//    @NotFound(action = NotFoundAction.IGNORE)
-//    private ComCode empDobTypeName;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "emp_status", referencedColumnName = "code_uuid", insertable = false, updatable = false)
-//    @NotFound(action = NotFoundAction.IGNORE)
-//    private ComCode empStatusName;
 
     public User() {
     }

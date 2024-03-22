@@ -9,22 +9,22 @@
     >
       <div class="flex flex-grow-1 q-pa-md">
         <emp-form-drawer-content
-            :data-val="edited"/>
+          :data-val="edited"/>
 
-        <emp-form-drawer-menu-auth>
-
-        </emp-form-drawer-menu-auth>
+        <emp-form-drawer-menu-auth
+          :data-val="empMunuAuthList"
+          :option-list="munuAuthList"/>
       </div>
     </drawer-comp>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, ref, watch, onMounted } from "vue";
 import DrawerComp from "src/components/drawers/DrawerComp.vue";
 import { empTn  } from "src/store/emp.module";
 import { auth  } from "src/store/auth.module";
-
+import { empMenuAuth  } from "src/store/empmenuauth.module";
 // Layout
 import EmpFormDrawerContent from "src/components/member/EmpFormDrawerContent.vue";
 import EmpFormDrawerMenuAuth from "src/components/member/EmpFormDrawerMenuAuth.vue";
@@ -50,6 +50,9 @@ export default defineComponent({
 
     const updateEdited = {};
     const initEdited = {};
+
+    const munuAuthList = ref([]);
+    const empMunuAuthList = ref([]);
 
     watch(() => props.dataVal, (newVal) => {
       edited.value = { ...newVal };
@@ -83,6 +86,30 @@ export default defineComponent({
       }
     }
 
+    function getAuthList() {
+      empMenuAuth.actions.searchAuthList({ commit: () => {}, state: {} }).then(
+        (response) => {
+          munuAuthList.value = response.menuAuths;
+        },
+        (error) => {
+          console.log("saveEmp failed", error);
+        }
+      );
+    }
+
+    function getAuthListByEmp() {
+      empMenuAuth.actions.searchAuthListByEmpId({ commit: () => {}, state: {} }, edited.value).then(
+        (response) => {
+
+          empMunuAuthList.value = response.data.menuAuths;
+
+        },
+        (error) => {
+          console.log("saveEmp failed", error);
+        }
+      );
+    }
+
     function emitCloseDrawer() {
       console.log("close");
       emit("update:openDrawer", false);
@@ -100,13 +127,23 @@ export default defineComponent({
       emit("delete", edited.value.empUuid);
     }
 
+    onMounted(() => {
+      getAuthList();
+      getAuthListByEmp();
+    });
+
     return {
       edited,
       eOpenDrawer,
       handleSaveData,
       handleDeleteData,
+      empMunuAuthList,
+      munuAuthList
     };
+
   },
+
+
 
 });
 </script>
