@@ -42,8 +42,8 @@ export const empMenuAuth = {
     },
 
 
-    deleteEmpAuth({ commit }, id) {
-      return EmpMenuAuthService.deleteEmpAuth(id).then(
+    deleteEmpAuth({ commit }, comreq) {
+      return EmpMenuAuthService.deleteEmpAuth(comreq).then(
         data => {
           commit('deleteEmpAuth', data);
           return Promise.resolve(data);

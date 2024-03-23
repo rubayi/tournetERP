@@ -8,6 +8,7 @@ package com.tournet.tournetERP.auth.controller;
  * @since : 2024-03-19
  */
 
+import com.tournet.tournetERP.auth.dto.EmpMenuAuthRequest;
 import com.tournet.tournetERP.auth.dto.MessageResponse;
 import com.tournet.tournetERP.auth.entity.EmpMenuAuth;
 import com.tournet.tournetERP.auth.entity.EmpMenuAuth;
@@ -52,24 +53,29 @@ public class EmpMenuAuthController {
 
     @Transactional
     @PostMapping("/updateEmpMenuAuth")
-    public ResponseEntity<?> createEmpMenuAuth(@RequestBody EmpMenuAuth menuAuthReq) {
+    public ResponseEntity<?> createEmpMenuAuth(@RequestBody EmpMenuAuthRequest menuAuthReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
-        EmpMenuAuth _menuAuth = new EmpMenuAuth();
-        
+
         String message = "등록이 실패 했습니다.";
         String enMessage = "Fail to Save!";
 
-        if (storUser != null) {
-            _menuAuth.setMenuAuthUuid(menuAuthReq.getMenuAuthUuid());
-            _menuAuth.setEmpUuid(menuAuthReq.getEmpUuid());
+       if (storUser != null) {
+           long[] menuAuthUuids = menuAuthReq.getMenuAuthUuids();
+           long empUuid = menuAuthReq.getEmpUuid();
 
-            menuAuthRepository.save(_menuAuth);
-
-            message = "등록이 완료 되었습니다.";
+           for (long menuAuthUuid : menuAuthUuids) {
+               // Check if data already exists for the given menuAuthUuid and empUuid
+               if (!menuAuthRepository.existsByMenuAuthUuidAndEmpUuid(menuAuthUuid, menuAuthReq.getEmpUuid())) {
+                   EmpMenuAuth _menuAuth = new EmpMenuAuth();
+                   _menuAuth.setMenuAuthUuid(menuAuthUuid);
+                   _menuAuth.setEmpUuid(empUuid);
+                   menuAuthRepository.save(_menuAuth);
+               }
+           }
         }
-        
 
+        message = "등록이 완료 되었습니다.";
         return ResponseEntity.ok(new MessageResponse(message));
     }
 
@@ -102,11 +108,19 @@ public class EmpMenuAuthController {
     }
 
     @Transactional
-    @DeleteMapping("/deleteEmpMenuAuth/{id}")
-    public ResponseEntity<?> deleteEmpMenuAuth(@PathVariable int id) {
+    @PostMapping("/deleteEmpMenuAuth")
+    public ResponseEntity<?> deleteEmpMenuAuth(@RequestBody EmpMenuAuthRequest menuAuthReq) {
 
-        menuAuthRepository.deleteByEmpAuthUuid(id);
+        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
+        if (storUser != null) {
+            long[] menuAuthUuids = menuAuthReq.getMenuAuthUuids();
+            long empUuid = menuAuthReq.getEmpUuid();
+
+            for (long menuAuthUuid : menuAuthUuids) {
+                menuAuthRepository.deleteByMenuAuthUuidAndEmpUuid(menuAuthUuid, empUuid);
+            }
+        }
         return ResponseEntity.ok(new MessageResponse("삭제 되었습니다."));
     }
 

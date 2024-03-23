@@ -20,5 +20,9 @@ public interface EmpMenuAuthRepository extends JpaRepository<EmpMenuAuth, Long> 
 
     Optional<EmpMenuAuth> findByEmpAuthUuid(long id);
 
+    Boolean existsByMenuAuthUuidAndEmpUuid(long menuAuthUuid, long empUuid);
+
     void deleteByEmpAuthUuid(int id);
+
+    Boolean deleteByMenuAuthUuidAndEmpUuid(long menuAuthUuid, long empUuid);
 }

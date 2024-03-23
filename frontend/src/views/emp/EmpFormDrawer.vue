@@ -13,7 +13,11 @@
 
         <emp-form-drawer-menu-auth
           :data-val="empMunuAuthList"
-          :option-list="munuAuthList"/>
+          :option-list="munuAuthList"
+          :req-list="checkedAuthUuids"
+          :menu-max="munuMax"
+          @update:checkedAuthUuids="empMunuAuthList = $event"
+          />
       </div>
     </drawer-comp>
   </div>
@@ -26,8 +30,8 @@ import { empTn  } from "src/store/emp.module";
 import { auth  } from "src/store/auth.module";
 import { empMenuAuth  } from "src/store/empmenuauth.module";
 // Layout
-import EmpFormDrawerContent from "src/components/member/EmpFormDrawerContent.vue";
-import EmpFormDrawerMenuAuth from "src/components/member/EmpFormDrawerMenuAuth.vue";
+import EmpFormDrawerContent from "src/components/emp/EmpFormDrawerContent.vue";
+import EmpFormDrawerMenuAuth from "src/components/emp/EmpFormDrawerMenuAuth.vue";
 
 export default defineComponent({
   name: "EmpFormDrawer",
@@ -52,27 +56,36 @@ export default defineComponent({
     const initEdited = {};
 
     const munuAuthList = ref([]);
+    const munuMax = ref([]);
     const empMunuAuthList = ref([]);
+
+    const checkedAuthUuids = ref([]);
 
     watch(() => props.dataVal, (newVal) => {
       edited.value = { ...newVal };
-      console.log(edited.value);
+      getAuthListByEmp();
     }, { deep: true });
 
+    watch(() => props.checkedAuthUuids, (newVal) => {
+      checkedAuthUuids.value = newVal;
+    }, { deep: true });
 
     function handleSaveData(data) {
 
       if (edited.value.empUuid != 0) {
-        empTn.actions.updateEmp({ commit: () => {}, state: {} }, edited.value).then(
-          (response) => {
-            alert(response.data.message);
-            emitCloseDrawer();
 
-          },
-          (error) => {
-            console.log("saveEmp failed", error);
-          }
-        );
+          if (edited.value !== initEdited) {
+          empTn.actions.updateEmp({ commit: () => {}, state: {} }, edited.value).then(
+            (response) => {
+              alert(response.data.message);
+              emitCloseDrawer();
+
+            },
+            (error) => {
+              console.log("saveEmp failed", error);
+            }
+          );
+        }
       } else {
         auth.actions.register({ commit: () => {}, state: {} },edited.value).then(
           (response) => {
@@ -84,12 +97,50 @@ export default defineComponent({
           }
         );
       }
+
+      const menuAuthUuids = new Set();
+      const deleteMenuAuthUuids = new Set();
+
+      // Iterate through checkedAuthUuids.value and add unique menuAuthUuids to menuAuthUuids Set
+      for (let idx = 0; idx < checkedAuthUuids.value.length; idx++) {
+        if (checkedAuthUuids.value[idx].deleteFlag && checkedAuthUuids.value[idx].deleteFlag === "Y") {
+          deleteMenuAuthUuids.add(checkedAuthUuids.value[idx].menuAuthUuid);
+        } else {
+          menuAuthUuids.add(checkedAuthUuids.value[idx].menuAuthUuid);
+        }
+
+      }
+
+      // Create menuAuthReq object with menuAuthUuids Set and empUuid
+      const menuAuthReq = { menuAuthUuids: [...menuAuthUuids], empUuid: edited.value.empUuid };
+      const deleteMenuAuthReq = { deleteMenuAuthUuids: [...deleteMenuAuthUuids], empUuid: edited.value.empUuid };
+
+      // Call updateEmpAuth method
+      empMenuAuth.actions.updateEmpAuth({ commit: () => {}, state: {} }, menuAuthReq).then(
+          (response) => {
+            alert(response.message);
+          },
+          (error) => {
+            console.log("saveEmp failed", error);
+          }
+      );
+
+      empMenuAuth.actions.deleteEmpAuth({ commit: () => {}, state: {} }, menuAuthReq).then(
+          (response) => {
+            alert(response.message);
+          },
+          (error) => {
+            console.log("saveEmp failed", error);
+          }
+      );
+
     }
 
     function getAuthList() {
       empMenuAuth.actions.searchAuthList({ commit: () => {}, state: {} }).then(
         (response) => {
           munuAuthList.value = response.menuAuths;
+          munuMax.value = response.maxNumber;
         },
         (error) => {
           console.log("saveEmp failed", error);
@@ -98,11 +149,11 @@ export default defineComponent({
     }
 
     function getAuthListByEmp() {
+
       empMenuAuth.actions.searchAuthListByEmpId({ commit: () => {}, state: {} }, edited.value).then(
         (response) => {
-
-          empMunuAuthList.value = response.data.menuAuths;
-
+          console.log(response);
+          empMunuAuthList.value = response.menuAuths;
         },
         (error) => {
           console.log("saveEmp failed", error);
@@ -111,7 +162,6 @@ export default defineComponent({
     }
 
     function emitCloseDrawer() {
-      console.log("close");
       emit("update:openDrawer", false);
       emit("drawer-closed");
     }
@@ -129,7 +179,7 @@ export default defineComponent({
 
     onMounted(() => {
       getAuthList();
-      getAuthListByEmp();
+
     });
 
     return {
@@ -138,7 +188,9 @@ export default defineComponent({
       handleSaveData,
       handleDeleteData,
       empMunuAuthList,
-      munuAuthList
+      munuAuthList,
+      munuMax,
+      checkedAuthUuids
     };
 
   },

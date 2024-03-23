@@ -12,6 +12,8 @@ import java.util.*;
 import com.tournet.tournetERP.auth.dto.MessageResponse;
 import com.tournet.tournetERP.auth.entity.MenuAuth;
 import com.tournet.tournetERP.auth.repository.MenuAuthRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,15 +42,21 @@ public class MenuAuthController {
     @Autowired
     MenuAuthRepository menuAuthRepository;
 
+    @Autowired
+    EntityManager em;
+
     @PostMapping("/selectMenuAuths")
     public ResponseEntity<Map<String, Object>> selectMenuAuths (@RequestBody MenuAuth menuAuthReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
         List<MenuAuth> currentMenuAuths = menuAuthRepository.findAll();
+        Query query = em.createNativeQuery("SELECT MAX(CONVERT(group_code, SIGNED)) FROM com_menu_auth");
+        Long maxGroupCode = (Long) query.getSingleResult();
 
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("menuAuths", currentMenuAuths);
+        resMap.put("maxNumber", maxGroupCode);
         return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
@@ -62,6 +70,7 @@ public class MenuAuthController {
         MenuAuth _menuAuth = new MenuAuth();
 
         _menuAuth.setMenuAuthUuid(menuAuthReq.getMenuAuthUuid());
+        _menuAuth.setGroupCode(menuAuthReq.getGroupCode());
         _menuAuth.setAuthYn(menuAuthReq.getAuthYn());
 
         menuAuthRepository.save(_menuAuth);
@@ -84,6 +93,7 @@ public class MenuAuthController {
 
             _menuAuth.setMenuAuthUuid(menuAuthReq.getMenuAuthUuid());
             _menuAuth.setMenuAuthName(menuAuthReq.getMenuAuthName());
+            _menuAuth.setGroupCode(menuAuthReq.getGroupCode());
             _menuAuth.setAuthYn(menuAuthReq.getAuthYn());
 
             menuAuthRepository.save(_menuAuth);

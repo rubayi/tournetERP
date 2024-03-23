@@ -24,6 +24,6 @@ public class EmpMenuAuth {
     @NotBlank
     @Size(max = 20)
     @Column(name = "MENU_AUTH_UUID", nullable = true)
-    private String menuAuthUuid;
+    private long menuAuthUuid;
 
 }

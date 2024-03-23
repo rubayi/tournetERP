@@ -34,6 +34,9 @@ public class MenuAuth {
     @Column(name = "AUTH_YN", nullable = true)
     private String authYn; //수정
 
+    @Column(name = "GROUP_CODE", nullable = true)
+    private String groupCode; //수정
+
     @LastModifiedDate
     @Column(name = "MODIFIED_DT", nullable = false)
     private Date modifiedDt;

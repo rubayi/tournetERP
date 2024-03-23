@@ -5,11 +5,7 @@ import Register from "components/RegisterTN.vue";
 import ComCode from "components/ComCode.vue";
 import ComMenu from "components/ComMenu.vue";
 
-
 const Profile = () => import("../components/Profile.vue")
-const BoardAdmin = () => import("../components/BoardAdmin.vue")
-const BoardModerator = () => import("../components/BoardModerator.vue")
-const BoardUser = () => import("../components/BoardUser.vue")
 
 const routes = [
   {
@@ -62,31 +58,10 @@ const routes = [
     ]
   },
   {
-    path: "/members",
-    name: "Member",
-    component: () => import("../views/member/AppBody.vue"),
+      path: "/profile",
+      name: "profile",
+      component: Profile,
   },
-  {
-    path: "/profile",
-    name: "profile",
-    component: Profile,
-  },
-  {
-    path: "/admin",
-    name: "admin",
-    component: BoardAdmin,
-  },
-  {
-    path: "/mod",
-    name: "moderator",
-    // lazy-loaded
-    component: BoardModerator,
-  },
-  {
-    path: "/user",
-    name: "user",
-    // lazy-loaded
-    component: BoardUser,
-  },
+
 ]
 export default routes
