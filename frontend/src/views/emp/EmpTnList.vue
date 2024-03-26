@@ -87,6 +87,7 @@ import TableComp from "src/components/table/TableComp.vue";
 // import PageComp from "src/components/table/PaginationRenderer.vue";
 // Layout
 import EmpFormDrawer from "src/views/emp/EmpFormDrawer.vue";
+import EventBus from "src/common/EventBus";
 
 export default {
   name: "EmpTnList",
@@ -194,6 +195,9 @@ export default {
         },
         (error) => {
           console.log("searchEmpList failed", error);
+          if (error.response && error.response.status === 403) {
+            EventBus.dispatch("logout");
+          }
         }
       );
     },

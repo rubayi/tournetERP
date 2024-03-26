@@ -9,14 +9,15 @@
     >
       <div class="flex flex-grow-1 q-pa-md">
         <emp-form-drawer-content
-          :data-val="edited"/>
+          :data-val="edited"
+          />
 
         <emp-form-drawer-menu-auth
           :data-val="empMunuAuthList"
           :option-list="munuAuthList"
           :req-list="checkedAuthUuids"
           :menu-max="munuMax"
-          @update:checkedAuthUuids="empMunuAuthList = $event"
+          @update:checkedAuthUuids="munuAuthList = $event"
           />
       </div>
     </drawer-comp>
@@ -45,9 +46,8 @@ export default defineComponent({
     drawerWidth: Number,
     dataVal: Object,
     onCloseClick: Function,
-    handlePageChange: Function,
   },
-  emits: ["update:dataVal", "update:openDrawer"],
+  emits: ["update:dataVal", "update:openDrawer", "update:changeFlag"],
   setup(props, { emit }) {
     const edited = ref(props.dataVal);
     const eOpenDrawer = ref(props.openDrawer);
@@ -61,8 +61,11 @@ export default defineComponent({
 
     const checkedAuthUuids = ref([]);
 
+    const initialData = ref(null);
+
     watch(() => props.dataVal, (newVal) => {
       edited.value = { ...newVal };
+      initialData.value = { ...newVal };
       getAuthListByEmp();
     }, { deep: true });
 
@@ -71,72 +74,97 @@ export default defineComponent({
     }, { deep: true });
 
     function handleSaveData(data) {
+      //사용자 정보 관련 req 데이터
+      const dataChanged = JSON.stringify(initialData.value) !== JSON.stringify(edited.value);
 
-      if (edited.value.empUuid != 0) {
-
-          if (edited.value !== initEdited) {
-          empTn.actions.updateEmp({ commit: () => {}, state: {} }, edited.value).then(
-            (response) => {
-              alert(response.data.message);
-              emitCloseDrawer();
-
-            },
-            (error) => {
-              console.log("saveEmp failed", error);
-            }
-          );
-        }
-      } else {
-        auth.actions.register({ commit: () => {}, state: {} },edited.value).then(
-          (response) => {
-            alert(response.message);
-            emitCloseDrawer();
-          },
-          (error) => {
-            console.log("saveEmp failed", error);
-          }
-        );
-      }
-
+      //메뉴 권한 관련 req 데이터
       const menuAuthUuids = new Set();
       const deleteMenuAuthUuids = new Set();
 
       // Iterate through checkedAuthUuids.value and add unique menuAuthUuids to menuAuthUuids Set
-      for (let idx = 0; idx < checkedAuthUuids.value.length; idx++) {
-        if (checkedAuthUuids.value[idx].deleteFlag && checkedAuthUuids.value[idx].deleteFlag === "Y") {
-          deleteMenuAuthUuids.add(checkedAuthUuids.value[idx].menuAuthUuid);
-        } else {
-          menuAuthUuids.add(checkedAuthUuids.value[idx].menuAuthUuid);
-        }
-
+      for (let makeReq of checkedAuthUuids.value) {
+          if (makeReq.deleteFlag && makeReq.deleteFlag === "Y") {
+              deleteMenuAuthUuids.add(makeReq.menuAuthUuid);
+          } else {
+              menuAuthUuids.add(makeReq.menuAuthUuid);
+          }
       }
 
       // Create menuAuthReq object with menuAuthUuids Set and empUuid
-      const menuAuthReq = { menuAuthUuids: [...menuAuthUuids], empUuid: edited.value.empUuid };
-      const deleteMenuAuthReq = { deleteMenuAuthUuids: [...deleteMenuAuthUuids], empUuid: edited.value.empUuid };
+      const menuAuthReq = { menuAuthUuids: Array.from(menuAuthUuids), empUuid: edited.value.empUuid };
+      const deleteMenuAuthReq = { menuAuthUuids: Array.from(deleteMenuAuthUuids), empUuid: edited.value.empUuid };
 
-      // Call updateEmpAuth method
-      empMenuAuth.actions.updateEmpAuth({ commit: () => {}, state: {} }, menuAuthReq).then(
-          (response) => {
-            alert(response.message);
-          },
-          (error) => {
-            console.log("saveEmp failed", error);
+      if (!dataChanged
+          && menuAuthReq.menuAuthUuids.length <=0 && deleteMenuAuthReq.menuAuthUuids.length <=0) {
+          alert("변경할 데이터가 없습니다.");
+      } else {
+
+          if (edited.value.empUuid != 0) {
+
+              if (dataChanged) {
+                  empTn.actions.updateEmp({
+                      commit: () => {
+                      }, state: {}
+                  }, edited.value).then(
+                      (response) => {
+                          alert(response.data.message);
+                          emitCloseDrawer();
+                      },
+                      (error) => {
+                          console.log("saveEmp failed", error);
+                      }
+                  );
+              }
+          } else {
+              auth.actions.register({
+                  commit: () => {
+                  }, state: {}
+              }, edited.value).then(
+                  (response) => {
+                      alert(response.message);
+                      emitCloseDrawer();
+                  },
+                  (error) => {
+                      console.log("saveEmp failed", error);
+                  }
+              );
           }
-      );
 
-      empMenuAuth.actions.deleteEmpAuth({ commit: () => {}, state: {} }, menuAuthReq).then(
-          (response) => {
-            alert(response.message);
-          },
-          (error) => {
-            console.log("saveEmp failed", error);
+          if (menuAuthReq.menuAuthUuids.length > 0) {
+              // Call updateEmpAuth method
+              empMenuAuth.actions.updateEmpAuth({
+                  commit: () => {
+                  }, state: {}
+              }, menuAuthReq).then(
+                  (response) => {
+                      alert(response.data.message);
+                  },
+                  (error) => {
+                      console.log("saveEmp failed", error);
+                  }
+              );
           }
-      );
 
+          if (deleteMenuAuthReq.menuAuthUuids.length > 0) {
+              console.log(deleteMenuAuthReq);
+              empMenuAuth.actions.deleteEmpAuth({
+                  commit: () => {
+                  }, state: {}
+              }, deleteMenuAuthReq).then(
+                  (response) => {
+                      alert(response.data.message);
+                  },
+                  (error) => {
+                      console.log("saveEmp failed", error);
+
+                  }
+              );
+
+          }
+      }
     }
-
     function getAuthList() {
+
       empMenuAuth.actions.searchAuthList({ commit: () => {}, state: {} }).then(
         (response) => {
           munuAuthList.value = response.menuAuths;
@@ -152,8 +180,15 @@ export default defineComponent({
 
       empMenuAuth.actions.searchAuthListByEmpId({ commit: () => {}, state: {} }, edited.value).then(
         (response) => {
-          console.log(response);
           empMunuAuthList.value = response.menuAuths;
+
+          for (let menuAuth of munuAuthList.value) {
+            // Check if the menuAuth's menuAuthUuid exists in empMunuAuthList
+            const found = empMunuAuthList.value.some(empMenuAuth => empMenuAuth.menuAuthUuid === menuAuth.menuAuthUuid);
+
+            // If found, set authYn to true, otherwise set it to false
+            menuAuth.authYn = found;
+          }
         },
         (error) => {
           console.log("saveEmp failed", error);
@@ -192,10 +227,7 @@ export default defineComponent({
       munuMax,
       checkedAuthUuids
     };
-
   },
-
-
 
 });
 </script>

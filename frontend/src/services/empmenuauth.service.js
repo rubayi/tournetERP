@@ -18,15 +18,13 @@ class EmpMenuAuthService {
         return response.data;
       });
   }
-  deleteEmpAuth(id) {
+  deleteEmpAuth(cmpReq) {
     return api
       .post(`/empEmpMenuAuth/deleteEmpMenuAuth`, cmpReq, { headers: authHeader() });
   }
 
   updateEmpAuth(cmpReq) {
-    console.log(cmpReq);
     return api.post(`/empEmpMenuAuth/updateEmpMenuAuth`, cmpReq, { headers: authHeader() });
-    //return api.put(`/comCodes/updateComCode`, cmpReq, { headers: authHeader() });
   }
 }
 

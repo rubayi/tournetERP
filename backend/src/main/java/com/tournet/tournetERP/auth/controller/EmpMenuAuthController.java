@@ -53,11 +53,11 @@ public class EmpMenuAuthController {
 
     @Transactional
     @PostMapping("/updateEmpMenuAuth")
-    public ResponseEntity<?> createEmpMenuAuth(@RequestBody EmpMenuAuthRequest menuAuthReq) {
+    public ResponseEntity<Map<String, Object>> createEmpMenuAuth(@RequestBody EmpMenuAuthRequest menuAuthReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        String message = "등록이 실패 했습니다.";
+        String message = "변경 내용 저장이 실패 했습니다.";
         String enMessage = "Fail to Save!";
 
        if (storUser != null) {
@@ -73,10 +73,12 @@ public class EmpMenuAuthController {
                    menuAuthRepository.save(_menuAuth);
                }
            }
+           message = "변경 내용 저장이 완료 됐습니다.";
         }
 
-        message = "등록이 완료 되었습니다.";
-        return ResponseEntity.ok(new MessageResponse(message));
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("message", message);
+        return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
     @PutMapping("/updateEmpMenuAuthId/{id}")
@@ -113,6 +115,7 @@ public class EmpMenuAuthController {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
+        String message = "변경 내용 저장 되지 못 했습니다.";
         if (storUser != null) {
             long[] menuAuthUuids = menuAuthReq.getMenuAuthUuids();
             long empUuid = menuAuthReq.getEmpUuid();
@@ -120,8 +123,12 @@ public class EmpMenuAuthController {
             for (long menuAuthUuid : menuAuthUuids) {
                 menuAuthRepository.deleteByMenuAuthUuidAndEmpUuid(menuAuthUuid, empUuid);
             }
+            message = "변경 내용 저장이 완료 됐습니다.";
         }
-        return ResponseEntity.ok(new MessageResponse("삭제 되었습니다."));
+
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("message", message);
+        return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
 

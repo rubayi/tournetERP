@@ -243,7 +243,7 @@ export default defineComponent({
   props: {
     dataVal: Object,
   },
-  emits: ["update:dataVal"],
+  emits: ["update:dataVal", "update:changeFlag"],
   setup(props, { emit }) {
     const edited = ref(props.dataVal);
 
@@ -260,7 +260,6 @@ export default defineComponent({
       emit('update:dataVal', newVal);
       edited.value = newVal;
     }, { deep: true, immediate: true });
-
 
     /* 공통코드값 가져오기 */
     async function getCommonCode(req, targetDataName) {
@@ -285,7 +284,6 @@ export default defineComponent({
     getCommonCode({ upCode: 16, codeLvl: "1" }, workOptions);
     //재직상태
     getCommonCode({upCode: 15,codeLvl: "1"},empStatusOptions);
-
 
     return {
       edited,

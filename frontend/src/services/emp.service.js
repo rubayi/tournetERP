@@ -25,7 +25,7 @@ class EmpService {
   }
 
   updateEmp(cmpReq) {
-    return api.put(`/empTn/updateEmp`, cmpReq, { headers: authHeader() });
+    return api.post(`/empTn/updateEmp`, cmpReq, { headers: authHeader() });
     //return api.put(`/comCodes/updateComCode`, cmpReq, { headers: authHeader() });
   }
 }

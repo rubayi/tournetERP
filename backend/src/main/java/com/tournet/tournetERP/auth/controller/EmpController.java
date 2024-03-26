@@ -72,7 +72,7 @@ public class EmpController {
         List<UserResponse> selectedUsers = new ArrayList<UserResponse>();
 
         if(storUser.isAuthenticated()) {
-
+            UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
             selectedUsers = userService.findEmpsList(empReq);
 
             Map<String, Object> response = new HashMap<>();
@@ -102,24 +102,22 @@ public class EmpController {
         return new ResponseEntity<>(selectedUsers, HttpStatus.OK);
     }
 
-    @PutMapping("/updateEmp")
+    @PostMapping("/updateEmp")
     public ResponseEntity<Map<String, Object>> updateEmp(@RequestBody UserRequest empReq) {
 
-        /**S: 수정자 정보 **/
+        //수정자 정보
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
-
-        User modifyingUser = new User();
-        modifyingUser.setEmpUuid(userDetails.getEmpUuid());
-        /**E: 수정자 정보**/
-
-        long id = (long) empReq.getEmpUuid();
-
-        Optional<User> currentEmp = empRepository.findByEmpUuid(id);
-
         String message = "";
+        if (storUser != null) {
+            UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
 
-        if (storUser.isAuthenticated()) {
+            User modifyingUser = new User();
+            modifyingUser.setEmpUuid(userDetails.getEmpUuid());
+
+            long id = (long) empReq.getEmpUuid();
+
+            Optional<User> currentEmp = empRepository.findByEmpUuid(id);
+
             if (currentEmp.isPresent()) {
                 User _emp = currentEmp.get();
 
@@ -163,7 +161,7 @@ public class EmpController {
                 message = "수정이 완료 되지 않았습니다.";
             }
         } else {
-            message = "수정이 완료 되지 않았습니다.";
+            message = "다시 로그인 해 주십시오.";
         }
 
         Map<String, Object> resMap = new HashMap<>();

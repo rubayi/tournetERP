@@ -24,5 +24,5 @@ public interface EmpMenuAuthRepository extends JpaRepository<EmpMenuAuth, Long> 
 
     void deleteByEmpAuthUuid(int id);
 
-    Boolean deleteByMenuAuthUuidAndEmpUuid(long menuAuthUuid, long empUuid);
+    void deleteByMenuAuthUuidAndEmpUuid(long menuAuthUuid, long empUuid);
 }

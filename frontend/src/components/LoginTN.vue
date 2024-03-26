@@ -112,6 +112,13 @@ export default {
   },
   methods: {
     handleLogin() {
+      const tokenExpiration = this.$store.state.auth.tokenExpiration;
+      if (tokenExpiration && Date.now() >= tokenExpiration * 1000) {
+        // Token is expired, prompt user to log in again
+        this.message = "Your session has expired. Please log in again.";
+        return;
+      }
+
       this.loading = true;
       this.message = "";
       const user = {

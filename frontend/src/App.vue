@@ -99,7 +99,7 @@
 <script>
 import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
-import eventBus from "./common/EventBus";
+import EventBus from "./common/EventBus";
 import NavigationMenu from "./components/navigation/NavigationMenu.vue";
 
 let router;
@@ -189,6 +189,7 @@ export default {
               error.response.data.message) ||
             error.message ||
             error.toString();
+
         }
       );
     },
@@ -196,12 +197,12 @@ export default {
   mounted() {
     // Call the method to fetch work options if user is admin
     this.getMenu();
-    eventBus.on("logout", () => {
+    EventBus.on("logout", () => {
       this.logOut();
     });
   },
   beforeUnmount() {
-    eventBus.remove("logout");
+    EventBus.remove("logout");
   },
   watch: {
     isAdmin: {

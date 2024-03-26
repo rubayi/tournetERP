@@ -22,7 +22,6 @@
                           <div class="q-pa-sm" style="display: flex; align-items: center;">
                             <q-checkbox v-model="authItem.authYn"
                                         value="authItem.menuAuthUuid"
-                                        :checked="isCheckboxChecked(authItem)"
                                         @click="handleCheckboxChange(authItem)"/>
                             <q-item-label>{{ authItem.menuAuthName }}</q-item-label>
                           </div>
@@ -57,32 +56,51 @@ export default defineComponent({
     const authListEmpId = ref(props.dataVal);
     const lcReqList = ref(props.reqList);
 
+
     watch(() => props.optionList, (newVal) => {
       authList.value = newVal;
     }, { deep: true});
 
+
+    watch(() => props.dataVal, (newVal) => {
+      authListEmpId.value = newVal;
+    }, { deep: true});
+
     function handleCheckboxChange(authItem) {
-        if (authItem.authYn) {
-          lcReqList.value.push({ menuAuthUuid: authItem.menuAuthUuid });
+      authItem.authYn = !!authItem.authYn; // Toggle the authYn property
+      const existingIndex = lcReqList.value.findIndex(item => item.menuAuthUuid === authItem.menuAuthUuid);
+      if (existingIndex !== -1) {
+        // Update the existing object
+        if (!authItem.authYn) {
+          // If the checkbox is unchecked, mark it for deletion
+          lcReqList.value[existingIndex].deleteFlag = "Y";
         } else {
-          lcReqList.value.push({ menuAuthUuid: authItem.menuAuthUuid, deleteFlag:"Y" });
+          // If the checkbox is checked, remove the deleteFlag
+          delete lcReqList.value[existingIndex].deleteFlag;
         }
+      } else {
+        // Push a new object
+        lcReqList.value.push({ menuAuthUuid: authItem.menuAuthUuid, deleteFlag: authItem.authYn ? undefined : "Y" });
+      }
+      console.log(lcReqList.value);
     }
 
     watch(lcReqList, (newVal) => {
         emit('update:reqList', newVal);
     }, { deep: true, immediate: true });
 
-    function isCheckboxChecked(authItem) {
-      return authListEmpId.value.map(item => item.menuAuthUuid === authItem.menuAuthUuid);
-      return true;
-    }
-
+    // function isCheckboxChecked(authItem) {
+    //   const match = authListEmpId.value.find(item => item.menuAuthUuid === authItem.menuAuthUuid);
+    //
+    //   // If a match is found, set authItem.authYn to true, otherwise set it to false
+    //   authItem.authYn = !!match; // !! converts match to a boolean
+    //   // Return the result of the match
+    //   return !!match;
+    // }
 
     return {
       authList,
       handleCheckboxChange,
-      isCheckboxChecked
     };
 
   },
