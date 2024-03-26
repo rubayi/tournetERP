@@ -13,6 +13,7 @@
           />
 
         <emp-form-drawer-menu-auth
+          v-if="edited.empUuid"
           :data-val="empMunuAuthList"
           :option-list="munuAuthList"
           :req-list="checkedAuthUuids"
@@ -100,34 +101,33 @@ export default defineComponent({
       } else {
 
           if (edited.value.empUuid != 0) {
-
-              if (dataChanged) {
-                  empTn.actions.updateEmp({
-                      commit: () => {
-                      }, state: {}
-                  }, edited.value).then(
-                      (response) => {
-                          alert(response.data.message);
-                          emitCloseDrawer();
-                      },
-                      (error) => {
-                          console.log("saveEmp failed", error);
-                      }
-                  );
-              }
-          } else {
-              auth.actions.register({
+            //사용자 수정
+            if (dataChanged) {
+              empTn.actions.updateEmp({
                   commit: () => {
                   }, state: {}
               }, edited.value).then(
                   (response) => {
-                      alert(response.message);
-                      emitCloseDrawer();
+                      alert(response.data.message);
                   },
                   (error) => {
                       console.log("saveEmp failed", error);
                   }
               );
+            }
+          } else {
+            //사용자 등록
+            auth.actions.register({
+                commit: () => {
+                }, state: {}
+            }, edited.value).then(
+                (response) => {
+                    alert(response.message);
+                },
+                (error) => {
+                    console.log("saveEmp failed", error);
+                }
+            );
           }
 
           if (menuAuthReq.menuAuthUuids.length > 0) {
@@ -146,7 +146,6 @@ export default defineComponent({
           }
 
           if (deleteMenuAuthReq.menuAuthUuids.length > 0) {
-              console.log(deleteMenuAuthReq);
               empMenuAuth.actions.deleteEmpAuth({
                   commit: () => {
                   }, state: {}
@@ -161,6 +160,8 @@ export default defineComponent({
               );
 
           }
+        //Close Drawer
+        //emitCloseDrawer();
       }
     }
     function getAuthList() {

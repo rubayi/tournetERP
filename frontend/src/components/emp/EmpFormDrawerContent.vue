@@ -104,6 +104,36 @@
                   label="재직상태"
                 />
                 <q-input
+                  filled
+                  v-model="edited.backColor"
+                  :rules="['anyColor']"
+                  label="배경색"
+                  class="col-4"
+                >
+                  <template v-slot:append>
+                    <q-icon name="colorize" class="cursor-pointer">
+                      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                        <q-color v-model="edited.backColor" />
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+                <q-input
+                  filled
+                  v-model="edited.fontColor"
+                  :rules="['anyColor']"
+                  label="글자색"
+                  class="col-4"
+                >
+                  <template v-slot:append>
+                    <q-icon name="colorize" class="cursor-pointer">
+                      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                        <q-color v-model="edited.fontColor" />
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+                <q-input
                   class="col-4"
                   type="text"
                   id="username"

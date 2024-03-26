@@ -84,22 +84,22 @@ export class EmpFormTableConfig {
             },
             {
                 field: "empAddress1",
-                headerName: "주소",
+                headerName: "주소1",
                 hide: true,
             },
             {
                 field: "empAddress2",
-                headerName: "주소",
+                headerName: "주소2",
                 hide: true,
             },
             {
                 field: "empCity",
-                headerName: "주소",
+                headerName: "도시",
                 hide: true,
             },
             {
                 field: "empState",
-                headerName: "주소",
+                headerName: "주/도",
                 hide: true,
             },
             {

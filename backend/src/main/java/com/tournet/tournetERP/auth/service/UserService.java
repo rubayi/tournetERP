@@ -79,6 +79,7 @@ public class UserService {
                     userResponse.setEmpCity(user.getEmpCity());
                     userResponse.setEmpState(user.getEmpState());
                     userResponse.setEmpZip(user.getEmpZip());
+                    userResponse.setEmpCountry(user.getEmpCountry());
                     userResponse.setEmpDob(user.getEmpDob());
                     userResponse.setEmpMemo(user.getEmpMemo());
                     userResponse.setBackColor(user.getBackColor());

@@ -131,6 +131,7 @@ public class EmpController {
                 _emp.setEmpTitle(empReq.getEmpTitle());
                 _emp.setEmpRole(empReq.getEmpRole());
                 _emp.setEmpPhone(empReq.getEmpPhone());
+                _emp.setEmpEmail(empReq.getEmpEmail());
                 _emp.setEmpEmailBook(empReq.getEmpEmailBook());
                 _emp.setEmpAddress1(empReq.getEmpAddress1());
                 _emp.setEmpAddress2(empReq.getEmpAddress2());
@@ -149,7 +150,7 @@ public class EmpController {
                 _emp.setEmpMemo(empReq.getEmpMemo());
                 _emp.setEmpStatus(empReq.getEmpStatus());
 
-                //            _emp.setModifyUser(modifyingUser);
+                //_emp.setModifyUser(modifyingUser);
 
                 if (empReq.getPassword() != null && !empReq.getPassword().equals("")) {
                     _emp.setPassword(encoder.encode(empReq.getPassword()));

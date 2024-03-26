@@ -257,8 +257,6 @@ export default {
       codeLvl: "1",
       dataName: "empStatusOptions",
     });
-
-
   },
 };
 </script>

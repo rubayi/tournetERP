@@ -10,6 +10,8 @@ export interface EmpData {
     empStatus: string| null;
     empDob: string| null;
     empDobType: string| null;
+    backColor: string| null;
+    fontColor: string| null;
     empMemo: string| null;
     empAddress1: string| null;
     empAddress2: string| null;

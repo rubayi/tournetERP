@@ -80,9 +80,10 @@ export default defineComponent({
         }
       } else {
         // Push a new object
-        lcReqList.value.push({ menuAuthUuid: authItem.menuAuthUuid, deleteFlag: authItem.authYn ? undefined : "Y" });
+        lcReqList.value.push(
+          { menuAuthUuid: authItem.menuAuthUuid,
+            deleteFlag: authItem.authYn ? undefined : "Y" });
       }
-      console.log(lcReqList.value);
     }
 
     watch(lcReqList, (newVal) => {
