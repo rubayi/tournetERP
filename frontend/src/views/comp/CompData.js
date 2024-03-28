@@ -27,7 +27,5 @@ export const initialData = {
     beginDt: "",
     endDt: "",
     createdDt: "",
-    createUser: "",
-    modifyUser: "",
     modifiedDt: "",
 };

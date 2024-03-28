@@ -183,7 +183,7 @@ export default {
 
       this.$store.dispatch(`compTn/searchCompList`, searchReq).then(
         (response) => {
-          this.comps = response.selectedComps;
+          this.comps = response.comps;
           // this.page = comps.currentPage;
           // this.showPage = comps.totalPages;
         },

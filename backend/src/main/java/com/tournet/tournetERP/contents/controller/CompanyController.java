@@ -94,89 +94,55 @@ public class CompanyController {
 
     @Transactional
     @PostMapping("/createComp")
-    public ResponseEntity<?> createCompany(@RequestBody Company companyReq) {
+    public ResponseEntity<Map<String, Object>> createCompany(@RequestBody Company companyReq) {
 
-        /**S: 수정자 정보 **/
+
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
+        String message = "";
+        if(storUser.isAuthenticated()) {
 
-        User modifyingUser = new User();
-        modifyingUser.setEmpUuid(userDetails.getEmpUuid());
-        /**E: 수정자 정보**/
+            UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
 
-        Company _company = new Company();
+            User modifyingUser = new User();
+            modifyingUser.setEmpUuid(userDetails.getEmpUuid());
 
-        _company.setCompSector(companyReq.getCompSector());
-        _company.setCompGroup(companyReq.getCompGroup());
-        _company.setCompKor(companyReq.getCompKor());
-        _company.setCompEng(companyReq.getCompEng());
-        _company.setCompAbb(companyReq.getCompAbb());
-        _company.setCompColor(companyReq.getCompColor());
-        _company.setLogoFile(companyReq.getLogoFile());
-        _company.setEstDate(companyReq.getEstDate());
-        _company.setCompRate(companyReq.getCompRate());
-        _company.setMinAge(companyReq.getMinAge());
-        _company.setChildAge(companyReq.getChildAge());
-        _company.setYouthAge(companyReq.getYouthAge());
-        _company.setCouponYn(companyReq.getCouponYn());
-        _company.setPrepaidHow(companyReq.getPrepaidHow());
-        _company.setBeginDt(companyReq.getBeginDt());
-        _company.setEndDt(companyReq.getEndDt());
-        _company.setCreatedDt(companyReq.getCreatedDt());
-        _company.setModifiedDt(companyReq.getModifiedDt());
+            companyReq.setModifyUser(modifyingUser);
+            companyReq.setCreateUser(modifyingUser);
 
-        _company.setModifyUser(modifyingUser);
-        _company.setCreateUser(modifyingUser);
+            compRepository.save(companyReq);
+            message = "등록이 완료 되었습니다.";
+        }
 
-        compRepository.save(_company);
-
-        return ResponseEntity.ok(new MessageResponse("등록이 완료 되었습니다."));
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("message", message);
+        return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
-    @PostMapping("/updateComp/{id}")
-    public ResponseEntity<Map<String, Object>> updateCompany(@PathVariable long id, @RequestBody Company companyReq) {
+    @PostMapping("/updateComp")
+    public ResponseEntity<Map<String, Object>> updateCompany(@RequestBody Company companyReq) {
 
-        /**S: 수정자 정보 **/
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
-
-        User modifyingUser = new User();
-        modifyingUser.setEmpUuid(userDetails.getEmpUuid());
-        /**E: 수정자 정보**/
-
-        Optional<Company> currentCompany = compRepository.findByCompUuid(id);
-
         String message = "";
 
-        if (currentCompany.isPresent()) {
+        if (storUser.isAuthenticated()) {
 
-            Company _company = currentCompany.get();
+            UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
 
-            _company.setCompSector(companyReq.getCompSector());
-            _company.setCompGroup(companyReq.getCompGroup());
-            _company.setCompKor(companyReq.getCompKor());
-            _company.setCompEng(companyReq.getCompEng());
-            _company.setCompAbb(companyReq.getCompAbb());
-            _company.setCompColor(companyReq.getCompColor());
-            _company.setLogoFile(companyReq.getLogoFile());
-            _company.setEstDate(companyReq.getEstDate());
-            _company.setCompRate(companyReq.getCompRate());
-            _company.setMinAge(companyReq.getMinAge());
-            _company.setChildAge(companyReq.getChildAge());
-            _company.setYouthAge(companyReq.getYouthAge());
-            _company.setCouponYn(companyReq.getCouponYn());
-            _company.setPrepaidHow(companyReq.getPrepaidHow());
-            _company.setBeginDt(companyReq.getBeginDt());
-            _company.setEndDt(companyReq.getEndDt());
-            _company.setModifiedDt(companyReq.getModifiedDt());
+            User modifyingUser = new User();
+            modifyingUser.setEmpUuid(userDetails.getEmpUuid());
+            Optional<Company> currentCompany = compRepository.findByCompUuid(companyReq.getCompUuid());
 
-            _company.setModifyUser(modifyingUser);
+            if (currentCompany.isPresent()) {
 
-            compRepository.save(_company);
+                companyReq.setModifyUser(modifyingUser);
 
-            message = "수정 되었습니다.";
-        } else {
-            message = "수정이 완료 되지 않았습니다.";
+                compRepository.save(companyReq);
+
+                message = "수정 되었습니다.";
+            } else {
+                message = "수정이 완료 되지 않았습니다.";
+            }
+
         }
 
         Map<String, Object> resMap = new HashMap<>();

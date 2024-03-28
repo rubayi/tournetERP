@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 export class compFormTableConfig {
 
     static columns() {
@@ -51,29 +52,33 @@ export class compFormTableConfig {
                 filter: true,
             },
             {
-            field: "compDivName",
-            headerName: "부서",
-            width: 150,
-            sortable: true,
-            filter: true,
-            },
-            {
-              field: "compStatusName",
-              headerName: "상태",
+              field: "hotelRateName",
+              headerName: "호텔등급",
               width: 150,
               sortable: true,
               filter: true,
             },
             {
-                field: "compWorkPhone",
-                headerName: "내선번호",
+              field: "optionRateName",
+              headerName: "옵션등급",
+              width: 150,
+              sortable: true,
+              filter: true,
+            },
+            {
+                field: "createdByName",
+                headerName: "등록자",
                 sortable: true,
                 filter: true,
             },
             {
-                field: "compEmailBook",
-                headerName: "예약이메일",
-                hide: true,
+                field: "createdDt",
+                headerName: "등록일",
+                sortable: true,
+                filter: true,
+                cellRenderer: (createdDt) => {
+                  return moment(createdDt.value).format('YYYY/MM/DD HH:mm')
+                }
             },
             {
                 field: "compAddress1",

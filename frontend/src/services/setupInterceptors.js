@@ -25,9 +25,8 @@ const setup = (store) => {
     async (err) => {
       const originalConfig = err.config;
 
-      if (originalConfig.url !== "/auth/signin" && err.response) {
+      if (err.response) {
         // Access Token was expired
-        alert(err.response.data.message);
         if ((err.response.status === 401 && !originalConfig._retry)) {
           originalConfig._retry = true;
 
@@ -39,6 +38,7 @@ const setup = (store) => {
           //     refreshToken: TokenService.getLocalRefreshToken(),
           //   });
           //
+          //   console.log(rs.data);
           //   const { accessToken } = rs.data;
           //
           //   store.dispatch('auth/refreshToken', accessToken);

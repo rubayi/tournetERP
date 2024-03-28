@@ -85,7 +85,7 @@ export default defineComponent({
           if (edited.value.compUuid != 0) {
             //업체수정
             if (dataChanged) {
-              compTn.actions.createComp({
+              compTn.actions.updateComp({
                   commit: () => {
                   }, state: {}
               }, edited.value).then(
@@ -98,8 +98,9 @@ export default defineComponent({
               );
             }
           } else {
+            console.log(edited.value);
             //업체 등록
-            compTn.actions.register({
+            compTn.actions.createComp({
                 commit: () => {
                 }, state: {}
             }, edited.value).then(
@@ -119,7 +120,7 @@ export default defineComponent({
                   }, state: {}
               }, contactReq).then(
                   (response) => {
-                      alert(response.data.message);
+                      alert(response.message);
                   },
                   (error) => {
                       console.log("saveComp failed", error);

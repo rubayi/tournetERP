@@ -101,7 +101,7 @@
                   class="col-3"
                   v-model="edited.hotelRate"
                   :options="hotelRateOptions"
-                  option-value="codeValue"
+                  option-value="codeUuid"
                   option-label="codeKr"
                   emit-value
                   map-options
@@ -111,7 +111,7 @@
                   class="col-3"
                   v-model="edited.optionRate"
                   :options="optionRateOptions"
-                  option-value="codeValue"
+                  option-value="codeUuid"
                   option-label="codeKr"
                   emit-value
                   map-options
@@ -121,7 +121,7 @@
                   class="col-3"
                   v-model="edited.rentcarRate"
                   :options="rentcarRateOptions"
-                  option-value="codeValue"
+                  option-value="codeUuid"
                   option-label="codeKr"
                   emit-value
                   map-options
@@ -131,7 +131,7 @@
                   class="col-3"
                   v-model="edited.restaurantRate"
                   :options="restaurantRateOptions"
-                  option-value="codeValue"
+                  option-value="codeUuid"
                   option-label="codeKr"
                   emit-value
                   map-options
@@ -141,7 +141,7 @@
                   class="col-3"
                   v-model="edited.packRegRate"
                   :options="packRegRateOptions"
-                  option-value="codeValue"
+                  option-value="codeUuid"
                   option-label="codeKr"
                   emit-value
                   map-options
@@ -151,7 +151,7 @@
                   class="col-3"
                   v-model="edited.packRate"
                   :options="packRateOptions"
-                  option-value="codeValue"
+                  option-value="codeUuid"
                   option-label="codeKr"
                   emit-value
                   map-options
@@ -161,7 +161,7 @@
                   class="col-3"
                   v-model="edited.honeymoonRegRate"
                   :options="honeymoonRegRateOptions"
-                  option-value="codeValue"
+                  option-value="codeUuid"
                   option-label="codeKr"
                   emit-value
                   map-options
@@ -171,7 +171,7 @@
                   class="col-3"
                   v-model="edited.honeymoonRate"
                   :options="honeymoonRateOptions"
-                  option-value="codeValue"
+                  option-value="codeUuid"
                   option-label="codeKr"
                   emit-value
                   map-options
@@ -217,7 +217,7 @@
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
-                              label="설립일"
+                              label="close"
                               color="primary"
                               flat
                             />
