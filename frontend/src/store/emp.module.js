@@ -9,7 +9,7 @@ const emp =
   empAddress1: "", empAddress2: "", empCity: "",
   empState: "", empCountry: "", empZip: "",
   empDob: "", empDobType: "",
-  empStatus:"",
+  empStatus:"", backColor:"", fontColor:"",
   empMemo: ""
 };
 

@@ -1,6 +1,7 @@
 import Home from "components/Homehome.vue";
 import Login from "components/LoginTN.vue";
 import EmpList from "src/views/emp/EmpTnList.vue";
+import CompList from "src/views/comp/CompList.vue";
 import Register from "components/RegisterTN.vue";
 import ComCode from "components/ComCode.vue";
 import ComMenu from "components/ComMenu.vue";
@@ -55,6 +56,13 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => EmpList }
+    ]
+  },
+  {
+    path: "/compList",
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => CompList }
     ]
   },
   {

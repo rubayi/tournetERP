@@ -13,7 +13,10 @@ public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CONTACT_UUID", nullable = false)
-    private int ContactUuid; //연락처UUID
+    private long contactUuid; //연락처UUID
+
+    @Column(name = "COMP_UUID", nullable = false)
+    private long compUuid; //연락처UUID
 
     @Column(name = "CONTACT_TYPE", nullable = true)
     private String contactType; //유형
@@ -27,13 +30,5 @@ public class Contact {
     public Contact () {
     }
 
-    public Contact (          int ContactUuid,  String contactType,  String repYn,
-                              String contactCont   ) {
-        this.ContactUuid=ContactUuid;
-        this.contactType=contactType;
-        this.repYn=repYn;
-        this.contactCont=contactCont;
-
-    }
 }
 

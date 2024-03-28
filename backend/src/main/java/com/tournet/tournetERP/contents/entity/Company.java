@@ -20,7 +20,7 @@ public class Company {
     private int compUuid; //업체UUID
 
     @Column(name = "COMP_SECTOR", nullable = true)
-    private String compSector; //유형
+    private long compSector; //업체유형
 
     @Column(name = "COMP_GROUP", nullable = true)
     private String compGroup; //그룹
@@ -32,7 +32,7 @@ public class Company {
     private String compEng; //업체명ENG
 
     @Column(name = "COMP_ABBREVIATION", nullable = true)
-    private String compAbbreviation; //업체단축코드
+    private String compAbb; //업체단축코드
 
     @Column(name = "COMP_COLOR", nullable = true)
     private String compColor; //회사구분색
@@ -41,10 +41,34 @@ public class Company {
     private String logoFile; //로고
 
     @Column(name = "ESTABLISHMENT_DATE", nullable = true)
-    private Date establishmentDate; //설립일
+    private Date estDate; //설립일
 
     @Column(name = "COMPANY_RATE", nullable = true)
-    private String companyRate; //등급
+    private long compRate; //등급
+
+    @Column(name = "HOTEL_RATE", nullable = true)
+    private long hotelRate; //등급
+
+    @Column(name = "OPTION_RATE", nullable = true)
+    private long optionRate; //등급
+
+    @Column(name = "RENTCAR_RATE", nullable = true)
+    private long rentcarRate; //등급
+
+    @Column(name = "RESTAURANT_RATE", nullable = true)
+    private long restaurantRate; //등급
+
+    @Column(name = "PCAK_REG_RATE", nullable = true)
+    private long packRegRate; //등급
+
+    @Column(name = "PCAK_RATE", nullable = true)
+    private long packRate; //등급
+
+    @Column(name = "HONEYMOON_REG_RATE", nullable = true)
+    private long honeymoonRegRate; //등급
+
+    @Column(name = "HONEYMOON_RATE", nullable = true)
+    private long honeymoonRate; //등급
 
     @Column(name = "MIN_AGE", nullable = true)
     private String minAge; //제한연령
@@ -56,7 +80,7 @@ public class Company {
     private String youthAge; //쥬니어나이
 
     @Column(name = "COUPON_USE_YN", nullable = true)
-    private String couponUseYn; //쿠폰사용가능유무
+    private String couponYn; //쿠폰사용가능유무
 
     @Column(name = "PREPAID_HOW", nullable = true)
     private String prepaidHow; //프리페이드지정
@@ -86,33 +110,5 @@ public class Company {
     public Company () {
     }
 
-    public Company (int compUuid,  String compSector,  String compGroup,
-                    String compKor,  String compEng,  String compAbbreviation,
-                    String compColor,  String logoFile,  Date establishmentDate,
-                    String companyRate,  String minAge,  String childAge,
-                    String youthAge,  String couponUseYn,  String prepaidHow,
-                    Date beginDt,  Date endDt,  Date createdDt,
-                    Date modifiedDt
-    ) {
-        this.compUuid=compUuid;
-        this.compSector=compSector;
-        this.compGroup=compGroup;
-        this.compKor=compKor;
-        this.compEng=compEng;
-        this.compAbbreviation=compAbbreviation;
-        this.compColor=compColor;
-        this.logoFile=logoFile;
-        this.establishmentDate=establishmentDate;
-        this.companyRate=companyRate;
-        this.minAge=minAge;
-        this.childAge=childAge;
-        this.youthAge=youthAge;
-        this.couponUseYn=couponUseYn;
-        this.prepaidHow=prepaidHow;
-        this.beginDt=beginDt;
-        this.endDt=endDt;
-        this.createdDt=createdDt;
-        this.modifiedDt=modifiedDt;
 
-    }
 }

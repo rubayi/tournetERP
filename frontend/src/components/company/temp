@@ -1,0 +1,23 @@
+ @Column(name = "HotelRate", nullable = true)
+    private long compRate; //등급
+
+    @Column(name = "OptionRate", nullable = true)
+    private long compRate; //등급
+
+    @Column(name = "RentcarRate", nullable = true)
+    private long compRate; //등급
+
+    @Column(name = "RestaurantRate", nullable = true)
+    private long compRate; //등급
+
+    @Column(name = "PackRegRate", nullable = true)
+    private long compRate; //등급
+
+    @Column(name = "PackRate", nullable = true)
+    private long compRate; //등급
+
+    @Column(name = "HoneymoonRegRate", nullable = true)
+    private long compRate; //등급
+
+    @Column(name = "HoneymoonRate", nullable = true)
+    private long compRate; //등급

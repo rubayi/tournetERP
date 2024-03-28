@@ -281,7 +281,7 @@ import { ref } from 'vue';
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { AgGridVue } from "ag-grid-vue3";
-import { EmpFormTableConfig } from "src/views/emp/EmpSimpleFormTableConfig";
+import { EmpFormTableConfig } from "@/views/emp/EmpFormTableConfig";
 import { initialData } from "src/views/emp/EmpData";
 import { getCommonValue } from 'src/utils/common.js'; // Adjust the path as per your project structure
 

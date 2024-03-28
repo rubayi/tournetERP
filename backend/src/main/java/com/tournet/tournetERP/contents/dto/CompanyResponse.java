@@ -1,19 +1,23 @@
 package com.tournet.tournetERP.contents.dto;
 
-import jakarta.persistence.*;
-import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import java.util.Date;
+import lombok.Data;
+/**
+ * Please explain the class!!
+ *
+ * @author : rubayi
+ * @fileName : CompanyResponse
+ * @since : 2024-03-26
+ */
 
 @Data
-public class CompanyRequest {
+public class CompanyResponse {
 
     private long compUuid; //업체UUID
 
     private long compSector; //유형
+
+    private String compSectorName;
 
     private String compGroup; //그룹
 
@@ -31,21 +35,40 @@ public class CompanyRequest {
 
     private long compRate; //등급
 
+    private String compRateName; //등급
+
     private long hotelRate; //등급
+
+    private String hotelRateName;
 
     private long optionRate; //등급
 
+    private String optionRateName;
+
     private long rentcarRate; //등급
+
+    private String  rentcarRateName;
 
     private long restaurantRate; //등급
 
+    private String  restaurantRateName;
+
     private long packRegRate; //등급
+
+    private String  packRegRateName;
 
     private long packRate; //등급
 
+    private String packRateName;
+
     private long honeymoonRegRate; //등급
 
+    private String honeymoonRegRateName;
+
     private long honeymoonRate; //등급
+
+    private String honeymoonRateName;
+
 
     private String minAge; //제한연령
 
@@ -65,7 +88,11 @@ public class CompanyRequest {
 
     private long createdBy; //생성자
 
+    private String createdByName; //생성자
+
     private long modifiedBy; //최종수정자
+
+    private String modifiedByName; //최종수정자
 
     private Date modifiedDt; //최종수정일
 
@@ -78,9 +105,4 @@ public class CompanyRequest {
     private String searchKeyword2;
 
     private String searchKeyword3;
-
-    public CompanyRequest() {
-    }
-
-
 }

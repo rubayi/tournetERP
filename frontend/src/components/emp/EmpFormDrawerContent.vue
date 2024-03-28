@@ -184,6 +184,7 @@
                   v-model="edited.empDob"
                   mask="####/##/##"
                   :rules="['date']"
+                  label="생일"
                 >
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
@@ -196,7 +197,7 @@
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
-                              label="Close"
+                              label="생일"
                               color="primary"
                               flat
                             />
