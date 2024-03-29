@@ -197,7 +197,7 @@
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
-                              label="생일"
+                              label="닫기"
                               color="primary"
                               flat
                             />

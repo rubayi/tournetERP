@@ -62,6 +62,15 @@ public class CompanyService {
                     compResponse.setHoneymoonRegRateName(fetchCodeKr(comp.getHoneymoonRegRate()));
                     compResponse.setHoneymoonRateName(fetchCodeKr(comp.getHoneymoonRate()));
 
+                    compResponse.setHotelRate(comp.getHotelRate());
+                    compResponse.setOptionRate(comp.getOptionRate());
+                    compResponse.setRentcarRate(comp.getRentcarRate());
+                    compResponse.setRestaurantRate(comp.getRestaurantRate());
+                    compResponse.setPackRegRate(comp.getPackRegRate());
+                    compResponse.setPackRate(comp.getPackRate());
+                    compResponse.setHoneymoonRegRate(comp.getHoneymoonRegRate());
+                    compResponse.setHoneymoonRate(comp.getHoneymoonRate());
+
                     compResponse.setCompAbb(comp.getCompAbb());
                     compResponse.setCompSector(comp.getCompSector());
 

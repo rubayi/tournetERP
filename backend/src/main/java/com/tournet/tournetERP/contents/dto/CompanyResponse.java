@@ -31,7 +31,7 @@ public class CompanyResponse {
 
     private String logoFile; //로고
 
-    private Date estDate; //설립일
+    private String estDate; //설립일
 
     private long compRate; //등급
 
@@ -80,9 +80,9 @@ public class CompanyResponse {
 
     private String prepaidHow; //프리페이드지정
 
-    private Date beginDt; //시작일
+    private String beginDt; //시작일
 
-    private Date endDt; //종료일
+    private String endDt; //종료일
 
     private Date createdDt; //생성일
 

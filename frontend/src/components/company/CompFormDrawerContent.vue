@@ -217,7 +217,7 @@
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
-                              label="close"
+                              label="닫기"
                               color="primary"
                               flat
                             />
