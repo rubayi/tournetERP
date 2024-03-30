@@ -66,7 +66,7 @@
       </div>
       <emp-form-drawer
         :open-drawer="openDrawer"
-        :drawer-width="800"
+        :drawer-width="1400"
         :dataVal="edited"
         :on-close-click="closeAction"
         @update:openDrawer="openDrawer = $event"
@@ -144,10 +144,12 @@ export default {
 
     /* Edit */
     openAction(params) {
-      params.data.password = "";
-      this.updateEdited = Object.assign({}, params.data);
-      this.edited = params.data;
-      this.openDrawer = !this.openDrawer;
+      if (params.column.colId == "edit") {
+        params.data.password = "";
+        this.updateEdited = Object.assign({}, params.data);
+        this.edited = params.data;
+        this.openDrawer = !this.openDrawer;
+      }
     },
 
     closeAction() {

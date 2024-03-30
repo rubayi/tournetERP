@@ -1,50 +1,78 @@
 <template>
-  <div id="emp-form-drawer-menu-content">
-
-    <div class="flex flex-grow-1">
-      <q-scroll-area
-        style="height: 600px; min-width: 700px;"
-      >
-        <div class="grid-container">
-          <!-- Loop through each group -->
-          <template v-for="(groupIndex, maxIdx) in menuMax" :key="maxIdx">
-            <!-- Filter menu items for the current group -->
-            <template v-if="authList.filter(item => item.groupCode === groupIndex.toString()).length">
-              <!-- Show a card-section for each group -->
-              <q-card-section :key="'group_' + groupIndex">
-                <q-form>
-                  <q-card-section>
-                    <div class="q-tab-panels q-panel-parent">
-                      <div class="q-panel scroll">
-                        <q-item-label>{{ '권한' + groupIndex }}</q-item-label>
-                        <!-- Render menu items for the current group -->
-                        <template v-for="(authItem, index) in authList.filter(item => item.groupCode === groupIndex.toString())" :key="index">
-                          <div class="q-pa-sm" style="display: flex; align-items: center;">
-                            <q-checkbox v-model="authItem.authYn"
-                                        value="authItem.menuAuthUuid"
-                                        @click="handleCheckboxChange(authItem)"/>
-                            <q-item-label>{{ authItem.menuAuthName }}</q-item-label>
-                          </div>
-                        </template>
+  <card-comp-design class="q-mt-sm" title="직원 권한 관리">
+    <template #content>
+      <div id="emp-form-drawer-menu-content">
+        <q-scroll-area style="height: 600px; min-width: 1340px">
+          <div class="grid-container">
+            <!-- Loop through each group -->
+            <template v-for="(groupIndex, maxIdx) in menuMax" :key="maxIdx">
+              <!-- Filter menu items for the current group -->
+              <template
+                v-if="
+                  authList.filter(
+                    (item) => item.groupCode === groupIndex.toString()
+                  ).length
+                "
+              >
+                <!-- Show a card-section for each group -->
+                <q-card-section :key="'group_' + groupIndex">
+                  <q-form>
+                    <q-card-section>
+                      <div class="q-tab-panels q-panel-parent">
+                        <div class="q-panel scroll">
+                          <q-item-label
+                            class="text-center text-bold"
+                            style="
+                              font-size: 16px;
+                              background-color: #f0f0f0;
+                              padding-top: 5px;
+                              padding-bottom: 5px;
+                            "
+                          >
+                            {{ "권한 " + groupIndex }}</q-item-label
+                          >
+                          <!-- Render menu items for the current group -->
+                          <template
+                            v-for="(authItem, index) in authList.filter(
+                              (item) => item.groupCode === groupIndex.toString()
+                            )"
+                            :key="index"
+                          >
+                            <div style="display: flex; align-items: center">
+                              <q-checkbox
+                                v-model="authItem.authYn"
+                                value="authItem.menuAuthUuid"
+                                @click="handleCheckboxChange(authItem)"
+                              />
+                              <q-item-label>{{
+                                authItem.menuAuthName
+                              }}</q-item-label>
+                            </div>
+                          </template>
+                        </div>
                       </div>
-                    </div>
-                  </q-card-section>
-                </q-form>
-              </q-card-section>
+                    </q-card-section>
+                  </q-form>
+                </q-card-section>
+              </template>
             </template>
-          </template>
-        </div>
-      </q-scroll-area>
-    </div>
-  </div>
+          </div>
+        </q-scroll-area>
+      </div>
+    </template>
+  </card-comp-design>
 </template>
 
 <script>
-import {defineComponent, ref, watch} from "vue";
+import { defineComponent, ref, watch } from "vue";
+import CardCompDesign from "src/components/common/CardCompDesign.vue";
 
 export default defineComponent({
   name: "EmpFormDrawerMenuContent",
 
+  components: {
+    CardCompDesign,
+  },
   props: {
     dataVal: Array,
     optionList: Array,
@@ -56,19 +84,27 @@ export default defineComponent({
     const authListEmpId = ref(props.dataVal);
     const lcReqList = ref(props.reqList);
 
+    watch(
+      () => props.optionList,
+      (newVal) => {
+        authList.value = newVal;
+      },
+      { deep: true }
+    );
 
-    watch(() => props.optionList, (newVal) => {
-      authList.value = newVal;
-    }, { deep: true});
-
-
-    watch(() => props.dataVal, (newVal) => {
-      authListEmpId.value = newVal;
-    }, { deep: true});
+    watch(
+      () => props.dataVal,
+      (newVal) => {
+        authListEmpId.value = newVal;
+      },
+      { deep: true }
+    );
 
     function handleCheckboxChange(authItem) {
       authItem.authYn = !!authItem.authYn; // Toggle the authYn property
-      const existingIndex = lcReqList.value.findIndex(item => item.menuAuthUuid === authItem.menuAuthUuid);
+      const existingIndex = lcReqList.value.findIndex(
+        (item) => item.menuAuthUuid === authItem.menuAuthUuid
+      );
       if (existingIndex !== -1) {
         // Update the existing object
         if (!authItem.authYn) {
@@ -80,15 +116,20 @@ export default defineComponent({
         }
       } else {
         // Push a new object
-        lcReqList.value.push(
-          { menuAuthUuid: authItem.menuAuthUuid,
-            deleteFlag: authItem.authYn ? undefined : "Y" });
+        lcReqList.value.push({
+          menuAuthUuid: authItem.menuAuthUuid,
+          deleteFlag: authItem.authYn ? undefined : "Y",
+        });
       }
     }
 
-    watch(lcReqList, (newVal) => {
-        emit('update:reqList', newVal);
-    }, { deep: true, immediate: true });
+    watch(
+      lcReqList,
+      (newVal) => {
+        emit("update:reqList", newVal);
+      },
+      { deep: true, immediate: true }
+    );
 
     // function isCheckboxChecked(authItem) {
     //   const match = authListEmpId.value.find(item => item.menuAuthUuid === authItem.menuAuthUuid);
@@ -103,18 +144,14 @@ export default defineComponent({
       authList,
       handleCheckboxChange,
     };
-
   },
-
-
 });
 </script>
 
 <style lang="scss">
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Three columns with equal width */
-  gap: 10px; /* Gap between items */
+  grid-template-columns: repeat(6, 1fr); /* Three columns with equal width */
 }
 
 /* CSS to ensure items fill the available width within the grid */
