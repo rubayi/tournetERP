@@ -391,12 +391,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-#officeform-drawer {
-  .q-page {
-    display: flex;
-    flex-direction: column;
-  }
-}
+
 .custom-padding-margin {
   padding: 5px; /* Adjust as needed */
   margin: 5px; /* Adjust as needed */

@@ -84,6 +84,7 @@ public class CompanyService {
 
                     compResponse.setBeginDt(comp.getBeginDt());
                     compResponse.setCreatedDt(comp.getCreatedDt());
+                    compResponse.setEstDate(comp.getEstDate());
                     compResponse.setModifiedByName(comp.getModifyUser().getUsername());
                     compResponse.setCreatedByName(comp.getCreateUser().getUsername());
                    

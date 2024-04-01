@@ -4,7 +4,7 @@
       <div class="flex flex-grow-1 q-pa-md">
         <q-card-section>
           <q-form v-if="edited">
-            <q-card-section>
+            <q-card-section class="custom-padding-margin">
               <div class="row q-col-gutter-lg">
                 <input id="compUuid" v-model="edited.compUuid" hidden />
                 <q-select
@@ -15,6 +15,7 @@
                   option-label="codeKr"
                   emit-value
                   map-options
+                  outlined
                   label="업체유형"
                 />
 
@@ -25,6 +26,7 @@
                   v-model="edited.compKor"
                   label="업체명 *"
                   :rules="[(val) => !!val || '한글업체명 입력 해 주십시오.']"
+                  outlined
                 />
                 <q-input
                   class="col-3"
@@ -32,6 +34,7 @@
                   id="compEng"
                   v-model="edited.compEng"
                   label="영문업체명"
+                  outlined
                 />
                 <q-input
                   class="col-3"
@@ -39,6 +42,7 @@
                   id="compAbb"
                   v-model="edited.compAbb"
                   label="업체약어"
+                  outlined
                 />
                 <q-input
                   class="col-3"
@@ -46,6 +50,7 @@
                   id="group"
                   v-model="edited.compGroup"
                   label="그룹"
+                  outlined
                 />
                 <q-select
                   class="col-3"
@@ -55,6 +60,7 @@
                   option-label="codeKr"
                   emit-value
                   map-options
+                  outlined
                   label="제한연령"
                 />
                 <q-select
@@ -65,6 +71,7 @@
                   option-label="codeKr"
                   emit-value
                   map-options
+                  outlined
                   label="아이나이"
                 />
                 <q-select
@@ -75,6 +82,7 @@
                   option-label="codeKr"
                   emit-value
                   map-options
+                  outlined
                   label="쥬니어나이"
                 />
                 <q-select
@@ -85,6 +93,7 @@
                   option-label="codeKr"
                   emit-value
                   map-options
+                  outlined
                   label="쿠폰사용가능유무"
                 />
                 <q-select
@@ -95,6 +104,7 @@
                   option-label="codeKr"
                   emit-value
                   map-options
+                  outlined
                   label="프리페이드지정"
                 />
                 <q-select
@@ -105,6 +115,7 @@
                   option-label="codeKr"
                   emit-value
                   map-options
+                  outlined
                   label="호텔등급"
                 />
                 <q-select
@@ -115,6 +126,7 @@
                   option-label="codeKr"
                   emit-value
                   map-options
+                  outlined
                   label="옵션등급"
                 />
                 <q-select
@@ -125,6 +137,7 @@
                   option-label="codeKr"
                   emit-value
                   map-options
+                  outlined
                   label="렌트카등급"
                 />
                 <q-select
@@ -135,6 +148,7 @@
                   option-label="codeKr"
                   emit-value
                   map-options
+                  outlined
                   label="식당등급"
                 />
                 <q-select
@@ -145,6 +159,7 @@
                   option-label="codeKr"
                   emit-value
                   map-options
+                  outlined
                   label="패키지일반등급"
                 />
                 <q-select
@@ -155,6 +170,7 @@
                   option-label="codeKr"
                   emit-value
                   map-options
+                  outlined
                   label="패키지전용등급"
                 />
                 <q-select
@@ -165,6 +181,7 @@
                   option-label="codeKr"
                   emit-value
                   map-options
+                  outlined
                   label="허니문일반등급"
                 />
                 <q-select
@@ -175,6 +192,7 @@
                   option-label="codeKr"
                   emit-value
                   map-options
+                  outlined
                   label="허니문전용등급"
                 />
                 <q-input
@@ -322,10 +340,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-#officeform-drawer {
-  .q-page {
-    display: flex;
-    flex-direction: column;
-  }
+.custom-padding-margin {
+  padding: 5px; /* Adjust as needed */
+  margin: 5px; /* Adjust as needed */
 }
 </style>

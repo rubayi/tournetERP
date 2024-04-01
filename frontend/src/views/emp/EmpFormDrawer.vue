@@ -74,7 +74,7 @@ export default defineComponent({
       checkedAuthUuids.value = newVal;
     }, { deep: true });
 
-    function handleSaveData(data) {
+    async function handleSaveData(data) {
       //사용자 정보 관련 req 데이터
       const dataChanged = JSON.stringify(initialData.value) !== JSON.stringify(edited.value);
 
@@ -95,73 +95,89 @@ export default defineComponent({
       const menuAuthReq = { menuAuthUuids: Array.from(menuAuthUuids), empUuid: edited.value.empUuid };
       const deleteMenuAuthReq = { menuAuthUuids: Array.from(deleteMenuAuthUuids), empUuid: edited.value.empUuid };
 
-      if (!dataChanged
-          && menuAuthReq.menuAuthUuids.length <=0 && deleteMenuAuthReq.menuAuthUuids.length <=0) {
-          alert("변경할 데이터가 없습니다.");
-      } else {
+      const promises = [];
+      if (dataChanged
+          || menuAuthReq.menuAuthUuids.length > 0 || deleteMenuAuthReq.menuAuthUuids.length > 0) {
 
           if (edited.value.empUuid != 0) {
             //사용자 수정
             if (dataChanged) {
-              empTn.actions.updateEmp({
-                  commit: () => {
-                  }, state: {}
-              }, edited.value).then(
-                  (response) => {
-                      alert(response.data.message);
-                  },
-                  (error) => {
-                      console.log("saveEmp failed", error);
-                  }
+              promises.push(
+                empTn.actions.updateEmp({
+                    commit: () => {
+                    }, state: {}
+                }, edited.value).then(
+                    (response) => {
+                        alert(response.data.message);
+                    },
+                    (error) => {
+                        console.log("saveEmp failed", error);
+                    }
+                )
               );
             }
           } else {
             //사용자 등록
-            auth.actions.register({
-                commit: () => {
-                }, state: {}
-            }, edited.value).then(
-                (response) => {
+            promises.push(
+              auth.actions.register({
+                  commit: () => {
+                  }, state: {}
+              }, edited.value).then(
+                  (response) => {
                     alert(response.message);
-                },
-                (error) => {
-                    console.log("saveEmp failed", error);
-                }
+                  },
+                  (error) => {
+                      console.log("saveEmp failed", error);
+                  }
+              )
             );
           }
 
           if (menuAuthReq.menuAuthUuids.length > 0) {
               // Call updateEmpAuth method
-              empMenuAuth.actions.updateEmpAuth({
-                  commit: () => {
-                  }, state: {}
-              }, menuAuthReq).then(
-                  (response) => {
+              promises.push(
+                empMenuAuth.actions.updateEmpAuth({
+                    commit: () => {
+                    }, state: {}
+                }, menuAuthReq).then(
+                    (response) => {
                       alert(response.data.message);
-                  },
-                  (error) => {
+                    },
+                    (error) => {
                       console.log("saveEmp failed", error);
-                  }
+                    }
+                )
               );
           }
 
           if (deleteMenuAuthReq.menuAuthUuids.length > 0) {
-              empMenuAuth.actions.deleteEmpAuth({
-                  commit: () => {
-                  }, state: {}
-              }, deleteMenuAuthReq).then(
-                  (response) => {
+              promises.push(
+                empMenuAuth.actions.deleteEmpAuth({
+                    commit: () => {
+                    }, state: {}
+                }, deleteMenuAuthReq).then(
+                    (response) => {
                       alert(response.data.message);
-                  },
-                  (error) => {
+                    },
+                    (error) => {
                       console.log("saveEmp failed", error);
 
-                  }
+                    }
+                )
               );
-
           }
-        //Close Drawer
-        //emitCloseDrawer();
+
+          try {
+              await Promise.all(promises);
+              // Emit the event after all promises have resolved
+              emitCloseDrawer();
+          } catch (error) {
+              console.error("One or more promises failed:", error);
+              // Handle error if necessary
+          }
+
+      } else {
+        alert("변경할 데이터가 없습니다.");
       }
     }
     function getAuthList() {
@@ -199,7 +215,7 @@ export default defineComponent({
 
     function emitCloseDrawer() {
       emit("update:openDrawer", false);
-      emit("drawer-closed");
+      emit("dataSaved");
     }
 
     function resetForm() {
@@ -226,7 +242,7 @@ export default defineComponent({
       empMunuAuthList,
       munuAuthList,
       munuMax,
-      checkedAuthUuids
+      checkedAuthUuids,
     };
   },
 

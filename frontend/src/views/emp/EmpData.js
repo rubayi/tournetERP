@@ -21,4 +21,5 @@ export const initialData = {
     empZip: "",
     empTitle: "",
     empRole: "",
+    estDate: "",
 };

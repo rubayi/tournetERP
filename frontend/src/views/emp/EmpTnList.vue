@@ -70,7 +70,7 @@
         :dataVal="edited"
         :on-close-click="closeAction"
         @update:openDrawer="openDrawer = $event"
-        @drawer-closed="searchEmpList"
+        @dataSaved="handlePageChange"
       />
     </q-page>
   </div>
@@ -107,9 +107,9 @@ export default {
   data() {
     return {
       //S: Paging SET
-      page: 1, //현재페이지
-      showPage: 5, //표시할 페이지 개수
-      count: 10, //보여줄 row 개수
+      // page: 1, //현재페이지
+      // showPage: 5, //표시할 페이지 개수
+      // count: 10, //보여줄 row 개수
       //E: Paging SET
 
       componentKey: 0,
@@ -157,7 +157,7 @@ export default {
       this.openDrawer = !this.openDrawer;
     },
     handlePageChange() {
-      this.searchEmpList();
+      this.onReset();
     },
     searchEmpList() {
       if (this.searchIdx === "사용자명") {
@@ -186,17 +186,17 @@ export default {
         empKor: this.empKor,
         empEng: this.empEng,
         username: this.username,
-        page: this.page - 1 < 0 ? 0 : this.page - 1,
-        size: this.count,
+        // page: this.page - 1 < 0 ? 0 : this.page - 1,
+        // size: this.count,
       };
       this.$store.dispatch(`empTn/searchEmpList`, searchReq).then(
         (emps) => {
           this.emps = emps.selectedUsers;
-          this.page = emps.currentPage;
-          this.showPage = emps.totalPages;
+          console.log(emps.selectedUsers);
+          // this.page = emps.currentPage;
+          // this.showPage = emps.totalPages;
         },
         (error) => {
-          console.log("searchEmpList failed", error);
           if (error.response && error.response.status === 403) {
             EventBus.dispatch("logout");
           }

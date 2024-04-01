@@ -21,4 +21,5 @@ export interface EmpData {
     empZip: string| null;
     empTitle: string| null;
     empRole: string| null;
+    estDate: string| null;
 }
