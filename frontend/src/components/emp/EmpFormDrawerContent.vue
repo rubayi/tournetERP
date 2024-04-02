@@ -4,7 +4,7 @@
       <div id="emp-form-drawer-content">
         <q-form v-if="edited">
           <q-card-section class="custom-padding-margin">
-            <div class="row q-col-gutter-sm">
+            <div class="row q-col-gutter-lg">
               <input id="empUuid" v-model="edited.empUuid" hidden />
               <q-input
                 class="col-3"
@@ -14,7 +14,6 @@
                 label="사용자명(username) *"
                 stack-label
                 lazy-rules
-                outlined
                 :rules="[(val) => val != '' || '사용자명을 입력 해 주십시오.']"
               />
               <q-input
@@ -25,7 +24,6 @@
                 v-model="edited.password"
                 label="암호"
                 hint="입력하지 않으면 변경되지 않습니다."
-                outlined
               />
               <q-input
                 v-if="edited.empUuid == 0"
@@ -36,7 +34,6 @@
                 label="암호* "
                 lazy-rules
                 :rules="[(val) => !!val || '암호를 입력 해 주십시오.']"
-                outlined
               />
               <q-input
                 class="col-3"
@@ -45,7 +42,6 @@
                 v-model="edited.empKor"
                 label="이름(한글이름) *"
                 :rules="[(val) => !!val || '한글이름 입력 해 주십시오.']"
-                outlined
               />
               <q-input
                 class="col-3"
@@ -53,7 +49,6 @@
                 id="empEng"
                 v-model="edited.empEng"
                 label="영문이름(Name Eng)"
-                outlined
               />
             </div>
           </q-card-section>
@@ -67,7 +62,7 @@
       <div id="emp-form-drawer-content">
         <q-form v-if="edited">
           <q-card-section class="custom-padding-margin">
-            <div class="row q-col-gutter-sm">
+            <div class="row q-col-gutter-lg">
               <input id="empUuid" v-model="edited.empUuid" hidden />
               <q-select
                 class="col-3"
@@ -78,7 +73,6 @@
                 emit-value
                 map-options
                 label="근무형태"
-                outlined
               />
               <q-select
                 class="col-3"
@@ -89,7 +83,6 @@
                 emit-value
                 map-options
                 label="부서명"
-                outlined
               />
               <q-select
                 class="col-3"
@@ -100,7 +93,6 @@
                 emit-value
                 map-options
                 label="직위"
-                outlined
               />
               <q-select
                 class="col-3"
@@ -111,7 +103,6 @@
                 emit-value
                 map-options
                 label="직책"
-                outlined
               />
               <q-select
                 class="col-4"
@@ -122,7 +113,6 @@
                 emit-value
                 map-options
                 label="재직상태"
-                outlined
               />
               <q-input
                 filled
@@ -182,7 +172,7 @@
             />
           </div>
           <q-card-section class="custom-padding-margin">
-            <div class="row q-col-gutter-sm">
+            <div class="row q-col-gutter-lg">
               <q-input
                 class="col-2"
                 type="text"
@@ -194,7 +184,6 @@
                     (val && val.length > 0) ||
                     '핸드폰 번호를 입력 해 주십시오.',
                 ]"
-                outlined
               />
               <q-input
                 class="col-2"
@@ -202,7 +191,6 @@
                 id="empWorkPhone"
                 v-model="edited.empWorkPhone"
                 label="내선번호(Work Phone) "
-                outlined
               />
               <q-input
                 class="col-2"
@@ -213,7 +201,6 @@
                   (val) =>
                     (val && val.length > 0) || '이메일을 입력 해 주십시오.',
                 ]"
-                outlined
               />
               <q-input
                 class="col-2"
@@ -221,7 +208,6 @@
                 id="empEmailBook"
                 v-model="edited.empEmailBook"
                 label="예약이메일(Email)"
-                outlined
               />
               <q-select
                 class="col-2"
@@ -232,7 +218,6 @@
                 emit-value
                 map-options
                 label="생일타입"
-                outlined
               />
               <q-input
                 class="col-2"
@@ -240,7 +225,6 @@
                 mask="####/##/##"
                 :rules="['date']"
                 label="생일"
-                outlined
               >
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
@@ -270,7 +254,6 @@
                 id="empAddress1"
                 v-model="edited.empAddress1"
                 label="주소1(Address1) "
-                outlined
               />
               <q-input
                 class="col-2"
@@ -279,7 +262,6 @@
                 id="empAddress2"
                 v-model="edited.empAddress2"
                 label="주소2(Address2) "
-                outlined
               />
 
               <q-input
@@ -288,7 +270,6 @@
                 id="empCity"
                 v-model="edited.empCity"
                 label="도시(City) "
-                outlined
               />
               <q-input
                 class="col-2"
@@ -296,7 +277,6 @@
                 id="empState"
                 v-model="edited.empState"
                 label="주/도(State) "
-                outlined
               />
               <q-select
                 class="col-2"
@@ -307,7 +287,6 @@
                 emit-value
                 map-options
                 label="국가(Country)"
-                outlined
               />
               <q-input
                 class="col-2"
@@ -315,7 +294,6 @@
                 id="empZip"
                 v-model="edited.empZip"
                 label="우편번호(Zip)"
-                outlined
               />
             </div>
           </q-card-section>

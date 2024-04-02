@@ -20,8 +20,9 @@
         <q-header class="commonThead text-white" height-hint="98">
           <q-toolbar class="col-12">
             <slot name="header" v-if="onCloseClick" />
-            <q-toolbar-title v-if="!title">
-              <q-icon :name="iconTitle" /> {{ title }}
+            <q-toolbar-title v-if="title">
+              <q-icon :name="iconTitle" />
+              <span class="q-ml-sm small-text">{{ title }}</span>
             </q-toolbar-title>
             <q-btn flat icon="close" round @click="onCloseClick" />
           </q-toolbar>
@@ -136,5 +137,8 @@ export default defineComponent({
 }
 .commonThead {
   background-image: url("src/assets/top_main.png");
+}
+.small-text {
+  font-size: 17px;
 }
 </style>
