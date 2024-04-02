@@ -163,7 +163,7 @@
     <template #content>
       <div id="emp-form-drawer-content">
         <q-form v-if="edited">
-          <div class="row justify-end q-pb-sm q-mr-sm">
+          <div v-if="edited.empUuid" class="row justify-end q-pb-sm q-mr-sm">
             <q-btn
               icon="search"
               label="비상연락처"
@@ -301,10 +301,12 @@
       </div>
     </template>
   </card-comp-design>
-  <drawer-comp
+  <emp-emergency-drawer-content
     :open-drawer="openDrawer"
     :drawer-width="1000"
     :on-close-click="closeAction"
+    v-if="edited && edited.empUuid"
+    :data-val="edited.empUuid"
   />
 </template>
 
@@ -312,14 +314,14 @@
 import { defineComponent, ref, watch } from "vue";
 import { getCommonValue } from "src/utils/common";
 import CardCompDesign from "src/components/common/CardCompDesign.vue";
-import DrawerComp from "src/components/drawers/DrawerComp.vue";
+import EmpEmergencyDrawerContent from "src/components/emp/EmpEmergencyDrawerContent.vue";
 
 export default defineComponent({
   name: "EmpFormDrawerContent",
 
   components: {
     CardCompDesign,
-    DrawerComp,
+    EmpEmergencyDrawerContent,
   },
   props: {
     dataVal: Object,
@@ -381,14 +383,8 @@ export default defineComponent({
       empStatusOptions,
     };
   },
-  data() {
-    return {
-      employer: null,
-    };
-  },
   methods: {
-    openAction(params) {
-      this.emplyer = params.data;
+    openAction() {
       this.openDrawer = !this.openDrawer;
     },
     closeAction() {

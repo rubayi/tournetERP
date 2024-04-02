@@ -28,10 +28,8 @@
 <script>
 import { ref, watch, onMounted } from "vue";
 import { EmpEmergencyFormTableConfig } from "src/views/emp/EmpEmergencyFormTableConfig";
-import { initialData } from "src/store/empemergency.module";
+import { initialData } from "src/views/emp/EmpEmergencyData";
 import TableComp from "src/components/table/TableComp.vue";
-
-import { empEmergency } from "src/store/empemergency.module";
 
 export default {
   name: "EmpEmergencyTnList",
@@ -62,9 +60,7 @@ export default {
       { deep: true }
     );
 
-    onMounted(() => {
-      getAuthList();
-    });
+    onMounted(() => {});
 
     return {
       edited,
