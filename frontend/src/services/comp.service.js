@@ -25,12 +25,14 @@ class CompService {
   }
 
   updateComp(cmpReq) {
-    return api.post(`/comp/updateComp`, cmpReq, { headers: authHeader() });
+    return api.post(`/comp/updateComp`, cmpReq,
+        { headers: {"Content-Type": "multipart/form-data", Authorization: authHeader()} });
     //return api.put(`/comCodes/updateComCode`, cmpReq, { headers: authHeader() });
   }
 
   createComp(cmpReq) {
-    return api.post(`/comp/createComp`, cmpReq, { headers: authHeader() });
+    return api.post(`/comp/createComp`, cmpReq,
+        { headers: {"Content-Type": "multipart/form-data", Authorization: authHeader()} });
     //return api.put(`/comCodes/updateComCode`, cmpReq, { headers: authHeader() });
   }
 }

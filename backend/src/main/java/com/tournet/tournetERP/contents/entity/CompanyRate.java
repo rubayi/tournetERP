@@ -16,7 +16,7 @@ public class CompanyRate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RATE_UUID", nullable = false)
-    private int RateUuid; //등급UUID
+    private int rateUuid; //등급UUID
 
     @Column(name = "RATE_TYPE", nullable = true)
     private String rateType; //구분
@@ -41,16 +41,4 @@ public class CompanyRate {
     public CompanyRate () {
     }
 
-    public CompanyRate (int RateUuid,  String rateType,  String rateApply,
-                        Date createdDt,  int createdBy,  int modifiedBy,
-                        Date modifiedDt   ) {
-        this.RateUuid=RateUuid;
-        this.rateType=rateType;
-        this.rateApply=rateApply;
-        this.createdDt=createdDt;
-        this.createdBy=createdBy;
-        this.modifiedBy=modifiedBy;
-        this.modifiedDt=modifiedDt;
-
-    }
 }

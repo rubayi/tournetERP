@@ -16,7 +16,7 @@ public class CompanyOff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COMPANY_OFF_UUID", nullable = false)
-    private int CompanyOffUuid; //정기휴일UUID
+    private int compOffUuid; //정기휴일UUID
 
     @Column(name = "DAY_TYPE", nullable = true)
     private String dayType; //요일
@@ -27,12 +27,5 @@ public class CompanyOff {
     public CompanyOff () {
     }
 
-    public CompanyOff (          int CompanyOffUuid,  String dayType,  String offYn
-    ) {
-        this.CompanyOffUuid=CompanyOffUuid;
-        this.dayType=dayType;
-        this.offYn=offYn;
-
-    }
 }
 

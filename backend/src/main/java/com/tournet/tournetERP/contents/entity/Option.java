@@ -16,22 +16,22 @@ public class Option {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "OPTION_UUID", nullable = false)
-    private int OptionUuid; //추가비용UUID
+    private int optUuid; //추가비용UUID
 
     @Column(name = "OPTION_KOR", nullable = true)
-    private String optionKor; //추가비용명KOR
+    private String optKor; //추가비용명KOR
 
     @Column(name = "OPTION_ENG", nullable = true)
-    private String optionEng; //추가비용명ENG
+    private String optEng; //추가비용명ENG
 
     @Column(name = "OPTION_PRICE", nullable = true)
-    private String optionPrice; //원가
+    private String optPrice; //원가
 
     @Column(name = "OPTION_NET", nullable = true)
-    private String optionNet; //넷가
+    private String optNet; //넷가
 
     @Column(name = "OPTION_TAX", nullable = true)
-    private String optionTax; //세금
+    private String optTax; //세금
 
     @Column(name = "TAX_HOW", nullable = true)
     private String taxHow; //세금적용방법
@@ -59,26 +59,6 @@ public class Option {
     public Option () {
     }
 
-    public Option (          int OptionUuid,  String optionKor,  String optionEng,
-                             String optionPrice,  String optionNet,  String optionTax,
-                             String taxHow,  Date beginDt,  Date endDt,
-                             Date createdDt,  int createdBy,  int modifiedBy,
-                             Date modifiedDt   ) {
-        this.OptionUuid=OptionUuid;
-        this.optionKor=optionKor;
-        this.optionEng=optionEng;
-        this.optionPrice=optionPrice;
-        this.optionNet=optionNet;
-        this.optionTax=optionTax;
-        this.taxHow=taxHow;
-        this.beginDt=beginDt;
-        this.endDt=endDt;
-        this.createdDt=createdDt;
-        this.createdBy=createdBy;
-        this.modifiedBy=modifiedBy;
-        this.modifiedDt=modifiedDt;
-
-    }
 }
 
 

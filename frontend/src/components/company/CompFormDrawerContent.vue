@@ -210,13 +210,15 @@
                     </q-icon>
                   </template>
                 </q-input>
-                <q-input
-                  class="col-4"
-                  type="text"
-                  id="logoFile"
-                  v-model="edited.logoFile"
-                  label="로고"
+                <div class="q-pa-md">
+                <q-uploader
+                    v-model="edited.logoFile"
+                    label="로고"
+                    style="max-width: 300px"
+                    hide-upload-btn="true"
                 />
+                </div>
+                {{edited.logoFile}} ---
                 <q-input
                   class="col-3"
                   v-model="edited.estDate"

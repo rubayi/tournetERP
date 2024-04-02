@@ -1,5 +1,6 @@
 package com.tournet.tournetERP.contents.entity;
 
+import com.tournet.tournetERP.auth.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,7 +17,7 @@ public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "HOTEL_UUID", nullable = false)
-    private int HotelUuid; //호텔정보UUID
+    private int hotelUuid; //호텔정보UUID
 
     @Column(name = "CHILD_AGE_BREAKFAST", nullable = true)
     private String childAgeBreakfast; //조식어린이나이
@@ -34,11 +35,15 @@ public class Hotel {
     @Column(name = "CREATED_DT", updatable = false)
     private Date createdDt; //생성일
 
-    @Column(name = "CREATED_BY", nullable = true)
-    private int createdBy; //생성자
+    @OneToOne
+    @JoinColumn(name = "CREATED_BY", referencedColumnName = "EMP_UUID",
+            updatable = false)
+    private User createdUser;
 
-    @Column(name = "MODIFIED_BY", nullable = true)
-    private int modifiedBy; //최종수정자
+    @OneToOne
+    @JoinColumn(name = "MODIFIED_BY", referencedColumnName = "EMP_UUID",
+            updatable = false)
+    private User modifiedUser;
 
     @LastModifiedDate
     @Column(name = "MODIFIED_DT", nullable = true)
@@ -47,20 +52,5 @@ public class Hotel {
     public Hotel () {
     }
 
-    public Hotel (int HotelUuid,  String childAgeBreakfast,  String checkinTime,
-                  String checkoutTime,  String resortFee,  Date createdDt,
-                  int createdBy,  int modifiedBy,  Date modifiedDt
-    ) {
-        this.HotelUuid=HotelUuid;
-        this.childAgeBreakfast=childAgeBreakfast;
-        this.checkinTime=checkinTime;
-        this.checkoutTime=checkoutTime;
-        this.resortFee=resortFee;
-        this.createdDt=createdDt;
-        this.createdBy=createdBy;
-        this.modifiedBy=modifiedBy;
-        this.modifiedDt=modifiedDt;
-
-    }
 }
 

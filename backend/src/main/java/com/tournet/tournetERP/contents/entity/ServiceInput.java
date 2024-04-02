@@ -16,23 +16,16 @@ public class ServiceInput {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SERVICE_INPUT_UUID", nullable = false)
-    private int ServiceInputUuid; //입력내용UUID
+    private int servInputUuid; //입력내용UUID
 
     @Column(name = "SERVICE_INPUT_KOR", nullable = true)
-    private String serviceInputKor; //입력항목KOR
+    private String servInputKor; //입력항목KOR
 
     @Column(name = "SERVICE_INPUT_ENG", nullable = true)
-    private String serviceInputEng; //입력항목ENG
+    private String servInputEng; //입력항목ENG
 
     public ServiceInput () {
     }
 
-    public ServiceInput (int ServiceInputUuid,  String serviceInputKor,  String serviceInputEng
-    ) {
-        this.ServiceInputUuid=ServiceInputUuid;
-        this.serviceInputKor=serviceInputKor;
-        this.serviceInputEng=serviceInputEng;
-
-    }
 }
 

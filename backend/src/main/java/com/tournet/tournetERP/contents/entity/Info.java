@@ -16,7 +16,7 @@ public class Info {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "INFO_UUID", nullable = false)
-    private int InfoUuid; //안내UUID
+    private int infoUuid; //안내UUID
 
     @Column(name = "INFO_TYPE", nullable = true)
     private String infoType; //구분
@@ -53,24 +53,6 @@ public class Info {
     public Info () {
     }
 
-    public Info (          int InfoUuid,  String infoType,  String contentKor,
-                           String contentEng,  Date applyBeginDt,  Date applyEndDt,
-                           String applyStandard,  Date createdDt,  int createdBy,
-                           int modifiedBy,  Date modifiedDt
-    ) {
-        this.InfoUuid=InfoUuid;
-        this.infoType=infoType;
-        this.contentKor=contentKor;
-        this.contentEng=contentEng;
-        this.applyBeginDt=applyBeginDt;
-        this.applyEndDt=applyEndDt;
-        this.applyStandard=applyStandard;
-        this.createdDt=createdDt;
-        this.createdBy=createdBy;
-        this.modifiedBy=modifiedBy;
-        this.modifiedDt=modifiedDt;
-
-    }
 }
 
 

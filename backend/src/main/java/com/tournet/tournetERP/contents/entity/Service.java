@@ -16,7 +16,7 @@ public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SERVICE_UUID", nullable = false)
-    private int ServiceUuid; //서비스UUID
+    private int serviceUuid; //서비스UUID
 
     @Column(name = "SERVICE_NAME_KOR", nullable = true)
     private String serviceNameKor; //서비스명KOR
@@ -86,38 +86,5 @@ public class Service {
     public Service () {
     }
 
-    public Service (int ServiceUuid,  String serviceNameKor,  String serviceNameEng,
-                    String serviceColor,  String pickupYn,  String servicePrice,
-                    String mealYn,  int adults,  int children,
-                    int maxPeople,  Date beginDt,  Date endDt,
-                    Date bookBeginDt,  Date bookEndDt,  int showingOrder,
-                    String api,  String departureArea,  String returnArea,
-                    Date createdDt,  int createdBy,  int modifiedBy,
-                    Date modifiedDt   ) {
-
-        this.ServiceUuid=ServiceUuid;
-        this.serviceNameKor=serviceNameKor;
-        this.serviceNameEng=serviceNameEng;
-        this.serviceColor=serviceColor;
-        this.pickupYn=pickupYn;
-        this.servicePrice=servicePrice;
-        this.mealYn=mealYn;
-        this.adults=adults;
-        this.children=children;
-        this.maxPeople=maxPeople;
-        this.beginDt=beginDt;
-        this.endDt=endDt;
-        this.bookBeginDt=bookBeginDt;
-        this.bookEndDt=bookEndDt;
-        this.showingOrder=showingOrder;
-        this.api=api;
-        this.departureArea=departureArea;
-        this.returnArea=returnArea;
-        this.createdDt=createdDt;
-        this.createdBy=createdBy;
-        this.modifiedBy=modifiedBy;
-        this.modifiedDt=modifiedDt;
-
-    }
 }
 

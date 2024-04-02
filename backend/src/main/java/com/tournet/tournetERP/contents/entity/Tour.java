@@ -16,7 +16,7 @@ public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TOUR_UUID", nullable = false)
-    private int TourUuid; //투어UUID
+    private int tourUuid; //투어UUID
 
     @Column(name = "TOUR_CATEGORY", nullable = true)
     private String tourCategory; //투어구분
@@ -59,25 +59,5 @@ public class Tour {
     public Tour () {
     }
 
-    public Tour (int TourUuid,  String tourCategory,  String companyArea,
-                 String tourKor,  String tourEng,  String prepaidMethod,
-                 String minAge,  String childAge,  String youthAge,
-                 Date createdDt,  int createdBy,  Date modifiedDt,
-                 int modifiedBy   ) {
-        this.TourUuid=TourUuid;
-        this.tourCategory=tourCategory;
-        this.companyArea=companyArea;
-        this.tourKor=tourKor;
-        this.tourEng=tourEng;
-        this.prepaidMethod=prepaidMethod;
-        this.minAge=minAge;
-        this.childAge=childAge;
-        this.youthAge=youthAge;
-        this.createdDt=createdDt;
-        this.createdBy=createdBy;
-        this.modifiedDt=modifiedDt;
-        this.modifiedBy=modifiedBy;
-
-    }
 }
 

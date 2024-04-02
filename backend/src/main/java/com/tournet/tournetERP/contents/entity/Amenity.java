@@ -13,7 +13,7 @@ public class Amenity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "AMENITY_UUID", nullable = false)
-    private int AmenityUuid; //시설정보UUID
+    private int amenityUuid; //시설정보UUID
 
     @Column(name = "AMENITY_KOR", nullable = true)
     private String amenityKor; //시설명KOR
@@ -30,15 +30,5 @@ public class Amenity {
     public Amenity () {
     }
 
-    public Amenity (          int AmenityUuid,  String amenityKor,  String amenityEng,
-                              String amenityDescKor,  String amenityDescEng
-    ) {
-        this.AmenityUuid=AmenityUuid;
-        this.amenityKor=amenityKor;
-        this.amenityEng=amenityEng;
-        this.amenityDescKor=amenityDescKor;
-        this.amenityDescEng=amenityDescEng;
-
-    }
 }
 

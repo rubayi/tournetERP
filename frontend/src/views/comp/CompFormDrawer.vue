@@ -67,7 +67,7 @@ export default defineComponent({
       checkedContactUuids.value = newVal;
     }, { deep: true });
 
-    function handleSaveData(data) {
+    async function handleSaveData(data) {
       //업체 정보 관련 req 데이터
       const dataChanged = JSON.stringify(initialData.value) !== JSON.stringify(edited.value);
 
@@ -77,6 +77,9 @@ export default defineComponent({
       // Create contactReq object with contactUuids Set and compUuid
       const contactReq = { contactUuids: Array.from(contactUuids), compUuid: edited.value.compUuid };
 
+      const promises = [];
+
+      console.log(edited.value);
       if (!dataChanged
           && contactReq.contactUuids.length <=0) {
           alert("변경할 데이터가 없습니다.");
@@ -85,6 +88,7 @@ export default defineComponent({
           if (edited.value.compUuid != 0) {
             //업체수정
             if (dataChanged) {
+              promises.push(
               compTn.actions.updateComp({
                   commit: () => {
                   }, state: {}
@@ -95,11 +99,11 @@ export default defineComponent({
                   (error) => {
                       console.log("saveComp failed", error);
                   }
-              );
+              ));
             }
           } else {
-            console.log(edited.value);
             //업체 등록
+            promises.push(
             compTn.actions.createComp({
                 commit: () => {
                 }, state: {}
@@ -110,11 +114,12 @@ export default defineComponent({
                 (error) => {
                     console.log("saveComp failed", error);
                 }
-            );
+            ));
           }
 
           if (contactReq.contactUuids.length > 0) {
               // Call updateContact method
+            promises.push(
               contactTn.actions.createContact({
                   commit: () => {
                   }, state: {}
@@ -125,11 +130,17 @@ export default defineComponent({
                   (error) => {
                       console.log("saveComp failed", error);
                   }
-              );
+              ));
           }
-
-        //Close Drawer
-        //emitCloseDrawer();
+          //Action after update,delete
+          try {
+            await Promise.all(promises);
+            // Emit the event after all promises have resolved
+            emitCloseDrawer();
+          } catch (error) {
+            console.error("One or more promises failed:", error);
+            // Handle error if necessary
+          }
       }
     }
     function getContactList() {

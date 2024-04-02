@@ -13,7 +13,7 @@ public class TourContact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CONTACT_UUID", nullable = false)
-    private int ContactUuid; //연락처UUID
+    private int contactUuid; //연락처UUID
 
     @Column(name = "CONTACT_TYPE", nullable = true)
     private String contactType; //유형
@@ -27,13 +27,5 @@ public class TourContact {
     public TourContact () {
     }
 
-    public TourContact (          int ContactUuid,  String contactType,  String repYn,
-                                  String contactCont   ) {
-        this.ContactUuid=ContactUuid;
-        this.contactType=contactType;
-        this.repYn=repYn;
-        this.contactCont=contactCont;
-
-    }
 }
 
