@@ -3,6 +3,20 @@
     <template #content>
       <div id="emp-form-drawer-menu-content">
         <q-scroll-area style="height: 600px; min-width: 1340px">
+          <div class="row justify-end">
+            <q-btn
+              class="q-mr-md"
+              label="전체선택"
+              @click="selectAll"
+              style="color: darkgreen"
+            />
+            <q-btn
+              class="q-mr-md"
+              label="선택취소"
+              @click="unselectAll"
+              style="color: darkred"
+            />
+          </div>
           <div class="grid-container">
             <!-- Loop through each group -->
             <template v-for="(groupIndex, maxIdx) in menuMax" :key="maxIdx">
@@ -17,7 +31,7 @@
                 <!-- Show a card-section for each group -->
                 <q-card-section :key="'group_' + groupIndex">
                   <q-form>
-                    <q-card-section>
+                    <q-card-section class="q-pa-none">
                       <div class="q-tab-panels q-panel-parent">
                         <div class="q-panel scroll">
                           <q-item-label
@@ -100,6 +114,20 @@ export default defineComponent({
       { deep: true }
     );
 
+    function selectAll() {
+      authList.value.forEach((item) => {
+        item.authYn = true;
+        handleCheckboxChange(item);
+      });
+    }
+
+    function unselectAll() {
+      authList.value.forEach((item) => {
+        item.authYn = false;
+        handleCheckboxChange(item);
+      });
+    }
+
     function handleCheckboxChange(authItem) {
       authItem.authYn = !!authItem.authYn; // Toggle the authYn property
       const existingIndex = lcReqList.value.findIndex(
@@ -143,6 +171,8 @@ export default defineComponent({
     return {
       authList,
       handleCheckboxChange,
+      selectAll,
+      unselectAll,
     };
   },
 });

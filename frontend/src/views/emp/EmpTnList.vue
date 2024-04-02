@@ -192,7 +192,6 @@ export default {
       this.$store.dispatch(`empTn/searchEmpList`, searchReq).then(
         (emps) => {
           this.emps = emps.selectedUsers;
-          console.log(emps.selectedUsers);
           // this.page = emps.currentPage;
           // this.showPage = emps.totalPages;
         },
