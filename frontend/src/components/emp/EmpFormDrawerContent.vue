@@ -173,6 +173,14 @@
     <template #content>
       <div id="emp-form-drawer-content">
         <q-form v-if="edited">
+          <div class="row justify-end q-pb-sm q-mr-sm">
+            <q-btn
+              icon="search"
+              label="비상연락처"
+              style="color: darkgreen"
+              @click="openAction"
+            />
+          </div>
           <q-card-section class="custom-padding-margin">
             <div class="row q-col-gutter-sm">
               <q-input
@@ -315,18 +323,25 @@
       </div>
     </template>
   </card-comp-design>
+  <drawer-comp
+    :open-drawer="openDrawer"
+    :drawer-width="1000"
+    :on-close-click="closeAction"
+  />
 </template>
 
 <script>
 import { defineComponent, ref, watch } from "vue";
 import { getCommonValue } from "src/utils/common";
 import CardCompDesign from "src/components/common/CardCompDesign.vue";
+import DrawerComp from "src/components/drawers/DrawerComp.vue";
 
 export default defineComponent({
   name: "EmpFormDrawerContent",
 
   components: {
     CardCompDesign,
+    DrawerComp,
   },
   props: {
     dataVal: Object,
@@ -377,6 +392,7 @@ export default defineComponent({
     getCommonCode({ upCode: 15, codeLvl: "1" }, empStatusOptions);
 
     return {
+      openDrawer: ref(false),
       edited,
       divOptions,
       workOptions,
@@ -387,11 +403,24 @@ export default defineComponent({
       empStatusOptions,
     };
   },
+  data() {
+    return {
+      employer: null,
+    };
+  },
+  methods: {
+    openAction(params) {
+      this.emplyer = params.data;
+      this.openDrawer = !this.openDrawer;
+    },
+    closeAction() {
+      this.openDrawer = !this.openDrawer;
+    },
+  },
 });
 </script>
 
 <style lang="scss">
-
 .custom-padding-margin {
   padding: 5px; /* Adjust as needed */
   margin: 5px; /* Adjust as needed */

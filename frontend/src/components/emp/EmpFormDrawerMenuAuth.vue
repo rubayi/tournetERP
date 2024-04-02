@@ -2,7 +2,7 @@
   <card-comp-design class="q-mt-sm" title="직원 권한 관리">
     <template #content>
       <div id="emp-form-drawer-menu-content">
-        <q-scroll-area style="height: 600px; min-width: 1340px">
+        <q-scroll-area style="height: 600px; min-width: 75%">
           <div class="row justify-end">
             <q-btn
               class="q-mr-md"

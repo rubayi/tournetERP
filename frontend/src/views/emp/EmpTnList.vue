@@ -66,7 +66,7 @@
       </div>
       <emp-form-drawer
         :open-drawer="openDrawer"
-        :drawer-width="1400"
+        :drawer-width="drawerWidth"
         :dataVal="edited"
         :on-close-click="closeAction"
         @update:openDrawer="openDrawer = $event"
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { EmpFormTableConfig } from "src/views/emp/EmpFormTableConfig";
 import { initialData } from "src/views/emp/EmpData";
 import { getCommonValue } from "src/utils/common.js"; // 공통코드 값
@@ -97,11 +97,20 @@ export default {
     EmpFormDrawer,
   },
   setup() {
+    const drawerWidth = ref(0);
+    onMounted(() => {
+      drawerWidth.value = window.innerWidth * 0.8;
+      window.addEventListener("resize", () => {
+        drawerWidth.value = window.innerWidth * 0.8;
+      });
+    });
+
     return {
       openDrawer: ref(false),
       searchIdx: ref(null),
       bar: ref(false),
       options: ["사용자명", "직원명", "직원명(영문)", "상태"],
+      drawerWidth,
     };
   },
   data() {

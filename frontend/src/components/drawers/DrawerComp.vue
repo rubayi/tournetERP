@@ -127,6 +127,7 @@ export default defineComponent({
 #drawer-comp {
   .q-drawer-container > .q-drawer {
     top: 0 !important;
+    bottom: 0 !important;
   }
 }
 .changes-indicator {
