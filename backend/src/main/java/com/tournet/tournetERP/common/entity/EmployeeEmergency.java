@@ -25,6 +25,9 @@ public class EmployeeEmergency {
     @Column(name = "EMERGENCY_UUID", nullable = false)
     private int emerUuid; //비상연락망UUID
 
+    @Column(name = "EMP_UUID", nullable = false)
+    private long empUuid; //직원UUID
+
     @Column(name = "EMER_NAME", nullable = true)
     private String emerName; //이름
 
