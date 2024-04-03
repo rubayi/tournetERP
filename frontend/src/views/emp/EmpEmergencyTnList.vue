@@ -1,6 +1,5 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <component-to-re-render :key="componentKey" />
   <div id="officeform">
     <q-page class="q-pa-md">
       <div class="row justify-end q-pb-sm q-mr-sm">
@@ -66,7 +65,6 @@ export default {
   data() {
     return {
       colDefs: EmpEmergencyFormTableConfig.columns(),
-      componentKey: 0,
       emergency: [],
       edited: initialData,
       initEdited: initialData,
@@ -82,6 +80,11 @@ export default {
     closeAction() {
       this.edited = initialData;
       this.eOpenDrawer = !this.eOpenDrawer;
+    },
+
+    openAction(params) {
+      this.edited = params.data;
+      this.eOpenDrawer = true;
     },
 
     handlePageChange() {
