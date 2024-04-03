@@ -44,7 +44,7 @@ export default {
     EmpEmergencyEditDrawer,
   },
   props: {
-    dataVal: Object,
+    dataVal: Number,
     onCloseClick: Function,
   },
   setup(props) {

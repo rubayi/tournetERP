@@ -26,7 +26,7 @@ export default defineComponent({
   props: {
     openDrawer: Boolean,
     drawerWidth: Number,
-    dataVal: Object,
+    dataVal: Number,
     onCloseClick: Function,
   },
   setup(props) {

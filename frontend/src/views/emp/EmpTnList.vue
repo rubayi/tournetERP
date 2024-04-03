@@ -1,5 +1,4 @@
 <template>
-  <component-to-re-render :key="componentKey" />
   <div id="officeform">
     <q-page class="q-pa-md">
       <div class="row">
@@ -121,7 +120,6 @@ export default {
       // count: 10, //보여줄 row 개수
       //E: Paging SET
 
-      componentKey: 0,
       empStatus: "",
       empKor: "",
       empEng: "",

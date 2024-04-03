@@ -63,7 +63,6 @@
         <q-form v-if="edited">
           <q-card-section class="custom-padding-margin">
             <div class="row q-col-gutter-lg">
-              <input id="empUuid" v-model="edited.empUuid" hidden />
               <q-select
                 class="col-3"
                 v-model="edited.empWorkType"
