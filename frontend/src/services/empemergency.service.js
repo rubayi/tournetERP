@@ -11,13 +11,13 @@ class EmpEmergencyService {
             });
     }
 
-    // getEmpEmergencyById(id) {
-    //     return api
-    //         .get(`/employeeEmergency/searchEmpEmergencyBy/${id}`, { headers: authHeader() })
-    //         .then((response) => {
-    //             return response.data;
-    //         });
-    // }
+    selectEmployeeEmergencyByEmpUuid(id) {
+        return api
+            .get(`/employeeEmergency/selectEmployeeEmergencyByEmpUuid/${id}`, { headers: authHeader() })
+            .then((response) => {
+                return response.data;
+            });
+    }
 
     deleteEmpEmergency(id) {
         return api

@@ -1,8 +1,15 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
+  <component-to-re-render :key="componentKey" />
   <div id="officeform">
     <q-page class="q-pa-md">
       <div class="row justify-end q-pb-sm q-mr-sm">
-        <q-btn icon="add" label="연락처" style="color: darkgreen" />
+        <q-btn
+          icon="add"
+          label="연락처"
+          style="color: darkgreen"
+          @click="createAction"
+        />
       </div>
       <div id="officeform-grid-container" class="row">
         <table-comp
@@ -13,68 +20,91 @@
           :on-cell-clicked="openAction"
         />
       </div>
-      <!-- <emp-form-drawer
-        :open-drawer="openDrawer"
-        :drawer-width="drawerWidth"
+      <emp-emergency-edit-drawer
+        :open-drawer="eOpenDrawer"
+        :drawer-width="1000"
         :dataVal="edited"
         :on-close-click="closeAction"
-        @update:openDrawer="openDrawer = $event"
         @dataSaved="handlePageChange"
-      /> -->
+      />
     </q-page>
   </div>
 </template>
 
 <script>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch } from "vue";
 import { EmpEmergencyFormTableConfig } from "src/views/emp/EmpEmergencyFormTableConfig";
 import { initialData } from "src/views/emp/EmpEmergencyData";
 import TableComp from "src/components/table/TableComp.vue";
+import EmpEmergencyEditDrawer from "src/components/emp/EmpEmergencyEditDrawer.vue";
 
 export default {
   name: "EmpEmergencyTnList",
   components: {
     TableComp,
+    EmpEmergencyEditDrawer,
   },
   props: {
-    openDrawer: Boolean,
-    drawerWidth: Number,
     dataVal: Object,
     onCloseClick: Function,
   },
-  emits: ["update:dataVal", "update:openDrawer", "update:changeFlag"],
-  setup(props, { emit }) {
-    const edited = ref(props.dataVal);
-    const eOpenDrawer = ref(props.openDrawer);
-    const munuAuthList = ref([]);
-    const empMunuAuthList = ref([]);
-    const initialData = ref(null);
+  setup(props) {
+    const empUuid = ref(props.dataVal);
 
     watch(
       () => props.dataVal,
       (newVal) => {
-        edited.value = { ...newVal };
-        initialData.value = { ...newVal };
-        getAuthListByEmp();
+        empUuid.value = { ...newVal };
       },
       { deep: true }
     );
 
-    onMounted(() => {});
-
     return {
-      edited,
-      eOpenDrawer,
-      empMunuAuthList,
-      munuAuthList,
+      empUuid,
     };
   },
   data() {
     return {
       colDefs: EmpEmergencyFormTableConfig.columns(),
+      componentKey: 0,
       emergency: [],
+      edited: initialData,
       initEdited: initialData,
+      eOpenDrawer: false,
     };
+  },
+  methods: {
+    createAction() {
+      this.edited = initialData;
+      this.eOpenDrawer = true;
+    },
+
+    closeAction() {
+      this.edited = initialData;
+      this.eOpenDrawer = !this.eOpenDrawer;
+    },
+
+    handlePageChange() {
+      this.onReset();
+    },
+
+    searchEmergency() {
+      this.$store
+        .dispatch(
+          `empEmergencyTn/selectEmployeeEmergencyByEmpUuid`,
+          this.empUuid
+        )
+        .then((resMap) => {
+          this.emergency = resMap.data;
+        });
+    },
+    onReset() {
+      this.emergency = [];
+      this.searchEmergency();
+    },
+  },
+  created() {
+    this.searchEmergency();
   },
 };
 </script>

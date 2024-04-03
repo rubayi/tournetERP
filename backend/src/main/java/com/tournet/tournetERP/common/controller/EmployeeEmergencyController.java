@@ -41,7 +41,8 @@ public class EmployeeEmergencyController {
     EmployeeEmergencyRepository employeeEmergencyRepository;
 
     @PostMapping("/selectEmployeeEmergencys")
-    public ResponseEntity<Map<String, Object>> selectEmployeeEmergencys (@RequestBody EmployeeEmergency employeeEmergencyReq) {
+    public ResponseEntity<Map<String, Object>> selectEmployeeEmergencys(
+            @RequestBody EmployeeEmergency employeeEmergencyReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
@@ -52,6 +53,15 @@ public class EmployeeEmergencyController {
         return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
+    @GetMapping("/selectEmployeeEmergencyByEmpUuid/{id}")
+    public ResponseEntity<Map<String, Object>> selectEmployeeEmergencyByEmpUuid(@PathVariable int id) {
+
+        List<EmployeeEmergency> currentEmployeeEmergency = employeeEmergencyRepository.findByEmpUuid(id);
+
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("employeeEmergency", currentEmployeeEmergency);
+        return new ResponseEntity<>(resMap, HttpStatus.OK);
+    }
 
     @Transactional
     @PostMapping("/createEmployeeEmergency")

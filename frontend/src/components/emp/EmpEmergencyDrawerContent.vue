@@ -29,12 +29,9 @@ export default defineComponent({
     dataVal: Object,
     onCloseClick: Function,
   },
-  emits: ["update:dataVal", "update:openDrawer", "update:changeFlag"],
-  setup(props, { emit }) {
+  setup(props) {
     const edited = ref(props.dataVal);
     const eOpenDrawer = ref(props.openDrawer);
-
-    const updateEdited = {};
     const initEdited = {};
 
     watch(

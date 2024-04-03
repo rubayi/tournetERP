@@ -28,6 +28,8 @@ public interface EmployeeEmergencyRepository extends JpaRepository<EmployeeEmerg
 
     Optional<EmployeeEmergency> findByEmerUuid(int id);
 
+    List<EmployeeEmergency> findByEmpUuid(int id);
+    
     @Modifying
     void deleteByEmerUuid(@Param("id") int emerUuid);
 

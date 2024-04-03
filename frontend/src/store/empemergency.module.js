@@ -30,18 +30,18 @@ export const empEmergencyTn = {
             );
         },
 
-        // getEmpEmergencyById({ commit }, id) {
-        //     return EmpEmergencyService.getEmpEmergencyById(id).then(
-        //         data => {
-        //             commit('searchEmpEmergency', data);
-        //             return Promise.resolve(data);
-        //         },
-        //         error => {
-        //             commit('empEmergencyError');
-        //             return Promise.reject(error);
-        //         }
-        //     );
-        // },
+        selectEmployeeEmergencyByEmpUuid({ commit }, id) {
+            return EmpEmergencyService.selectEmployeeEmergencyByEmpUuid(id).then(
+                data => {
+                    commit('getEmpEmergency', data);
+                    return Promise.resolve(data);
+                },
+                error => {
+                    commit('empEmergencyError');
+                    return Promise.reject(error);
+                }
+            );
+        },
 
         deleteEmpEmergency({ commit }, id) {
             return EmpEmergencyService.deleteEmpEmergency(id).then(
@@ -84,6 +84,9 @@ export const empEmergencyTn = {
     },
     mutations: {
         searchEmpEmergencys(state, data) {
+            state.empEmergency = data;
+        },
+        getEmpEmergency(state, data) {
             state.empEmergency = data;
         },
         deleteEmpEmergency(state, data) {
