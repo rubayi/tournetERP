@@ -5,11 +5,9 @@
       :drawerWidth="drawerWidth"
       :on-close-click="onCloseClick"
       :iconTitle="'health_and_safety'"
-      :title="edited.empUuid ? '직원 수정' : '직원 등록'"
+      :title="'비상연락처'"
     >
-      <div class="flex flex-grow-1 q-pa-md">
-        <emp-emergency-tn-list :data-val="edited" />
-      </div>
+      <emp-emergency-tn-list :data-val="edited" />
     </drawer-comp>
   </div>
 </template>
