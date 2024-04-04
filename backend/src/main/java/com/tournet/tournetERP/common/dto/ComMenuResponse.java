@@ -1,7 +1,6 @@
 package com.tournet.tournetERP.common.dto;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Please explain the class!!

@@ -3,9 +3,9 @@ import authHeader from "src/services/auth-header";
 
 class EmpEmergencyService {
 
-    searchEmpEmergencyList(cmpReq) {
+    searchEmpEmergencyList(empEmergencyReq) {
         return api
-            .post(`/employeeEmergency/selectEmployeeEmergencys`, cmpReq, { headers: authHeader() })
+            .post(`/employeeEmergency/selectEmployeeEmergencys`, empEmergencyReq, { headers: authHeader() })
             .then((response) => {
                 return response.data;
             });
@@ -24,12 +24,12 @@ class EmpEmergencyService {
             .delete(`/employeeEmergency/deleteemployeeEmergency/${id}`, { headers: authHeader() });
     }
 
-    updateEmpEmergency(cmpReq) {
-        return api.post(`/employeeEmergency/updateEmployeeEmergency`, cmpReq, { headers: authHeader() });
+    updateEmpEmergency(empEmergencyReq) {
+        return api.post(`/employeeEmergency/updateEmployeeEmergency`, empEmergencyReq, { headers: authHeader() });
     }
 
-    createEmpEmergency(cmpReq) {
-        return api.post(`/employeeEmergency/createEmployeeEmergency`, cmpReq, { headers: authHeader() });
+    createEmpEmergency(empEmergencyReq) {
+        return api.post(`/employeeEmergency/createEmployeeEmergency`, empEmergencyReq, { headers: authHeader() });
     }
 }
 

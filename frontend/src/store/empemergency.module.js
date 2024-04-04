@@ -74,12 +74,13 @@ export const empEmergencyTn = {
                 data => {
                     commit('createEmpEmergency', data);
                     return Promise.resolve(data);
-                },
-                error => {
-                    commit('empEmergencyError');
-                    return Promise.reject(error);
-                }
-            );
+                })
+                .catch(
+                    error => {
+                        commit('empEmergencyError');
+                        return Promise.reject(error);
+                    }
+                );
         },
     },
     mutations: {

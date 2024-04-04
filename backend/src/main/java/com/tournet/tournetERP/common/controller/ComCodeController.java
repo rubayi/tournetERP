@@ -156,9 +156,6 @@ public class ComCodeController {
     @PostMapping("/createComCode")
     public ResponseEntity<?> registerComCode(@RequestBody ComCodeRequest comCodeRequest) {
 
-        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
-
-
         ComCode _comCode = new ComCode();
         _comCode.setUprCodeUuid(comCodeRequest.getUprCodeUuid());
         _comCode.setCodeKr(comCodeRequest.getCodeKr());

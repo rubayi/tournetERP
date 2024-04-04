@@ -2,7 +2,6 @@ package com.tournet.tournetERP.common.repository;
 import java.util.List;
 import java.util.Optional;
 
-import com.tournet.tournetERP.common.dto.ComMenuResponse;
 import com.tournet.tournetERP.common.entity.ComMenu;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

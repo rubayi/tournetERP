@@ -10,7 +10,6 @@ package com.tournet.tournetERP.common.controller;
 import java.util.*;
 
 import com.tournet.tournetERP.auth.dto.MessageResponse;
-import com.tournet.tournetERP.common.dto.EmployeeEmergencyRequest;
 import com.tournet.tournetERP.common.entity.EmployeeEmergency;
 import com.tournet.tournetERP.common.repository.EmployeeEmergencyRepository;
 import org.springframework.http.HttpStatus;
@@ -20,13 +19,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import jakarta.transaction.Transactional;
@@ -44,9 +40,8 @@ public class EmployeeEmergencyController {
     public ResponseEntity<Map<String, Object>> selectEmployeeEmergencys(
             @RequestBody EmployeeEmergency employeeEmergencyReq) {
 
-        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        List<EmployeeEmergency> currentEmployeeEmergencys = employeeEmergencyRepository.findAllByOrderByEmerUuidDesc();
+        List<EmployeeEmergency> currentEmployeeEmergencys = employeeEmergencyRepository.findAllByOrderByEmergencyUuidDesc();
 
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("employeeEmergencys", currentEmployeeEmergencys);
@@ -63,11 +58,11 @@ public class EmployeeEmergencyController {
         return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
+    @SuppressWarnings("null")
     @Transactional
     @PostMapping("/createEmployeeEmergency")
     public ResponseEntity<?> createEmployeeEmergency(@RequestBody EmployeeEmergency employeeEmergencyReq) {
 
-        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
 
         employeeEmergencyRepository.save(employeeEmergencyReq);
@@ -78,9 +73,8 @@ public class EmployeeEmergencyController {
     @PostMapping("/updateEmployeeEmergency")
     public ResponseEntity<Map<String, Object>> updateEmployeeEmergency(@RequestBody EmployeeEmergency employeeEmergencyReq) {
 
-        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        Optional<EmployeeEmergency> currentEmployeeEmergency = employeeEmergencyRepository.findByEmerUuid(employeeEmergencyReq.getEmerUuid());
+        Optional<EmployeeEmergency> currentEmployeeEmergency = employeeEmergencyRepository.findByEmergencyUuid(employeeEmergencyReq.getEmergencyUuid());
 
         String message = "";
 
@@ -102,7 +96,7 @@ public class EmployeeEmergencyController {
     @DeleteMapping("/deleteemployeeEmergency/{id}")
     public ResponseEntity<?> deleteemployeeEmergency(@PathVariable int id) {
 
-        employeeEmergencyRepository.deleteByEmerUuid(id);
+        employeeEmergencyRepository.deleteByEmergencyUuid(id);
 
         return ResponseEntity.ok(new MessageResponse("삭제 되었습니다."));
     }

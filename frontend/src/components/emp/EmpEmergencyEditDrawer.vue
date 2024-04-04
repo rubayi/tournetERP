@@ -15,14 +15,23 @@
             <div id="emp-form-drawer-content">
               <q-form v-if="edited">
                 <q-card-section class="custom-padding-margin">
-                  <div class="row q-col-gutter-lg">
+                  <div class="row q-col-gutter-xl">
                     <input
                       id="emergencyUuid"
                       v-model="edited.emergencyUuid"
                       hidden
                     />
                     <q-input
-                      class="col-3"
+                      class="col-4"
+                      type="text"
+                      id="emerRelation"
+                      v-model="edited.emerRelation"
+                      label="관계 *"
+                      lazy-rules
+                      :rules="[(val) => !!val || '관계를 입력 해 주십시오.']"
+                    />
+                    <q-input
+                      class="col-4"
                       type="text"
                       id="emerName"
                       v-model="edited.emerName"
@@ -34,41 +43,43 @@
                       ]"
                     />
                     <q-input
-                      class="col-3"
+                      class="col-4"
                       type="text"
-                      id="emerRelation"
-                      v-model="edited.emerRelation"
-                      label="관계"
-                      lazy-rules
-                      :rules="[(val) => !!val || '관계를 입력 해 주십시오.']"
+                      id="empEng"
+                      v-model="edited.empEng"
+                      label="영문이름(Name Eng)"
                     />
                     <q-input
-                      class="col-3"
+                      class="col-4"
                       type="text"
                       id="emerPhone1"
                       v-model="edited.emerPhone1"
-                      label="전화번호"
+                      label="전화번호 *"
                       lazy-rules
                       :rules="[
                         (val) => !!val || '전화번호를 입력 해 주십시오.',
                       ]"
                     />
                     <q-input
-                      class="col-3"
+                      class="col-4"
+                      type="text"
+                      id="emerPhone2"
+                      v-model="edited.emerPhone2"
+                      label="전화번호2"
+                    />
+                    <q-input
+                      class="col-4"
                       type="text"
                       id="emerWorkPhone"
                       v-model="edited.emerWorkPhone"
                       label="직장전화"
-                      :rules="[
-                        (val) => !!val || '직장전화를 입력 해 주십시오.',
-                      ]"
                     />
                     <q-input
-                      class="col-3"
+                      class="col-4"
                       type="text"
-                      id="empEng"
-                      v-model="edited.empEng"
-                      label="영문이름(Name Eng)"
+                      id="emerCity"
+                      v-model="edited.emerCity"
+                      label="사는 도시"
                     />
                   </div>
                 </q-card-section>
@@ -84,6 +95,8 @@
 import { ref, watch, onMounted } from "vue";
 import DrawerComp from "src/components/drawers/DrawerComp.vue";
 import CardCompDesign from "src/components/common/CardCompDesign.vue";
+
+import { empEmergencyTn } from "src/store/empemergency.module";
 
 export default {
   name: "EmpEmergencyEditDrawer",
@@ -116,9 +129,44 @@ export default {
       emit("update:dataVal", initEdited);
     };
 
+    function handleSaveData() {
+      if (edited.value.emergencyUuid) {
+        empEmergencyTn.actions.updateEmpEmergency(
+          {
+            commit: () => {},
+            state: {},
+          },
+          edited.value
+        );
+      } else {
+        console.log("createEmpEmergency");
+        empEmergencyTn.actions.createEmpEmergency(
+          {
+            commit: () => {},
+            state: {},
+          },
+          edited.value
+        );
+      }
+      emit("update:openDrawer", false);
+      emit("update:dataVal", initEdited);
+    }
+
+    function handleDeleteData(data) {
+      empEmergencyTn.actions.deleteEmpEmergency(
+        {
+          commit: () => {},
+          state: {},
+        },
+        data.emergencyUuid
+      );
+    }
+
     return {
       edited,
       windowClose,
+      handleSaveData,
+      handleDeleteData,
     };
   },
 };

@@ -13,21 +13,16 @@ import com.tournet.tournetERP.auth.repository.RoleRepository;
 import com.tournet.tournetERP.common.dto.ComMenuRequest;
 import com.tournet.tournetERP.common.dto.ComMenuResponse;
 import com.tournet.tournetERP.common.entity.ComMenu;
-import com.tournet.tournetERP.common.entity.UserMenu;
 import com.tournet.tournetERP.common.repository.ComMenuRepository;
 import com.tournet.tournetERP.common.service.MenuBisService;
-import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
 
 import java.util.*;
 
@@ -111,8 +106,6 @@ public class ComMenuController {
     @PutMapping("/updateComMenu")
     public ResponseEntity<Map<String, Object>> updateComMenu(@RequestBody ComMenu commenu) {
 
-        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
-
         int id = commenu.getMenuUuid();
 
         Optional<ComMenu> currentComMenu = comMenuRepository.findByMenuUuid(id);
@@ -149,9 +142,6 @@ public class ComMenuController {
     @Transactional
     @PostMapping("/createComMenu")
     public ResponseEntity<?> registerComMenu(@RequestBody ComMenu comMenuRequest) {
-
-        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
-
 
         ComMenu _comMenu = new ComMenu();
         _comMenu.setUpperMenuUuid(comMenuRequest.getUpperMenuUuid());

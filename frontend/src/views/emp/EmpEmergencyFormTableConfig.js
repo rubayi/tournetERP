@@ -17,7 +17,6 @@ export class EmpEmergencyFormTableConfig {
                 field: "emergencyUuid",
                 headerName: "ID번호",
                 width: 100,
-                flex: null,
                 sortable: true,
                 filter: true,
             },

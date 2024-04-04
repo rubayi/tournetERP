@@ -48,12 +48,12 @@ export default {
     onCloseClick: Function,
   },
   setup(props) {
-    const empUuid = ref(props.dataVal);
+    const empUuid = props.dataVal;
 
     watch(
       () => props.dataVal,
       (newVal) => {
-        empUuid.value = { ...newVal };
+        empUuid = { ...newVal };
       },
       { deep: true }
     );
@@ -74,6 +74,7 @@ export default {
   methods: {
     createAction() {
       this.edited = initialData;
+      this.edited.empUuid = this.empUuid;
       this.eOpenDrawer = true;
     },
 
@@ -98,7 +99,7 @@ export default {
           this.empUuid
         )
         .then((resMap) => {
-          this.emergency = resMap.data;
+          this.emergency = resMap.employeeEmergency;
         });
     },
     onReset() {

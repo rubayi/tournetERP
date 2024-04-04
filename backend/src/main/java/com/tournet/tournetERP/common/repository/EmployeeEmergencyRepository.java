@@ -15,9 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.query.Param;
 
@@ -26,13 +24,13 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface EmployeeEmergencyRepository extends JpaRepository<EmployeeEmergency,Long> {
 
-    Optional<EmployeeEmergency> findByEmerUuid(int id);
+    Optional<EmployeeEmergency> findByEmergencyUuid(int id);
 
     List<EmployeeEmergency> findByEmpUuid(int id);
     
     @Modifying
-    void deleteByEmerUuid(@Param("id") int emerUuid);
+    void deleteByEmergencyUuid(@Param("id") int emerUuid);
 
 
-    List<EmployeeEmergency> findAllByOrderByEmerUuidDesc();
+    List<EmployeeEmergency> findAllByOrderByEmergencyUuidDesc();
 }
