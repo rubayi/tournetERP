@@ -20,7 +20,8 @@ public interface ComMenuRepository extends JpaRepository<ComMenu, Long> {
     @Query("SELECT m FROM ComMenu m " +
             "WHERE m.useYn = 'Y' " +
             "AND m.menuUuid IN (" +
-            "SELECT em.menuUuid FROM UserMenu em WHERE em.roleUuid = :roleUuid)")
+            "SELECT em.menuUuid FROM UserMenu em WHERE em.roleUuid = :roleUuid)" +
+            "ORDER BY m.menuOrd ASC")
     List<ComMenu> findAllAndUseYnByOrderByMenuOrdAsc(long roleUuid);
 
 

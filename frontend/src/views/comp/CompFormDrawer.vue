@@ -10,6 +10,7 @@
       <div class="flex flex-grow-1 q-pa-md">
         <comp-form-drawer-content
           :data-val="edited"
+          :upload-file="uploadFile"
           />
 
 <!--        <comp-form-drawer-contact-->
@@ -30,12 +31,13 @@ import { contactTn  } from "src/store/contact.module";
 import CompFormDrawerContent from "src/components/company/CompFormDrawerContent.vue";
 // import CompFormDrawerContact from "src/components/company/CompFormDrawerContact.vue";
 
+import CompService from "src/services/comp.service";
+
 export default defineComponent({
   name: "CompFormDrawer",
   components: {
     DrawerComp,
     CompFormDrawerContent,
-    // CompFormDrawerContact
   },
   props: {
     openDrawer: Boolean,
@@ -57,6 +59,10 @@ export default defineComponent({
 
     const initialData = ref(null);
 
+    const attfile = ref(null);
+
+    const previewImage = ref(null);
+
     watch(() => props.dataVal, (newVal) => {
       edited.value = { ...newVal };
       initialData.value = { ...newVal };
@@ -66,6 +72,13 @@ export default defineComponent({
     watch(() => props.checkedContactUuids, (newVal) => {
       checkedContactUuids.value = newVal;
     }, { deep: true });
+
+
+    function uploadFile (files) {
+      console.log(files);
+      attfile.value = files;
+      //attfile.value = files[0];
+    }
 
     async function handleSaveData(data) {
       //업체 정보 관련 req 데이터
@@ -79,35 +92,60 @@ export default defineComponent({
 
       const promises = [];
 
-      console.log(edited.value);
-      if (!dataChanged
+      if (!dataChanged && !attfile.value
           && contactReq.contactUuids.length <=0) {
           alert("변경할 데이터가 없습니다.");
       } else {
 
-          if (edited.value.compUuid != 0) {
-            //업체수정
-            if (dataChanged) {
-              promises.push(
-              compTn.actions.updateComp({
-                  commit: () => {
-                  }, state: {}
-              }, edited.value).then(
-                  (response) => {
-                      alert(response.data.message);
-                  },
-                  (error) => {
-                      console.log("saveComp failed", error);
-                  }
-              ));
-            }
-          } else {
-            //업체 등록
-            promises.push(
-            compTn.actions.createComp({
+        // if (edited.value.compUuid != 0) {
+
+          const fileToUpload = attfile.value; // Get the first file
+          // Perform the upload operation with the first file
+          // try {
+          //   const response = await CompService.updateComp(fileToUpload, edited.value);
+          //   console.log("File uploaded successfully:", response);
+          // } catch (error) {
+          //   console.error("File upload failed:", error);
+          // }
+
+          //업체수정
+          //if (dataChanged) {
+
+        console.log(edited.value);
+          promises.push(
+          CompService.updateComp(fileToUpload, edited.value).then(
+                (response) => {
+                    alert(response.data.message);
+                },
+                (error) => {
+                    console.log("saveComp failed", error);
+                }
+            )
+           );
+          //}
+        // } else {
+        //   //업체 등록
+        //   promises.push(
+        //   compTn.actions.createComp({
+        //       commit: () => {
+        //       }, state: {}
+        //   }, fileToUpload, edited.value).then(
+        //       (response) => {
+        //           alert(response.message);
+        //       },
+        //       (error) => {
+        //           console.log("saveComp failed", error);
+        //       }
+        //   ));
+        // }
+
+        if (contactReq.contactUuids.length > 0) {
+            // Call updateContact method
+          promises.push(
+            contactTn.actions.createContact({
                 commit: () => {
                 }, state: {}
-            }, edited.value).then(
+            }, contactReq).then(
                 (response) => {
                     alert(response.message);
                 },
@@ -115,32 +153,16 @@ export default defineComponent({
                     console.log("saveComp failed", error);
                 }
             ));
-          }
-
-          if (contactReq.contactUuids.length > 0) {
-              // Call updateContact method
-            promises.push(
-              contactTn.actions.createContact({
-                  commit: () => {
-                  }, state: {}
-              }, contactReq).then(
-                  (response) => {
-                      alert(response.message);
-                  },
-                  (error) => {
-                      console.log("saveComp failed", error);
-                  }
-              ));
-          }
-          //Action after update,delete
-          try {
-            await Promise.all(promises);
-            // Emit the event after all promises have resolved
-            emitCloseDrawer();
-          } catch (error) {
-            console.error("One or more promises failed:", error);
-            // Handle error if necessary
-          }
+        }
+        //Action after update,delete
+        try {
+          await Promise.all(promises);
+          // Emit the event after all promises have resolved
+          emitCloseDrawer();
+        } catch (error) {
+          console.error("One or more promises failed:", error);
+          // Handle error if necessary
+        }
       }
     }
     function getContactList() {
@@ -183,7 +205,8 @@ export default defineComponent({
       handleSaveData,
       handleDeleteData,
       contactList,
-      checkedContactUuids
+      checkedContactUuids,
+      uploadFile
     };
   },
 

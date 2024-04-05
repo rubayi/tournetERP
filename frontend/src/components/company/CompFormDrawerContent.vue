@@ -15,7 +15,6 @@
                   option-label="codeKr"
                   emit-value
                   map-options
-                  outlined
                   label="업체유형"
                 />
 
@@ -26,7 +25,6 @@
                   v-model="edited.compKor"
                   label="업체명 *"
                   :rules="[(val) => !!val || '한글업체명 입력 해 주십시오.']"
-                  outlined
                 />
                 <q-input
                   class="col-3"
@@ -34,7 +32,6 @@
                   id="compEng"
                   v-model="edited.compEng"
                   label="영문업체명"
-                  outlined
                 />
                 <q-input
                   class="col-3"
@@ -42,7 +39,6 @@
                   id="compAbb"
                   v-model="edited.compAbb"
                   label="업체약어"
-                  outlined
                 />
                 <q-input
                   class="col-3"
@@ -50,7 +46,6 @@
                   id="group"
                   v-model="edited.compGroup"
                   label="그룹"
-                  outlined
                 />
                 <q-select
                   class="col-3"
@@ -60,7 +55,6 @@
                   option-label="codeKr"
                   emit-value
                   map-options
-                  outlined
                   label="제한연령"
                 />
                 <q-select
@@ -71,7 +65,6 @@
                   option-label="codeKr"
                   emit-value
                   map-options
-                  outlined
                   label="아이나이"
                 />
                 <q-select
@@ -82,7 +75,6 @@
                   option-label="codeKr"
                   emit-value
                   map-options
-                  outlined
                   label="쥬니어나이"
                 />
                 <q-select
@@ -93,7 +85,6 @@
                   option-label="codeKr"
                   emit-value
                   map-options
-                  outlined
                   label="쿠폰사용가능유무"
                 />
                 <q-select
@@ -104,7 +95,6 @@
                   option-label="codeKr"
                   emit-value
                   map-options
-                  outlined
                   label="프리페이드지정"
                 />
                 <q-select
@@ -115,7 +105,6 @@
                   option-label="codeKr"
                   emit-value
                   map-options
-                  outlined
                   label="호텔등급"
                 />
                 <q-select
@@ -126,7 +115,6 @@
                   option-label="codeKr"
                   emit-value
                   map-options
-                  outlined
                   label="옵션등급"
                 />
                 <q-select
@@ -137,7 +125,6 @@
                   option-label="codeKr"
                   emit-value
                   map-options
-                  outlined
                   label="렌트카등급"
                 />
                 <q-select
@@ -148,7 +135,6 @@
                   option-label="codeKr"
                   emit-value
                   map-options
-                  outlined
                   label="식당등급"
                 />
                 <q-select
@@ -159,7 +145,6 @@
                   option-label="codeKr"
                   emit-value
                   map-options
-                  outlined
                   label="패키지일반등급"
                 />
                 <q-select
@@ -170,7 +155,6 @@
                   option-label="codeKr"
                   emit-value
                   map-options
-                  outlined
                   label="패키지전용등급"
                 />
                 <q-select
@@ -181,7 +165,6 @@
                   option-label="codeKr"
                   emit-value
                   map-options
-                  outlined
                   label="허니문일반등급"
                 />
                 <q-select
@@ -192,7 +175,6 @@
                   option-label="codeKr"
                   emit-value
                   map-options
-                  outlined
                   label="허니문전용등급"
                 />
                 <q-input
@@ -210,15 +192,7 @@
                     </q-icon>
                   </template>
                 </q-input>
-                <div class="q-pa-md">
-                <q-uploader
-                    v-model="edited.logoFile"
-                    label="로고"
-                    style="max-width: 300px"
-                    hide-upload-btn="true"
-                />
-                </div>
-                {{edited.logoFile}} ---
+
                 <q-input
                   class="col-3"
                   v-model="edited.estDate"
@@ -247,7 +221,25 @@
                     </q-icon>
                   </template>
                 </q-input>
-
+                <div class="q-pa-md">
+                  <div class="col-12">
+                  <label  for="file-upload" class="custom-file-upload">
+                    로고파일
+                  </label>
+                  <input id="file-upload"
+                         type="file"
+                         multiple
+                         class="btn btn-info"
+                         @change="handleFileChange" />
+                  <div v-if="previewImage">
+                    <q-img :src="previewImage" alt="Preview Image"/>
+                  </div>
+                  <div>
+                    <q-img v-if="edited.logoFile"
+                           :src="fileUrl + edited.logoFile"/>
+                  </div>
+                  </div>
+                </div>
               </div>
             </q-card-section>
           </q-form>
@@ -260,14 +252,15 @@
 <script>
 import { defineComponent, ref, watch } from "vue";
 import { getCommonValue } from "src/utils/common";
-
+import { fileInfo } from "src/services/fileInfo";
 export default defineComponent({
-  name: "EmpFormDrawerContent",
+  name: "CompFormDrawerContent",
 
   props: {
     dataVal: Object,
+    uploadFile: Function,
   },
-  emits: ["update:dataVal", "update:changeFlag"],
+  emits: ["update:dataVal"],
   setup(props, { emit }) {
     const edited = ref(props.dataVal);
 
@@ -283,6 +276,9 @@ export default defineComponent({
     const honeymoonRateOptions = ref([]);
 
     const ageNumbers = ref([]);
+    const fileUrl = fileInfo;
+
+    const previewImage = ref(null);
 
     for (let i = 0
       ; i <= 20; i++) {
@@ -302,6 +298,21 @@ export default defineComponent({
         console.error(error);
       }
     }
+
+    const handleFileChange = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // Read the selected file and set the previewImage variable with its data URL
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          previewImage.value = e.target.result;
+          props.uploadFile(file);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        previewImage.value = null;
+      }
+    };
 
     //유형
     getCommonCode({upCode: 22,codeLvl: "1"},sectorOptions);
@@ -334,7 +345,10 @@ export default defineComponent({
       packRateOptions,
       honeymoonRegRateOptions,
       honeymoonRateOptions,
-      ageNumbers
+      ageNumbers,
+      fileUrl,
+      previewImage,
+      handleFileChange
     };
   },
 
@@ -345,5 +359,40 @@ export default defineComponent({
 .custom-padding-margin {
   padding: 5px; /* Adjust as needed */
   margin: 5px; /* Adjust as needed */
+}
+.custom-file-upload {
+  align-items: center;
+  background-color: #0276FF;
+  border-radius: 5px;
+  border-style: none;
+  box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  font-family: "RM Neue",sans-serif;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+  padding: 10px 21px;
+  text-align: center;
+  text-transform: none;
+  transition: color .13s ease-in-out,background .13s ease-in-out,opacity .13s ease-in-out,box-shadow .13s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.custom-file-upload:active {
+  background-color: #006AE8;
+}
+
+.custom-file-upload:hover {
+  background-color: #1C84FF;
+}
+input[type="file"] {
+  display: none;
 }
 </style>

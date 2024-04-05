@@ -18,6 +18,8 @@ public interface FilesStorageServiceImpl {
 
     public void save(MultipartFile file);
 
+    public String newSave(MultipartFile file);
+
     public Resource load(String filename);
 
     public void deleteAll();

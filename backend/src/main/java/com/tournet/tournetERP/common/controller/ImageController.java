@@ -59,7 +59,6 @@ public class ImageController {
      * @return
      */
     @Transactional
-    @RequestMapping(consumes = { "multipart/form-data" })
     public String updateImage(@RequestParam("file") MultipartFile file,
             @ModelAttribute Image imageReq) {
         String message = "";

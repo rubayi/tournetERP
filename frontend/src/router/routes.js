@@ -5,6 +5,7 @@ import CompList from "src/views/comp/CompList.vue";
 import Register from "components/RegisterTN.vue";
 import ComCode from "components/ComCode.vue";
 import ComMenu from "components/ComMenu.vue";
+import UploadFiles from "components/common/UploadFiles.vue";
 
 const Profile = () => import("../components/Profile.vue")
 
@@ -70,6 +71,12 @@ const routes = [
       name: "profile",
       component: Profile,
   },
-
+  {
+    path: "/uploadtest",
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => UploadFiles }
+    ]
+  },
 ]
 export default routes

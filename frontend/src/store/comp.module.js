@@ -60,8 +60,9 @@ export const compTn = {
 
     },
 
-    updateComp({ commit }, comreq) {
-      return CompService.updateComp(comreq).then(
+    updateComp({ commit }, attachFile, compreq) {
+
+      return CompService.updateComp(attachFile, compreq).then(
         data => {
           commit('updateSuccess', data);
           return Promise.resolve(data);
