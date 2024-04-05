@@ -10,6 +10,8 @@ package com.tournet.tournetERP.contents.controller;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.tournet.tournetERP.auth.dto.MessageResponse;
 import com.tournet.tournetERP.auth.dto.UserResponse;
 import com.tournet.tournetERP.auth.entity.User;
@@ -22,8 +24,10 @@ import com.tournet.tournetERP.contents.dto.CompanyRequest;
 import com.tournet.tournetERP.contents.dto.CompanyResponse;
 import com.tournet.tournetERP.contents.entity.Company;
 import com.tournet.tournetERP.contents.repository.CompanyRepository;
+import com.tournet.tournetERP.contents.service.CompanyConverter;
 import com.tournet.tournetERP.contents.service.CompanyService;
 import lombok.RequiredArgsConstructor;
+import net.minidev.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +61,9 @@ public class CompanyController {
 
     @Autowired
     FilesStorageService storageService;
+
+    @Autowired
+    CompanyConverter companyConverter;
 
     @PostMapping("/searchCompByCondition")
     public ResponseEntity<Map<String, Object>> selectCompanys ( @RequestBody CompanyRequest companyReq) {
@@ -116,29 +123,64 @@ public class CompanyController {
     @Transactional
     @RequestMapping(value = "/updateComp", method = RequestMethod.POST, consumes = { "multipart/form-data" })
     public ResponseEntity<Map<String, Object>> updateCompany(@RequestParam(value = "file", required = false) MultipartFile file,
-                                                             @RequestParam(value = "compUuid", required = false) CompanyRequest companyReq) {
+                                                             @RequestParam(value = "companyReq") String companyReqJson) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
         String message = "";
 
         if (storUser.isAuthenticated()) {
-
             try {
                 UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
-                Long modifyingUser = userDetails.getEmpUuid();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode companyJsonNode = objectMapper.readTree(companyReqJson);
+
+                Company companyReq = new Company();
+                companyReq.setCompUuid(companyJsonNode.get("compUuid").asLong());
+                companyReq.setCompSector(companyJsonNode.get("compSector").asLong());
+
+                companyReq.setCompGroup(companyJsonNode.get("compGroup").asText());
+                companyReq.setCompKor(companyJsonNode.get("compKor").asText());
+                companyReq.setCompEng(companyJsonNode.get("compEng").asText());
+                companyReq.setCompAbb(companyJsonNode.get("compAbb").asText());
+                companyReq.setCompColor(companyJsonNode.get("compColor").asText());
+                companyReq.setCompRate(companyJsonNode.get("compRate").asLong());
+                companyReq.setHotelRate(companyJsonNode.get("hotelRate").asLong());
+                companyReq.setOptionRate(companyJsonNode.get("optionRate").asLong());
+                companyReq.setRentcarRate(companyJsonNode.get("rentcarRate").asLong());
+                companyReq.setRestaurantRate(companyJsonNode.get("restaurantRate").asLong());
+                companyReq.setHoneymoonRate(companyJsonNode.get("honeymoonRate").asLong());
+                companyReq.setHoneymoonRegRate(companyJsonNode.get("honeymoonRegRate").asLong());
+                companyReq.setRestaurantRate(companyJsonNode.get("restaurantRate").asLong());
+                companyReq.setPackRate(companyJsonNode.get("packRate").asLong());
+                companyReq.setPackRegRate(companyJsonNode.get("packRegRate").asLong());
+                companyReq.setCouponYn(companyJsonNode.get("couponYn").asText());
+
+                companyReq.setPrepaidHow(companyJsonNode.get("prepaidHow").asText());
+                companyReq.setMinAge(companyJsonNode.get("minAge").asText());
+                companyReq.setChildAge(companyJsonNode.get("childAge").asText());
+                companyReq.setYouthAge(companyJsonNode.get("youthAge").asText());
+
+                companyReq.setBeginDt(companyJsonNode.get("beginDt").asText());
+                companyReq.setEndDt(companyJsonNode.get("endDt").asText());
+
+                companyReq.setEstDate(companyJsonNode.get("estDate").asText());
+                companyReq.setCompKor(companyJsonNode.get("compKor").asText());
+                companyReq.setCompKor(companyJsonNode.get("compKor").asText());
+
+                User modifyingUser = new User();
+                modifyingUser.setEmpUuid(userDetails.getEmpUuid());
 
                 Optional<Company> currentCompany = compRepository.findByCompUuid(companyReq.getCompUuid());
 
-                Company _comp = new Company();
-
                 String fileName = "";
                 if (currentCompany.isPresent()) {
-
-                    companyReq.setModifiedBy(modifyingUser);
-
+                    companyReq.setModifyUser(modifyingUser);
+                    message = "수정 되었습니다.";
                 } else {
-                    companyReq.setModifiedBy(modifyingUser);
-                    companyReq.setCreatedBy(modifyingUser);
+                    companyReq.setModifyUser(modifyingUser);
+                    companyReq.setCreateUser(modifyingUser);
+                    message = "등록 되었습니다.";
                 }
 
                 if (file != null) {
@@ -146,16 +188,13 @@ public class CompanyController {
                     companyReq.setLogoFile(fileName);
                 }
 
-                message = "수정 되었습니다.";
-                compRepository.save(_comp);
+                compRepository.save(companyReq);
             } catch (Exception e) {
                 if (e instanceof FileAlreadyExistsException) {
-                    message = "파일이 이미 존재 합니다.";
+                    message = "파일이 이미 존재합니다.";
                 }
-
                 message = e.getMessage();
             }
-
         }
 
         Map<String, Object> resMap = new HashMap<>();
@@ -190,6 +229,8 @@ public class CompanyController {
 
         return ResponseEntity.ok(new MessageResponse("삭제 되었습니다."));
     }
+
+
 
 
 

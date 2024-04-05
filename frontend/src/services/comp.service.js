@@ -27,15 +27,11 @@ class CompService {
 
     let formData = new FormData();
 
-    for (let key in compReq) {
-      formData.append(key, compReq[key])
-    }
-
+    formData.append("companyReq", JSON.stringify(compReq));
     formData.append("file", attachFile);
-    // return api.post(`/comp/updateComp`, formData, {
-    //     headers: {"Content-Type": "multipart/form-data", Authorization: authHeader()}
-    // });
-
+    // for (let pair of formData.entries()) {
+    //   console.log(pair[0] + ', ' + pair[1]);
+    // }
     return api.post("/comp/updateComp", formData,
       { headers: {...authHeader(), "Content-Type": "multipart/form-data"}  });
 

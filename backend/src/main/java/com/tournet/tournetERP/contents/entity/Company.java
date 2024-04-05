@@ -17,7 +17,7 @@ public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COMP_UUID", nullable = false)
-    private int compUuid; //업체UUID
+    private long compUuid; //업체UUID
 
     @Column(name = "COMP_SECTOR", nullable = true)
     private long compSector; //업체유형
