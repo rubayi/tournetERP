@@ -1,2 +1,2 @@
 // fileInfo.js
-export const fileInfo = "http://localhost:8090/api/file/files/";
+export const fileInfo = "http://www.ddukbokki.com:8099/api/file/files/";
