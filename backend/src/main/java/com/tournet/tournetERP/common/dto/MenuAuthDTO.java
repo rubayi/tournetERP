@@ -4,8 +4,8 @@ package com.tournet.tournetERP.common.dto;
  * Please explain the class!!
  *
  * @author : rubayi
- * @fileName : SearchEmployeeEmergency
- * @since : 2024-04-01
+ * @fileName : SearchMenuAuth
+ * @since : 2024-03-19
  */
-public class EmployeeEmergencyRequest {
+public class MenuAuthDTO {
 }

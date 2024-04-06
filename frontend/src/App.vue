@@ -85,7 +85,7 @@
       v-if="$store.state.auth.user"
       class="drawer-toggle-button"
       :style="{ left: drawerButtonPosition }"
-      icon="menu"
+      icon="sync_alt"
       dense
       @click="leftDrawerOpen = !leftDrawerOpen"
     />

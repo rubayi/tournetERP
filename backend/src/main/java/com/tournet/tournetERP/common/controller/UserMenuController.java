@@ -4,7 +4,7 @@ import com.tournet.tournetERP.auth.dto.MessageResponse;
 import com.tournet.tournetERP.common.entity.UserMenu;
 import com.tournet.tournetERP.auth.repository.RoleRepository;
 import com.tournet.tournetERP.common.repository.UserMenuRepository;
-import com.tournet.tournetERP.common.dto.UserMenuRequest;
+import com.tournet.tournetERP.common.dto.UserMenuDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +32,7 @@ public class UserMenuController {
 
     @SuppressWarnings("null")
     @PutMapping("/updateUserMenus")
-    public ResponseEntity<Map<String, Object>> updateUserMenus(@RequestBody UserMenuRequest userMenuRequest) {
+    public ResponseEntity<Map<String, Object>> updateUserMenus(@RequestBody UserMenuDTO userMenuRequest) {
 
         int menuUuid = userMenuRequest.getMenuUuid();
         int roleUuid = userMenuRequest.getRoleUuid();
@@ -57,7 +57,7 @@ public class UserMenuController {
     
     @Transactional
     @PostMapping("/createUserMenus")
-    public ResponseEntity<?> createUserMenus(@RequestBody UserMenuRequest userMenuRequest) {
+    public ResponseEntity<?> createUserMenus(@RequestBody UserMenuDTO userMenuRequest) {
 
         int menuUuid = userMenuRequest.getMenuUuid();
         int roleUuid = userMenuRequest.getRoleUuid();
@@ -81,7 +81,7 @@ public class UserMenuController {
 
     @Transactional
     @PostMapping("/deleteUserMenus")
-    public ResponseEntity<Map<String, Object>> deleteUserMenus(@RequestBody UserMenuRequest userMenuRequest) {
+    public ResponseEntity<Map<String, Object>> deleteUserMenus(@RequestBody UserMenuDTO userMenuRequest) {
 
         int menuUuid = userMenuRequest.getMenuUuid();
         int roleUuid = userMenuRequest.getRoleUuid();
@@ -108,7 +108,7 @@ public class UserMenuController {
     }
     
     @PostMapping("/getUserMenus")
-    public ResponseEntity<List<UserMenu>> getUserMenus(@RequestBody UserMenuRequest userMenuRequest) {
+    public ResponseEntity<List<UserMenu>> getUserMenus(@RequestBody UserMenuDTO userMenuRequest) {
 
         List<UserMenu> userMenus = new ArrayList<>();
         

@@ -14,7 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class ComMenuResponse {
+public class ComMenuDTO {
 
     private int menuUuid;
 
@@ -48,10 +48,8 @@ public class ComMenuResponse {
 
     private Date modifiedDt; //최종수정일
 
-    private long empMenuUuid;
-
     @Builder
-    public ComMenuResponse(
+    public ComMenuDTO(
             int menuUuid,
             long upperMenuUuid,
             long roleUuid,

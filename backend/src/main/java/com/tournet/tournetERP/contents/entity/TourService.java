@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @EntityListeners(AuditingEntityListener.class) // 날짜 자동 입력 용
 @Table(name = "APP_SERVICE")
-public class Service {
+public class TourService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -83,7 +83,7 @@ public class Service {
     @Column(name = "MODIFIED_DT", nullable = true)
     private Date modifiedDt; //최종수정일
 
-    public Service () {
+    public TourService() {
     }
 
 }

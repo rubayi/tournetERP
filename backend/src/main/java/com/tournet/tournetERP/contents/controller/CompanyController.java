@@ -10,26 +10,18 @@ package com.tournet.tournetERP.contents.controller;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.*;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.tournet.tournetERP.auth.dto.MessageResponse;
-import com.tournet.tournetERP.auth.dto.UserResponse;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
-import com.tournet.tournetERP.auth.service.UserService;
-import com.tournet.tournetERP.common.controller.ImageController;
-import com.tournet.tournetERP.common.entity.Image;
 import com.tournet.tournetERP.common.service.FilesStorageService;
-import com.tournet.tournetERP.contents.dto.CompanyRequest;
-import com.tournet.tournetERP.contents.dto.CompanyResponse;
+import com.tournet.tournetERP.contents.dto.CompanyDTO;
 import com.tournet.tournetERP.contents.entity.Company;
 import com.tournet.tournetERP.contents.repository.CompanyRepository;
 import com.tournet.tournetERP.contents.service.CompanyConverter;
 import com.tournet.tournetERP.contents.service.CompanyService;
 import lombok.RequiredArgsConstructor;
-import net.minidev.json.JSONObject;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,15 +30,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-
 import jakarta.transaction.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/comp")
@@ -58,7 +45,6 @@ public class CompanyController {
     @Autowired
     CompanyService compService;
 
-
     @Autowired
     FilesStorageService storageService;
 
@@ -66,12 +52,12 @@ public class CompanyController {
     CompanyConverter companyConverter;
 
     @PostMapping("/searchCompByCondition")
-    public ResponseEntity<Map<String, Object>> selectCompanys ( @RequestBody CompanyRequest companyReq) {
+    public ResponseEntity<Map<String, Object>> selectCompanys ( @RequestBody CompanyDTO companyReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
         String message = "";
-        List<CompanyResponse> currentComps = new ArrayList<CompanyResponse>();
+        List<CompanyDTO> currentComps = new ArrayList<CompanyDTO>();
                 //compRepository.findAllByOrderByModifiedDtDesc();
         if(storUser.isAuthenticated()) {
             currentComps = compService.findCompsList(companyReq);
@@ -83,43 +69,6 @@ public class CompanyController {
         return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
-
-
-   @RequestMapping(value = "/createComp", method = RequestMethod.POST, consumes = { "multipart/form-data" })
-   public ResponseEntity<Map<String, Object>> createCompany(@RequestParam("file") MultipartFile file,
-                @RequestParam("compUuid") Company companyReq) {
-
-        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
-        String message = "";
-        if(storUser.isAuthenticated()) {
-
-            UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
-
-            User modifyingUser = new User();
-            modifyingUser.setEmpUuid(userDetails.getEmpUuid());
-
-            String fileName = "";
-            if (file != null) {
-                fileName = storageService.newSave(file);
-                companyReq.setLogoFile(fileName);
-            }
-
-            companyReq.setModifyUser(modifyingUser);
-            companyReq.setCreateUser(modifyingUser);
-
-            compRepository.save(companyReq);
-            message = "등록이 완료 되었습니다.";
-
-        } else {
-            message = "등록이 완료 되지 않았습니다.";
-        }
-
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("message", message);
-        return new ResponseEntity<>(resMap, HttpStatus.OK);
-    }
-
-    //@PostMapping("/updateComp")
     @Transactional
     @RequestMapping(value = "/updateComp", method = RequestMethod.POST, consumes = { "multipart/form-data" })
     public ResponseEntity<Map<String, Object>> updateCompany(@RequestParam(value = "file", required = false) MultipartFile file,
@@ -131,6 +80,9 @@ public class CompanyController {
         if (storUser.isAuthenticated()) {
             try {
                 UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
+
+                User modifyingUser = new User();
+                modifyingUser.setEmpUuid(userDetails.getEmpUuid());
 
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode companyJsonNode = objectMapper.readTree(companyReqJson);
@@ -168,8 +120,7 @@ public class CompanyController {
                 companyReq.setCompKor(companyJsonNode.get("compKor").asText());
                 companyReq.setCompKor(companyJsonNode.get("compKor").asText());
 
-                User modifyingUser = new User();
-                modifyingUser.setEmpUuid(userDetails.getEmpUuid());
+
 
                 Optional<Company> currentCompany = compRepository.findByCompUuid(companyReq.getCompUuid());
 

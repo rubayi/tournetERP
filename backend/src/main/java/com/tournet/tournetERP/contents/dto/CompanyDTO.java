@@ -1,15 +1,11 @@
 package com.tournet.tournetERP.contents.dto;
 
-import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
 @Data
-public class CompanyRequest {
+public class CompanyDTO {
 
     private long compUuid; //업체UUID
 
@@ -79,7 +75,32 @@ public class CompanyRequest {
 
     private String searchKeyword3;
 
-    public CompanyRequest() {
+    private String compSectorName;
+
+    private String compRateName; //등급
+
+    private String hotelRateName;
+
+    private String optionRateName;
+
+    private String  rentcarRateName;
+
+    private String  restaurantRateName;
+
+    private String  packRegRateName;
+
+    private String packRateName;
+
+    private String honeymoonRegRateName;
+
+    private String honeymoonRateName;
+
+    private String createdByName; //생성자
+
+    private String modifiedByName; //최종수정자
+
+
+    public CompanyDTO() {
     }
 
 

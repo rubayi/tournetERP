@@ -8,15 +8,14 @@ package com.tournet.tournetERP.contents.service;
  * @since : 2024-04-05
  */
 import com.tournet.tournetERP.auth.entity.User;
-import com.tournet.tournetERP.contents.dto.CompanyRequest;
-import com.tournet.tournetERP.contents.dto.CompanyResponse;
+import com.tournet.tournetERP.contents.dto.CompanyDTO;
 import com.tournet.tournetERP.contents.entity.Company;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CompanyConverter {
 
-    public Company convertToEntity(CompanyRequest companyRequest) {
+    public Company convertToEntity(CompanyDTO companyRequest) {
         Company company = new Company();
         User modifyingUser = new User();
         modifyingUser.setEmpUuid(companyRequest.getCompUuid());

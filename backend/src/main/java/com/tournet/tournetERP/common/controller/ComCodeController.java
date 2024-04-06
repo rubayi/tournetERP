@@ -9,7 +9,7 @@ package com.tournet.tournetERP.common.controller;
 import com.tournet.tournetERP.auth.dto.MessageResponse;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
-import com.tournet.tournetERP.common.dto.ComCodeRequest;
+import com.tournet.tournetERP.common.dto.ComCodeDTO;
 import com.tournet.tournetERP.common.entity.ComCode;
 import com.tournet.tournetERP.common.repository.ComCodeRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -154,7 +154,7 @@ public class ComCodeController {
 
     @Transactional
     @PostMapping("/createComCode")
-    public ResponseEntity<?> registerComCode(@RequestBody ComCodeRequest comCodeRequest) {
+    public ResponseEntity<?> registerComCode(@RequestBody ComCodeDTO comCodeRequest) {
 
         ComCode _comCode = new ComCode();
         _comCode.setUprCodeUuid(comCodeRequest.getUprCodeUuid());

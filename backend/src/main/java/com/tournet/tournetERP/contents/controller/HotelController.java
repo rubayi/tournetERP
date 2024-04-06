@@ -12,7 +12,7 @@ import java.util.*;
 import com.tournet.tournetERP.auth.dto.MessageResponse;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
-import com.tournet.tournetERP.contents.dto.HotelRequest;
+import com.tournet.tournetERP.contents.dto.HotelDTO;
 import com.tournet.tournetERP.contents.entity.Hotel;
 import com.tournet.tournetERP.contents.repository.HotelRepository;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -43,7 +42,7 @@ public class HotelController {
     HotelRepository hotelRepository;
 
     @PostMapping("/selectHotels")
-    public ResponseEntity<Map<String, Object>> selectHotels (@RequestBody HotelRequest searchhotelReq) {
+    public ResponseEntity<Map<String, Object>> selectHotels (@RequestBody HotelDTO searchhotelReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 

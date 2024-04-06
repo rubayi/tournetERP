@@ -1,6 +1,6 @@
 package com.tournet.tournetERP.common.service;
 
-import com.tournet.tournetERP.common.dto.ComMenuResponse;
+import com.tournet.tournetERP.common.dto.ComMenuDTO;
 import com.tournet.tournetERP.common.entity.ComMenu;
 import com.tournet.tournetERP.common.entity.UserMenu;
 import com.tournet.tournetERP.common.repository.UserMenuRepository;
@@ -30,21 +30,21 @@ public class MenuBisService {
     private final UserMenuRepository empMenuRepository;
     
     // 정보 가져오기
-    public List<ComMenuResponse> addDetailForPermit(List<ComMenu> userComeMenu, long roleUuid) {
+    public List<ComMenuDTO> addDetailForPermit(List<ComMenu> userComeMenu, long roleUuid) {
 
 
         long beforeTime = System.currentTimeMillis();
 
         // 메뉴권한
 
-        List<ComMenuResponse> menuWithPermit = new ArrayList<ComMenuResponse>();
+        List<ComMenuDTO> menuWithPermit = new ArrayList<ComMenuDTO>();
 
         for (ComMenu curMenu : userComeMenu) {
             Optional<UserMenu> tempMenuOptional = empMenuRepository.findByMenuUuidAndRoleUuid(
                         curMenu.getMenuUuid(), roleUuid);
 
             tempMenuOptional.ifPresent(tempMenu -> {
-                ComMenuResponse _menuRes = new ComMenuResponse(
+                ComMenuDTO _menuRes = new ComMenuDTO(
                         curMenu.getMenuUuid(),
                         curMenu.getUpperMenuUuid(),
                         tempMenu.getRoleUuid(),

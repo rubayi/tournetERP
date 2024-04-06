@@ -3,7 +3,7 @@ package com.tournet.tournetERP.common.dto;
 import lombok.Data;
 
 @Data
-public class UserMenuRequest {
+public class UserMenuDTO {
     
     private int empMenuUuid;
 
@@ -17,7 +17,7 @@ public class UserMenuRequest {
     
     private String menuDelete;
 
-    public UserMenuRequest() {
+    public UserMenuDTO() {
     }
 
 }

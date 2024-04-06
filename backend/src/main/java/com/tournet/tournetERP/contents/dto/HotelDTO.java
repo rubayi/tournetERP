@@ -7,5 +7,5 @@ package com.tournet.tournetERP.contents.dto;
  * @fileName : HotelRequest
  * @since : 2024-04-01
  */
-public class HotelRequest {
+public class HotelDTO {
 }

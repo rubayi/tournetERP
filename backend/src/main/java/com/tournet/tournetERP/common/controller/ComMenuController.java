@@ -10,8 +10,7 @@ import com.tournet.tournetERP.auth.dto.MessageResponse;
 import com.tournet.tournetERP.auth.entity.ERole;
 import com.tournet.tournetERP.auth.entity.Role;
 import com.tournet.tournetERP.auth.repository.RoleRepository;
-import com.tournet.tournetERP.common.dto.ComMenuRequest;
-import com.tournet.tournetERP.common.dto.ComMenuResponse;
+import com.tournet.tournetERP.common.dto.ComMenuDTO;
 import com.tournet.tournetERP.common.entity.ComMenu;
 import com.tournet.tournetERP.common.repository.ComMenuRepository;
 import com.tournet.tournetERP.common.service.MenuBisService;
@@ -63,7 +62,7 @@ public class ComMenuController {
      * @return
      */
     @PostMapping("/selectComMenusByGroup")
-    public ResponseEntity<List<ComMenu>> selectComMenusByGroup(@RequestBody ComMenuRequest commenuReq) {
+    public ResponseEntity<List<ComMenu>> selectComMenusByGroup(@RequestBody ComMenuDTO commenuReq) {
 
         List<ComMenu> commenus = new ArrayList<>();
         int menuLvl = Integer.parseInt(String.valueOf(commenuReq.getMenuLvl()));
@@ -74,7 +73,7 @@ public class ComMenuController {
 
 
     @PostMapping("useComMenuByRole")
-    public ResponseEntity<List<ComMenu>> postComMenus(@RequestBody ComMenuRequest commenuReq) {
+    public ResponseEntity<List<ComMenu>> postComMenus(@RequestBody ComMenuDTO commenuReq) {
 
         List<ComMenu> commenus = new ArrayList<>();
 
@@ -87,9 +86,9 @@ public class ComMenuController {
 
 
     @PostMapping("useComMenuByRoleWithPermit")
-    public ResponseEntity<List<ComMenuResponse>> useComMenuByRoleWithPermit(@RequestBody ComMenuRequest commenuReq) {
+    public ResponseEntity<List<ComMenuDTO>> useComMenuByRoleWithPermit(@RequestBody ComMenuDTO commenuReq) {
 
-        List<ComMenuResponse> resCommenus = new ArrayList<>();
+        List<ComMenuDTO> resCommenus = new ArrayList<>();
         List<ComMenu> commenus = new ArrayList<>();
 
         Role _role = roleRepository.findFirstByRoles(ERole.valueOf(commenuReq.getRole()));

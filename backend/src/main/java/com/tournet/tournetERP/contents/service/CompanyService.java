@@ -2,8 +2,8 @@ package com.tournet.tournetERP.contents.service;
 
 import com.tournet.tournetERP.common.entity.ComCode;
 import com.tournet.tournetERP.common.repository.ComCodeRepository;
-import com.tournet.tournetERP.contents.dto.CompanyRequest;
-import com.tournet.tournetERP.contents.dto.CompanyResponse;
+import com.tournet.tournetERP.common.util.FetchCodeUtil;
+import com.tournet.tournetERP.contents.dto.CompanyDTO;
 import com.tournet.tournetERP.contents.entity.Company;
 import com.tournet.tournetERP.contents.repository.CompanyRepository;
 import org.modelmapper.ModelMapper;
@@ -29,8 +29,8 @@ public class CompanyService {
     CompanyRepository compRepository;
 
     @Autowired
-    ComCodeRepository comcodeRepository;
-    public List<CompanyResponse> findCompsList(CompanyRequest compReq) {
+    FetchCodeUtil fetchCodeUtil;
+    public List<CompanyDTO> findCompsList(CompanyDTO compReq) {
 
         ModelMapper modelMapper=new ModelMapper();
 
@@ -44,23 +44,23 @@ public class CompanyService {
                 compEng.isEmpty() ? null : compEng
         );
 
-        List<CompanyResponse> compResList = selectedCompanys.stream()
+        List<CompanyDTO> compResList = selectedCompanys.stream()
                 .map(comp -> {
-                    CompanyResponse compResponse = new CompanyResponse();
+                    CompanyDTO compResponse = new CompanyDTO();
                     compResponse.setCompUuid(comp.getCompUuid());
                     compResponse.setCompKor(comp.getCompKor());
                     compResponse.setCompEng(comp.getCompEng());
                     compResponse.setLogoFile(comp.getLogoFile());
                     
-                    compResponse.setCompSectorName(fetchCodeKr(comp.getCompSector()));
-                    compResponse.setHotelRateName(fetchCodeKr(comp.getHotelRate()));
-                    compResponse.setOptionRateName(fetchCodeKr(comp.getOptionRate()));
-                    compResponse.setRentcarRateName(fetchCodeKr(comp.getRentcarRate()));
-                    compResponse.setRestaurantRateName(fetchCodeKr(comp.getRestaurantRate()));
-                    compResponse.setPackRegRateName(fetchCodeKr(comp.getPackRegRate()));
-                    compResponse.setPackRateName(fetchCodeKr(comp.getPackRate()));
-                    compResponse.setHoneymoonRegRateName(fetchCodeKr(comp.getHoneymoonRegRate()));
-                    compResponse.setHoneymoonRateName(fetchCodeKr(comp.getHoneymoonRate()));
+                    compResponse.setCompSectorName(fetchCodeUtil.fetchCodeKr(comp.getCompSector()));
+                    compResponse.setHotelRateName(fetchCodeUtil.fetchCodeKr(comp.getHotelRate()));
+                    compResponse.setOptionRateName(fetchCodeUtil.fetchCodeKr(comp.getOptionRate()));
+                    compResponse.setRentcarRateName(fetchCodeUtil.fetchCodeKr(comp.getRentcarRate()));
+                    compResponse.setRestaurantRateName(fetchCodeUtil.fetchCodeKr(comp.getRestaurantRate()));
+                    compResponse.setPackRegRateName(fetchCodeUtil.fetchCodeKr(comp.getPackRegRate()));
+                    compResponse.setPackRateName(fetchCodeUtil.fetchCodeKr(comp.getPackRate()));
+                    compResponse.setHoneymoonRegRateName(fetchCodeUtil.fetchCodeKr(comp.getHoneymoonRegRate()));
+                    compResponse.setHoneymoonRateName(fetchCodeUtil.fetchCodeKr(comp.getHoneymoonRate()));
 
                     compResponse.setHotelRate(comp.getHotelRate());
                     compResponse.setOptionRate(comp.getOptionRate());
@@ -96,20 +96,13 @@ public class CompanyService {
     }
 
 
-    public CompanyResponse findByCompUuid(long id) {
+    public CompanyDTO findByCompUuid(long id) {
         ModelMapper modelMapper=new ModelMapper();
 
-        CompanyResponse findCompany = modelMapper.map(compRepository.findFirstByCompUuid(id), CompanyResponse.class);
+        CompanyDTO findCompany = modelMapper.map(compRepository.findFirstByCompUuid(id), CompanyDTO.class);
 
         return findCompany;
     }
 
-    private String fetchCodeKr(long codeUuid) {
-        ComCode comcode = comcodeRepository.findFirstByCodeUuid(codeUuid);
-        if (comcode != null) {
-            return comcode.getCodeKr();
-        } else {
-            return null;
-        }
-    }
+
 }
