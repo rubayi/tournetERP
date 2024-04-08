@@ -3,7 +3,7 @@
     <q-header v-if="$store.state.auth.user" class="topNav" elevated>
       <q-toolbar>
         <router-link to="/">
-          <img src="images/mainlogorev.png" class="toplogo" />
+          <img src="/images/mainlogorev.png" class="toplogo" />
         </router-link>
         <q-toolbar-title> Tourtnet Hawaii ERP </q-toolbar-title>
         <div id="user-info">
@@ -260,7 +260,7 @@ body {
   }
 }
 .topNav {
-  background-image: url("images/top_main.png");
+  background-image: url("/images/top_main.png");
   font-family: "Raleway", sans-serif;
   font-weight: 500;
   padding: 0.5rem;
