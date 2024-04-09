@@ -20,11 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @Data
 @EntityListeners(AuditingEntityListener.class) // 날짜 자동 입력 용
-@Table(name = "APP_EMP",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "empEmail")
-        })
+@Table(name = "APP_EMP")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -23,20 +23,11 @@ class CdcdMngService {
       .post(`/cdCdMng/deleteCreditCardMng/${id}`, { headers: authHeader() });
   }
 
-  updateCdcdMng(attachFile, cdcdMngReq) {
+  updateCdcdMng(cdcdMngReq) {
 
-    let formData = new FormData();
-
-    formData.append("cdcdMngReq", JSON.stringify(cdcdMngReq));
-    formData.append("file", attachFile);
-    // for (let pair of formData.entries()) {
-    //   console.log(pair[0] + ', ' + pair[1]);
-    // }
-    return api.post("/cdCdMng/updateCreditCardMng", formData,
-      { headers: {...authHeader(), "Content-Type": "multipart/form-data"}  });
-
+    return api
+        .post(`/cdCdMng/updateCreditCardMng`, cdcdMngReq,{ headers: authHeader() });
   }
-
 
 }
 

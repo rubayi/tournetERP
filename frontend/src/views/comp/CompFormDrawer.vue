@@ -111,7 +111,6 @@ export default defineComponent({
           //업체수정
           //if (dataChanged) {
 
-        console.log(edited.value);
           promises.push(
           CompService.updateComp(fileToUpload, edited.value).then(
                 (response) => {
@@ -123,21 +122,7 @@ export default defineComponent({
             )
            );
           //}
-        // } else {
-        //   //업체 등록
-        //   promises.push(
-        //   compTn.actions.createComp({
-        //       commit: () => {
-        //       }, state: {}
-        //   }, fileToUpload, edited.value).then(
-        //       (response) => {
-        //           alert(response.message);
-        //       },
-        //       (error) => {
-        //           console.log("saveComp failed", error);
-        //       }
-        //   ));
-        // }
+
 
         if (contactReq.contactUuids.length > 0) {
             // Call updateContact method

@@ -22,7 +22,7 @@
                 v-if="this.searchIdx == '유형'"
                 class="col-3"
                 v-model="searchCdcdSector"
-                :options="cdcdSectorOptions"
+                :options="cdCdUuidOptions"
                 option-value="codeValue"
                 option-label="codeKr"
                 emit-value
@@ -111,9 +111,9 @@ export default {
       //E: Paging SET
 
       componentKey: 0,
-      cdcdSector: "",
-      cdcdKor: "",
-      cdcdEng: "",
+      cdCdUuid: "",
+      mngNameKor: "",
+      mngNameEng: "",
       searchWord: "",
       searchCdcdSector: [],
       initEdited: initialData,
@@ -155,34 +155,33 @@ export default {
     },
     searchCdcdList() {
       if (this.searchIdx === "카드명") {
-        this.cdcdKor = this.searchWord;
-        this.cdcdSector = "";
-        this.cdcdEng = "";
+        this.mngNameKor = this.searchWord;
+        this.cdCdUuid = "";
+        this.mngNameEng = "";
       } else if (this.searchIdx === "카드명(영문)") {
-        this.cdcdEng = this.searchWord;
-        this.cdcdSector = "";
-        this.cdcdKor = "";
+        this.mngNameEng = this.searchWord;
+        this.cdCdUuid = "";
+        this.mngNameKor = "";
       } else if (this.searchIdx === "유형") {
-        this.cdcdSector = this.searchCdcdSector;
-        this.cdcdEng = "";
-        this.cdcdKor = "";
+        this.cdCdUuid = this.searchCdcdSector;
+        this.mngNameEng = "";
+        this.mngNameKor = "";
       } else {
-        this.cdcdSector = 0;
-        this.cdcdEng = "";
-        this.cdcdKor = "";
+        this.cdCdUuid = 0;
+        this.mngNameEng = "";
+        this.mngNameKor = "";
       }
 
       const searchReq = {
-        cdcdSector: this.cdcdSector,
-        cdcdKor: this.cdcdKor,
-        cdcdEng: this.cdcdEng,
-        // page: this.page - 1 < 0 ? 0 : this.page - 1,
-        // size: this.count,
+        cdCdUuid: this.cdCdUuid,
+        mngNameKor: this.mngNameKor,
+        mngNameEng: this.mngNameEng,
+
       };
 
       this.$store.dispatch(`cdcdmngTn/searchCdcdmngList`, searchReq).then(
         (response) => {
-          this.cdcds = response.cdcds;
+          this.cdcds = response.listCreditCardMng;
           // this.page = cdcds.currentPage;
           // this.showPage = cdcds.totalPages;
         },
@@ -218,16 +217,16 @@ export default {
     onReset() {
       this.searchIdx = "";
       this.searchWord = "";
-      this.cdcdSector = "";
-      this.cdcdKor = "";
-      this.cdcdEng = "";
+      this.cdCdUuid = "";
+      this.mngNameKor = "";
+      this.mngNameEng = "";
       this.searchCdcdList();
     },
   },
   created() {
     this.searchCdcdList();
     //카드유형
-    this.getCommonCode({ upCode: 22, codeLvl: "1", dataName: "cdcdSectorOptions" });
+    this.getCommonCode({ upCode: 22, codeLvl: "1", dataName: "cdCdUuidOptions" });
 
   },
 };

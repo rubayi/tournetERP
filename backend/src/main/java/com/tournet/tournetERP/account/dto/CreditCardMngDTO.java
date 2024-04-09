@@ -17,7 +17,7 @@ import java.util.Date;
  */
 @Data
 public class CreditCardMngDTO {
-    private long creditCardUuid; //카드UUID
+    private long cdCdUuid; //카드UUID
 
     private String mngNameKor; //관리명KOR
 

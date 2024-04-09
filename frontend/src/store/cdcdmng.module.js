@@ -1,4 +1,5 @@
-import CdcdMngService from "../services/cdcdmng.service";
+import CdcdMngService from "src/services/cdcdmng.service";
+import EmpService from "src/services/emp.service";
 
 const cdcdmng =
 { creditCardUuid: 0,
@@ -16,8 +17,8 @@ export const cdcdmngTn = {
   namespaced: true,
   state: initialState,
   actions: {
-    searchCdcdmngList({ commit }, cdcdmngReq) {
-      return CdcdMngService.searchCdcdMngList(cdcdmngReq).then(
+    searchCdcdmngList({ commit }, comreq) {
+      return CdcdMngService.searchCdcdMngList(comreq).then(
         data => {
           commit('searchCdcdmngs', data);
           return Promise.resolve(data);
@@ -56,9 +57,9 @@ export const cdcdmngTn = {
 
     },
 
-    updateCdcdmng({ commit }, attachFile, cdcdmngreq) {
+    updateCdcdmng({ commit }, comreq) {
 
-      return CdcdMngService.updateCdcdMng(attachFile, cdcdmngreq).then(
+      return CdcdMngService.updateCdcdMng(comreq).then(
         data => {
           commit('updateSuccess', data);
           return Promise.resolve(data);
@@ -70,6 +71,19 @@ export const cdcdmngTn = {
       );
     },
 
+    // updateCdcdmng({ commit }, comreq) {
+    //   console.log(comreq);
+    //   return EmpService.updateEmp(comreq).then(
+    //       data => {
+    //         commit('updateSuccess', data);
+    //         return Promise.resolve(data);
+    //       },
+    //       error => {
+    //         commit('empError');
+    //         return Promise.reject(error);
+    //       }
+    //   );
+    // }
   },
   mutations: {
     searchCdcdmngs(state, data) {

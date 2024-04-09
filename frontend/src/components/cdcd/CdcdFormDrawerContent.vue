@@ -59,7 +59,7 @@
 
                 <q-input
                   class="col-3"
-                  v-model="edited.estDate"
+                  v-model="edited.beginDt"
                   mask="####/##/##"
                   :rules="['date']"
                   label="시작일"
@@ -71,7 +71,7 @@
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="edited.estDate" minimal>
+                        <q-date v-model="edited.beginDt" minimal>
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
@@ -89,7 +89,7 @@
 
                 <q-input
                     class="col-3"
-                    v-model="edited.estDate"
+                    v-model="edited.endDt"
                     mask="####/##/##"
                     :rules="['date']"
                     label="종료일"
@@ -101,7 +101,7 @@
                           transition-show="scale"
                           transition-hide="scale"
                       >
-                        <q-date v-model="edited.estDate" minimal>
+                        <q-date v-model="edited.endDt" minimal>
                           <div class="row items-center justify-end">
                             <q-btn
                                 v-close-popup
@@ -127,40 +127,20 @@
 
 <script>
 import { defineComponent, ref, watch } from "vue";
-import { getCommonValue } from "src/utils/common";
-import { fileInfo } from "src/services/fileInfo";
 export default defineComponent({
-  name: "CompFormDrawerContent",
+  name: "CdcdFormDrawerContent",
 
   props: {
     dataVal: Object,
-    uploadFile: Function,
   },
   emits: ["update:dataVal"],
   setup(props, { emit }) {
     const edited = ref(props.dataVal);
 
-    const sectorOptions = ref([]);
-    const hotelRateOptions = ref([]);
-    const optionRateOptions = ref([]);
-    const rentcarRateOptions = ref([]);
-    const restaurantRateOptions = ref([]);
-
-    const packRegRateOptions = ref([]);
-    const packRateOptions = ref([]);
-    const honeymoonRegRateOptions = ref([]);
-    const honeymoonRateOptions = ref([]);
-
     const useYnOptions = ref([]);
 
     const monNumbers = ref([]);
     const yearNumbers = ref([]);
-
-
-    const fileUrl = fileInfo;
-
-    const previewImage = ref(null);
-
 
     for (let i = 0
       ; i <= 20; i++) {
@@ -177,69 +157,11 @@ export default defineComponent({
       edited.value = newVal;
     }, { deep: true, immediate: true });
 
-    /* 공통코드값 가져오기 */
-    async function getCommonCode(req, targetDataName) {
-      try {
-        targetDataName.value = await getCommonValue(req);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    const handleFileChange = (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        // Read the selected file and set the previewImage variable with its data URL
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          previewImage.value = e.target.result;
-          props.uploadFile(file);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        previewImage.value = null;
-      }
-    };
-
-    //유형
-    getCommonCode({upCode: 22,codeLvl: "1"},sectorOptions);
-    //호텔업체등급
-    getCommonCode({upCode: 239,codeLvl: "1"},hotelRateOptions);
-    //옵션업체등급
-    getCommonCode({upCode: 240,codeLvl: "1"},optionRateOptions);
-    //렌트카등급
-    getCommonCode({upCode: 241,codeLvl: "1"},rentcarRateOptions);
-    //식당등급
-    getCommonCode({upCode: 242,codeLvl: "1"},restaurantRateOptions);
-
-    //패키지일반등급
-    getCommonCode({upCode: 353,codeLvl: "1"},packRegRateOptions);
-    //패키지전용등급
-    getCommonCode({upCode: 354,codeLvl: "1"},packRateOptions);
-    //허니문일반등급
-    getCommonCode({upCode: 355,codeLvl: "1"},honeymoonRegRateOptions);
-    //허니문전용등급
-    getCommonCode({upCode: 356,codeLvl: "1"},honeymoonRateOptions);
-    //사용유무
-    getCommonCode({upCode: 515,codeLvl: "1"},useYnOptions);
-
     return {
       edited,
-      sectorOptions,
-      hotelRateOptions,
-      restaurantRateOptions,
-      rentcarRateOptions,
-      optionRateOptions,
-      packRegRateOptions,
-      packRateOptions,
-      honeymoonRegRateOptions,
-      honeymoonRateOptions,
       useYnOptions,
       monNumbers,
-      fileUrl,
-      previewImage,
-      handleFileChange,
-      yearNumbers
+      yearNumbers,
     };
   },
 

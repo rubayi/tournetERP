@@ -25,12 +25,23 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface CreditCardMngRepository extends JpaRepository<CreditCardMng,Long> {
 
-    Optional<CreditCardMng> findByCreditCardUuid(long id);
+    Optional<CreditCardMng> findByCdCdUuid(long id);
 
-    List<CreditCardMng> findAllByOrderByModifiedDtDesc();
+    @Query("SELECT u FROM CreditCardMng u " +
+            "WHERE (:cdcdUuid IS NULL OR u.cdCdUuid = :cdcdUuid) " +
+            "AND (:mngNameKor IS NULL OR u.mngNameKor LIKE CONCAT('%', :mngNameKor, '%')) " +
+            "AND (:mngNameEng IS NULL OR u.mngNameEng LIKE CONCAT('%', :mngNameEng, '%')) " +
+            "OR (:cdcdUuid IS NULL AND :mngNameKor IS NULL AND :mngNameEng IS NULL) " +
+            "ORDER BY u.modifiedDt DESC")
+    List<CreditCardMng> findAllByOrderByModifiedDtDesc(
+            @Param("cdcdUuid") Long cdcdUuid,
+            @Param("mngNameKor") String mngNameKor,
+            @Param("mngNameEng") String mngNameEng
+            
+    );
 
     @Modifying
-    void deleteByCreditCardUuid(@Param("id") long creditCardUuid);
+    void deleteByCdCdUuid(@Param("id") long creditCardUuid);
 
 
 }

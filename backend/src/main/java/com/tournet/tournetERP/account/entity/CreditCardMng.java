@@ -24,7 +24,7 @@ public class CreditCardMng {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CREDIT_CARD_UUID", nullable = false)
-    private long creditCardUuid; //카드UUID
+    private long cdCdUuid; //카드UUID
 
     @Column(name = "MNG_NAME_KOR", nullable = true)
     private String mngNameKor; //관리명KOR

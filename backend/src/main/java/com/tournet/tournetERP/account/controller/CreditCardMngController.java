@@ -7,10 +7,15 @@ package com.tournet.tournetERP.account.controller;
  * @fileName : CreditCardMngController
  * @since : 2024-04-08
  */
+import java.nio.file.FileAlreadyExistsException;
 import java.util.*;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tournet.tournetERP.account.dto.CreditCardMngDTO;
 import com.tournet.tournetERP.account.entity.CreditCardMng;
+import com.tournet.tournetERP.account.service.CreditCardMngService;
+import com.tournet.tournetERP.auth.dto.MessageResponse;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,12 +46,21 @@ public class CreditCardMngController {
     @Autowired
     CreditCardMngRepository creditCardMngRepository;
 
+    @Autowired
+    CreditCardMngService creditCardMngService;
+
     @PostMapping("/selectCreditCardMngs")
     public ResponseEntity<Map<String, Object>> selectCreditCardMngs (@RequestBody CreditCardMngDTO searchcreditCardMngReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        List<CreditCardMng> listCreditCardMng = new ArrayList<CreditCardMng>();
+        String message = "";
+        List<CreditCardMngDTO> listCreditCardMng = new ArrayList<CreditCardMngDTO>();
+        if(storUser.isAuthenticated()) {
+            listCreditCardMng = creditCardMngService.findCreditCardMngList(searchcreditCardMngReq);
+            message = "OK";
+        }
+
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("listCreditCardMng", listCreditCardMng);
         return new ResponseEntity<>(resMap, HttpStatus.OK);
@@ -57,8 +71,6 @@ public class CreditCardMngController {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        Optional<CreditCardMng> currentCreditCardMng = creditCardMngRepository.findByCreditCardUuid(creditCardMngReq.getCreditCardUuid());
-
         String message = "";
         if (storUser.isAuthenticated()) {
 
@@ -66,6 +78,9 @@ public class CreditCardMngController {
 
             User modifyingUser = new User();
             modifyingUser.setEmpUuid(userDetails.getEmpUuid());
+
+            Optional<CreditCardMng> currentCreditCardMng = creditCardMngRepository.
+                    findByCdCdUuid(creditCardMngReq.getCdCdUuid());
 
             if (currentCreditCardMng.isPresent()) {
                 creditCardMngReq.setModifyUser(modifyingUser);
@@ -75,19 +90,22 @@ public class CreditCardMngController {
                 creditCardMngReq.setCreateUser(modifyingUser);
                 message = "등록 되었습니다.";
             }
+
+            creditCardMngRepository.save(creditCardMngReq);
         }
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("message", message);
         return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
+
     @Transactional
     @DeleteMapping("/deletecreditCardMng/{id}")
-    public ResponseEntity<?> deletecreditCardMng(@PathVariable long id) {
+    public ResponseEntity<?> deleteCdCdMng(@PathVariable long id) {
 
         String message = "";
 
-        creditCardMngRepository.deleteByCreditCardUuid(id);
+        creditCardMngRepository.deleteByCdCdUuid(id);
 
         message="삭제 되었습니다.";
 

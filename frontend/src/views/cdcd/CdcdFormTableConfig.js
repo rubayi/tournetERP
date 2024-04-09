@@ -15,7 +15,7 @@ export class cdcdFormTableConfig {
 
             },
             {
-                field: "creditCardUuid",
+                field: "cdCdUuid",
                 headerName: "번호",
                 width: 100,
                 flex: null,
