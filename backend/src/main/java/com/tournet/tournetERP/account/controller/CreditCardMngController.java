@@ -100,7 +100,7 @@ public class CreditCardMngController {
 
 
     @Transactional
-    @DeleteMapping("/deletecreditCardMng/{id}")
+    @PostMapping("/deleteCreditCardMng/{id}")
     public ResponseEntity<?> deleteCdCdMng(@PathVariable long id) {
 
         String message = "";

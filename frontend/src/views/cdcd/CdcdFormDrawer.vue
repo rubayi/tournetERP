@@ -48,6 +48,8 @@ export default defineComponent({
 
     const initialData = ref(props.dataVal);
 
+    const promises = [];
+
     watch(() => props.dataVal, (newVal) => {
 
       edited.value = { ...newVal };
@@ -60,7 +62,7 @@ export default defineComponent({
       const dataChanged = JSON.stringify(initialData.value) !== JSON.stringify(edited.value);
         console.log(initialData.value);
         console.log(edited.value);
-      // Create contactReq object with contactUuids Set and creditCardUuid
+      // Create contactReq object with contactUuids Set and cdCdUuid
       const promises = [];
 
       if (!dataChanged) {
@@ -108,14 +110,40 @@ export default defineComponent({
     }
 
     function resetForm() {
-      if (edited.value && edited.value.creditCardUuid != 0) {
+      if (edited.value && edited.value.cdCdUuid != 0) {
         edited.value = updateEdited;
       } else {
         edited.value = { ...initEdited };
       }
     }
-    function handleDeleteData(data) {
-      emit("delete", edited.value.creditCardUuid);
+    async function handleDeleteData(data) {
+      emit("delete", edited.value.cdCdUuid);
+
+        promises.push(
+            cdcdmngTn.actions.deleteCdcdmng(
+                {
+                    commit: () => {},
+                    state: {},
+                },
+                edited.value.cdCdUuid
+            )
+                .then(
+                    (response) => {
+                        alert(response.data.message);
+                    },
+                    (error) => {
+                        console.log("saveEmp failed", error);
+                    }
+                )
+        );
+        try {
+            await Promise.all(promises);
+            // Emit the event after all promises have resolved
+            emitCloseDrawer();
+        } catch (error) {
+            console.error("One or more promises failed:", error);
+            // Handle error if necessary
+        }
     }
 
     onMounted(() => {
