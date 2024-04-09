@@ -21,7 +21,7 @@
                 v-if="this.searchIdx == '상태'"
                 class="col-3"
                 v-model="searchEmpStatus"
-                :options="statusOptions"
+                :options="empStatusOptions"
                 option-value="codeValue"
                 option-label="codeKr"
                 emit-value
@@ -128,6 +128,7 @@ export default {
       searchEmpStatus: "",
       initEdited: initialData,
       updateEdited: {},
+      empStatusOptions: {},
       edited: initialData,
       colDefs: EmpFormTableConfig.columns(),
       emps: [],
@@ -256,9 +257,7 @@ export default {
       codeLvl: "1",
       dataName: "empRoleOptions",
     });
-    //근무형태
-    // this.getCommonCode('16', '1', 'workOptions');
-    this.getCommonCode({ upCode: 16, codeLvl: "1", dataName: "workOptions" });
+
     //재직상태
     this.getCommonCode({
       upCode: 15,

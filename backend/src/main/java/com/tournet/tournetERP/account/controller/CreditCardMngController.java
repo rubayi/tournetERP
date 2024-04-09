@@ -1,21 +1,18 @@
-package com.tournet.tournetERP.contents.controller;
+package com.tournet.tournetERP.account.controller;
 
 /**
- * Please explain the class!!
+ * 프리페이드 카드 관리
  *
  * @author : rubayi
- * @fileName : TourController
- * @since : 2024-04-05
+ * @fileName : CreditCardMngController
+ * @since : 2024-04-08
  */
 import java.util.*;
 
+import com.tournet.tournetERP.account.dto.CreditCardMngDTO;
+import com.tournet.tournetERP.account.entity.CreditCardMng;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
-import com.tournet.tournetERP.contents.dto.TourDTO;
-import com.tournet.tournetERP.contents.entity.Tour;
-import com.tournet.tournetERP.contents.repository.TourRepository;
-import com.tournet.tournetERP.contents.service.CompanyService;
-import com.tournet.tournetERP.contents.service.TourInfoService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,79 +23,71 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import jakarta.transaction.Transactional;
 
+import com.tournet.tournetERP.account.repository.CreditCardMngRepository;
+
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/tour")
-public class TourController {
+@RequestMapping("/api/cdCdMng")
+public class CreditCardMngController {
 
     @Autowired
-    TourRepository tourRepository;
+    CreditCardMngRepository creditCardMngRepository;
 
-    @Autowired
-    TourInfoService tourInfoService;
-
-    @PostMapping("/selectTours")
-    public ResponseEntity<Map<String, Object>> selectTours (@RequestBody TourDTO searchtourReq) {
+    @PostMapping("/selectCreditCardMngs")
+    public ResponseEntity<Map<String, Object>> selectCreditCardMngs (@RequestBody CreditCardMngDTO searchcreditCardMngReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        List<TourDTO> listTour = new ArrayList<TourDTO>();
-        String message = "";
-        if(storUser.isAuthenticated()) {
-            listTour = tourInfoService.findtoursList(searchtourReq);
-            message = "OK";
-        }
-
+        List<CreditCardMng> listCreditCardMng = new ArrayList<CreditCardMng>();
         Map<String, Object> resMap = new HashMap<>();
-        resMap.put("listTour", listTour);
-        resMap.put("message", message);
+        resMap.put("listCreditCardMng", listCreditCardMng);
         return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
-    @PostMapping("/updateTour")
-    public ResponseEntity<Map<String, Object>> updateTour(@RequestBody Tour tourReq) {
+    @PostMapping("/updateCreditCardMng")
+    public ResponseEntity<Map<String, Object>> updateCreditCardMng(@RequestBody CreditCardMng creditCardMngReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        Optional<Tour> currentTour = tourRepository.findByTourUuid(tourReq.getTourUuid());
+        Optional<CreditCardMng> currentCreditCardMng = creditCardMngRepository.findByCreditCardUuid(creditCardMngReq.getCreditCardUuid());
 
         String message = "";
         if (storUser.isAuthenticated()) {
+
             UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
 
             User modifyingUser = new User();
             modifyingUser.setEmpUuid(userDetails.getEmpUuid());
 
-            if (currentTour.isPresent()) {
-
-                tourReq.setModifyUser(modifyingUser);
+            if (currentCreditCardMng.isPresent()) {
+                creditCardMngReq.setModifyUser(modifyingUser);
                 message = "수정 되었습니다.";
             } else {
-                tourReq.setModifyUser(modifyingUser);
-                tourReq.setCreateUser(modifyingUser);
+                creditCardMngReq.setModifyUser(modifyingUser);
+                creditCardMngReq.setCreateUser(modifyingUser);
                 message = "등록 되었습니다.";
             }
-            tourRepository.save(tourReq);
         }
-
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("message", message);
         return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
     @Transactional
-    @DeleteMapping("/deletetour/{id}")
-    public ResponseEntity<?> deletetour(@PathVariable long id) {
+    @DeleteMapping("/deletecreditCardMng/{id}")
+    public ResponseEntity<?> deletecreditCardMng(@PathVariable long id) {
 
         String message = "";
 
-        tourRepository.deleteByTourUuid(id);
+        creditCardMngRepository.deleteByCreditCardUuid(id);
 
         message="삭제 되었습니다.";
 
@@ -107,6 +96,5 @@ public class TourController {
         return new ResponseEntity<>(resMap, HttpStatus.OK);
 
     }
-
 
 }

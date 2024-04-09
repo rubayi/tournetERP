@@ -69,12 +69,6 @@ public class CompanyDTO {
 
     private int size;
 
-    private String searchKeyword;
-
-    private String searchKeyword2;
-
-    private String searchKeyword3;
-
     private String compSectorName;
 
     private String compRateName; //등급
@@ -94,6 +88,12 @@ public class CompanyDTO {
     private String honeymoonRegRateName;
 
     private String honeymoonRateName;
+
+    private String searchKeyword;
+
+    private String searchKeyword2;
+
+    private String searchKeyword3;
 
     private String createdByName; //생성자
 

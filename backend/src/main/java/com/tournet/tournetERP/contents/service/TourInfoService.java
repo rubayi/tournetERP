@@ -29,7 +29,7 @@ public class TourInfoService {
 
     @Autowired
     FetchCodeUtil fetchCodeUtil;
-    public List<TourDTO> findtourpsList(TourDTO tourpReq) {
+    public List<TourDTO> findtoursList(TourDTO tourpReq) {
 
         ModelMapper modelMapper = new ModelMapper();
 
@@ -51,20 +51,21 @@ public class TourInfoService {
                     tourpResponse.setTourEng(tourp.getTourEng());
 
                     tourpResponse.setTourCategoryName(fetchCodeUtil.fetchCodeKr(tourp.getTourCategory()));
-                    tourpResponse.setCompanyAreaName(fetchCodeUtil.fetchCodeKr(tourp.getCompanyArea()));
+                    tourpResponse.setTourAreaName(fetchCodeUtil.fetchCodeKr(tourp.getTourArea()));
                     tourpResponse.setPrepaidMethodName(fetchCodeUtil.fetchCodeKr(tourp.getPrepaidMethod()));
 
                     tourpResponse.setMinAge(tourp.getMinAge());
                     tourpResponse.setChildAge(tourp.getChildAge());
                     tourpResponse.setYouthAge(tourp.getYouthAge());
-
+                    tourpResponse.setModifiedByName(tourp.getModifyUser().getUsername());
+                    tourpResponse.setCreatedByName(tourp.getCreateUser().getUsername());
 
                     tourpResponse.setCreatedDt(tourp.getCreatedDt());
 
                     return tourpResponse;
                 })
                 .collect(Collectors.toList());
-//        List<TourResponse> tourpResList = null;
+
         return tourpResList;
     }
 }

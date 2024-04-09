@@ -1,5 +1,6 @@
-import * as moment from 'moment';
-export class compFormTableConfig {
+import * as moment from "moment/moment";
+
+export class tourInfoFormTableConfig {
 
     static columns() {
         return [
@@ -15,7 +16,7 @@ export class compFormTableConfig {
 
             },
             {
-                field: "compUuid",
+                field: "tourUuid",
                 headerName: "번호",
                 width: 100,
                 flex: null,
@@ -24,46 +25,41 @@ export class compFormTableConfig {
                 // checkboxSelection: true,
             },
             {
-                field: "compKor",
-                headerName: "업체명",
+                field: "tourCategoryName",
+                headerName: "투어구분",
+                hide: true,
+            },
+            {
+                field: "tourKor + tourEng",
+                headerName: "투어명",
                 width: 120,
                 sortable: true,
                 filter: true,
             },
             {
-                field: "compEng",
-                headerName: "업체명(영문)",
+                field: "tourAreaName + tourAreaSubName",
+                headerName: "지역",
                 width: 150,
                 sortable: true,
                 filter: true,
             },
             {
-                field: "compSectorName",
-                headerName: "유형",
+                field: "prepaidMethodName",
+                headerName: "프리페이드지정",
+                width: 150,
                 sortable: true,
                 filter: true,
             },
 
             {
-                field: "compPhone",
-                headerName: "전화번호",
-                width: 150,
-                sortable: true,
-                filter: true,
+                field: "tourMemo",
+                headerName: "주소",
+                hide: true,
             },
             {
-              field: "hotelRateName",
-              headerName: "호텔등급",
-              width: 150,
-              sortable: true,
-              filter: true,
-            },
-            {
-              field: "optionRateName",
-              headerName: "옵션등급",
-              width: 150,
-              sortable: true,
-              filter: true,
+                field: "tourStatus",
+                headerName: "주소",
+                hide: true,
             },
             {
                 field: "createdByName",
@@ -77,10 +73,9 @@ export class compFormTableConfig {
                 sortable: true,
                 filter: true,
                 cellRenderer: (createdDt) => {
-                  return moment(createdDt.value).format('YYYY/MM/DD HH:mm')
+                    return moment(createdDt.value).format('YYYY/MM/DD HH:mm')
                 }
             },
-
         ];
     }
 }

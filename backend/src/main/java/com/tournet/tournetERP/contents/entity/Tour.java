@@ -1,5 +1,6 @@
 package com.tournet.tournetERP.contents.entity;
 
+import com.tournet.tournetERP.auth.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -21,8 +22,11 @@ public class Tour {
     @Column(name = "TOUR_CATEGORY", nullable = true)
     private long tourCategory; //투어구분
 
-    @Column(name = "COMPANY_AREA", nullable = true)
-    private long companyArea; //지역코드
+    @Column(name = "TOUR_AREA", nullable = true)
+    private long tourArea; //지역코드
+
+    @Column(name = "TOUR_AREA_SUB", nullable = true)
+    private long tourAreaSub; //지역코드
 
     @Column(name = "TOUR_KOR", nullable = true)
     private String tourKor; //투어명KOR
@@ -49,11 +53,14 @@ public class Tour {
     @Column(name = "CREATED_DT", updatable = false)
     private Date createdDt; //생성일
 
-    @Column(name = "CREATED_BY", nullable = true)
-    private long createdBy; //생성자
+    @OneToOne
+    @JoinColumn(name = "CREATED_BY", referencedColumnName = "EMP_UUID",
+            updatable = false)
+    private User createUser;
 
-    @Column(name = "MODIFIED_BY", nullable = true)
-    private long modifiedBy; //최종수정자
+    @OneToOne
+    @JoinColumn(name = "MODIFIED_BY", referencedColumnName = "EMP_UUID")
+    private User modifyUser;
 
     @LastModifiedDate
     @Column(name = "MODIFIED_DT", nullable = true)

@@ -2,6 +2,8 @@ import Home from "components/Homehome.vue";
 import Login from "components/LoginTN.vue";
 import EmpList from "src/views/emp/EmpTnList.vue";
 import CompList from "src/views/comp/CompList.vue";
+import TourList from "src/views/tour/TourList.vue";
+import CdcdList from "src/views/cdcd/CdcdList.vue";
 import Register from "components/RegisterTN.vue";
 import ComCode from "components/ComCode.vue";
 import ComMenu from "components/ComMenu.vue";
@@ -65,6 +67,20 @@ const routes = [
     children: [
       { path: '', component: () => CompList }
     ]
+  },
+  {
+    path: "/tourList/:sector",
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => TourList }
+    ]
+  },
+  {
+      path: "/cdcdList",
+      component: () => import('layouts/MainLayout.vue'),
+      children: [
+          { path: '', component: () => CdcdList }
+      ]
   },
   {
       path: "/profile",

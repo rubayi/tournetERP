@@ -23,8 +23,10 @@ public class TourDTO {
     private long tourUuid; //투어UUID
     private long tourCategory; //투어구분
     private String tourCategoryName; //투어구분
-    private long companyArea; //지역코드
-    private String companyAreaName; //지역코드
+    private long tourArea; //지역코드
+    private String tourAreaName; //지역코드
+    private long tourAreaSub; //지역코드
+    private String tourAreaSubName; //지역코드
     private String tourKor; //투어명KOR
     private String tourEng; //투어명ENG
     private long prepaidMethod; //프리페이드지정]
@@ -36,6 +38,9 @@ public class TourDTO {
     private long createdBy; //생성자
     private long modifiedBy; //최종수정자
     private Date modifiedDt; //최종수정일
+
+    private String createdByName; //생성자
+    private String modifiedByName; //최종수정자
 
     private long tourOrd; //투어명ENG
 

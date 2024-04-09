@@ -1,16 +1,16 @@
 <template>
   <component-to-re-render :key="componentKey" />
-  <div id="compform">
+  <div id="cdcdform">
     <q-page class="q-pa-md">
       <div class="row">
         <div class="col q-pr-md flex items-center">
           <span class="part_title text-primary">
             <q-icon name="person" class="q-ml-xs q-mb-xs" size="md"></q-icon
-            >업체관리</span
+            >카드관리</span
           >
         </div>
         <div class="col-5 text-right">
-          <q-form @submit="searchCompList">
+          <q-form @submit="searchCdcdList">
             <div class="row q-col-gutter-sm justify-end">
               <q-select
                 class="col-2"
@@ -21,13 +21,13 @@
               <q-select
                 v-if="this.searchIdx == '유형'"
                 class="col-3"
-                v-model="searchCompSector"
-                :options="compSectorOptions"
+                v-model="searchCdcdSector"
+                :options="cdcdSectorOptions"
                 option-value="codeValue"
                 option-label="codeKr"
                 emit-value
                 map-options
-                label="업체유형 *"
+                label="카드유형 *"
               />
               <q-input
                 v-if="this.searchIdx != '유형'"
@@ -46,7 +46,7 @@
               </div>
               <div class="q-pa-md">
                 <q-btn
-                  label="+ 업체등록"
+                  label="+ 카드등록"
                   color="green"
                   @click="createAction"
                 />
@@ -55,22 +55,22 @@
           </q-form>
         </div>
       </div>
-      <div id="compform-grid-container" class="row">
+      <div id="cdcd-form-grid-container" class="row">
         <table-comp
-          id="memberform-grid"
+          id="cdcd-form-grid"
           class="ag-theme-alpine grid"
           :column-defs="colDefs"
-          :row-data="comps"
+          :row-data="cdcds"
           :on-cell-clicked="openAction"
         />
       </div>
-      <comp-form-drawer
+      <cdcd-form-drawer
         :open-drawer="openDrawer"
         :drawer-width="800"
         :dataVal="edited"
         :on-close-click="closeAction"
         @update:openDrawer="openDrawer = $event"
-        @drawer-closed="searchCompList"
+        @drawer-closed="searchCdcdList"
       />
     </q-page>
   </div>
@@ -78,29 +78,28 @@
 
 <script>
 import { ref } from "vue";
-import { compFormTableConfig } from "src/views/comp/CompFormTableConfig";
-import { initialData } from "src/views/comp/CompData";
+import { cdcdFormTableConfig } from "src/views/cdcd/CdcdFormTableConfig";
+import { initialData } from "src/views/cdcd/CdcdData";
 import { getCommonValue } from "src/utils/common.js"; // 공통코드 값
 
 //Component
 import TableComp from "src/components/table/TableComp.vue";
-// import PageComp from "src/components/table/PaginationRenderer.vue";
 // Layout
-import CompFormDrawer from "src/views/comp/CompFormDrawer.vue";
+import CdcdFormDrawer from "src/views/cdcd/CdcdFormDrawer.vue";
 import EventBus from "src/common/EventBus";
 
 export default {
-  name: "CompTnList",
+  name: "CdcdTnList",
   components: {
     TableComp,
-    CompFormDrawer,
+    CdcdFormDrawer,
   },
   setup() {
     return {
       openDrawer: ref(false),
       searchIdx: ref(null),
       bar: ref(false),
-      options: ["업체명", "업체명(영문)", "유형"],
+      options: ["카드명", "카드명(영문)", "유형"],
     };
   },
   data() {
@@ -112,16 +111,16 @@ export default {
       //E: Paging SET
 
       componentKey: 0,
-      compSector: "",
-      compKor: "",
-      compEng: "",
+      cdcdSector: "",
+      cdcdKor: "",
+      cdcdEng: "",
       searchWord: "",
-      searchCompSector: [],
+      searchCdcdSector: [],
       initEdited: initialData,
       updateEdited: {},
       edited: initialData,
-      colDefs: compFormTableConfig.columns(),
-      comps: [],
+      colDefs: cdcdFormTableConfig.columns(),
+      cdcds: [],
     };
   },
   methods: {
@@ -152,51 +151,51 @@ export default {
       this.openDrawer = !this.openDrawer;
     },
     handlePageChange() {
-      this.searchCompList();
+      this.searchCdcdList();
     },
-    searchCompList() {
-      if (this.searchIdx === "업체명") {
-        this.compKor = this.searchWord;
-        this.compSector = "";
-        this.compEng = "";
-      } else if (this.searchIdx === "업체명(영문)") {
-        this.compEng = this.searchWord;
-        this.compSector = "";
-        this.compKor = "";
+    searchCdcdList() {
+      if (this.searchIdx === "카드명") {
+        this.cdcdKor = this.searchWord;
+        this.cdcdSector = "";
+        this.cdcdEng = "";
+      } else if (this.searchIdx === "카드명(영문)") {
+        this.cdcdEng = this.searchWord;
+        this.cdcdSector = "";
+        this.cdcdKor = "";
       } else if (this.searchIdx === "유형") {
-        this.compSector = this.searchCompSector;
-        this.compEng = "";
-        this.compKor = "";
+        this.cdcdSector = this.searchCdcdSector;
+        this.cdcdEng = "";
+        this.cdcdKor = "";
       } else {
-        this.compSector = 0;
-        this.compEng = "";
-        this.compKor = "";
+        this.cdcdSector = 0;
+        this.cdcdEng = "";
+        this.cdcdKor = "";
       }
 
       const searchReq = {
-        compSector: this.compSector,
-        compKor: this.compKor,
-        compEng: this.compEng,
+        cdcdSector: this.cdcdSector,
+        cdcdKor: this.cdcdKor,
+        cdcdEng: this.cdcdEng,
         // page: this.page - 1 < 0 ? 0 : this.page - 1,
         // size: this.count,
       };
 
-      this.$store.dispatch(`compTn/searchCompList`, searchReq).then(
+      this.$store.dispatch(`cdcdmngTn/searchCdcdmngList`, searchReq).then(
         (response) => {
-          this.comps = response.comps;
-          // this.page = comps.currentPage;
-          // this.showPage = comps.totalPages;
+          this.cdcds = response.cdcds;
+          // this.page = cdcds.currentPage;
+          // this.showPage = cdcds.totalPages;
         },
         (error) => {
-          console.log("searchCompList failed", error);
+          console.log("searchCdcdList failed", error);
           if (error.response && error.response.status === 403) {
             EventBus.dispatch("logout");
           }
         }
       );
     },
-    deleteComp(id) {
-      this.$store.dispatch("compTn/deleteComp", id).then(
+    deleteCdcd(id) {
+      this.$store.dispatch("cdcdmngTn/deleteCdcdmng", id).then(
         (response) => {
           alert(response.data.message);
           this.resetForm();
@@ -204,13 +203,13 @@ export default {
           this.handlePageChange();
         },
         (error) => {
-          console.log("deleteComp failed", error);
+          console.log("deleteCdcd failed", error);
         }
       );
       this.resetForm();
     },
     resetForm() {
-      if (this.edited.compUuid != 0) {
+      if (this.edited.cdcdUuid != 0) {
         this.edited = this.updateEdited;
       } else {
         this.edited = Object.assign({}, this.initEdited);
@@ -219,26 +218,26 @@ export default {
     onReset() {
       this.searchIdx = "";
       this.searchWord = "";
-      this.compSector = "";
-      this.compKor = "";
-      this.compEng = "";
-      this.searchCompList();
+      this.cdcdSector = "";
+      this.cdcdKor = "";
+      this.cdcdEng = "";
+      this.searchCdcdList();
     },
   },
   created() {
-    this.searchCompList();
-    //업체유형
-    this.getCommonCode({ upCode: 22, codeLvl: "1", dataName: "compSectorOptions" });
+    this.searchCdcdList();
+    //카드유형
+    this.getCommonCode({ upCode: 22, codeLvl: "1", dataName: "cdcdSectorOptions" });
 
   },
 };
 </script>
 <style lang="scss">
-#compform {
-  #compform-grid-container {
+#cdcdform {
+  #cdcdform-grid-container {
     flex-grow: 1;
 
-    #compform-grid {
+    #cdcdform-grid {
       height: 100%;
     }
   }

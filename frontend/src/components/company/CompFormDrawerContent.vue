@@ -17,7 +17,6 @@
                   map-options
                   label="업체유형"
                 />
-
                 <q-input
                   class="col-3"
                   type="text"
@@ -80,7 +79,7 @@
                 <q-select
                   class="col-3"
                   v-model="edited.couponYn"
-                  :options="compRoleOptions"
+                  :options="useYnOptions"
                   option-value="codeUuid"
                   option-label="codeKr"
                   emit-value
@@ -275,6 +274,8 @@ export default defineComponent({
     const honeymoonRegRateOptions = ref([]);
     const honeymoonRateOptions = ref([]);
 
+    const useYnOptions = ref([]);
+
     const ageNumbers = ref([]);
     const fileUrl = fileInfo;
 
@@ -333,6 +334,8 @@ export default defineComponent({
     getCommonCode({upCode: 355,codeLvl: "1"},honeymoonRegRateOptions);
     //허니문전용등급
     getCommonCode({upCode: 356,codeLvl: "1"},honeymoonRateOptions);
+    //사용유무
+    getCommonCode({upCode: 515,codeLvl: "1"},useYnOptions);
 
     return {
       edited,
@@ -345,6 +348,7 @@ export default defineComponent({
       packRateOptions,
       honeymoonRegRateOptions,
       honeymoonRateOptions,
+      useYnOptions,
       ageNumbers,
       fileUrl,
       previewImage,

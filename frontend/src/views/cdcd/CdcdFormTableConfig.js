@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-export class compFormTableConfig {
+export class cdcdFormTableConfig {
 
     static columns() {
         return [
@@ -15,7 +15,7 @@ export class compFormTableConfig {
 
             },
             {
-                field: "compUuid",
+                field: "creditCardUuid",
                 headerName: "번호",
                 width: 100,
                 flex: null,
@@ -24,46 +24,52 @@ export class compFormTableConfig {
                 // checkboxSelection: true,
             },
             {
-                field: "compKor",
-                headerName: "업체명",
+                field: "mngNameKor",
+                headerName: "관리명",
                 width: 120,
                 sortable: true,
                 filter: true,
             },
             {
-                field: "compEng",
-                headerName: "업체명(영문)",
+                field: "mngNameEng",
+                headerName: "관리명(영문)",
                 width: 150,
                 sortable: true,
                 filter: true,
             },
             {
-                field: "compSectorName",
-                headerName: "유형",
+                field: "nameOnCard",
+                headerName: "명의자",
                 sortable: true,
                 filter: true,
             },
 
             {
-                field: "compPhone",
-                headerName: "전화번호",
+                field: "expMonth",
+                headerName: "유효일달",
                 width: 150,
                 sortable: true,
                 filter: true,
             },
             {
-              field: "hotelRateName",
-              headerName: "호텔등급",
+              field: "expYear",
+              headerName: "유효일년",
               width: 150,
               sortable: true,
               filter: true,
             },
             {
-              field: "optionRateName",
-              headerName: "옵션등급",
+              field: "beginDt",
+              headerName: "시작일",
               width: 150,
               sortable: true,
               filter: true,
+            },
+            {
+                field: "endDt",
+                headerName: "종료일",
+                sortable: true,
+                filter: true,
             },
             {
                 field: "createdByName",
