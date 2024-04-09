@@ -10,7 +10,7 @@ export class compFormTableConfig {
                 flex: null,
                 cellStyle: { 'justify-content': 'center' },
                 cellRenderer: function (params) {
-                    return `<div style="cursor: pointer; display: flex; justify-content: center;"><img src="images/folder.svg" style="width: 20px; height: 20px;" /></div>`;
+                    return `<div style="cursor: pointer; display: flex; justify-content: center;"><img src="/images/folder.svg" style="width: 20px; height: 20px;" /></div>`;
                 },
 
             },

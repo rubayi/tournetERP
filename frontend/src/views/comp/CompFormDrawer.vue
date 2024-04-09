@@ -80,6 +80,8 @@ export default defineComponent({
       //attfile.value = files[0];
     }
 
+    const promises = [];
+
     async function handleSaveData(data) {
       //업체 정보 관련 req 데이터
       const dataChanged = JSON.stringify(initialData.value) !== JSON.stringify(edited.value);
@@ -90,8 +92,6 @@ export default defineComponent({
       // Create contactReq object with contactUuids Set and compUuid
       const contactReq = { contactUuids: Array.from(contactUuids), compUuid: edited.value.compUuid };
 
-      const promises = [];
-
       if (!dataChanged && !attfile.value
           && contactReq.contactUuids.length <=0) {
           alert("변경할 데이터가 없습니다.");
@@ -100,13 +100,6 @@ export default defineComponent({
         // if (edited.value.compUuid != 0) {
 
           const fileToUpload = attfile.value; // Get the first file
-          // Perform the upload operation with the first file
-          // try {
-          //   const response = await CompService.updateComp(fileToUpload, edited.value);
-          //   console.log("File uploaded successfully:", response);
-          // } catch (error) {
-          //   console.error("File upload failed:", error);
-          // }
 
           //업체수정
           //if (dataChanged) {
@@ -175,8 +168,28 @@ export default defineComponent({
         edited.value = { ...initEdited };
       }
     }
-    function handleDeleteData(data) {
+    async function handleDeleteData(data) {
       emit("delete", edited.value.compUuid);
+
+      promises.push(
+          CompService.deleteComp(edited.value.compUuid).then(
+              (response) => {
+                alert(response.data.message);
+              },
+              (error) => {
+                console.log("saveComp failed", error);
+              }
+          )
+      );
+
+      try {
+        await Promise.all(promises);
+        // Emit the event after all promises have resolved
+        emitCloseDrawer();
+      } catch (error) {
+        console.error("One or more promises failed:", error);
+        // Handle error if necessary
+      }
     }
 
     onMounted(() => {

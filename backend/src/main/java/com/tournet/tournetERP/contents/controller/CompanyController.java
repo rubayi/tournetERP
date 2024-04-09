@@ -173,7 +173,7 @@ public class CompanyController {
 
 
     @Transactional
-    @DeleteMapping("/deleteComp/{id}")
+    @PostMapping("/deleteComp/{id}")
     public ResponseEntity<?> deleteCompany(@PathVariable long id) {
 
         compRepository.deleteByCompUuid(id);

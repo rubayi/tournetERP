@@ -56,58 +56,33 @@ export default defineComponent({
       { deep: true }
     );
 
+    const promises = [];
+
     async function handleSaveData(data) {
       //사용자 정보 관련 req 데이터
       const dataChanged =
         JSON.stringify(initialData.value) !== JSON.stringify(edited.value);
 
-      const promises = [];
-      if (
-        dataChanged
-      ) {
-        if (edited.value.tourUuid != 0) {
-          //사용자 수정
-          if (dataChanged) {
-            promises.push(
-              tourTn.actions
-                .updateTour(
-                  {
-                    commit: () => {},
-                    state: {},
-                  },
-                  edited.value
-                )
-                .then(
-                  (response) => {
-                    alert(response.data.message);
-                  },
-                  (error) => {
-                    console.log("saveTour failed", error);
-                  }
-                )
-            );
-          }
-        } else {
-          //사용자 등록
-          promises.push(
-            auth.actions
-              .register(
-                {
-                  commit: () => {},
-                  state: {},
-                },
-                edited.value
-              )
-              .then(
-                (response) => {
-                  alert(response.message);
-                },
-                (error) => {
-                  console.log("saveTour failed", error);
-                }
-              )
-          );
-        }
+      if (dataChanged) {
+        //수정
+        promises.push(
+          tourTn.actions
+            .updateTour(
+              {
+                commit: () => {},
+                state: {},
+              },
+              edited.value
+            )
+            .then(
+              (response) => {
+                alert(response.data.message);
+              },
+              (error) => {
+                console.log("saveTour failed", error);
+              }
+            )
+        );
 
         //Action after update,delete
         try {
@@ -135,8 +110,37 @@ export default defineComponent({
         edited.value = { ...initEdited };
       }
     }
-    function handleDeleteData(data) {
+    async function handleDeleteData(data) {
       emit("delete", edited.value.tourUuid);
+
+      promises.push(
+          tourTn.actions
+              .deleteTour(
+                  {
+                    commit: () => {},
+                    state: {},
+                  },
+                  edited.value.tourUuid
+              )
+              .then(
+                  (response) => {
+                    alert(response.data.message);
+                  },
+                  (error) => {
+                    console.log("saveTour failed", error);
+                  }
+              )
+      );
+
+      //Action after update,delete
+      try {
+        await Promise.all(promises);
+        // Emit the event after all promises have resolved
+        emitCloseDrawer();
+      } catch (error) {
+        console.error("One or more promises failed:", error);
+        // Handle error if necessary
+      }
     }
 
     onMounted(() => {

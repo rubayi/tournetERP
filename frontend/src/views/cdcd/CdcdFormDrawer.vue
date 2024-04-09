@@ -69,9 +69,6 @@ export default defineComponent({
           alert("변경할 데이터가 없습니다.");
       } else {
 
-        //업체수정
-        //if (dataChanged) {
-
           promises.push(
               cdcdmngTn.actions.updateCdcdmng(
                 {
@@ -89,8 +86,6 @@ export default defineComponent({
                     }
                 )
            );
-
-        // }
 
         //Action after update,delete
         try {

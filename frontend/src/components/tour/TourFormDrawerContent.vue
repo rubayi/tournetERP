@@ -81,22 +81,6 @@
                   label="쥬니어나이"
                 />
                 <q-input
-                  filled
-                  v-model="edited.tourColor"
-                  :rules="['anyColor']"
-                  label="회사구분색"
-                  class="col-4"
-                >
-                  <template v-slot:append>
-                    <q-icon name="colorize" class="cursor-pointer">
-                      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                        <q-color v-model="edited.tourColor" />
-                      </q-popup-proxy>
-                    </q-icon>
-                  </template>
-                </q-input>
-
-                <q-input
                   class="col-3"
                   v-model="edited.estDate"
                   mask="####/##/##"

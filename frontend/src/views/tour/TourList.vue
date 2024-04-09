@@ -195,16 +195,17 @@ export default {
         this.tourArea = "";
         this.tourKor = "";
       }
+
       const searchReq = {
         tourCategory: this.tourCategory,
         tourKor: this.tourKor,
         tourEng: this.tourEng,
         tourArea: this.tourArea,
-
       };
+
       this.$store.dispatch(`tourTn/searchTourList`, searchReq).then(
         (tours) => {
-           console.log(tours);
+
           this.tours = tours.listTour;
 
         },
@@ -215,6 +216,7 @@ export default {
         }
       );
     },
+
     deleteTourInfo(id) {
       this.$store.dispatch("tourTn/deleteTourInfo", id).then(
         (response) => {

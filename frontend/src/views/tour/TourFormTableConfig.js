@@ -11,7 +11,7 @@ export class tourInfoFormTableConfig {
                 flex: null,
                 cellStyle: { 'justify-content': 'center' },
                 cellRenderer: function (params) {
-                    return `<div style="cursor: pointer; display: flex; justify-content: center;"><img src="images/folder.svg" style="width: 20px; height: 20px;" /></div>`;
+                    return `<div style="cursor: pointer; display: flex; justify-content: center;"><img src="/images/folder.svg" style="width: 20px; height: 20px;" /></div>`;
                 },
 
             },
@@ -30,15 +30,22 @@ export class tourInfoFormTableConfig {
                 hide: true,
             },
             {
-                field: "tourKor + tourEng",
+                field: "tourKor",
                 headerName: "투어명",
                 width: 120,
                 sortable: true,
                 filter: true,
             },
             {
-                field: "tourAreaName + tourAreaSubName",
+                field: "tourAreaName",
                 headerName: "지역",
+                width: 150,
+                sortable: true,
+                filter: true,
+            },
+            {
+                field: "tourAreaSubName",
+                headerName: "하위지역",
                 width: 150,
                 sortable: true,
                 filter: true,
@@ -49,17 +56,6 @@ export class tourInfoFormTableConfig {
                 width: 150,
                 sortable: true,
                 filter: true,
-            },
-
-            {
-                field: "tourMemo",
-                headerName: "주소",
-                hide: true,
-            },
-            {
-                field: "tourStatus",
-                headerName: "주소",
-                hide: true,
             },
             {
                 field: "createdByName",

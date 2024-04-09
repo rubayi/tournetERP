@@ -9,6 +9,7 @@ package com.tournet.tournetERP.contents.controller;
  */
 import java.util.*;
 
+import com.tournet.tournetERP.account.entity.CreditCardMng;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
 import com.tournet.tournetERP.contents.dto.TourDTO;
@@ -66,17 +67,19 @@ public class TourController {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        Optional<Tour> currentTour = tourRepository.findByTourUuid(tourReq.getTourUuid());
-
         String message = "";
+
         if (storUser.isAuthenticated()) {
+
             UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
 
             User modifyingUser = new User();
             modifyingUser.setEmpUuid(userDetails.getEmpUuid());
 
-            if (currentTour.isPresent()) {
+            Optional<Tour> currentCreditCardMng = tourRepository.
+                    findByTourUuid(tourReq.getTourUuid());
 
+            if (currentCreditCardMng.isPresent()) {
                 tourReq.setModifyUser(modifyingUser);
                 message = "수정 되었습니다.";
             } else {
@@ -84,6 +87,7 @@ public class TourController {
                 tourReq.setCreateUser(modifyingUser);
                 message = "등록 되었습니다.";
             }
+
             tourRepository.save(tourReq);
         }
 
@@ -93,7 +97,7 @@ public class TourController {
     }
 
     @Transactional
-    @DeleteMapping("/deletetour/{id}")
+    @PostMapping("/deletetour/{id}")
     public ResponseEntity<?> deletetour(@PathVariable long id) {
 
         String message = "";

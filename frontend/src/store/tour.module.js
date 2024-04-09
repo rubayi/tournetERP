@@ -60,9 +60,9 @@ export const tourTn = {
 
     },
 
-    updateTour({ commit }, attachFile, tourreq) {
+    updateTour({ commit }, tourreq) {
 
-      return TourService.updateTour(attachFile, tourreq).then(
+      return TourService.updateTour(tourreq).then(
         data => {
           commit('updateSuccess', data);
           return Promise.resolve(data);

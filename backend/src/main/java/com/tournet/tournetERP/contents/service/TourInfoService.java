@@ -52,6 +52,7 @@ public class TourInfoService {
 
                     tourpResponse.setTourCategoryName(fetchCodeUtil.fetchCodeKr(tourp.getTourCategory()));
                     tourpResponse.setTourAreaName(fetchCodeUtil.fetchCodeKr(tourp.getTourArea()));
+                    tourpResponse.setTourAreaSubName(fetchCodeUtil.fetchCodeKr(tourp.getTourAreaSub()));
                     tourpResponse.setPrepaidMethodName(fetchCodeUtil.fetchCodeKr(tourp.getPrepaidMethod()));
 
                     tourpResponse.setMinAge(tourp.getMinAge());
