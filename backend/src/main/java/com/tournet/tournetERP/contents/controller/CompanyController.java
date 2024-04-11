@@ -64,7 +64,7 @@ public class CompanyController {
             message = "OK";
         }
         Map<String, Object> resMap = new HashMap<>();
-        resMap.put("comps", currentComps);
+        resMap.put("compList", currentComps);
         resMap.put("message", message);
         return new ResponseEntity<>(resMap, HttpStatus.OK);
     }

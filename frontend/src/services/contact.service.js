@@ -21,7 +21,7 @@ class ContactService {
 
   deleteContact(id) {
     return api
-      .delete(`/contact/deleteContact/${id}`, { headers: authHeader() });
+      .post(`/contact/deleteContact/${id}`, { headers: authHeader() });
   }
 
   updateContact(cmpReq) {

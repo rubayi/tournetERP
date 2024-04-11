@@ -10,6 +10,7 @@ package com.tournet.tournetERP.contents.repository;
 import java.util.List;
 import java.util.Optional;
 
+import com.tournet.tournetERP.contents.entity.Company;
 import com.tournet.tournetERP.contents.entity.Contact;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +28,15 @@ public interface ContactRepository extends JpaRepository<Contact,Long> {
 
     Optional<Contact> findByContactUuid(long id);
 
-    List<Contact> findAllByOrderByContactUuidDesc();
+    @Query("SELECT u FROM Contact u " +
+            "WHERE (:compUuid IS NULL OR u.compUuid = :compUuid) " +
+            "AND (:contactCont IS NULL OR u.contactCont LIKE CONCAT('%', :contactCont, '%')) " +
+            "AND (:contactType IS NULL OR u.contactType = :contactType)" +
+            "OR (:contactType IS NULL AND :contactCont IS NULL AND :compUuid IS NULL) " +
+            "ORDER BY u.contactUuid DESC")
+    List<Contact> findAllByOrderByContactUuidDesc(@Param("compUuid") Long compUuid,
+                                                  @Param("contactCont") String contactCont,
+                                                  @Param("contactType") Long contactType);
 
     @Modifying
     void deleteByContactUuid(@Param("id") long contactUuid);

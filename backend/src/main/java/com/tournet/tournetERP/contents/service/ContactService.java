@@ -50,6 +50,7 @@ public class ContactService {
         List<ContactDTO> compContList = selectedContacts.stream()
                 .map(comp -> {
                     ContactDTO compResponse = new ContactDTO();
+                    compResponse.setContactUuid(comp.getContactUuid());
                     compResponse.setCompUuid(comp.getCompUuid());
                     compResponse.setContactCont(comp.getContactCont());
                     compResponse.setContactType(comp.getContactType());

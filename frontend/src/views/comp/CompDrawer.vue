@@ -29,9 +29,11 @@
           />
 
         </div>
+
         <comp-contact-list
-            :data-val="contactList"
+            :data-val="lcContactList"
         />
+
       </div>
     </drawer-comp>
   </div>
@@ -63,15 +65,12 @@ export default defineComponent({
     drawerWidth: Number,
     dataVal: Object,
     onCloseClick: Function,
+    contactList: Array,
   },
   emits: ["update:dataVal", "update:openDrawer", "update:changeFlag"],
   setup(props, { emit }) {
     const edited = ref(props.dataVal);
     const eOpenDrawer = ref(props.openDrawer);
-
-    const contactList = ref([]);
-
-    const checkedContactUuids = ref([]);
 
     const initialData = ref(null);
 
@@ -81,9 +80,14 @@ export default defineComponent({
 
     const contactEdited = ref(contactInitialData);
 
+    const lcContactList = ref(props.contactList);
+
     watch(() => props.dataVal, (newVal) => {
       edited.value = { ...newVal };
-      getContactList();
+    }, { deep: true });
+
+    watch(() => props.contactList, (newVal) => {
+      lcContactList.value = { ...newVal };
     }, { deep: true });
 
     function uploadFile (files) {
@@ -97,6 +101,8 @@ export default defineComponent({
     }
 
     function closeAction() {
+      alert("!!");
+      contactEdited.value = contactInitialData;
       newOpenDrawer.value = !newOpenDrawer.value;
     }
 
@@ -134,18 +140,6 @@ export default defineComponent({
         }
       }
     }
-    function getContactList() {
-
-      contactTn.actions.searchContactList({ commit: () => {}, state: {} }, edited.value)
-        .then(
-        (response) => {
-          contactList.value = response.contactList;
-        },
-        (error) => {
-          console.log("saveComp failed", error);
-        }
-      );
-    }
 
     function emitCloseDrawer() {
       emit("update:openDrawer", false);
@@ -177,7 +171,6 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      //getContactList();
 
     });
 
@@ -186,13 +179,12 @@ export default defineComponent({
       eOpenDrawer,
       handleSaveData,
       handleDeleteData,
-      contactList,
-      checkedContactUuids,
       uploadFile,
       openAction,
       newOpenDrawer,
       closeAction,
-      contactEdited
+      contactEdited,
+      lcContactList
     };
   },
 

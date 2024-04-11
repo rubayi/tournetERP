@@ -1,15 +1,12 @@
 package com.tournet.tournetERP.account.dto;
 
 import com.tournet.tournetERP.auth.entity.User;
-import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
 
 /**
- * Please explain the class!!
+ * 크레딧 카드 관리
  *
  * @author : rubayi
  * @fileName : CreditCardMngDTO

@@ -68,6 +68,7 @@
         :open-drawer="openDrawer"
         :drawer-width="800"
         :dataVal="edited"
+        :contact-list="contactList"
         :on-close-click="closeAction"
         @update:openDrawer="openDrawer = $event"
         @drawer-closed="searchCompList"
@@ -115,6 +116,7 @@ export default {
       edited: initialData,
       colDefs: compFormTableConfig.columns(),
       compList: [],
+      contactList: [],
     };
   },
   methods: {
@@ -135,17 +137,36 @@ export default {
 
     /* Edit */
     openAction(params) {
-      this.updateEdited = Object.assign({}, params.data);
+      //this.updateEdited = Object.assign({}, params.data);
       this.edited = params.data;
+      this.getContactList(params.data.compUuid);
       this.openDrawer = !this.openDrawer;
     },
 
     closeAction() {
+      this.contactList = [];
       this.edited = initialData;
       this.openDrawer = !this.openDrawer;
     },
     handlePageChange() {
       this.searchCompList();
+    },
+    getContactList(compUuid) {
+
+      const reqPram = {compUuid: compUuid}
+
+      this.$store.dispatch(`contactTn/searchContactList`, reqPram).then(
+          (response) => {
+            console.log(response.contactList);
+            this.contactList =  response.contactList;
+          },
+          (error) => {
+            console.log("searchCompList failed", error);
+            if (error.response && error.response.status === 403) {
+              EventBus.dispatch("logout");
+            }
+          }
+      );
     },
     searchCompList() {
       if (this.searchIdx === "업체명") {

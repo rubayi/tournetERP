@@ -8,15 +8,21 @@
         <div class="q-pa-md example-row-equal-width">
 
           <div v-for="(contact, index) in lcContactList" :key="index" class="row">
-            <div class="col">
+            <div class="col-1">
+              <q-btn @click="deleteCont(contact.contactUuid)" flat round
+              ><q-icon name="delete_forever" class="q-pb-lg"/>
+              </q-btn>
+            </div>
+            <div class="col-2">
               {{ contact.contactTypeName }}
             </div>
-            <div class="col">
+            <div class="col-7">
               {{ contact.contactCont }}
             </div>
-            <div class="col">
-              {{ contact.repYn }}
+            <div class="col-2">
+              {{ contact.repYn !=  null ? "대표":""}}
             </div>
+
           </div>
         </div>
       </q-scroll-area>
@@ -25,7 +31,9 @@
 </template>
 
 <script>
-import {defineComponent, ref, watch} from "vue";
+import {defineComponent, onMounted, ref, watch} from "vue";
+import {contactTn} from "src/store/contact.module";
+import ContactService from "src/services/contact.service";
 
 export default defineComponent({
   name: "CompFormDrawerContact",
@@ -36,8 +44,29 @@ export default defineComponent({
   setup(props, { emit }) {
 
     const lcContactList = ref(props.dataVal);
+
+    watch(() => props.dataVal, (newVal) => {
+      lcContactList.value = newVal;
+    }, { deep: true });
+
+    function deleteCont(contactUuid) {
+      console.log(contactUuid);
+      const confirmation = window.confirm("연락처를 삭제 하시겠습니까?");
+      if (confirmation) {
+        ContactService.deleteContact(contactUuid).then(
+            (response) => {
+              alert(response.data.message);
+            },
+            (error) => {
+              console.log("saveComp failed", error);
+            }
+        )
+      }
+    }
+
     return {
       lcContactList,
+      deleteCont
     };
 
   },

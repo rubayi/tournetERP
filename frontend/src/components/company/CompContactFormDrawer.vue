@@ -97,6 +97,10 @@ export default defineComponent({
       eOpenDrawer.value = newVal;
     });
 
+    watch(() => props.dataVal, (newVal) => {
+      edited.value = newVal;
+    });
+
     async function handleSaveData(data) {
 
       console.log(edited.value);

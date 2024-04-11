@@ -19,7 +19,7 @@ public class Contact {
     private long compUuid; //연락처UUID
 
     @Column(name = "CONTACT_TYPE", nullable = true)
-    private String contactType; //유형
+    private long contactType; //유형
 
     @Column(name = "REP_YN", nullable = true)
     private String repYn; //대표연락처여부

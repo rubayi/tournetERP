@@ -5,6 +5,7 @@ import { comMenu } from "./comMenu.module";
 import { empTn } from "./emp.module";
 import { userMenu } from "./userMenu.module";
 import { compTn } from "./comp.module";
+import { contactTn } from "./contact.module";
 import { tourTn } from "./tour.module";
 import { cdcdmngTn } from "./cdcdmng.module";
 import { empEmergencyTn } from "./empemergency.module";
@@ -18,6 +19,7 @@ const store = createStore({
     empTn,
     userMenu,
     compTn,
+    contactTn,
     empEmergencyTn,
     tourTn,
     cdcdmngTn
