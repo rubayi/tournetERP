@@ -95,14 +95,14 @@ export default defineComponent({
 
     watch(() => props.openDrawer, (newVal) => {
       eOpenDrawer.value = newVal;
-    });
+    }, { deep: true });
 
     watch(() => props.dataVal, (newVal) => {
       edited.value = {...newVal};
-    });
+    }, { deep: true });
 
     async function handleSaveData(data) {
-
+      console.log(edited.value);
       promises.push(
           ContactService.updateContact(edited.value).then(
             (response) => {
@@ -115,7 +115,6 @@ export default defineComponent({
         )
        );
 
-      //Action after update,delete
       try {
         await Promise.all(promises);
 

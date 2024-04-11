@@ -22,7 +22,7 @@ public class Contact {
     private long contactType; //유형
 
     @Column(name = "REP_YN", nullable = true)
-    private String repYn; //대표연락처여부
+    private long repYn; //대표연락처여부
 
     @Column(name = "CONTACT_CONT", nullable = true)
     private String contactCont; //연락처

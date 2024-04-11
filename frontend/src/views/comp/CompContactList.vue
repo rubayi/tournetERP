@@ -20,7 +20,7 @@
               {{ contact.contactCont }}
             </div>
             <div class="col-2">
-              {{ contact.repYn !=  null ? "대표":""}}
+              {{ contact.repYnName}}
             </div>
 
           </div>

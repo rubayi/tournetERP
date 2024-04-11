@@ -6,4 +6,6 @@ export const contactInitialData = {
     contactType: 0,
     repYn: "",
     contactCont: "",
+    contactTypeName: "",
+    repYnName: "",
 };

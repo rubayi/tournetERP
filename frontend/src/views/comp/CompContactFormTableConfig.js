@@ -34,7 +34,7 @@ export class CompContactFormTableConfig {
                 filter: true,
             },
             {
-                field: "repYn",
+                field: "repYnName",
                 headerName: "대표연락처여부",
                 width: 150,
                 sortable: true,

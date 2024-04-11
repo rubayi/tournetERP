@@ -54,6 +54,8 @@ public class ContactService {
                     compResponse.setCompUuid(comp.getCompUuid());
                     compResponse.setContactCont(comp.getContactCont());
                     compResponse.setContactType(comp.getContactType());
+                    compResponse.setRepYn(comp.getRepYn());
+                    compResponse.setRepYnName(fetchCodeUtil.fetchCodeKr(comp.getRepYn()));
 
                     compResponse.setContactTypeName(fetchCodeUtil.fetchCodeKr(comp.getContactType()));
 
