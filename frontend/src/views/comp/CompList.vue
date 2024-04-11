@@ -1,6 +1,6 @@
 <template>
-  <component-to-re-render :key="componentKey" />
-  <div id="compform">
+
+  <div id="comp-list">
     <q-page class="q-pa-md">
       <div class="row">
         <div class="col q-pr-md flex items-center">
@@ -55,16 +55,16 @@
           </q-form>
         </div>
       </div>
-      <div id="compform-grid-container" class="row">
+      <div id="comp-grid-container" class="row">
         <table-comp
-          id="memberform-grid"
+          id="comp-grid"
           class="ag-theme-alpine grid"
           :column-defs="colDefs"
-          :row-data="comps"
+          :row-data="compList"
           :on-cell-clicked="openAction"
         />
       </div>
-      <comp-form-drawer
+      <comp-drawer
         :open-drawer="openDrawer"
         :drawer-width="800"
         :dataVal="edited"
@@ -84,16 +84,15 @@ import { getCommonValue } from "src/utils/common.js"; // 공통코드 값
 
 //Component
 import TableComp from "src/components/table/TableComp.vue";
-// import PageComp from "src/components/table/PaginationRenderer.vue";
 // Layout
-import CompFormDrawer from "src/views/comp/CompFormDrawer.vue";
+import CompDrawer from "src/views/comp/CompDrawer.vue";
 import EventBus from "src/common/EventBus";
 
 export default {
-  name: "CompTnList",
+  name: "CompList",
   components: {
     TableComp,
-    CompFormDrawer,
+    CompDrawer,
   },
   setup() {
     return {
@@ -105,12 +104,6 @@ export default {
   },
   data() {
     return {
-      //S: Paging SET
-      page: 1, //현재페이지
-      showPage: 5, //표시할 페이지 개수
-      count: 10, //보여줄 row 개수
-      //E: Paging SET
-
       componentKey: 0,
       compSector: "",
       compKor: "",
@@ -121,7 +114,7 @@ export default {
       updateEdited: {},
       edited: initialData,
       colDefs: compFormTableConfig.columns(),
-      comps: [],
+      compList: [],
     };
   },
   methods: {
@@ -177,15 +170,13 @@ export default {
         compSector: this.compSector,
         compKor: this.compKor,
         compEng: this.compEng,
-        // page: this.page - 1 < 0 ? 0 : this.page - 1,
-        // size: this.count,
       };
 
       this.$store.dispatch(`compTn/searchCompList`, searchReq).then(
         (response) => {
-          this.comps = response.comps;
-          // this.page = comps.currentPage;
-          // this.showPage = comps.totalPages;
+          this.compList = response.compList;
+          // this.page = compList.currentPage;
+          // this.showPage = compList.totalPages;
         },
         (error) => {
           console.log("searchCompList failed", error);

@@ -1,5 +1,5 @@
 <template>
-  <div id="comp-form-drawer">
+  <div id="comp-drawer">
     <drawer-comp
       :open-drawer="openDrawer"
       :drawerWidth="drawerWidth"
@@ -12,11 +12,26 @@
           :data-val="edited"
           :upload-file="uploadFile"
           />
+        <div v-if="edited.compUuid" class="row justify-end q-pb-sm q-mr-sm">
+          <q-btn
+              icon="search"
+              label="연락처 등록"
+              style="color: darkgreen"
+              @click="openAction"
+          />
 
-<!--        <comp-form-drawer-contact-->
-<!--          v-if="edited.compUuid"-->
-<!--          :data-val="contactList"-->
-<!--          />-->
+          <comp-contact-drawer
+              :open-drawer="newOpenDrawer"
+              :drawer-width="700"
+              :data-val="contactEdited"
+              :on-close-click="closeAction"
+              @update:openDrawer="newOpenDrawer = $event"
+          />
+
+        </div>
+        <comp-contact-list
+            :data-val="contactList"
+        />
       </div>
     </drawer-comp>
   </div>
@@ -25,19 +40,23 @@
 <script>
 import { defineComponent, ref, watch, onMounted } from "vue";
 import DrawerComp from "src/components/drawers/DrawerComp.vue";
-import { compTn  } from "src/store/comp.module";
 import { contactTn  } from "src/store/contact.module";
 // Layout
-import CompFormDrawerContent from "src/components/company/CompFormDrawerContent.vue";
-// import CompFormDrawerContact from "src/components/company/CompFormDrawerContact.vue";
+import CompFormDrawerContent from "src/components/company/CompFormDrawer.vue";
+import CompContactDrawer from "src/components/company/CompContactFormDrawer.vue";
+import CompContactList from "src/views/comp/CompContactList.vue";
 
 import CompService from "src/services/comp.service";
+import { contactInitialData } from "src/views/comp/CompContact";
+import {getCommonValue} from "src/utils/common";
 
 export default defineComponent({
-  name: "CompFormDrawer",
+  name: "CompDrawer",
   components: {
     DrawerComp,
     CompFormDrawerContent,
+    CompContactDrawer,
+    CompContactList
   },
   props: {
     openDrawer: Boolean,
@@ -50,9 +69,6 @@ export default defineComponent({
     const edited = ref(props.dataVal);
     const eOpenDrawer = ref(props.openDrawer);
 
-    const updateEdited = {};
-    const initEdited = {};
-
     const contactList = ref([]);
 
     const checkedContactUuids = ref([]);
@@ -61,23 +77,27 @@ export default defineComponent({
 
     const attfile = ref(null);
 
-    const previewImage = ref(null);
+    const newOpenDrawer = ref(false);
+
+    const contactEdited = ref(contactInitialData);
 
     watch(() => props.dataVal, (newVal) => {
       edited.value = { ...newVal };
-      initialData.value = { ...newVal };
-      //getContactList();
+      getContactList();
     }, { deep: true });
-
-    watch(() => props.checkedContactUuids, (newVal) => {
-      checkedContactUuids.value = newVal;
-    }, { deep: true });
-
 
     function uploadFile (files) {
-      console.log(files);
       attfile.value = files;
       //attfile.value = files[0];
+    }
+
+    function openAction() {
+      contactEdited.value.compUuid = edited.value.compUuid;
+      newOpenDrawer.value = !newOpenDrawer.value;
+    }
+
+    function closeAction() {
+      newOpenDrawer.value = !newOpenDrawer.value;
     }
 
     const promises = [];
@@ -86,52 +106,23 @@ export default defineComponent({
       //업체 정보 관련 req 데이터
       const dataChanged = JSON.stringify(initialData.value) !== JSON.stringify(edited.value);
 
-      //업체 연락처 관련 req 데이터
-      const contactUuids = new Set();
-
-      // Create contactReq object with contactUuids Set and compUuid
-      const contactReq = { contactUuids: Array.from(contactUuids), compUuid: edited.value.compUuid };
-
-      if (!dataChanged && !attfile.value
-          && contactReq.contactUuids.length <=0) {
+      if (!dataChanged && !attfile.value) {
           alert("변경할 데이터가 없습니다.");
       } else {
 
-        // if (edited.value.compUuid != 0) {
+        const fileToUpload = attfile.value; // Get the first file
 
-          const fileToUpload = attfile.value; // Get the first file
+        promises.push(
+        CompService.updateComp(fileToUpload, edited.value).then(
+              (response) => {
+                  alert(response.data.message);
+              },
+              (error) => {
+                  console.log("saveComp failed", error);
+              }
+          )
+         );
 
-          //업체수정
-          //if (dataChanged) {
-
-          promises.push(
-          CompService.updateComp(fileToUpload, edited.value).then(
-                (response) => {
-                    alert(response.data.message);
-                },
-                (error) => {
-                    console.log("saveComp failed", error);
-                }
-            )
-           );
-          //}
-
-
-        if (contactReq.contactUuids.length > 0) {
-            // Call updateContact method
-          promises.push(
-            contactTn.actions.createContact({
-                commit: () => {
-                }, state: {}
-            }, contactReq).then(
-                (response) => {
-                    alert(response.message);
-                },
-                (error) => {
-                    console.log("saveComp failed", error);
-                }
-            ));
-        }
         //Action after update,delete
         try {
           await Promise.all(promises);
@@ -148,7 +139,7 @@ export default defineComponent({
       contactTn.actions.searchContactList({ commit: () => {}, state: {} }, edited.value)
         .then(
         (response) => {
-          contactList.value = response.contacts;
+          contactList.value = response.contactList;
         },
         (error) => {
           console.log("saveComp failed", error);
@@ -161,13 +152,6 @@ export default defineComponent({
       emit("drawer-closed");
     }
 
-    function resetForm() {
-      if (edited.value && edited.value.compUuid != 0) {
-        edited.value = updateEdited;
-      } else {
-        edited.value = { ...initEdited };
-      }
-    }
     async function handleDeleteData(data) {
       emit("delete", edited.value.compUuid);
 
@@ -204,7 +188,11 @@ export default defineComponent({
       handleDeleteData,
       contactList,
       checkedContactUuids,
-      uploadFile
+      uploadFile,
+      openAction,
+      newOpenDrawer,
+      closeAction,
+      contactEdited
     };
   },
 

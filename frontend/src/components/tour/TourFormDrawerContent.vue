@@ -4,6 +4,7 @@
       <div class="flex flex-grow-1 q-pa-md">
         <q-card-section>
           <q-form v-if="edited">
+
             <q-card-section class="custom-padding-margin">
               <div class="row q-col-gutter-lg">
                 <input id="tourUuid" v-model="edited.tourUuid" hidden />
@@ -140,7 +141,6 @@
             </q-card-section>
           </q-form>
         </q-card-section>
-
       </div>
   </div>
 </template>

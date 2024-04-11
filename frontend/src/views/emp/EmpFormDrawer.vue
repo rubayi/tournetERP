@@ -271,6 +271,9 @@ export default defineComponent({
       getAuthList();
     });
 
+    //연락처 유형
+    getCommonCode({upCode: 539,codeLvl: "1"},useYnOptions);
+
     return {
       edited,
       eOpenDrawer,

@@ -46,36 +46,36 @@
                   v-model="edited.compGroup"
                   label="그룹"
                 />
-                <q-select
-                  class="col-3"
-                  v-model="edited.minAge"
-                  :options="ageNumbers"
-                  option-value="codeUuid"
-                  option-label="codeKr"
-                  emit-value
-                  map-options
-                  label="제한연령"
-                />
-                <q-select
-                  class="col-3"
-                  v-model="edited.childAge"
-                  :options="ageNumbers"
-                  option-value="codeUuid"
-                  option-label="codeKr"
-                  emit-value
-                  map-options
-                  label="아이나이"
-                />
-                <q-select
-                  class="col-3"
-                  v-model="edited.youthAge"
-                  :options="ageNumbers"
-                  option-value="codeUuid"
-                  option-label="codeKr"
-                  emit-value
-                  map-options
-                  label="쥬니어나이"
-                />
+<!--                <q-select-->
+<!--                  class="col-3"-->
+<!--                  v-model="edited.minAge"-->
+<!--                  :options="ageNumbers"-->
+<!--                  option-value="codeUuid"-->
+<!--                  option-label="codeKr"-->
+<!--                  emit-value-->
+<!--                  map-options-->
+<!--                  label="제한연령"-->
+<!--                />-->
+<!--                <q-select-->
+<!--                  class="col-3"-->
+<!--                  v-model="edited.childAge"-->
+<!--                  :options="ageNumbers"-->
+<!--                  option-value="codeUuid"-->
+<!--                  option-label="codeKr"-->
+<!--                  emit-value-->
+<!--                  map-options-->
+<!--                  label="아이나이"-->
+<!--                />-->
+<!--                <q-select-->
+<!--                  class="col-3"-->
+<!--                  v-model="edited.youthAge"-->
+<!--                  :options="ageNumbers"-->
+<!--                  option-value="codeUuid"-->
+<!--                  option-label="codeKr"-->
+<!--                  emit-value-->
+<!--                  map-options-->
+<!--                  label="쥬니어나이"-->
+<!--                />-->
                 <q-select
                   class="col-3"
                   v-model="edited.couponYn"
