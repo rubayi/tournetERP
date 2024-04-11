@@ -5,24 +5,40 @@
       <q-scroll-area
         style="height: 600px; min-width: 700px;"
       >
-        <div class="q-pa-md example-row-equal-width">
-
-          <div v-for="(contact, index) in lcContactList" :key="index" class="row">
-            <div class="col-1">
-              <q-btn @click="deleteCont(contact.contactUuid)" flat round
-              ><q-icon name="delete_forever" class="q-pb-lg"/>
-              </q-btn>
+        <div class="q-pa-md ">
+          <div class="example-row-column-width" >
+            <div class="row">
+              <div class="col-1 center">
+                관리
+              </div>
+              <div class="col-2 center">
+                연락처구분
+              </div>
+              <div class="col-6 center">
+                연락처
+              </div>
+              <div class="col-2 center">
+                대표여부
+              </div>
             </div>
-            <div class="col-2">
-              {{ contact.contactTypeName }}
+          </div>
+          <div v-for="(contact, index) in lcContactList" :key="index" class="example-row-column-width" >
+            <div class="row">
+              <div class="col-1 center">
+                <q-btn @click="deleteCont(contact.contactUuid)" flat round
+                ><q-icon name="delete_forever"/>
+                </q-btn>
+              </div>
+              <div class="col-2 center">
+                {{ contact.contactTypeName }}
+              </div>
+              <div class="col-6">
+                {{ contact.contactCont }}
+              </div>
+              <div class="col-2 center">
+                {{ contact.repYnName}}
+              </div>
             </div>
-            <div class="col-7">
-              {{ contact.contactCont }}
-            </div>
-            <div class="col-2">
-              {{ contact.repYnName}}
-            </div>
-
           </div>
         </div>
       </q-scroll-area>
@@ -81,6 +97,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Three columns with equal width */
@@ -91,4 +108,16 @@ export default defineComponent({
 .item {
   width: 100%;
 }
+
+</style>
+<style lang="sass">
+.example-row-column-width
+  .center
+    text-align: center
+  .row > div
+    padding: 5px 5px 5px 8px
+    background: rgba(#999,.15)
+    border: 1px solid rgba(#999,.2)
+  .row + .row
+    margin-top: 1rem
 </style>
