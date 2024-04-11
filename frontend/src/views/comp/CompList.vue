@@ -70,6 +70,7 @@
         :dataVal="edited"
         :contact-list="contactList"
         :on-close-click="closeAction"
+        :sub-drawer-close="reloadContactList"
         @update:openDrawer="openDrawer = $event"
         @drawer-closed="searchCompList"
       />
@@ -117,6 +118,7 @@ export default {
       colDefs: compFormTableConfig.columns(),
       compList: [],
       contactList: [],
+      curCompUuid: 0,
     };
   },
   methods: {
@@ -145,6 +147,7 @@ export default {
 
     closeAction() {
       this.contactList = [];
+      this.curCompUuid = 0;
       this.edited = initialData;
       this.openDrawer = !this.openDrawer;
     },
@@ -152,12 +155,11 @@ export default {
       this.searchCompList();
     },
     getContactList(compUuid) {
-
+      this.curCompUuid = compUuid;
       const reqPram = {compUuid: compUuid}
 
       this.$store.dispatch(`contactTn/searchContactList`, reqPram).then(
           (response) => {
-            console.log(response.contactList);
             this.contactList =  response.contactList;
           },
           (error) => {
@@ -165,6 +167,21 @@ export default {
             if (error.response && error.response.status === 403) {
               EventBus.dispatch("logout");
             }
+          }
+      );
+    },
+    reloadContactList() {
+      const reqPram = {compUuid: this.curCompUuid}
+
+      this.$store.dispatch(`contactTn/searchContactList`, reqPram).then(
+          (response) => {
+              this.contactList =  response.contactList;
+          },
+          (error) => {
+              console.log("searchCompList failed", error);
+              if (error.response && error.response.status === 403) {
+                  EventBus.dispatch("logout");
+              }
           }
       );
     },

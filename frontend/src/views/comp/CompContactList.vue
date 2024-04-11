@@ -40,6 +40,7 @@ export default defineComponent({
   components: {},
   props: {
     dataVal: Array,
+    subDrawerClose: Function
   },
   setup(props, { emit }) {
 
@@ -49,13 +50,17 @@ export default defineComponent({
       lcContactList.value = newVal;
     }, { deep: true });
 
+    function emitCloseDrawer() {
+        emit("drawer-closed");
+    }
+
     function deleteCont(contactUuid) {
-      console.log(contactUuid);
       const confirmation = window.confirm("연락처를 삭제 하시겠습니까?");
       if (confirmation) {
         ContactService.deleteContact(contactUuid).then(
             (response) => {
               alert(response.data.message);
+              emitCloseDrawer();
             },
             (error) => {
               console.log("saveComp failed", error);

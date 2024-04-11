@@ -98,16 +98,16 @@ export default defineComponent({
     });
 
     watch(() => props.dataVal, (newVal) => {
-      edited.value = newVal;
+      edited.value = {...newVal};
     });
 
     async function handleSaveData(data) {
 
-      console.log(edited.value);
       promises.push(
           ContactService.updateContact(edited.value).then(
             (response) => {
-                alert(response.data.message);
+              alert(response.data.message);
+              emitCloseDrawer();
             },
             (error) => {
                 console.log("saveComp failed", error);
@@ -118,26 +118,27 @@ export default defineComponent({
       //Action after update,delete
       try {
         await Promise.all(promises);
-        // Emit the event after all promises have resolved
-        emitCloseDrawer();
+
       } catch (error) {
         console.error("One or more promises failed:", error);
         // Handle error if necessary
       }
     }
 
-
     function emitCloseDrawer() {
+      if (typeof props.onCloseClick === 'function') {
+        props.onCloseClick();
+      }
       emit("update:openDrawer", false);
       emit("drawer-closed");
     }
 
     async function handleDeleteData(data) {
-      //emit("delete", edited.value.compUuid);
       promises.push(
           ContactService.deleteContact(edited.value.contactUuid).then(
               (response) => {
                 alert(response.data.message);
+                emitCloseDrawer();
               },
               (error) => {
                 console.log("saveComp failed", error);
@@ -147,8 +148,6 @@ export default defineComponent({
 
       try {
         await Promise.all(promises);
-        // Emit the event after all promises have resolved
-        emitCloseDrawer();
       } catch (error) {
         console.error("One or more promises failed:", error);
         // Handle error if necessary

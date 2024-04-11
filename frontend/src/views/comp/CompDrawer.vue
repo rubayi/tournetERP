@@ -7,31 +7,31 @@
       @save="handleSaveData"
       @delete="handleDeleteData"
     >
-      <div class="flex flex-grow-1 q-pa-md">
+      <div class="q-pa-md">
         <comp-form-drawer-content
           :data-val="edited"
           :upload-file="uploadFile"
           />
-        <div v-if="edited.compUuid" class="row justify-end q-pb-sm q-mr-sm">
+        <div v-if="edited.compUuid" class="q-pa-lg q-gutter-sm" >
           <q-btn
               icon="search"
               label="연락처 등록"
               style="color: darkgreen"
               @click="openAction"
           />
-
+        </div>
           <comp-contact-drawer
               :open-drawer="newOpenDrawer"
               :drawer-width="700"
               :data-val="contactEdited"
               :on-close-click="closeAction"
               @update:openDrawer="newOpenDrawer = $event"
+              @drawer-closed="subDrawerClose"
           />
-
-        </div>
 
         <comp-contact-list
             :data-val="lcContactList"
+            @drawer-closed="subDrawerClose"
         />
 
       </div>
@@ -42,7 +42,6 @@
 <script>
 import { defineComponent, ref, watch, onMounted } from "vue";
 import DrawerComp from "src/components/drawers/DrawerComp.vue";
-import { contactTn  } from "src/store/contact.module";
 // Layout
 import CompFormDrawerContent from "src/components/company/CompFormDrawer.vue";
 import CompContactDrawer from "src/components/company/CompContactFormDrawer.vue";
@@ -50,7 +49,6 @@ import CompContactList from "src/views/comp/CompContactList.vue";
 
 import CompService from "src/services/comp.service";
 import { contactInitialData } from "src/views/comp/CompContact";
-import {getCommonValue} from "src/utils/common";
 
 export default defineComponent({
   name: "CompDrawer",
@@ -64,8 +62,9 @@ export default defineComponent({
     openDrawer: Boolean,
     drawerWidth: Number,
     dataVal: Object,
-    onCloseClick: Function,
     contactList: Array,
+    onCloseClick: Function,
+    subDrawerClose: Function,
   },
   emits: ["update:dataVal", "update:openDrawer", "update:changeFlag"],
   setup(props, { emit }) {
@@ -90,19 +89,26 @@ export default defineComponent({
       lcContactList.value = { ...newVal };
     }, { deep: true });
 
+
     function uploadFile (files) {
       attfile.value = files;
       //attfile.value = files[0];
     }
 
     function openAction() {
+
       contactEdited.value.compUuid = edited.value.compUuid;
       newOpenDrawer.value = !newOpenDrawer.value;
     }
 
     function closeAction() {
-      alert("!!");
-      contactEdited.value = contactInitialData;
+      contactEdited.value = {
+          contactUuid: 0,
+          compUuid: 0,
+          contactType: "",
+          repYn: "",
+          contactCont: "",
+      };
       newOpenDrawer.value = !newOpenDrawer.value;
     }
 
@@ -144,6 +150,7 @@ export default defineComponent({
     function emitCloseDrawer() {
       emit("update:openDrawer", false);
       emit("drawer-closed");
+
     }
 
     async function handleDeleteData(data) {

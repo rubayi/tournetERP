@@ -2,8 +2,8 @@
 
 export const contactInitialData = {
     contactUuid: 0,
-    compUuid: "",
-    contactType: "",
+    compUuid: 0,
+    contactType: 0,
     repYn: "",
     contactCont: "",
 };
