@@ -16,17 +16,17 @@
                 :options="options"
                 label="검색방법 *"
               />
-              <q-select
-                v-if="this.searchIdx == '유형'"
-                class="col-3"
-                v-model="searchCategory"
-                :options="tourCategoryOptions"
-                option-value="codeValue"
-                option-label="codeKr"
-                emit-value
-                map-options
-                label="상품유형 *"
-              />
+<!--              <q-select-->
+<!--                v-if="this.searchIdx == '유형'"-->
+<!--                class="col-3"-->
+<!--                v-model="searchCategory"-->
+<!--                :options="tourCategoryOptions"-->
+<!--                option-value="codeValue"-->
+<!--                option-label="codeKr"-->
+<!--                emit-value-->
+<!--                map-options-->
+<!--                label="상품유형 *"-->
+<!--              />-->
               <q-input
                 v-if="this.searchIdx != '상태'"
                 v-model="searchWord"
@@ -121,24 +121,13 @@ export default {
       updateEdited: {},
       edited: initialData,
       colDefs: tourInfoFormTableConfig.columns(),
-      tours: [],
       sector: "",
-      tourCategoryOptions: {},
+      tours: [],
+      tourCategory : "",
+      tourCategoryOptions: [],
     };
   },
   methods: {
-    async fetchTourInfoByCategory(sector) {
-      // Use sector to fetch tour information
-      console.log("Fetching tour info for sector:", sector);
-      // Example usage:
-      // const tours = await fetchToursByCategory(sector);
-      // this.tours = tours;
-    },
-
-    handleSearchByCategory() {
-      // Fetch tour information based on sector
-      this.fetchTourInfoByCategory(this.sector);
-    },
 
     /* 공통코드값 가져오기 */
     async getCommonCode(req) {
@@ -152,6 +141,8 @@ export default {
     /* New */
     createAction() {
       this.edited = initialData;
+      this.edited.tourCategory = this.tourCategory
+      console.log(this.edited);
       this.openDrawer = !this.openDrawer;
     },
 
@@ -173,24 +164,17 @@ export default {
       this.onReset();
     },
     searchTourInfoList() {
+
       if (this.searchIdx === "지역") {
         this.tourArea = this.searchWord;
-        this.tourCategory = "";
         this.tourKor = "";
         this.tourEng = "";
       } else if (this.searchIdx === "투어명") {
         this.tourKor = this.searchWord;
-        this.tourCategory = "";
         this.tourArea = "";
         this.tourEng = "";
       } else if (this.searchIdx === "투어명(영문)") {
         this.tourEng = this.searchWord;
-        this.tourCategory = "";
-        this.tourArea = "";
-        this.tourKor = "";
-      } else if (this.searchIdx === "투어구분") {
-        this.tourCategory = this.searchCategory;
-        this.tourEng = "";
         this.tourArea = "";
         this.tourKor = "";
       }
@@ -241,7 +225,6 @@ export default {
       this.searchIdx = "";
       this.searchWord = "";
       this.tourArea = "";
-      this.tourCategory = "";
       this.tourKor = "";
       this.tourEng = "";
       this.searchTourInfoList();
@@ -250,12 +233,23 @@ export default {
   created() {
     this.sector = this.$route.params.sector;
 
-    this.fetchTourInfoByCategory(this.sector);
+    //상품섹터
+    this.getCommonCode({ upCode: 3, codeLvl: "1", dataName: "tourCategoryOptions" })
+    .then(() => {
+      // Initialize tourCategory based on sector
+      for (let category of this.tourCategoryOptions) {
+          if (category.codeEn.toLowerCase() === this.sector || category.codeEn === this.sector) {
+              this.tourCategory = category.codeUuid;
+              break; // Stop looping once category is found
+          }
+      }
 
-    this.searchTourInfoList();
-
-    //상품유형
-    this.getCommonCode({ upCode: 22, codeLvl: "1", dataName: "tourCategoryOptions" });
+      // Call searchTourInfoList with initialized tourCategory
+      this.searchTourInfoList();
+    })
+    .catch(error => {
+        console.error('Failed to fetch tourCategoryOptions:', error);
+    });
 
   },
 };

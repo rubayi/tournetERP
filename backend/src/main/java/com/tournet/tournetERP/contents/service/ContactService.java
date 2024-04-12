@@ -37,7 +37,7 @@ public class ContactService {
         if (contactReq.getContactCont() != null) {
             contactCont = contactReq.getContactCont();
         }
-        if (contactReq.getContactCont() != null) {
+        if (contactReq.getContactType() != 0) {
             contactType = contactReq.getContactType();
         }
 

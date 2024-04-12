@@ -93,7 +93,7 @@ export default {
     getMainComCode() {
       this.$store.dispatch("comCode/getMainComCodeList").then(
         (comCodes) => {
-          this.comCodes = [...this.comCodes, ...comCodes];
+          this.comCodes = comCodes;
           this.chosenComCodes = comCodes;
         },
         (error) => {

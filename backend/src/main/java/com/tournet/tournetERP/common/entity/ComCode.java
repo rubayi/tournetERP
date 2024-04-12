@@ -68,19 +68,4 @@ public class ComCode {
     public ComCode() {
     }
 
-    public ComCode(String codeKr, String codeEn,
-                   String codeValue, String codeLvl,
-                   int codeOrd, int uprCodeUuid,
-                   String useYn, String etc) {
-
-        this.codeKr = codeKr;
-        this.codeValue = codeValue;
-        this.codeEn = codeEn;
-        this.codeLvl = codeLvl;
-        this.codeOrd = codeOrd;
-        this.uprCodeUuid = uprCodeUuid;
-        this.useYn = useYn;
-        this.etc = etc;
-    }
-
 }

@@ -49,6 +49,12 @@ public class Tour {
     @Column(name = "TOUR_ORD", nullable = true)
     private long tourOrd; //투어명ENG
 
+    @Column(name = "BEGIN_DT", nullable = true)
+    private String beginDt; //시작일
+
+    @Column(name = "END_DT", nullable = true)
+    private String endDt; //종료일
+
     @CreatedDate
     @Column(name = "CREATED_DT", updatable = false)
     private Date createdDt; //생성일

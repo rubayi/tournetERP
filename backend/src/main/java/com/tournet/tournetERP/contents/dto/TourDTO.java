@@ -39,6 +39,9 @@ public class TourDTO {
     private long modifiedBy; //최종수정자
     private Date modifiedDt; //최종수정일
 
+    private String beginDt; //시작일
+    private String endDt; //종료일
+
     private String createdByName; //생성자
     private String modifiedByName; //최종수정자
 

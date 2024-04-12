@@ -32,12 +32,20 @@ public class CompanyService {
     FetchCodeUtil fetchCodeUtil;
     public List<CompanyDTO> findCompsList(CompanyDTO compReq) {
 
-        ModelMapper modelMapper=new ModelMapper();
-
-        long compSector = compReq.getCompSector();
-        String compKor = compReq.getCompKor();
-        String compEng = compReq.getCompEng();
-
+        long compSector = 0;
+        String compKor = "";
+        String compEng = "";
+        
+        if (compReq.getCompSector() != 0) {
+            compSector = compReq.getCompSector();
+        }
+        if (compReq.getCompKor() != null) {
+            compKor = compReq.getCompKor();
+        }
+        if (compReq.getCompEng() != null) {
+            compEng = compReq.getCompEng();
+        }
+        
         List<Company> selectedCompanys = compRepository.findAllByOrderByModifiedDtDesc(
                 compSector == 0 ? null : compSector,
                 compKor.isEmpty() ? null : compKor,
