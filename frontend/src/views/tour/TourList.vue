@@ -5,8 +5,7 @@
         <div class="col q-pr-md flex items-center">
           <span class="part_title text-primary">
             <q-icon name="person" class="q-ml-xs q-mb-xs" size="md"></q-icon
-            >투어관리</span
-          >
+            >투어관리</span>
         </div>
         <div class="col-5 text-right">
           <q-form @submit="searchTourInfoList">
@@ -250,11 +249,11 @@ export default {
   },
   created() {
     this.sector = this.$route.params.sector;
-    console.log("Category:", this.sector);
 
     this.fetchTourInfoByCategory(this.sector);
 
     this.searchTourInfoList();
+
     //상품유형
     this.getCommonCode({ upCode: 22, codeLvl: "1", dataName: "tourCategoryOptions" });
 

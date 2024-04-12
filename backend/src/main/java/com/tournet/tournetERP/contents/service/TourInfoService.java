@@ -50,6 +50,11 @@ public class TourInfoService {
                     tourpResponse.setTourKor(tourp.getTourKor());
                     tourpResponse.setTourEng(tourp.getTourEng());
 
+                    tourpResponse.setTourCategory(tourp.getTourCategory());
+                    tourpResponse.setTourArea(tourp.getTourArea());
+                    tourpResponse.setTourAreaSub(tourp.getTourAreaSub());
+                    tourpResponse.setPrepaidMethod(tourp.getPrepaidMethod());
+
                     tourpResponse.setTourCategoryName(fetchCodeUtil.fetchCodeKr(tourp.getTourCategory()));
                     tourpResponse.setTourAreaName(fetchCodeUtil.fetchCodeKr(tourp.getTourArea()));
                     tourpResponse.setTourAreaSubName(fetchCodeUtil.fetchCodeKr(tourp.getTourAreaSub()));
@@ -58,6 +63,10 @@ public class TourInfoService {
                     tourpResponse.setMinAge(tourp.getMinAge());
                     tourpResponse.setChildAge(tourp.getChildAge());
                     tourpResponse.setYouthAge(tourp.getYouthAge());
+
+                    tourpResponse.setBeginDt(tourp.getBeginDt());
+                    tourpResponse.setEndDt(tourp.getEndDt());
+
                     tourpResponse.setModifiedByName(tourp.getModifyUser().getUsername());
                     tourpResponse.setCreatedByName(tourp.getCreateUser().getUsername());
 

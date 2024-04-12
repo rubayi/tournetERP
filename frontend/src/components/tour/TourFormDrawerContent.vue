@@ -8,7 +8,16 @@
             <q-card-section class="custom-padding-margin">
               <div class="row q-col-gutter-lg">
                 <input id="tourUuid" v-model="edited.tourUuid" hidden />
-
+                <q-select
+                    class="col-3"
+                    v-model="edited.compUuid"
+                    :options="companyOptions"
+                    option-value="compUuid"
+                    option-label="compKor"
+                    emit-value
+                    map-options
+                    label="업체"
+                />
                 <q-select
                     class="col-3"
                     v-model="edited.tourArea"
@@ -83,7 +92,7 @@
                 />
                 <q-input
                   class="col-3"
-                  v-model="edited.estDate"
+                  v-model="edited.beginDt"
                   mask="####/##/##"
                   :rules="['date']"
                   label="시작일"
@@ -95,7 +104,7 @@
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="edited.estDate" minimal>
+                        <q-date v-model="edited.beginDt" minimal>
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
@@ -111,7 +120,7 @@
                 </q-input>
                 <q-input
                     class="col-3"
-                    v-model="edited.estDate"
+                    v-model="edited.endDt"
                     mask="####/##/##"
                     :rules="['date']"
                     label="종료일"
@@ -123,7 +132,7 @@
                           transition-show="scale"
                           transition-hide="scale"
                       >
-                        <q-date v-model="edited.estDate" minimal>
+                        <q-date v-model="edited.endDt" minimal>
                           <div class="row items-center justify-end">
                             <q-btn
                                 v-close-popup
@@ -148,17 +157,19 @@
 <script>
 import { defineComponent, ref, watch } from "vue";
 import { getCommonValue } from "src/utils/common";
-import { fileInfo } from "src/services/fileInfo";
+
+
 export default defineComponent({
   name: "TourFormDrawerContent",
-
   props: {
     dataVal: Object,
-    uploadFile: Function,
+    compList: Array,
   },
   emits: ["update:dataVal"],
   setup(props, { emit }) {
     const edited = ref(props.dataVal);
+    //업체목록
+    const companyOptions = ref(props.compList);
 
     const sectorOptions = ref([]);
     const areaBigOptions = ref([]);
@@ -166,9 +177,6 @@ export default defineComponent({
     const areaSmlOptions = ref([]);
 
     const ageNumbers = ref([]);
-    const fileUrl = fileInfo;
-
-    const previewImage = ref(null);
 
     for (let i = 0
       ; i <= 20; i++) {
@@ -182,27 +190,13 @@ export default defineComponent({
 
     /* 공통코드값 가져오기 */
     async function getCommonCode(req, targetDataName) {
+
       try {
         targetDataName.value = await getCommonValue(req);
       } catch (error) {
         console.error(error);
       }
     }
-
-    const handleFileChange = (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        // Read the selected file and set the previewImage variable with its data URL
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          previewImage.value = e.target.result;
-          props.uploadFile(file);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        previewImage.value = null;
-      }
-    };
 
     //상품유형
     getCommonCode({upCode: 22,codeLvl: "1"}, sectorOptions);
@@ -214,11 +208,9 @@ export default defineComponent({
     //지역에 따른 하위지역 보여주기
     watch(() => edited.value.tourArea, async (newVal) => {
       if (newVal) {
-        edited.value.tourAreaSub = "";
         const selectedAreaMidOption = areaMidOptions.value.find(option => option.codeUuid === newVal);
         if (selectedAreaMidOption) {
           const areaSmlReq = { upCode: selectedAreaMidOption.codeUuid, codeLvl: "3" };
-          console.log(areaSmlReq);
           await getCommonCode(areaSmlReq, areaSmlOptions);
         }
       }
@@ -230,10 +222,8 @@ export default defineComponent({
       areaBigOptions,
       areaMidOptions,
       areaSmlOptions,
-      ageNumbers,
-      fileUrl,
-      previewImage,
-      handleFileChange
+      companyOptions,
+      ageNumbers
     };
   },
 

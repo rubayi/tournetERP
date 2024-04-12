@@ -10,8 +10,9 @@
       :title="edited.tourUuid ? '상품 수정' : '상품 등록'"
     >
       <div class="flex flex-grow-1 q-pa-md">
-        <tour-form-drawer-content :data-val="edited" />
-
+        <tour-form-drawer-content
+            :data-val="edited"
+            :comp-list="compList"/>
       </div>
     </drawer-comp>
   </div>
@@ -21,9 +22,10 @@
 import { defineComponent, ref, watch, onMounted } from "vue";
 import DrawerComp from "src/components/drawers/DrawerComp.vue";
 import { tourTn } from "src/store/tour.module";
-import { auth } from "src/store/auth.module";
+import { compTn} from "src/store/comp.module";
 // Layout
 import TourFormDrawerContent from "src/components/tour/TourFormDrawerContent.vue";
+import EventBus from "src/common/EventBus";
 
 export default defineComponent({
   name: "TourFormDrawer",
@@ -42,10 +44,9 @@ export default defineComponent({
     const edited = ref(props.dataVal);
     const eOpenDrawer = ref(props.openDrawer);
 
-    const updateEdited = {};
-    const initEdited = {};
-
     const initialData = ref(null);
+
+    const compList = ref([]);
 
     watch(
       () => props.dataVal,
@@ -103,13 +104,6 @@ export default defineComponent({
       emit("dataSaved");
     }
 
-    function resetForm() {
-      if (edited.value && edited.value.tourUuid != 0) {
-        edited.value = updateEdited;
-      } else {
-        edited.value = { ...initEdited };
-      }
-    }
     async function handleDeleteData(data) {
       emit("delete", edited.value.tourUuid);
 
@@ -143,12 +137,35 @@ export default defineComponent({
       }
     }
 
+    function getCompanyList(){
+      const searchReq = {}
+      compTn.actions.searchCompList(
+            {
+              commit: () => {},
+              state: {},
+            },
+            searchReq
+            )
+            .then(
+              (response) => {
+                compList.value = response.compList;
+                console.log("asdf");
+                console.log(compList.value);
+              },
+              (error) => {
+                console.log("saveTour failed", error);
+            }
+      );
+    }
+
     onMounted(() => {
-      //getAuthList();
+      //업체목록
+      getCompanyList();
     });
 
     return {
       edited,
+      compList,
       eOpenDrawer,
       handleSaveData,
       handleDeleteData,

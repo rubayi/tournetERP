@@ -5,16 +5,16 @@
       <q-scroll-area
         style="height: 600px; min-width: 700px;"
       >
-        <div class="q-pa-md ">
+        <div class="q-pa-md">
           <div class="example-row-column-width" >
             <div class="row">
-              <div class="col-1 center">
+              <div class="col-1 center ">
                 관리
               </div>
               <div class="col-2 center">
                 연락처구분
               </div>
-              <div class="col-6 center">
+              <div class="col-7 center">
                 연락처
               </div>
               <div class="col-2 center">
@@ -32,7 +32,7 @@
               <div class="col-2 center">
                 {{ contact.contactTypeName }}
               </div>
-              <div class="col-6">
+              <div class="col-7">
                 {{ contact.contactCont }}
               </div>
               <div class="col-2 center">
