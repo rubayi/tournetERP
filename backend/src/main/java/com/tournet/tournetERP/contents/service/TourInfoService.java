@@ -4,6 +4,7 @@ package com.tournet.tournetERP.contents.service;
 import com.tournet.tournetERP.common.util.FetchCodeUtil;
 import com.tournet.tournetERP.contents.dto.TourDTO;
 import com.tournet.tournetERP.contents.entity.Tour;
+import com.tournet.tournetERP.contents.repository.CompanyRepository;
 import com.tournet.tournetERP.contents.repository.TourRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class TourInfoService {
 
     @Autowired
     FetchCodeUtil fetchCodeUtil;
+
+    @Autowired
+    CompanyService companyService;
     public List<TourDTO> findtoursList(TourDTO tourpReq) {
 
         ModelMapper modelMapper = new ModelMapper();
@@ -60,6 +64,10 @@ public class TourInfoService {
                     tourpResponse.setTourAreaSubName(fetchCodeUtil.fetchCodeKr(tourp.getTourAreaSub()));
                     tourpResponse.setPrepaidMethodName(fetchCodeUtil.fetchCodeKr(tourp.getPrepaidMethod()));
 
+                    tourpResponse.setCompKor(companyService.fetchCompKr(tourp.getCompUuid()));
+                    tourpResponse.setCompEng(companyService.fetchCompEng(tourp.getCompUuid()));
+                    tourpResponse.setCompUuid(tourp.getCompUuid());
+                    
                     tourpResponse.setMinAge(tourp.getMinAge());
                     tourpResponse.setChildAge(tourp.getChildAge());
                     tourpResponse.setYouthAge(tourp.getYouthAge());

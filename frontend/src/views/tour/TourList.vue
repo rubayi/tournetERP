@@ -5,7 +5,7 @@
         <div class="col q-pr-md flex items-center">
           <span class="part_title text-primary">
             <q-icon name="person" class="q-ml-xs q-mb-xs" size="md"></q-icon
-            >투어관리</span>
+            >관리</span>
         </div>
         <div class="col-5 text-right">
           <q-form @submit="searchTourInfoList">
@@ -142,7 +142,6 @@ export default {
     createAction() {
       this.edited = initialData;
       this.edited.tourCategory = this.tourCategory
-      console.log(this.edited);
       this.openDrawer = !this.openDrawer;
     },
 
@@ -231,6 +230,7 @@ export default {
     },
   },
   created() {
+
     this.sector = this.$route.params.sector;
 
     //상품섹터
@@ -238,7 +238,8 @@ export default {
     .then(() => {
       // Initialize tourCategory based on sector
       for (let category of this.tourCategoryOptions) {
-          if (category.codeEn.toLowerCase() === this.sector || category.codeEn === this.sector) {
+          if (category.codeEn.toLowerCase() === this.sector
+              || category.codeEn === this.sector) {
               this.tourCategory = category.codeUuid;
               break; // Stop looping once category is found
           }

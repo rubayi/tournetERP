@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -112,5 +113,23 @@ public class CompanyService {
         return findCompany;
     }
 
+
+    public String fetchCompKr(long compUuid) {
+        Optional<Company> compInfo = compRepository.findByCompUuid(compUuid);
+        if (compInfo.isPresent()) {
+            return compInfo.get().getCompKor();
+        } else {
+            return null;
+        }
+    }
+
+    public String fetchCompEng(long compUuid) {
+        Optional<Company> compInfo = compRepository.findByCompUuid(compUuid);
+        if (compInfo.isPresent()) {
+            return compInfo.get().getCompEng();
+        } else {
+            return null;
+        }
+    }
 
 }

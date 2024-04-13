@@ -1,5 +1,5 @@
 <template>
-  <div v-if="lcContactList" id="comp-form-drawer-contact">
+  <div id="comp-form-drawer-contact">
 
     <div class="flex flex-grow-1">
       <q-scroll-area

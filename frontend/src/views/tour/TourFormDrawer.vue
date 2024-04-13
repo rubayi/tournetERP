@@ -12,7 +12,7 @@
       <div class="flex flex-grow-1 q-pa-md">
         <tour-form-drawer-content
             :data-val="edited"
-            :comp-list="compList"/>
+            :company-options="compList"/>
       </div>
     </drawer-comp>
   </div>
@@ -149,7 +149,6 @@ export default defineComponent({
             .then(
               (response) => {
                 compList.value = response.compList;
-                console.log("asdf");
                 console.log(compList.value);
               },
               (error) => {

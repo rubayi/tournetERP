@@ -53,13 +53,6 @@
                   v-model="edited.tourEng"
                   label="영문상품명"
                 />
-                <q-input
-                  class="col-3"
-                  type="text"
-                  id="group"
-                  v-model="edited.tourGroup"
-                  label="그룹"
-                />
                 <q-select
                   class="col-3"
                   v-model="edited.minAge"
@@ -163,13 +156,11 @@ export default defineComponent({
   name: "TourFormDrawerContent",
   props: {
     dataVal: Object,
-    compList: Array,
+    companyOptions: Array,
   },
   emits: ["update:dataVal"],
   setup(props, { emit }) {
     const edited = ref(props.dataVal);
-    //업체목록
-    const companyOptions = ref(props.compList);
 
     const sectorOptions = ref([]);
     const areaBigOptions = ref([]);
@@ -222,7 +213,6 @@ export default defineComponent({
       areaBigOptions,
       areaMidOptions,
       areaSmlOptions,
-      companyOptions,
       ageNumbers
     };
   },

@@ -2,6 +2,7 @@
 
 export const initialData = {
     tourUuid: 0, //투어UUID
+    compUuid: 0,
     tourCategory: 0, //투어구분
     tourCategoryName: "", //투어구분
     tourArea: 0, //지역코드
