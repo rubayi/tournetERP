@@ -20,11 +20,10 @@
 <script>
 import { defineComponent, ref, watch, onMounted } from "vue";
 import DrawerComp from "src/components/drawers/DrawerComp.vue";
-import { cdcdmngTn  } from "src/store/cdcdmng.module";
+import { cdcdmngTn  } from "src/store/cdcdMng.module";
 
 // Layout
 import CdcdFormDrawerContent from "src/components/cdcd/CdcdFormDrawerContent.vue";
-import CdcdMngService from "src/services/cdcdmng.service";
 
 export default defineComponent({
   name: "CdcdFormDrawer",

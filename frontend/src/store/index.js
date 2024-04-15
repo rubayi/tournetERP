@@ -6,8 +6,9 @@ import { empTn } from "./emp.module";
 import { userMenu } from "./userMenu.module";
 import { compTn } from "./comp.module";
 import { contactTn } from "./contact.module";
+import { trContactTn } from "./tourContact.module";
 import { tourTn } from "./tour.module";
-import { cdcdmngTn } from "./cdcdmng.module";
+import { cdcdmngTn } from "./cdcdMng.module";
 import { empEmergencyTn } from "./empemergency.module";
 import setupInterceptors from '../services/setupInterceptors';
 
@@ -22,6 +23,7 @@ const store = createStore({
     contactTn,
     empEmergencyTn,
     tourTn,
+    trContactTn,
     cdcdmngTn
   },
 });

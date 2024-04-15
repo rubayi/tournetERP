@@ -13,13 +13,16 @@ public class TourContact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CONTACT_UUID", nullable = false)
-    private int contactUuid; //연락처UUID
+    private long contactUuid; //연락처UUID
+
+    @Column(name = "TOUR_UUID", nullable = false)
+    private long tourUuid; //연락처UUID
 
     @Column(name = "CONTACT_TYPE", nullable = true)
-    private String contactType; //유형
+    private long contactType; //유형
 
     @Column(name = "REP_YN", nullable = true)
-    private String repYn; //대표연락처여부
+    private long repYn; //대표연락처여부
 
     @Column(name = "CONTACT_CONT", nullable = true)
     private String contactCont; //연락처

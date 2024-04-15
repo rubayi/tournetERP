@@ -64,10 +64,10 @@ public class TourInfoService {
                     tourpResponse.setTourAreaSubName(fetchCodeUtil.fetchCodeKr(tourp.getTourAreaSub()));
                     tourpResponse.setPrepaidMethodName(fetchCodeUtil.fetchCodeKr(tourp.getPrepaidMethod()));
 
-                    tourpResponse.setCompKor(companyService.fetchCompKr(tourp.getCompUuid()));
-                    tourpResponse.setCompEng(companyService.fetchCompEng(tourp.getCompUuid()));
-                    tourpResponse.setCompUuid(tourp.getCompUuid());
-                    
+//                    tourpResponse.setCompKor(companyService.fetchCompKr(tourp.getCompUuid()));
+//                    tourpResponse.setCompEng(companyService.fetchCompEng(tourp.getCompUuid()));
+//                    tourpResponse.setCompUuid(tourp.getCompUuid());
+
                     tourpResponse.setMinAge(tourp.getMinAge());
                     tourpResponse.setChildAge(tourp.getChildAge());
                     tourpResponse.setYouthAge(tourp.getYouthAge());

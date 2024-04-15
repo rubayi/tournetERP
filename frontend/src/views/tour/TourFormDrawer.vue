@@ -11,8 +11,28 @@
     >
       <div class="flex flex-grow-1 q-pa-md">
         <tour-form-drawer-content
-            :data-val="edited"
-            :company-options="compList"/>
+            :data-val="edited"/>
+
+      <div v-if="edited.tourUuid" class="q-pa-lg q-gutter-sm" >
+        <q-btn
+            icon="search"
+            label="연락처 등록"
+            style="color: darkgreen"
+            @click="openAction"
+        />
+      </div>
+      <tour-contact-form-drawer
+          :open-drawer="newOpenDrawer"
+          :drawer-width="700"
+          :data-val="contactEdited"
+          :on-close-click="closeAction"
+          @update:openDrawer="newOpenDrawer = $event"
+          @drawer-closed="subDrawerClose"
+      />
+      <tour-contact-list
+          :data-val="lcContactList"
+          @drawer-closed="subDrawerClose"
+      />
       </div>
     </drawer-comp>
   </div>
@@ -22,14 +42,18 @@
 import { defineComponent, ref, watch, onMounted } from "vue";
 import DrawerComp from "src/components/drawers/DrawerComp.vue";
 import { tourTn } from "src/store/tour.module";
-import { compTn} from "src/store/comp.module";
+
 // Layout
 import TourFormDrawerContent from "src/components/tour/TourFormDrawerContent.vue";
-import EventBus from "src/common/EventBus";
+import TourContactList from "src/views/tour/TourContactList.vue";
+import {contactInitialData} from "src/views/tour/TourContact";
+import TourContactFormDrawer from "src/components/tour/TourContactFormDrawer.vue";
 
 export default defineComponent({
   name: "TourFormDrawer",
   components: {
+    TourContactFormDrawer,
+    TourContactList,
     DrawerComp,
     TourFormDrawerContent,
   },
@@ -38,6 +62,8 @@ export default defineComponent({
     drawerWidth: Number,
     dataVal: Object,
     onCloseClick: Function,
+    contactList: Array,
+    subDrawerClose: Function,
   },
   emits: ["update:dataVal", "update:openDrawer", "update:changeFlag"],
   setup(props, { emit }) {
@@ -48,14 +74,21 @@ export default defineComponent({
 
     const compList = ref([]);
 
+    const newOpenDrawer = ref(false);
+    const contactEdited = ref(contactInitialData);
+    const lcContactList = ref(props.contactList);
+
     watch(
       () => props.dataVal,
       (newVal) => {
         edited.value = { ...newVal };
-        initialData.value = { ...newVal };
       },
       { deep: true }
     );
+
+    watch(() => props.contactList, (newVal) => {
+      lcContactList.value = { ...newVal };
+    }, { deep: true });
 
     const promises = [];
 
@@ -137,29 +170,46 @@ export default defineComponent({
       }
     }
 
-    function getCompanyList(){
-      const searchReq = {}
-      compTn.actions.searchCompList(
-            {
-              commit: () => {},
-              state: {},
-            },
-            searchReq
-            )
-            .then(
-              (response) => {
-                compList.value = response.compList;
-                console.log(compList.value);
-              },
-              (error) => {
-                console.log("saveTour failed", error);
-            }
-      );
+    function openAction() {
+
+      contactEdited.value.tourUuid = edited.value.tourUuid;
+      newOpenDrawer.value = !newOpenDrawer.value;
     }
+
+    function closeAction() {
+      contactEdited.value = {
+        contactUuid: 0,
+        tourUuid: 0,
+        contactType: "",
+        repYn: "",
+        contactCont: "",
+      };
+      newOpenDrawer.value = !newOpenDrawer.value;
+    }
+
+    // function getCompanyList(){
+    //   const searchReq = {}
+    //   compTn.actions.searchCompList(
+    //         {
+    //           commit: () => {},
+    //           state: {},
+    //         },
+    //         searchReq
+    //         )
+    //         .then(
+    //           (response) => {
+    //             compList.value = response.compList;
+    //             console.log(compList.value);
+    //           },
+    //           (error) => {
+    //             console.log("saveTour failed", error);
+    //         }
+    //   );
+    // }
 
     onMounted(() => {
       //업체목록
-      getCompanyList();
+      //getCompanyList();
     });
 
     return {
@@ -168,6 +218,11 @@ export default defineComponent({
       eOpenDrawer,
       handleSaveData,
       handleDeleteData,
+      lcContactList,
+      contactEdited,
+      newOpenDrawer,
+      closeAction,
+      openAction
     };
   },
 });

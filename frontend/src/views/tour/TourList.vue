@@ -66,9 +66,11 @@
         :open-drawer="openDrawer"
         :drawer-width="drawerWidth"
         :dataVal="edited"
+        :contact-list="contactList"
         :on-close-click="closeAction"
         @update:openDrawer="openDrawer = $event"
         @dataSaved="handlePageChange"
+        :sub-drawer-close="reloadContactList"
       />
     </q-page>
   </div>
@@ -124,6 +126,8 @@ export default {
       sector: "",
       tours: [],
       tourCategory : "",
+      contactList: [],
+      curTourUuid: 0,
       tourCategoryOptions: [],
     };
   },
@@ -147,15 +151,16 @@ export default {
 
     /* Edit */
     openAction(params) {
-      if (params.column.colId == "edit") {
-        params.data.password = "";
-        this.updateEdited = Object.assign({}, params.data);
-        this.edited = params.data;
-        this.openDrawer = !this.openDrawer;
-      }
+
+      this.edited = params.data;
+      this.getContactList(params.data.tourUuid);
+      this.openDrawer = !this.openDrawer;
+
     },
 
     closeAction() {
+      this.contactList = [];
+      this.curTourUuid = 0;
       this.edited = initialData;
       this.openDrawer = !this.openDrawer;
     },
@@ -198,7 +203,37 @@ export default {
         }
       );
     },
+    reloadContactList() {
+      const reqPram = {tourUuid: this.curTourUuid}
 
+      this.$store.dispatch(`trContactTn/searchContactList`, reqPram).then(
+          (response) => {
+            this.contactList =  response.contactList;
+          },
+          (error) => {
+            console.log("searchContactList failed", error);
+            if (error.response && error.response.status === 403) {
+              EventBus.dispatch("logout");
+            }
+          }
+      );
+    },
+    getContactList(tourUuid) {
+      this.curTourUuid = tourUuid;
+      const reqPram = {tourUuid: tourUuid}
+
+      this.$store.dispatch(`trContactTn/searchContactList`, reqPram).then(
+          (response) => {
+            this.contactList =  response.contactList;
+          },
+          (error) => {
+            console.log("searchContactList failed", error);
+            if (error.response && error.response.status === 403) {
+              EventBus.dispatch("logout");
+            }
+          }
+      );
+    },
     deleteTourInfo(id) {
       this.$store.dispatch("tourTn/deleteTourInfo", id).then(
         (response) => {

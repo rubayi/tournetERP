@@ -8,16 +8,16 @@
             <q-card-section class="custom-padding-margin">
               <div class="row q-col-gutter-lg">
                 <input id="tourUuid" v-model="edited.tourUuid" hidden />
-                <q-select
-                    class="col-3"
-                    v-model="edited.compUuid"
-                    :options="companyOptions"
-                    option-value="compUuid"
-                    option-label="compKor"
-                    emit-value
-                    map-options
-                    label="업체"
-                />
+<!--                <q-select-->
+<!--                    class="col-3"-->
+<!--                    v-model="edited.compUuid"-->
+<!--                    :options="companyOptions"-->
+<!--                    option-value="compUuid"-->
+<!--                    option-label="compKor"-->
+<!--                    emit-value-->
+<!--                    map-options-->
+<!--                    label="업체"-->
+<!--                />-->
                 <q-select
                     class="col-3"
                     v-model="edited.tourArea"
@@ -156,7 +156,6 @@ export default defineComponent({
   name: "TourFormDrawerContent",
   props: {
     dataVal: Object,
-    companyOptions: Array,
   },
   emits: ["update:dataVal"],
   setup(props, { emit }) {
