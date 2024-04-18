@@ -36,7 +36,8 @@
           @drawer-closed="subDrawerClose"
       />
       </div>
-      <div v-if="contSector == 'hotel'" class="row col-12">
+
+      <div v-if="contSector.toLowerCase() == 'hotel'" class="row col-12">
         <div v-if="edited.tourUuid" class="q-pa-lg q-gutter-sm" >
           <q-btn
               icon="search"
@@ -53,8 +54,9 @@
             @update:openDrawer="hotelOpenDrawer = $event"
             @drawer-closed="subDrawerClose"
         />
-        <hotel-info v-if="lcHotelInfo.length > 0"
+        <hotel-info v-if="lcHotelInfo.hotelUuid"
             :data-val="lcHotelInfo"
+            :open-edit="hotelOpenAction"
             @drawer-closed="subDrawerClose"
         />
         </div>

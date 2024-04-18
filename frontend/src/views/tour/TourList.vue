@@ -221,6 +221,8 @@ export default {
             }
           }
       );
+
+      this.getHotelInfo(this.curTourUuid);
     },
     getContactList(tourUuid) {
       this.curTourUuid = tourUuid;
@@ -239,19 +241,21 @@ export default {
       );
     },
     getHotelInfo(tourUuid) {
-
-      this.$store.dispatch(`hotelTn/getHotelByTourUuid`, tourUuid).then(
-          (response) => {
-            this.hotelInfo =  response.hotelInfo;
-          },
-          (error) => {
-            console.log("searchHotelInfo failed", error);
-            if (error.response && error.response.status === 403) {
-              EventBus.dispatch("logout");
+        this.$store.dispatch(`hotelTn/getHotelByTourUuid`, tourUuid).then(
+            (response) => {
+                console.log(response);
+                this.hotelInfo =  response.hotelInfo;
+            },
+            (error) => {
+                console.log("searchHotelInfo failed", error);
+                if (error.response && error.response.status === 403) {
+                    EventBus.dispatch("logout");
+                }
             }
-          }
-      );
+        );
+
     },
+
     deleteTourInfo(id) {
       this.$store.dispatch("tourTn/deleteTourInfo", id).then(
         (response) => {

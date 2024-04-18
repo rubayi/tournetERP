@@ -20,7 +20,7 @@
                 <div class="row q-col-gutter-lg">
                   <q-select
                       class="col-3"
-                      v-model="edited.hotelGroup"
+                      v-model="edited.hotelGrp"
                       :options="groupOptions"
                       option-value="codeUuid"
                       option-label="codeKr"
@@ -138,6 +138,8 @@ export default defineComponent({
       }
     }
 
+
+
     function emitCloseDrawer() {
       if (typeof props.onCloseClick === 'function') {
         props.onCloseClick();
@@ -190,7 +192,7 @@ export default defineComponent({
       checkedContactUuids,
       handleSaveData,
       handleDeleteData,
-      groupOptions,
+      groupOptions
     };
   },
 

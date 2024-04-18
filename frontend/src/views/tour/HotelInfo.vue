@@ -2,37 +2,36 @@
   <div id="hotel-info">
 
     <div class="flex flex-grow-1">
-      <q-scroll-area
-        style="height: 600px; min-width: 700px;"
-      >
         <div class="q-pa-md">
-          <div v-if="lcHotelInfo" class="example-row-column-width" >
-              <div class="col-1 center">
+          <div v-if="lcHotelInfo" class="row" >
+              <div class="center">
                 <q-btn @click="deleteHotelInfo(lcHotelInfo.hotelUuid)" flat round
                 ><q-icon name="delete_forever"/>
                 </q-btn>
+                <q-btn @click="openEdit" flat round
+                ><q-icon name="create"/>
+                </q-btn>
               </div>
-              <div class="col-2 center">
+              <div class="center">
                 호텔그룹: {{ lcHotelInfo.hotelGrpName}}
               </div>
-              <div class="col-2 center">
+              <div class="center">
                 호텔등급: {{ lcHotelInfo.hotelLvlName}}
               </div>
-              <div class="col-2 center">
+              <div class="center">
                 조식어린이나이: {{ lcHotelInfo.childAgeBreakfast }}
               </div>
-              <div class="col-7">
+              <div class="">
                 호텔체크인: {{ lcHotelInfo.checkinTime }}
               </div>
-              <div class="col-2 center">
+              <div class="center">
                 호텔체크아웃: {{ lcHotelInfo.checkoutTime}}
               </div>
-              <div class="col-2 center">
+              <div class="center">
                 리조트비용: {{ lcHotelInfo.resortFee}}
               </div>
             </div>
         </div>
-      </q-scroll-area>
     </div>
   </div>
 </template>
@@ -46,7 +45,8 @@ export default defineComponent({
   components: {},
   props: {
     dataVal: Array,
-    subDrawerClose: Function
+    subDrawerClose: Function,
+    openEdit: Function
   },
   setup(props, { emit }) {
 
@@ -77,7 +77,7 @@ export default defineComponent({
 
     return {
       lcHotelInfo,
-      deleteHotelInfo
+      deleteHotelInfo,
     };
 
   },
