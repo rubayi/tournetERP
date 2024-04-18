@@ -77,6 +77,7 @@ export default defineComponent({
 
     const newOpenDrawer = ref(false);
 
+
     const contactEdited = ref(contactInitialData);
 
     const lcContactList = ref(props.contactList);

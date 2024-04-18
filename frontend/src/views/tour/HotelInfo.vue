@@ -1,45 +1,36 @@
 <template>
-  <div id="comp-form-drawer-contact">
+  <div id="hotel-info">
 
     <div class="flex flex-grow-1">
       <q-scroll-area
-        style="height: 300px; min-width: 700px;"
+        style="height: 600px; min-width: 700px;"
       >
         <div class="q-pa-md">
-          <div class="example-row-column-width" >
-            <div class="row">
-              <div class="col-1 center ">
-                관리
-              </div>
-              <div class="col-2 center">
-                연락처구분
-              </div>
-              <div class="col-7 center">
-                연락처
-              </div>
-              <div class="col-2 center">
-                대표여부
-              </div>
-            </div>
-          </div>
-          <div v-for="(contact, index) in lcContactList" :key="index" class="example-row-column-width" >
-            <div class="row">
+          <div v-if="lcHotelInfo" class="example-row-column-width" >
               <div class="col-1 center">
-                <q-btn @click="deleteCont(contact.contactUuid)" flat round
+                <q-btn @click="deleteHotelInfo(lcHotelInfo.hotelUuid)" flat round
                 ><q-icon name="delete_forever"/>
                 </q-btn>
               </div>
               <div class="col-2 center">
-                {{ contact.contactTypeName }}
-              </div>
-              <div class="col-7">
-                {{ contact.contactCont }}
+                호텔그룹: {{ lcHotelInfo.hotelGrpName}}
               </div>
               <div class="col-2 center">
-                {{ contact.repYnName}}
+                호텔등급: {{ lcHotelInfo.hotelLvlName}}
+              </div>
+              <div class="col-2 center">
+                조식어린이나이: {{ lcHotelInfo.childAgeBreakfast }}
+              </div>
+              <div class="col-7">
+                호텔체크인: {{ lcHotelInfo.checkinTime }}
+              </div>
+              <div class="col-2 center">
+                호텔체크아웃: {{ lcHotelInfo.checkoutTime}}
+              </div>
+              <div class="col-2 center">
+                리조트비용: {{ lcHotelInfo.resortFee}}
               </div>
             </div>
-          </div>
         </div>
       </q-scroll-area>
     </div>
@@ -48,7 +39,7 @@
 
 <script>
 import {defineComponent, onMounted, ref, watch} from "vue";
-import TrContactService from "src/services/tourcontact.service";
+import HotelService from "src/services/hotelInfo.service";
 
 export default defineComponent({
   name: "TourContactList",
@@ -59,20 +50,20 @@ export default defineComponent({
   },
   setup(props, { emit }) {
 
-    const lcContactList = ref(props.dataVal);
+    const lcHotelInfo = ref(props.dataVal);
 
     watch(() => props.dataVal, (newVal) => {
-      lcContactList.value = newVal;
+      lcHotelInfo.value = newVal;
     }, { deep: true });
 
     function emitCloseDrawer() {
         emit("drawer-closed");
     }
 
-    function deleteCont(contactUuid) {
+    function deleteHotelInfo(hotelUuid) {
       const confirmation = window.confirm("연락처를 삭제 하시겠습니까?");
       if (confirmation) {
-        TrContactService.deleteContact(contactUuid).then(
+        HotelService.deleteHotel(hotelUuid).then(
             (response) => {
               alert(response.data.message);
               emitCloseDrawer();
@@ -85,8 +76,8 @@ export default defineComponent({
     }
 
     return {
-      lcContactList,
-      deleteCont
+      lcHotelInfo,
+      deleteHotelInfo
     };
 
   },

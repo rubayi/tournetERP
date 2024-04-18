@@ -32,5 +32,5 @@ public interface HotelRepository extends JpaRepository<Hotel,Long> {
 
     void deleteByHotelUuid(long hotelUuid);
 
-
+    Optional<Hotel> findByTourUuid(long id);
 }

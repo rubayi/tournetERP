@@ -8,16 +8,7 @@
             <q-card-section class="custom-padding-margin">
               <div class="row q-col-gutter-lg">
                 <input id="tourUuid" v-model="edited.tourUuid" hidden />
-<!--                <q-select-->
-<!--                    class="col-3"-->
-<!--                    v-model="edited.compUuid"-->
-<!--                    :options="companyOptions"-->
-<!--                    option-value="compUuid"-->
-<!--                    option-label="compKor"-->
-<!--                    emit-value-->
-<!--                    map-options-->
-<!--                    label="업체"-->
-<!--                />-->
+
                 <q-select
                     class="col-3"
                     v-model="edited.tourArea"
@@ -194,6 +185,7 @@ export default defineComponent({
     getCommonCode({upCode: 31,codeLvl: "2"}, areaMidOptions);
     //소지역
     getCommonCode({upCode: 144,codeLvl: "3"}, areaSmlOptions);
+
 
     //지역에 따른 하위지역 보여주기
     watch(() => edited.value.tourArea, async (newVal) => {

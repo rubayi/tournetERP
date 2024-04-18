@@ -63,10 +63,12 @@
         />
       </div>
       <tour-form-drawer
+        :cont-sector="sector"
         :open-drawer="openDrawer"
         :drawer-width="drawerWidth"
         :dataVal="edited"
         :contact-list="contactList"
+        :hotel-info = "hotelInfo"
         :on-close-click="closeAction"
         @update:openDrawer="openDrawer = $event"
         @dataSaved="handlePageChange"
@@ -129,6 +131,7 @@ export default {
       contactList: [],
       curTourUuid: 0,
       tourCategoryOptions: [],
+      hotelInfo:{}
     };
   },
   methods: {
@@ -154,12 +157,14 @@ export default {
 
       this.edited = params.data;
       this.getContactList(params.data.tourUuid);
+      this.getHotelInfo(params.data.tourUuid);
       this.openDrawer = !this.openDrawer;
 
     },
 
     closeAction() {
       this.contactList = [];
+      this.hotelInfo = {};
       this.curTourUuid = 0;
       this.edited = initialData;
       this.openDrawer = !this.openDrawer;
@@ -192,7 +197,6 @@ export default {
 
       this.$store.dispatch(`tourTn/searchTourList`, searchReq).then(
         (tours) => {
-
           this.tours = tours.listTour;
 
         },
@@ -234,6 +238,20 @@ export default {
           }
       );
     },
+    getHotelInfo(tourUuid) {
+
+      this.$store.dispatch(`hotelTn/getHotelByTourUuid`, tourUuid).then(
+          (response) => {
+            this.hotelInfo =  response.hotelInfo;
+          },
+          (error) => {
+            console.log("searchHotelInfo failed", error);
+            if (error.response && error.response.status === 403) {
+              EventBus.dispatch("logout");
+            }
+          }
+      );
+    },
     deleteTourInfo(id) {
       this.$store.dispatch("tourTn/deleteTourInfo", id).then(
         (response) => {
@@ -265,7 +283,7 @@ export default {
     },
   },
   created() {
-
+    //상품유형
     this.sector = this.$route.params.sector;
 
     //상품섹터

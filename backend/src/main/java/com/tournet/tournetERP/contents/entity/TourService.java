@@ -1,5 +1,6 @@
 package com.tournet.tournetERP.contents.entity;
 
+import com.tournet.tournetERP.auth.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,7 +17,7 @@ public class TourService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SERVICE_UUID", nullable = false)
-    private int serviceUuid; //서비스UUID
+    private long serviceUuid; //서비스UUID
 
     @Column(name = "SERVICE_NAME_KOR", nullable = true)
     private String serviceNameKor; //서비스명KOR
@@ -73,11 +74,14 @@ public class TourService {
     @Column(name = "CREATED_DT", updatable = false)
     private Date createdDt; //생성일
 
-    @Column(name = "CREATED_BY", nullable = true)
-    private int createdBy; //생성자
+    @OneToOne
+    @JoinColumn(name = "CREATED_BY", referencedColumnName = "EMP_UUID",
+            updatable = false)
+    private User createUser;
 
-    @Column(name = "MODIFIED_BY", nullable = true)
-    private int modifiedBy; //최종수정자
+    @OneToOne
+    @JoinColumn(name = "MODIFIED_BY", referencedColumnName = "EMP_UUID")
+    private User modifyUser;
 
     @LastModifiedDate
     @Column(name = "MODIFIED_DT", nullable = true)

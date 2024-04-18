@@ -9,11 +9,13 @@
       :iconTitle="'person'"
       :title="edited.tourUuid ? '상품 수정' : '상품 등록'"
     >
-      <div class="flex flex-grow-1 q-pa-md">
+
         <tour-form-drawer-content
             :data-val="edited"/>
 
+      <div class="row col-12">
       <div v-if="edited.tourUuid" class="q-pa-lg q-gutter-sm" >
+
         <q-btn
             icon="search"
             label="연락처 등록"
@@ -34,6 +36,29 @@
           @drawer-closed="subDrawerClose"
       />
       </div>
+      <div v-if="contSector == 'hotel'" class="row col-12">
+        <div v-if="edited.tourUuid" class="q-pa-lg q-gutter-sm" >
+          <q-btn
+              icon="search"
+              label="호텔 정보 등록"
+              style="color: darkgreen"
+              @click="hotelOpenAction"
+          />
+        </div>
+        <hotel-info-form-drawer
+            :open-drawer="hotelOpenDrawer"
+            :drawer-width="700"
+            :data-val="hotelEdited"
+            :on-close-click="hotelCloseAction"
+            @update:openDrawer="hotelOpenDrawer = $event"
+            @drawer-closed="subDrawerClose"
+        />
+        <hotel-info v-if="lcHotelInfo.length > 0"
+            :data-val="lcHotelInfo"
+            @drawer-closed="subDrawerClose"
+        />
+        </div>
+
     </drawer-comp>
   </div>
 </template>
@@ -46,37 +71,46 @@ import { tourTn } from "src/store/tour.module";
 // Layout
 import TourFormDrawerContent from "src/components/tour/TourFormDrawerContent.vue";
 import TourContactList from "src/views/tour/TourContactList.vue";
-import {contactInitialData} from "src/views/tour/TourContact";
 import TourContactFormDrawer from "src/components/tour/TourContactFormDrawer.vue";
+import HotelInfoFormDrawer from "src/components/tour/HotelInfoFormDrawer.vue";
+import HotelInfo from "src/views/tour/HotelInfo.vue";
+import {contactInitialData} from "src/views/tour/TourContact";
+import {hotelInfoInitialData} from "src/views/tour/HotelInfo";
 
 export default defineComponent({
   name: "TourFormDrawer",
   components: {
     TourContactFormDrawer,
+    HotelInfoFormDrawer,
     TourContactList,
     DrawerComp,
     TourFormDrawerContent,
+    HotelInfo,
   },
   props: {
+    contSector: String,
     openDrawer: Boolean,
     drawerWidth: Number,
     dataVal: Object,
     onCloseClick: Function,
     contactList: Array,
+    hotelInfo: Object,
     subDrawerClose: Function,
   },
-  emits: ["update:dataVal", "update:openDrawer", "update:changeFlag"],
+  emits: ["update:dataVal", "update:openDrawer"],
   setup(props, { emit }) {
     const edited = ref(props.dataVal);
     const eOpenDrawer = ref(props.openDrawer);
 
     const initialData = ref(null);
 
-    const compList = ref([]);
-
     const newOpenDrawer = ref(false);
     const contactEdited = ref(contactInitialData);
     const lcContactList = ref(props.contactList);
+
+    const hotelOpenDrawer = ref(false);
+    const hotelEdited = ref(hotelInfoInitialData);
+    const lcHotelInfo = ref(props.hotelInfo);
 
     watch(
       () => props.dataVal,
@@ -88,6 +122,11 @@ export default defineComponent({
 
     watch(() => props.contactList, (newVal) => {
       lcContactList.value = { ...newVal };
+    }, { deep: true });
+
+
+    watch(() => props.hotelInfo, (newVal) => {
+      lcHotelInfo.value = { ...newVal };
     }, { deep: true });
 
     const promises = [];
@@ -171,9 +210,14 @@ export default defineComponent({
     }
 
     function openAction() {
-
       contactEdited.value.tourUuid = edited.value.tourUuid;
       newOpenDrawer.value = !newOpenDrawer.value;
+    }
+
+    function hotelOpenAction() {
+
+      hotelEdited.value.tourUuid = edited.value.tourUuid;
+      hotelOpenDrawer.value = !hotelOpenDrawer.value;
     }
 
     function closeAction() {
@@ -187,34 +231,25 @@ export default defineComponent({
       newOpenDrawer.value = !newOpenDrawer.value;
     }
 
-    // function getCompanyList(){
-    //   const searchReq = {}
-    //   compTn.actions.searchCompList(
-    //         {
-    //           commit: () => {},
-    //           state: {},
-    //         },
-    //         searchReq
-    //         )
-    //         .then(
-    //           (response) => {
-    //             compList.value = response.compList;
-    //             console.log(compList.value);
-    //           },
-    //           (error) => {
-    //             console.log("saveTour failed", error);
-    //         }
-    //   );
-    // }
+    function hotelCloseAction() {
+      hotelEdited.value = {
+        hotelUuid: 0,
+        tourUuid: 0,
+        hotelGrp: 0,
+        childAgeBreakfast: 0,
+        checkinTime: "",
+        checkoutTime: "",
+        resortFee: "",
+      };
+      hotelOpenDrawer.value = !hotelOpenDrawer.value;
+    }
 
     onMounted(() => {
-      //업체목록
-      //getCompanyList();
+
     });
 
     return {
       edited,
-      compList,
       eOpenDrawer,
       handleSaveData,
       handleDeleteData,
@@ -222,7 +257,12 @@ export default defineComponent({
       contactEdited,
       newOpenDrawer,
       closeAction,
-      openAction
+      openAction,
+      hotelOpenAction,
+      hotelOpenDrawer,
+      hotelEdited,
+      hotelCloseAction,
+      lcHotelInfo
     };
   },
 });

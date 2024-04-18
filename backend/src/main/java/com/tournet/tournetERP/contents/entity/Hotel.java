@@ -17,10 +17,19 @@ public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "HOTEL_UUID", nullable = false)
-    private int hotelUuid; //호텔정보UUID
+    private long hotelUuid; //호텔정보UUID
+
+    @Column(name = "TOUR_UUID", nullable = false)
+    private long tourUuid; //투어정보UUID
+
+    @Column(name = "HOTEL_GROUP", nullable = false)
+    private long hotelGrp; //투어정보UUID
+
+    @Column(name = "HOTEL_LVL", nullable = false)
+    private long hotelLvl; //투어정보UUID
 
     @Column(name = "CHILD_AGE_BREAKFAST", nullable = true)
-    private String childAgeBreakfast; //조식어린이나이
+    private long childAgeBreakfast; //조식어린이나이
 
     @Column(name = "CHECKIN_TIME", nullable = true)
     private String checkinTime; //호텔체크인
