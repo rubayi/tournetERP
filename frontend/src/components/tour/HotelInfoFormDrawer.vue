@@ -116,7 +116,6 @@ export default defineComponent({
     }, { deep: true });
 
     async function handleSaveData(data) {
-      console.log(edited.value);
       promises.push(
           HotelService.updateHotel(edited.value).then(
             (response) => {

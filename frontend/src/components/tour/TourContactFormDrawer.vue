@@ -164,7 +164,7 @@ export default defineComponent({
     });
 
     //연락처유형
-    getCommonCode({upCode: 539,codeLvl: "1"}, typeOptions);
+    getCommonCode({upCode: 342,codeLvl: "1"}, typeOptions);
     //사용유무
     getCommonCode({upCode: 515,codeLvl: "1"}, repYnOptions);
 

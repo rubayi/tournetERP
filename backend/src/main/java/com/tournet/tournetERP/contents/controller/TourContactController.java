@@ -1,57 +1,48 @@
-package com.tournet.tournetERP.contents.repository.controller;
+package com.tournet.tournetERP.contents.controller;
 
 /**
- * 업체 연락처 정보 관리
+ * 투어연락처 정보 관리
  *
  * @author : rubayi
  * @fileName : ContactController
  * @since : 2024-03-26
  */
-import java.util.*;
 
-import com.tournet.tournetERP.account.entity.CreditCardMng;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
-import com.tournet.tournetERP.contents.dto.ContactDTO;
-import com.tournet.tournetERP.contents.entity.Contact;
-import com.tournet.tournetERP.contents.repository.ContactRepository;
-import com.tournet.tournetERP.contents.service.ContactService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
-
+import com.tournet.tournetERP.contents.dto.TourContactDTO;
+import com.tournet.tournetERP.contents.entity.TourContact;
+import com.tournet.tournetERP.contents.repository.TourContactRepository;
+import com.tournet.tournetERP.contents.service.TourContactService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.tournet.tournetERP.auth.dto.MessageResponse;
-import org.springframework.http.HttpStatus;
-import jakarta.transaction.Transactional;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/contact")
-public class ContactController {
+@RequestMapping("/api/trContact")
+public class TourContactController {
 
     @Autowired
-    ContactRepository contactRepository;
+    TourContactRepository contactRepository;
 
     @Autowired
-    ContactService contactService;
+    TourContactService contactService;
 
     @PostMapping("/searchContactByCondition")
-    public ResponseEntity<Map<String, Object>> selectContacts (@RequestBody Contact contactReq) {
+    public ResponseEntity<Map<String, Object>> selectContacts (@RequestBody TourContact contactReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        List<ContactDTO> currentContacts = contactService.findContactList(contactReq);
+        List<TourContactDTO> currentContacts = contactService.findTourContactList(contactReq);
 
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("contactList", currentContacts);
@@ -59,7 +50,7 @@ public class ContactController {
     }
 
     @PostMapping("/updateContact")
-    public ResponseEntity<Map<String, Object>> updateContact(@RequestBody Contact contactReq) {
+    public ResponseEntity<Map<String, Object>> updateContact(@RequestBody TourContact contactReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 

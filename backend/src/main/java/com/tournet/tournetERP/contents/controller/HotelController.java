@@ -1,4 +1,4 @@
-package com.tournet.tournetERP.contents.repository.controller;
+package com.tournet.tournetERP.contents.controller;
 
 /**
  * 호텛 기본 정보 관리

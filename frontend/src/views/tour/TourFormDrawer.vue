@@ -38,7 +38,7 @@
       </div>
 
       <div v-if="contSector.toLowerCase() == 'hotel'" class="row col-12">
-        <div v-if="edited.tourUuid" class="q-pa-lg q-gutter-sm" >
+        <div v-if="edited.tourUuid && !lcHotelInfo.hotelUuid" class="q-pa-lg q-gutter-sm" >
           <q-btn
               icon="search"
               label="호텔 정보 등록"
@@ -217,8 +217,12 @@ export default defineComponent({
     }
 
     function hotelOpenAction() {
+      if(lcHotelInfo.value.hotelUuid){
+          hotelEdited.value = lcHotelInfo.value;
+      } else {
+          hotelEdited.value.tourUuid = edited.value.tourUuid;
+      }
 
-      hotelEdited.value.tourUuid = edited.value.tourUuid;
       hotelOpenDrawer.value = !hotelOpenDrawer.value;
     }
 
