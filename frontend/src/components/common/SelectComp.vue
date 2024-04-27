@@ -6,7 +6,7 @@
     :label="label"
     :model-value="inputValue"
     :options="options"
-    :rules="rules"
+    :rules="inputRules"
     stack-label
     :style="maxInputWidth"
     @update:model-value="inputValueChange"
@@ -30,7 +30,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { computed, defineComponent, ref, watch } from "vue";
-import { ISelectOption, SelectOption } from "@/types/SelectOption";
+import { ISelectOption, SelectOption } from "src/types/SelectOption";
 
 export default defineComponent({
   name: "SelectComp",
@@ -93,7 +93,7 @@ export default defineComponent({
           matchingOption = props.options.find((o) => _.isEqual(o.value, value));
         } else {
           matchingOption = props.options.find((o) =>
-            _.isEqual(o.value[props.valueUniqueIdentifier], value)
+            _.isEqual(o.value[props.valueUniqueIdentifier as keyof typeof o.value], value)
           );
         }
         if (matchingOption === undefined) {
@@ -103,7 +103,7 @@ export default defineComponent({
       inputValue.value = matchingOption;
     }
 
-    const rules = computed(() =>
+    const inputRules = computed(() =>
       props.validationMessage
         ? [
             (val: ISelectOption) =>
@@ -125,11 +125,14 @@ export default defineComponent({
         if (props.valueUniqueIdentifier === null) {
           return inputValue.value.value;
         } else {
-          return inputValue.value.value[props.valueUniqueIdentifier];
+          const value = inputValue.value.value;
+          if (typeof value === 'object' && props.valueUniqueIdentifier in value) {
+            return value[props.valueUniqueIdentifier];
+          }
         }
-      } else {
-        return null;
       }
+      // Provide a default return value if none of the conditions are met
+      return null;
     });
 
     function inputValueChange(newVal: ISelectOption | null) {
@@ -166,7 +169,7 @@ export default defineComponent({
       input,
       inputValue,
       maxInputWidth,
-      rules,
+      inputRules,
       inputValueChange,
       resetValidation,
       validate,

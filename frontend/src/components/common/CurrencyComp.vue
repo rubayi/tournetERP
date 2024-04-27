@@ -26,12 +26,12 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { useValidateInputs } from "@/utils/helpers/useValidateInputs";
-import { useSyncModelValue } from "@/utils/helpers/useSyncModelValue";
+import { useValidateInputs } from "src/utils/helpers/useValidateInputs";
+import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
 
-import InputComp from "@/components/common/InputComp.vue";
-import FormatHelper from "@/utils/helpers/FormatHelper";
-import NumberHelper from "@/utils/helpers/NumberHelper";
+import InputComp from "src/components/common/InputComp.vue";
+import FormatHelper from "src/utils/helpers/FormatHelper";
+import NumberHelper from "src/utils/helpers/NumberHelper";
 
 export default defineComponent({
   name: "CurrencyComp",

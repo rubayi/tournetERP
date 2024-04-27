@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import InnerLoadingComp from "@/components/common/InnerLoadingComp.vue";
+import InnerLoadingComp from "src/components/common/InnerLoadingComp.vue";
 import { computed, defineComponent, ref, watch } from "vue";
 
 export default defineComponent({

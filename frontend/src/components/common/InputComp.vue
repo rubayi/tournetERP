@@ -45,7 +45,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
-import { useSyncModelValue } from "@/utils/helpers/useSyncModelValue";
+import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
 
 export default defineComponent({
   name: "InputComp",

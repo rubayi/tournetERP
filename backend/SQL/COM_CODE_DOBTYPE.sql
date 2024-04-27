@@ -1,0 +1,3 @@
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('222','선택','Select','','000','1','Y', now(), now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('222','양력','Solar Calendar','','001','1','Y', now(), now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('222','음력','Lunar Calendar','','002','1','Y', now(), now());

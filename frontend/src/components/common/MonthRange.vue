@@ -27,11 +27,11 @@
 </template>
 
 <script lang="ts">
-import { useSyncModelValue } from "@/utils/helpers/useSyncModelValue";
+import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
 import moment from "moment";
 import { computed, defineComponent, ref, watch } from "vue";
 
-import InputComp from "@/components/common/InputComp.vue";
+import InputComp from "src/components/common/InputComp.vue";
 
 export default defineComponent({
   name: "MonthRange",

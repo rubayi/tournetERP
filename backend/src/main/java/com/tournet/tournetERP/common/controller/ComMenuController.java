@@ -27,7 +27,7 @@ import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/comMenus")
+@RequestMapping("/api/comMenu")
 public class ComMenuController {
 
     @Autowired

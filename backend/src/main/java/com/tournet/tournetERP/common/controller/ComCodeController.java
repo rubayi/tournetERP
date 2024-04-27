@@ -12,6 +12,9 @@ import com.tournet.tournetERP.auth.service.UserDetailsImpl;
 import com.tournet.tournetERP.common.dto.ComCodeDTO;
 import com.tournet.tournetERP.common.entity.ComCode;
 import com.tournet.tournetERP.common.repository.ComCodeRepository;
+import com.tournet.tournetERP.common.service.ComCodeService;
+import com.tournet.tournetERP.contents.dto.CompanyDTO;
+import com.tournet.tournetERP.contents.service.CompanyService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,16 +45,25 @@ public class ComCodeController {
     @Autowired
     ComCodeRepository comCodeRepository;
 
+    @Autowired
+    ComCodeService comCodeService;
+
     /**
      * 공통코드 목록 조회
      *
      * @return
      */
-    @GetMapping("/comCodes")
-    public ResponseEntity<List<ComCode>> getComCodes() {
+    @PostMapping("/comCodes")
+    public ResponseEntity<List<ComCodeDTO>> getComCodes(@RequestBody ComCodeDTO comCodeReq) {
 
-        List<ComCode> comcodes = new ArrayList<ComCode>();
-        comcodes.addAll(comCodeRepository.findAllByOrderByCreatedDtDesc());
+        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+
+
+        List<ComCodeDTO> comcodes = new ArrayList<ComCodeDTO>();
+
+        if(storUser.isAuthenticated()) {
+            comcodes = comCodeService.findComCodeList(comCodeReq);
+        }
 
         return new ResponseEntity<>(comcodes, HttpStatus.OK);
     }
@@ -61,7 +73,7 @@ public class ComCodeController {
      *
      * @return
      */
-    @GetMapping("/GrpComCodes")
+    @GetMapping("/grpComCodes")
     public ResponseEntity<List<ComCode>> GrpComCodes() {
 
         List<ComCode> comcodes = new ArrayList<ComCode>();
@@ -70,21 +82,21 @@ public class ComCodeController {
         return new ResponseEntity<>(comcodes, HttpStatus.OK);
     }
 
-    @PostMapping("useComCodeByGrp")
-    public ResponseEntity<List<ComCode>> postComCodes(@RequestBody ComCode comcode) {
+    @PostMapping("/getComCodeByGrp")
+    public ResponseEntity<List<ComCode>> postComCodes(@RequestBody ComCodeDTO comcode) {
 
         List<ComCode> comcodesList = comCodeRepository.findByUprCodeUuidAndUseYnByOrderByCodeOrdAsc(
-                comcode.getUprCodeUuid(),
-                comcode.getCodeLvl());
+                comcode.getSearchUprCodeUuid(),
+                comcode.getSearchCodeLvl());
 
         System.out.println(comcodesList);
         return new ResponseEntity<>(comcodesList, HttpStatus.OK);
     }
 
-    @PostMapping("SearchComCodesByGrp")
-    public ResponseEntity<List<ComCode>> SearchComCodesByGrp(@RequestBody ComCode comcode) {
+    @PostMapping("searchComCodesByGrp")
+    public ResponseEntity<List<ComCode>> SearchComCodesByGrp(@RequestBody ComCodeDTO comcode) {
 
-        List<ComCode> comcodes = comCodeRepository.findByUprCodeUuidOrderByCodeOrdAsc(comcode.getCodeUuid());
+        List<ComCode> comcodes = comCodeRepository.findByUprCodeUuidOrderByCodeOrdAsc(comcode.getSearchUprCodeUuid());
 
         return new ResponseEntity<>(comcodes, HttpStatus.OK);
     }
@@ -127,7 +139,6 @@ public class ComCodeController {
 
             _comcode.setCodeKr(comcode.getCodeKr());
             _comcode.setCodeEn(comcode.getCodeEn());
-            _comcode.setCodeValue(comcode.getCodeValue());
             _comcode.setCodeLvl(comcode.getCodeLvl());
             _comcode.setCodeOrd(comcode.getCodeOrd());
             _comcode.setEtc(comcode.getEtc());
@@ -154,20 +165,18 @@ public class ComCodeController {
 
     @Transactional
     @PostMapping("/createComCode")
-    public ResponseEntity<?> registerComCode(@RequestBody ComCodeDTO comCodeRequest) {
+    public ResponseEntity<?> registerComCode(@RequestBody ComCode comCodeRequest) {
+        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+        if (storUser.isAuthenticated()) {
+            UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
 
-        ComCode _comCode = new ComCode();
-        _comCode.setUprCodeUuid(comCodeRequest.getUprCodeUuid());
-        _comCode.setCodeKr(comCodeRequest.getCodeKr());
-        _comCode.setCodeEn(comCodeRequest.getCodeEn());
-        _comCode.setCodeValue(comCodeRequest.getCodeValue());
-        _comCode.setCodeLvl(comCodeRequest.getCodeLvl());
-        _comCode.setCodeOrd(comCodeRequest.getCodeOrd());
-        _comCode.setUseYn(comCodeRequest.getUseYn());
-        _comCode.setEtc(comCodeRequest.getEtc());
+            User modifyingUser = new User();
+            modifyingUser.setEmpUuid(userDetails.getEmpUuid());
+            comCodeRequest.setModifyUser(modifyingUser);
+            comCodeRequest.setCreateUser(modifyingUser);
 
-        comCodeRepository.save(_comCode);
-
+            comCodeRepository.save(comCodeRequest);
+        }
         return ResponseEntity.ok(new MessageResponse("코드 등록이 완료 되었습니다."));
     }
 

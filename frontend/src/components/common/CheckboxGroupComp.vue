@@ -21,9 +21,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { useSyncModelValue } from "@/utils/helpers/useSyncModelValue";
+import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
 //Type
-import { SelectOption } from "@/types/SelectOption";
+import { SelectOption } from "src/types/SelectOption";
 
 export default defineComponent({
   name: "CheckboxGroupComp",

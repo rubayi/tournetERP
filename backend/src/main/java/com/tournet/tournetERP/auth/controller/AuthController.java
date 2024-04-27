@@ -36,6 +36,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -89,6 +90,17 @@ public class AuthController {
     public ResponseEntity<List<Role>> getAllRoles() {
         List<Role> roles = roleRepository.findAll();
         return ResponseEntity.ok(roles);
+    }
+
+    @GetMapping("/getCurrentUser")
+    @ResponseBody
+    public UserDetailsImpl getCurrentUser() {
+        UserDetailsImpl username=null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            username = (UserDetailsImpl) principal;
+        }
+        return username;
     }
 
     @PostMapping("/signup")
@@ -192,5 +204,10 @@ public class AuthController {
                 })
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
                         "Refresh token is not in database!"));
+    }
+
+    @PostMapping("/logout")
+    public void logout(){
+        SecurityContextHolder.clearContext();
     }
 }

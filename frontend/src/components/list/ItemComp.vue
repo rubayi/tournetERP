@@ -12,7 +12,7 @@
       @mouseover="setListMouseOver(true)"
     >
       <q-item-section v-if="icon" avatar>
-        <q-icon :name="icon" size="sm" />
+        <q-icon :name="icon" size="xs" />
       </q-item-section>
       <q-item-section>{{ label }}</q-item-section>
       <q-item-section v-if="openMenuOnHover" avatar>
@@ -35,12 +35,13 @@
               'not-focused': !focusOnItem(item),
             }"
             clickable
-            :icon="item.icon"
-            :label="item.label"
-            :key="item.label"
+            :external-u-r-l="item.menuUrl"
+            :icon="item.menuIcon"
+            :label="item.menuKor"
             :open-menu-on-hover="item.openMenuOnHover"
             :replace="item.replace"
-            :to="item.to"
+            :to="item.menuUrl"
+            :key="item.menuKor"
           >
           </item-comp>
         </list-comp>
@@ -49,12 +50,15 @@
   </div>
 </template>
 
-<script>
-import { ref, watch, computed } from "vue";
-import ListComp from "./ListComp.vue";
-import MenuComp from "./MenuComp.vue";
+<script lang="ts">
+import DebounceHelper from "src/utils/helpers/DebounceHelper";
+import URLHelper from "src/utils/helpers/URLHelper";
+import { defineComponent, computed, ref, watch } from "vue";
+import ListComp from "src/components/list/ListComp.vue";
+import MenuComp from "src/components/list/MenuComp.vue";
+import router from "src/router";
 
-export default {
+export default defineComponent({
   name: "ItemComp",
   components: { ListComp, MenuComp },
   props: {
@@ -73,10 +77,6 @@ export default {
     label: {
       type: String,
       default: "",
-    },
-    menuLvl: {
-      type: Number,
-      default: 0,
     },
     menuOptions: {
       type: Array,
@@ -106,42 +106,53 @@ export default {
     let timeout = 0;
     let leftDrawerOpen = ref(true);
     const showMenuOptions = computed(() => {
+
       if (props.menuOptions) {
-        return props.menuOptions.filter((m) => !m.hide);
+        return props.menuOptions.filter((m: any) => !m.hide);
       } else {
         return props.menuOptions;
       }
     });
 
+    // let showMenuOptions = ref(props.menuOptions);
+
     function setMenuOpen() {
       openMenu.value = menuMouseOver.value || listMouseOver.value;
     }
 
-    function setListMouseOver(value) {
+    function setListMouseOver(value: boolean) {
       if (value) {
         menuMouseOver.value = false;
       }
       listMouseOver.value = value;
     }
 
-    function setMenuMouseOver(value) {
+    function setMenuMouseOver(value: boolean) {
       menuMouseOver.value = value;
     }
 
-    function focusOnItem(item) {
+    function focusOnItem(item: any) {
       return item.to && item.focused;
     }
 
     function goToExternalLink() {
-      if (props.link) {
-        window.location.href = props.link;
+      if (props.externalURL) {
+        URLHelper.goToURLInNewTab(props.externalURL);
+      }
+      // Reloads the page again if on an Add page without adding a router entry
+      else if (
+        props.to &&
+        props.to.includes("?mode=") &&
+        router.currentRoute.value.fullPath === props.to
+      ) {
+        router.go(0);
       }
     }
 
     watch(
       () => [menuMouseOver.value, listMouseOver.value],
       () => {
-        setTimeout(setMenuOpen, 150);
+        DebounceHelper.debounce(setMenuOpen, 150, this);
       }
     );
 
@@ -156,13 +167,11 @@ export default {
       goToExternalLink,
     };
   },
-};
+});
 </script>
 
 <style type="text/scss" lang="scss">
 #item-comp {
-  padding: 0;
-  margin: 0;
   // Adds the focus highlight to item components outside of a list
   .focused .q-focus-helper {
     background: currentColor;

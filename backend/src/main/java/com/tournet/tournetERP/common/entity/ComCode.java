@@ -29,11 +29,8 @@ public class ComCode {
     @Column(name = "CODE_ABB", nullable = true)
     private String codeAbb;
 
-    @Column(name = "CODE_VALUE", nullable = false)
-    private String codeValue;
-
     @Column(name = "CODE_LVL", nullable = true)
-    private String codeLvl;
+    private int codeLvl;
 
     @Column(name = "CODE_ORD", nullable = true)
     private int codeOrd;

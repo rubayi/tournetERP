@@ -10,9 +10,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.q-list {
-  padding: 0;
-  color: #363636;
-}
-</style>
+<style scoped></style>

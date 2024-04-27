@@ -27,9 +27,9 @@
 </template>
 
 <script lang="ts">
-import { useSyncModelValue } from "@/utils/helpers/useSyncModelValue";
+import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
 import { defineComponent, ref } from "vue";
-import InputComp from "@/components/common/InputComp.vue";
+import InputComp from "src/components/common/InputComp.vue";
 
 export default defineComponent({
   name: "TextAreaComp",

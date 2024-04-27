@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 public class ComCodeDTO {
 
-    private int codeUuid;
+    private long codeUuid;
 
     @NotNull(message = "코드명을 입력 해 주십시오.")
     @Size(min = 2, max = 50)
@@ -18,23 +18,31 @@ public class ComCodeDTO {
 
     private String codeEn;
 
-    private String codeValue;
-
-    private String codeLvl;
+    private int codeLvl;
 
     private int codeOrd;
 
-    private int uprCodeUuid;
+    private long uprCodeUuid;
 
     private String useYn;
 
     private String createdBy;
 
+    private String createdByName;
+
     private Date createdDt = new Date();
 
     private String modifiedBy;
 
+    private String modifiedByName;
+
     private Date modifiedDt = new Date();
 
     private String etc;
+
+    private String searchCodeKr;
+
+    private long searchUprCodeUuid;
+
+    private int searchCodeLvl;
 }

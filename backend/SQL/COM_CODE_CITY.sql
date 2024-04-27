@@ -1,0 +1,13 @@
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('144','오아후','Oahu','Oahu','001','3','Y', now(), now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('144','빅아일랜드','Island of Hawaii','Island of Hawaii','002','3','Y', now(), now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('144','마우이','Maui','Maui','003','3','Y', now(), now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('144','카우아이','Kauai','Kauai','004','3','Y', now(), now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('144','몰로카이','Molokai','Molokai','005','3','Y', now(), now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('144','라나이','Lanai','Lanai','006','3','Y', now(), now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('146','샌프란시스코','San Francisco','SF','001','3','Y', now(), now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('146','샌디에이고','San Diego','SD','002','3','Y', now(), now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('146','로스앤젤레스','LOS ANGELS','LA','003','3','Y', now(), now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('147','씨애틀','Seattle','SEA','001','3','Y', now(), now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('147','타코마','Tacoma','Tacoma','002','3','Y', now(), now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('148','라스베가스','Las Vegas','LV','001','3','Y', now(), now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('149','뉴욕','New York','NY','001','3','Y', now(), now());

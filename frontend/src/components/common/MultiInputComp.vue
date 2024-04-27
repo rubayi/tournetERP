@@ -24,8 +24,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
-import { ISelectOption } from "@/types/SelectOption";
-import { useSyncModelValue } from "@/utils/helpers/useSyncModelValue";
+import { ISelectOption } from "src/types/SelectOption";
+import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
 
 export default defineComponent({
   name: "MultiInputComp",

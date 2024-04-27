@@ -36,14 +36,27 @@ public interface ComCodeRepository extends JpaRepository<ComCode, Long> {
             "AND p.codeLvl = :codeLvl " +
             "AND p.useYn = 'Y' " +
             "ORDER BY p.codeOrd")
-    List<ComCode> findByUprCodeUuidAndUseYnByOrderByCodeOrdAsc(long uprCodeUuid, String codeLvl);
+    List<ComCode> findByUprCodeUuidAndUseYnByOrderByCodeOrdAsc(long uprCodeUuid, int codeLvl);
 
     @Query("SELECT p FROM ComCode p " +
             "WHERE p.uprCodeUuid = :codeUuid " +
             "ORDER BY p.codeOrd")
     List<ComCode> findByUprCodeUuidOrderByCodeOrdAsc(long codeUuid);
 
-    List<ComCode> findByUprCodeUuidAndCodeLvlOrderByCodeOrdAsc(long uprCodeUuid, String codeLvl);
+    List<ComCode> findByUprCodeUuidAndCodeLvlOrderByCodeOrdAsc(long uprCodeUuid, int codeLvl);
+
+    @Query("SELECT u FROM ComCode u " +
+            "WHERE (:uprCodeUuid IS NULL OR u.uprCodeUuid = :uprCodeUuid) " +
+            "AND (:codeKr IS NULL OR u.codeKr LIKE CONCAT('%', :codeKr, '%')) " +
+            "AND (:codeEn IS NULL OR u.codeEn LIKE CONCAT('%', :codeEn, '%')) " +
+            "OR (:uprCodeUuid IS NULL AND :codeKr IS NULL AND :codeEn IS NULL) " +
+            "ORDER BY u.codeOrd DESC")
+    List<ComCode> findAllByOrderByCodeOrd(
+            @Param("uprCodeUuid") Long uprCodeUuid,
+            @Param("codeKr") String codeKr,
+            @Param("codeEn") String codeEn
+    );
+
 
 
 }

@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "ExpansionItemComp",
+  name: 'ExpansionItemComp',
   props: {
     contentInsetLevel: {
       type: Number,
