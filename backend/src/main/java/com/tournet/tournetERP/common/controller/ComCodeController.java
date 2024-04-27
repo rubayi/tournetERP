@@ -89,7 +89,6 @@ public class ComCodeController {
                 comcode.getSearchUprCodeUuid(),
                 comcode.getSearchCodeLvl());
 
-        System.out.println(comcodesList);
         return new ResponseEntity<>(comcodesList, HttpStatus.OK);
     }
 
@@ -118,37 +117,33 @@ public class ComCodeController {
     }
 
 
-    @PutMapping("/updateComCode")
+    @PostMapping("/updateComCode")
     public ResponseEntity<Map<String, Object>> updateComCode(@RequestBody ComCode comcode) {
 
-        /**S: 수정자 정보 **/
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
-
-        User modifyingUser = new User();
-        modifyingUser.setEmpUuid(userDetails.getEmpUuid());
-        /**E: 수정자 정보**/
 
         long id = (long) comcode.getCodeUuid();
-
         Optional<ComCode> currentComCode = comCodeRepository.findByCodeUuid(id);
 
         String message = "";
-        if (currentComCode.isPresent()) {
-            ComCode _comcode = currentComCode.get();
+        if (storUser.isAuthenticated()) {
 
-            _comcode.setCodeKr(comcode.getCodeKr());
-            _comcode.setCodeEn(comcode.getCodeEn());
-            _comcode.setCodeLvl(comcode.getCodeLvl());
-            _comcode.setCodeOrd(comcode.getCodeOrd());
-            _comcode.setEtc(comcode.getEtc());
-            _comcode.setUseYn(comcode.getUseYn());
-            _comcode.setModifyUser(modifyingUser);
+            UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
 
-            comCodeRepository.save(_comcode);
-            message = "수정 되었습니다.";
-        } else {
-            message = "수정이 완료 되지 않았습니다.";
+            User modifyingUser = new User();
+            modifyingUser.setEmpUuid(userDetails.getEmpUuid());
+
+            if (currentComCode.isPresent()) {
+                comcode.setModifyUser(modifyingUser);
+
+                message = "수정 되었습니다.";
+            } else {
+                comcode.setModifyUser(modifyingUser);
+                comcode.setCreateUser(modifyingUser);
+                message = "등록 되었습니다.";
+            }
+
+            comCodeRepository.save(comcode);
         }
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("message", message);

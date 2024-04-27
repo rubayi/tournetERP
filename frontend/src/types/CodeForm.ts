@@ -6,6 +6,8 @@ export interface ICodeForm {
   codeLvl: number | 0;
   codeKr: string | null;
   codeEn: string | null;
+  uprNameKr: string | null;
+  uprNameEn: string | null;
   etc: string | null;
   useYn: string | null;
   codeOrd: number | 1;
@@ -17,6 +19,8 @@ export class CodeForm implements ICodeForm {
   public codeLvl: number | 0;
   public codeKr: string | null;
   public codeEn: string | null;
+  public uprNameKr: string | null;
+  public uprNameEn: string | null;
   public etc: string | null;
   public useYn: string | null;
   public codeOrd: number | 1;
@@ -27,6 +31,8 @@ export class CodeForm implements ICodeForm {
     this.codeLvl = (obj && obj.codeLvl) || 0;
     this.codeKr = (obj && obj.codeKr) || "";
     this.codeEn = (obj && obj.codeEn) || "";
+    this.uprNameKr = (obj && obj.codeKr) || "";
+    this.uprNameEn = (obj && obj.codeEn) || "";
     this.etc = (obj && obj.etc) || "";
     this.useYn = (obj && obj.useYn) || "";
     this.codeOrd = (obj && obj.codeOrd) || 1;

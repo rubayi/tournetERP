@@ -54,7 +54,7 @@ export class CodeService {
 
   static saveCodeForm(codeform: CodeForm): Promise<CodeForm> {
     return api
-      .post<CodeForm>(API_URL + "createComCode", codeform, { headers: authHeader() })
+      .post<CodeForm>(API_URL + "updateComCode", codeform, { headers: authHeader() })
       .then((response) => response.data);
   }
 

@@ -22,7 +22,7 @@ import router from "src/router";
 export default defineComponent({
   name: "LandingPage",
   setup() {
-    setTimeout(() => router.push({ path: "/comp" }), 3000);
+    setTimeout(() => router.push({ path: "/comcode" }), 3000);
   },
 });
 </script>

@@ -18,7 +18,7 @@ export class CodeFormTableConfig {
     },
     {
       headerName: "Group",
-      field: "uprCodeUuid",
+      field: "uprNameKr",
       floatingFilter: false,
       minWidth: 90,
       maxWidth: 90,

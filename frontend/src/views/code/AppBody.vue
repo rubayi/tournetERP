@@ -125,14 +125,15 @@ export default defineComponent({
       ) {
         filterNumber.value++;
       }
-      showinsertbutton.value = true
+      showinsertbutton.value = true;
        // store.getters.currentUserHasApplicationPermission("COD_A");
       // if (store.getters.currentUserHasApplicationPermission("COD_R")) {
+
         CodeService.getAll(searchdata.value).then((response) => {
           loading.value = false;
           codeUuid.value = 0;
 
-          if (Array.isArray(response)) {
+          if (response) {
             data.value = response;
           }
           // if (gridOptions.value.columnApi) {

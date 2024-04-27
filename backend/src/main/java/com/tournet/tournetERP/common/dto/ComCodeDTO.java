@@ -24,6 +24,10 @@ public class ComCodeDTO {
 
     private long uprCodeUuid;
 
+    private String uprNameKr;
+
+    private String uprNameEn;
+
     private String useYn;
 
     private String createdBy;
