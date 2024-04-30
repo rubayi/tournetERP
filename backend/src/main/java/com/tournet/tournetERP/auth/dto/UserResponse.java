@@ -1,5 +1,6 @@
 package com.tournet.tournetERP.auth.dto;
 
+import com.tournet.tournetERP.auth.entity.EmpMenuAuth;
 import com.tournet.tournetERP.auth.entity.Role;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.common.entity.ComCode;
@@ -14,6 +15,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -93,6 +95,8 @@ public class UserResponse {
     private String empTitleName = "";
 
     private String empRoleName = "";
+
+    private List<EmpMenuAuth> menuAuths;
 
     private String empCountryName = "";
     private String empDobTypeName = "";

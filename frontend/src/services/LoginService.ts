@@ -12,7 +12,6 @@ export class LoginService {
       .post<UserDetails>(API_URL + 'signin', loginVO)
       .then((response) => {
         if (response.data.accessToken) {
-          //localStorage.setItem('user', JSON.stringify(response.data));
           TokenService.setUser(response.data);
         }
         return response.data;
@@ -21,6 +20,7 @@ export class LoginService {
 
   static getCurrentUser(): Promise<UserDetails> {
     const userInfo: UserDetails | null = TokenService.getUser();
+    console.log(userInfo);
     if (userInfo) {
       return api
         .get<UserDetails>(API_URL + "getCurrentUser", {

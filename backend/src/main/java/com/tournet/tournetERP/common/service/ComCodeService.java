@@ -57,8 +57,8 @@ public class ComCodeService {
                     comCodeResponse.setCodeKr(comCode.getCodeKr());
                     comCodeResponse.setCodeEn(comCode.getCodeEn());
 
-                    //comCodeResponse.setUprNameKr(fetchCodeUtil.fetchCodeKr(comCode.getUprCodeUuid()));
-                    //comCodeResponse.setUprNameEn(fetchCodeUtil.fetchCodeKr(comCode.getUprCodeUuid()));
+//                    comCodeResponse.setUprNameKr(fetchCodeUtil.fetchCodeKr(comCode.getUprCodeUuid()));
+//                    comCodeResponse.setUprNameEn(fetchCodeUtil.fetchCodeKr(comCode.getUprCodeUuid()));
                     comCodeResponse.setModifiedByName(comCode.getModifyUser().getUsername());
                     comCodeResponse.setCreatedByName(comCode.getCreateUser().getUsername());
 

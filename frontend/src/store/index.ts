@@ -14,6 +14,7 @@ export default createStore({
     },
     currentUserRole: (state) => {
       return (
+
           state.currentUser.authorities
       );
     },
@@ -29,6 +30,8 @@ export default createStore({
             state.currentUser.enabled &&
             state.currentUser.credentialsNonExpired
         ) {
+
+        console.log(state.currentUser.authorities);
         return state.currentUser.authorities.some(
             (p) => p.authority === role
         );
@@ -43,6 +46,7 @@ export default createStore({
           state.currentUser.enabled &&
           state.currentUser.credentialsNonExpired
       ) {
+        console.log("=======================");
         return state.currentUser.authorities.some(
             (p) => p.authority === permission
         );

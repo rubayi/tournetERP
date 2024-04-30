@@ -78,7 +78,8 @@ import { CodeService } from "src/services/CodeService";
 //Type
 import { CodeForm } from "src/types/CodeForm";
 import { CodeSearchForm } from "src/types/CodeSearchForm";
-
+// Store
+import store from "src/store";
 // Drawer
 import CodeFormDrawer from "src/views/code/CodeFormDrawer.vue";
 import CodeSearchDrawer from "src/views/code/CodeSearchDrawer.vue";
@@ -125,9 +126,8 @@ export default defineComponent({
       ) {
         filterNumber.value++;
       }
-      showinsertbutton.value = true;
-       // store.getters.currentUserHasApplicationPermission("COD_A");
-      // if (store.getters.currentUserHasApplicationPermission("COD_R")) {
+      showinsertbutton.value = store.getters.currentUserHasApplicationPermission("CODE_W");
+      if (store.getters.currentUserHasApplicationPermission("CODE_R")) {
 
         CodeService.getAll(searchdata.value).then((response) => {
           loading.value = false;
@@ -142,7 +142,7 @@ export default defineComponent({
           //   });
           // }
         });
-      // }
+      }
 
     }
     function resetloadData() {

@@ -91,6 +91,7 @@ export default defineComponent({
         role: "ROLE_USER",
       };
       if(store.getters.currentUserHasApplicationRole("ROLE_ADMIN")){
+
         menuReq.role = "ROLE_ADMIN";
       }
       MenuService.getAll(menuReq).then((response: MenuForm[]) => {

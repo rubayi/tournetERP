@@ -64,10 +64,6 @@ public class MenuBisService {
             });
         }
 
-        long afterTime = System.currentTimeMillis();
-        long secDiffTime = (afterTime - beforeTime) / 1000; // 두 시간의 차 계산
-        System.out.println("diff_time1(m) : " + secDiffTime);
-
         return menuWithPermit;
 
     }

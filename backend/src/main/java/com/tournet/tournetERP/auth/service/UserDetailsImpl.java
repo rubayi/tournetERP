@@ -11,15 +11,22 @@ package com.tournet.tournetERP.auth.service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.tournet.tournetERP.auth.entity.EmpMenuAuth;
+import com.tournet.tournetERP.auth.entity.MenuAuth;
 import com.tournet.tournetERP.auth.entity.User;
+import com.tournet.tournetERP.auth.repository.EmpMenuAuthRepository;
+import com.tournet.tournetERP.auth.repository.MenuAuthRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 public class UserDetailsImpl implements UserDetails {
+
     private static final long serialVersionUID = 1L;
 
     private Long empUuid;
@@ -33,6 +40,8 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
+    private String[] menuAuths;
+
     public UserDetailsImpl(Long empUuid, String username, String empEmail, String password,
                            Collection<? extends GrantedAuthority> authorities) {
         this.empUuid = empUuid;
@@ -42,11 +51,26 @@ public class UserDetailsImpl implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static UserDetailsImpl build(User user) {
+    public static UserDetailsImpl build(User user,
+                                        EmpMenuAuthRepository empMenuAuthRepository,
+                                        MenuAuthRepository menuAuthRepository) {
+
+
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRoles().name()))
                 .collect(Collectors.toList());
 
+        List<EmpMenuAuth> currentEmpMenuAuths = empMenuAuthRepository.findAllByEmpUuid(user.getEmpUuid());
+
+        if (currentEmpMenuAuths != null) {
+            for (EmpMenuAuth menuAuth : currentEmpMenuAuths) {
+                Optional<MenuAuth> optionalMenuAuth = menuAuthRepository.findByMenuAuthUuid(menuAuth.getMenuAuthUuid());
+                if (optionalMenuAuth.isPresent()) {
+                    MenuAuth _menuAuth = optionalMenuAuth.get();
+                    authorities.add(new SimpleGrantedAuthority(_menuAuth.getMenuAuthNameEng()));
+                }
+            }
+        }
         return new UserDetailsImpl(
                 user.getEmpUuid(),
                 user.getUsername(),

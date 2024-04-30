@@ -2,7 +2,9 @@ package com.tournet.tournetERP.auth.service;
 
 import com.tournet.tournetERP.auth.dto.UserRequest;
 import com.tournet.tournetERP.auth.dto.UserResponse;
+import com.tournet.tournetERP.auth.entity.EmpMenuAuth;
 import com.tournet.tournetERP.auth.entity.User;
+import com.tournet.tournetERP.auth.repository.EmpMenuAuthRepository;
 import com.tournet.tournetERP.auth.repository.EmpRepository;
 import com.tournet.tournetERP.common.entity.ComCode;
 import com.tournet.tournetERP.common.repository.ComCodeRepository;
@@ -31,9 +33,8 @@ public class UserService {
 
     @Autowired
     ComCodeRepository comcodeRepository;
-    public List<UserResponse> findEmpsList(UserRequest empReq) {
 
-        ModelMapper modelMapper=new ModelMapper();
+    public List<UserResponse> findEmpsList(UserRequest empReq) {
 
         long empStatus = empReq.getEmpStatus();
         String empKor = empReq.getEmpKor();
@@ -88,7 +89,7 @@ public class UserService {
                     userResponse.setEmpBeginDt(user.getEmpBeginDt());
                     userResponse.setModifiedDt(user.getModifiedDt());
                     userResponse.setEmpEmail(user.getEmpEmail());
-                   
+
                     return userResponse;
                 })
                 .collect(Collectors.toList());

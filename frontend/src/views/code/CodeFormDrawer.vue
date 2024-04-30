@@ -119,16 +119,13 @@ export default defineComponent({
         confirmbuttoncolor.value = "warning";
         confirmbuttonlabel.value = "CHANGE";
         confirmicon.value = "fas fa-edit";
-        showconfirmbutton.value = true;
-          //store.getters.currentUserHasApplicationPermission("COD_E");
-        showdeletebutton.value = true;
-          //store.getters.currentUserHasApplicationPermission("COD_D");
+        showconfirmbutton.value = store.getters.currentUserHasApplicationPermission("CODE_W");
+        showdeletebutton.value = store.getters.currentUserHasApplicationPermission("CODE_D");
       } else {
         confirmbuttoncolor.value = "primary";
         confirmbuttonlabel.value = "ADD";
         confirmicon.value = "fas fa-plus";
-        showconfirmbutton.value = true;
-          //store.getters.currentUserHasApplicationPermission("COD_A");
+        showconfirmbutton.value = store.getters.currentUserHasApplicationPermission("COD_W");
         showdeletebutton.value = false;
       }
     }
