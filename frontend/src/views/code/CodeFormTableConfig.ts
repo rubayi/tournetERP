@@ -1,6 +1,12 @@
 import { ColDef } from "ag-grid-community";
 import OpenButtonCellRenderer from "src/components/table/OpenButtonCellRenderer.vue";
+
 export class CodeFormTableConfig {
+
+  static components = {
+    openButtonCellRenderer: OpenButtonCellRenderer,
+  };
+
   static overlay =
     '<span class="ag-overlay-loading-center">Please wait while your Data are loading</span>';
   static columns: ColDef[] = [
@@ -9,7 +15,7 @@ export class CodeFormTableConfig {
       field: "codeUuid",
       cellClass: "no-border",
       floatingFilter: false,
-      cellRenderer: "openButtonCellRenderer",
+      cellRenderer: OpenButtonCellRenderer,
       maxWidth: 80,
       minWidth: 80,
       sortable: false,
@@ -22,15 +28,6 @@ export class CodeFormTableConfig {
       floatingFilter: false,
       minWidth: 90,
       maxWidth: 90,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Code",
-      field: "codeValue",
-      floatingFilter: false,
-      minWidth: 100,
-      maxWidth: 100,
       sortable: true,
       resizable: true,
     },
@@ -86,10 +83,6 @@ export class CodeFormTableConfig {
       resizable: true,
     },
   ];
-
-  static frameworkComponents = {
-    openButtonCellRenderer: OpenButtonCellRenderer,
-  };
 
   static defaultSortModel = [
     {

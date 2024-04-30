@@ -84,6 +84,7 @@ import store from "src/store";
 import CodeFormDrawer from "src/views/code/CodeFormDrawer.vue";
 import CodeSearchDrawer from "src/views/code/CodeSearchDrawer.vue";
 
+
 export default defineComponent({
   name: "CodeForm",
   components: {
@@ -95,7 +96,6 @@ export default defineComponent({
     const openDrawer = ref<boolean>(false);
     const openSearchDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
-    //const frameworkComponents = CodeFormTableConfig.frameworkComponents;
     const columns = CodeFormTableConfig.columns;
     const overlayLoadingTemplate = TableHelper.loadingOverlay;
     const data = ref<CodeForm[]>([]);
@@ -188,7 +188,6 @@ export default defineComponent({
       openAction,
       filterAction,
       codeformGrid,
-      //frameworkComponents,
       overlayLoadingTemplate,
       searchdata,
       resetloadData,

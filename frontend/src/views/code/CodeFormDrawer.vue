@@ -23,7 +23,7 @@
       <div class="flex flex-grow-1 q-pa-md">
         <code-form-drawer-content
           v-model="codeformData"
-          ref="codeformDrawerContent"
+          ref="codeFormDrawerContent"
         />
       </div>
     </drawer-comp>
@@ -125,7 +125,7 @@ export default defineComponent({
         confirmbuttoncolor.value = "primary";
         confirmbuttonlabel.value = "ADD";
         confirmicon.value = "fas fa-plus";
-        showconfirmbutton.value = store.getters.currentUserHasApplicationPermission("COD_W");
+        showconfirmbutton.value = store.getters.currentUserHasApplicationPermission("CODE_W");
         showdeletebutton.value = false;
       }
     }

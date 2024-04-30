@@ -46,7 +46,6 @@ export default createStore({
           state.currentUser.enabled &&
           state.currentUser.credentialsNonExpired
       ) {
-        console.log("=======================");
         return state.currentUser.authorities.some(
             (p) => p.authority === permission
         );

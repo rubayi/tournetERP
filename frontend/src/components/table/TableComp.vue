@@ -27,8 +27,12 @@ import { ColDef, GridOptions } from "ag-grid-community";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { useTableApi } from "src/utils/helpers/useTableApi";
-import { defineComponent, ref} from "vue";
-
+import { defineComponent, ref, watch} from "vue";
+interface InternalGridOptions {
+  api?: {
+    setRowData: (rowData: any[]) => void;
+  };
+}
 export default defineComponent({
   name: "TableComp",
   components: { AgGridVue },
@@ -105,17 +109,17 @@ export default defineComponent({
     // const defaultColDef = {
     //   flex: 1,
     // };
-    const internalGridOptions = ref<GridOptions>({});
+    const internalGridOptions = ref<InternalGridOptions>({});
 
-    // watch(
-    //   () => props.rowData,
-    //   (newVal) => {
-    //     if (internalGridOptions.value.api && newVal) {
-    //       internalGridOptions.value.api.setRowData(newVal);
-    //     }
-    //   },
-    //   { immediate: true, deep: true }
-    // );
+    watch(
+      () => props.rowData,
+      (newVal) => {
+        if (internalGridOptions.value.api && newVal) {
+          internalGridOptions.value.api.setRowData(newVal);
+        }
+      },
+      { immediate: true, deep: true }
+    );
 
 
     const {

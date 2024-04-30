@@ -12,7 +12,7 @@
               outlined
             />
           </div>
-          <div class="col-5">
+          <div class="col-4">
             <input-comp
               v-model="editcodeformData.codeKr"
               class="full-width"
@@ -22,7 +22,17 @@
               required
             />
           </div>
-          <div class="col">
+          <div class="col-4">
+            <input-comp
+              v-model="editcodeformData.codeEn"
+              class="full-width"
+              clearable
+              label="Code Name(En)"
+              outlined
+              required
+            />
+          </div>
+          <div class="col-4">
             <input-comp
               v-model="editcodeformData.codeLvl"
               class="full-width"
@@ -31,9 +41,7 @@
               outlined
             />
           </div>
-        </div>
-        <div class="row q-col-gutter-md">
-          <div class="col-9">
+          <div class="col-4">
             <input-comp
               v-model="editcodeformData.useYn"
               class="full-width"
@@ -42,7 +50,7 @@
               outlined
             />
           </div>
-          <div class="col-3">
+          <div class="col-4">
             <number-comp
               v-model="editcodeformData.codeOrd"
               class="full-width"
