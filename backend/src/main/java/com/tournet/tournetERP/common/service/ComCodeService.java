@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -50,21 +53,28 @@ public class ComCodeService {
                 comCodeEng.isEmpty() ? null : comCodeEng
         );
 
-        List<ComCodeDTO> comCodeResList = selectedComCodes.stream()
-                .map(comCode -> {
-                    ComCodeDTO comCodeResponse = new ComCodeDTO();
-                    comCodeResponse.setCodeUuid(comCode.getCodeUuid());
-                    comCodeResponse.setCodeKr(comCode.getCodeKr());
-                    comCodeResponse.setCodeEn(comCode.getCodeEn());
 
-//                    comCodeResponse.setUprNameKr(fetchCodeUtil.fetchCodeKr(comCode.getUprCodeUuid()));
-//                    comCodeResponse.setUprNameEn(fetchCodeUtil.fetchCodeKr(comCode.getUprCodeUuid()));
-                    comCodeResponse.setModifiedByName(comCode.getModifyUser().getUsername());
-                    comCodeResponse.setCreatedByName(comCode.getCreateUser().getUsername());
+        List<ComCodeDTO> comCodeResList = new ArrayList<>();
+        for (ComCode comCode : selectedComCodes) {
+            ComCodeDTO comCodeResponse = new ComCodeDTO();
+            comCodeResponse.setCodeUuid(comCode.getCodeUuid());
+            comCodeResponse.setCodeKr(comCode.getCodeKr());
+            comCodeResponse.setCodeEn(comCode.getCodeEn());
+            comCodeResponse.setUseYn(comCode.getUseYn());
+            comCodeResponse.setCodeOrd(comCode.getCodeOrd());
+            comCodeResponse.setUprCodeUuid(comCode.getUprCodeUuid());
 
-                    return comCodeResponse;
-                })
-                .collect(Collectors.toList());
+//            if(comCode.getUprCodeUuid() != 0 && comCode.getCodeLvl() != 0){
+//                comCodeResponse.setUprNameKr(fetchCodeUtil.uprFetchCodeKr(comCode.getUprCodeUuid()));
+//            }
+//            if(comCode.getUprCodeUuid() != 0 && comCode.getCodeLvl() != 0){
+//                comCodeResponse.setUprNameEn(fetchCodeUtil.uprFetchCodeEn(comCode.getUprCodeUuid()));
+//            }
+            comCodeResponse.setModifiedByName(comCode.getModifyUser().getUsername());
+            comCodeResponse.setCreatedByName(comCode.getCreateUser().getUsername());
+
+            comCodeResList.add(comCodeResponse);
+        }
 //        List<ComCodeResponse> comCodeResList = null;
         return comCodeResList;
     }

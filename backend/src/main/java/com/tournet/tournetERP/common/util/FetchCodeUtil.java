@@ -27,4 +27,31 @@ public class FetchCodeUtil {
             return null;
         }
     }
+
+    public String uprFetchCodeKr(long codeUuid) {
+        ComCode comcode = comcodeRepository.findFirstUprNameByCodeUuid(codeUuid);
+        if (comcode != null) {
+            return comcode.getCodeKr();
+        } else {
+            return null;
+        }
+    }
+
+    public String uprFetchCodeEn(long codeUuid) {
+        ComCode comcode = comcodeRepository.findFirstUprNameByCodeUuid(codeUuid);
+        if (comcode != null) {
+            return comcode.getCodeEn();
+        } else {
+            return null;
+        }
+    }
+
+    public String fetchCodeEn(long codeUuid) {
+        ComCode comcode = comcodeRepository.findFirstByCodeUuid(codeUuid);
+        if (comcode != null) {
+            return comcode.getCodeEn();
+        } else {
+            return null;
+        }
+    }
 }

@@ -38,17 +38,9 @@ export class CodeService {
       .then((response) => response.data);
   }
 
-  static getOneCodeFormDetail(uprCodeUuid: number, code2: number): Promise<CodeForm> {
-    return api
-      .get<CodeForm>(API_URL + `active/${uprCodeUuid}/${code2}`, {
-        headers: authHeader(),
-      })
-      .then((response) => response.data);
-  }
-
   static getOneCodeForm(codeUuid: number): Promise<CodeForm> {
     return api
-      .get<CodeForm>(API_URL + `active/${codeUuid}`, { headers: authHeader() })
+      .get<CodeForm>(API_URL + `getComcode/${codeUuid}`, { headers: authHeader() })
       .then((response) => response.data);
   }
 

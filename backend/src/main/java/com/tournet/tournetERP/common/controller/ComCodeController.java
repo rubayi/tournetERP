@@ -118,14 +118,13 @@ public class ComCodeController {
 
 
     @PostMapping("/updateComCode")
-    public ResponseEntity<Map<String, Object>> updateComCode(@RequestBody ComCode comcode) {
+    public ResponseEntity<?> updateComCode(@RequestBody ComCode comcode) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
         long id = (long) comcode.getCodeUuid();
         Optional<ComCode> currentComCode = comCodeRepository.findByCodeUuid(id);
 
-        String message = "";
         if (storUser.isAuthenticated()) {
 
             UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
@@ -136,18 +135,14 @@ public class ComCodeController {
             if (currentComCode.isPresent()) {
                 comcode.setModifyUser(modifyingUser);
 
-                message = "수정 되었습니다.";
             } else {
                 comcode.setModifyUser(modifyingUser);
                 comcode.setCreateUser(modifyingUser);
-                message = "등록 되었습니다.";
             }
 
             comCodeRepository.save(comcode);
         }
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("message", message);
-        return new ResponseEntity<>(resMap, HttpStatus.OK);
+        return new ResponseEntity<>(comcode, HttpStatus.OK);
     }
 
     @Transactional
@@ -156,6 +151,13 @@ public class ComCodeController {
         comCodeRepository.deleteByCodeUuid(id);
 
         return ResponseEntity.ok("삭제 되었습니다");
+    }
+
+    @GetMapping("/getComcode/{id}")
+    public ResponseEntity<?> getCodeInfo(@PathVariable int id) {
+        ComCode comcode = comCodeRepository.findFirstByCodeUuid(id);
+
+        return new ResponseEntity<>(comcode, HttpStatus.OK);
     }
 
     @Transactional

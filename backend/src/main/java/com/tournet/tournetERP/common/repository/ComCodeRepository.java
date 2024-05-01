@@ -50,13 +50,15 @@ public interface ComCodeRepository extends JpaRepository<ComCode, Long> {
             "AND (:codeKr IS NULL OR u.codeKr LIKE CONCAT('%', :codeKr, '%')) " +
             "AND (:codeEn IS NULL OR u.codeEn LIKE CONCAT('%', :codeEn, '%')) " +
             "OR (:uprCodeUuid IS NULL AND :codeKr IS NULL AND :codeEn IS NULL) " +
-            "ORDER BY u.codeOrd DESC")
+            "ORDER BY u.uprCodeUuid, u.codeOrd ASC")
     List<ComCode> findAllByOrderByCodeOrd(
             @Param("uprCodeUuid") Long uprCodeUuid,
             @Param("codeKr") String codeKr,
             @Param("codeEn") String codeEn
     );
 
-
-
+    @Query("SELECT p FROM ComCode p " +
+            "WHERE p.codeUuid = :codeUuid " +
+            "And p.uprCodeUuid = 0")
+    ComCode findFirstUprNameByCodeUuid(long codeUuid);
 }

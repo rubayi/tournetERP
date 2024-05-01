@@ -178,9 +178,7 @@ export class CompFormTableConfig {
       sortable: true,
       resizable: true,
       valueFormatter: (params: ValueFormatterParams): string => {
-        return params.value
-          ? DateHelper.formatISOStringToShortDateString(params.value)
-          : "";
+        return DateHelper.formatISOStringToShortDateString(params.value);
       },
     },
     {

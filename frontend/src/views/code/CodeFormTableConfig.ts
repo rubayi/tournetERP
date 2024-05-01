@@ -1,5 +1,6 @@
-import { ColDef } from "ag-grid-community";
+import {ColDef, ValueFormatterParams} from "ag-grid-community";
 import OpenButtonCellRenderer from "src/components/table/OpenButtonCellRenderer.vue";
+import DateHelper from "src/utils/helpers/DateHelper";
 const moment = require('moment');
 export class CodeFormTableConfig {
   static overlay =
@@ -20,10 +21,10 @@ export class CodeFormTableConfig {
     },
     {
       headerName: "Group",
-      field: "uprNameKr",
+      field: "uprCodeUuid",
       floatingFilter: false,
-      minWidth: 90,
-      maxWidth: 90,
+      minWidth: 100,
+      maxWidth: 100,
       sortable: true,
       resizable: true,
     },
@@ -63,8 +64,18 @@ export class CodeFormTableConfig {
       headerName: "USE YN",
       field: "useYn",
       floatingFilter: false,
-      minWidth: 140,
-      maxWidth: 140,
+      minWidth: 80,
+      maxWidth: 80,
+      sortable: true,
+      resizable: true,
+    },
+    {
+      headerName: "ModifiedByName",
+      field: "modifiedByName",
+      floatingFilter: false,
+      minWidth: 220,
+      maxWidth: 220,
+      flex: 1,
       sortable: true,
       resizable: true,
     },
@@ -77,8 +88,10 @@ export class CodeFormTableConfig {
       flex: 1,
       sortable: true,
       resizable: true,
-      valueFormatter: (params) => {
-        return moment(params.value).format('YYYY-MM-DD HH:mm:ss');
+      valueFormatter: (params: ValueFormatterParams): string => {
+        return params.value
+          ? DateHelper.formatISOStringToDateTimeString(params.value)
+          : "";
       },
     },
   ];
