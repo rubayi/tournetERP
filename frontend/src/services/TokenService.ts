@@ -1,4 +1,4 @@
-import { UserDetails } from 'src/types/UserDetails';
+ import { UserDetails } from 'src/types/UserDetails';
 class TokenService {
     getLocalRefreshToken(): string | undefined {
         const user = JSON.parse(localStorage.getItem("user") || "");
@@ -16,8 +16,13 @@ class TokenService {
         localStorage.setItem("user", JSON.stringify(user));
     }
 
-    getUser(): UserDetails {
-        return JSON.parse(localStorage.getItem("user") || "");
+    getUser() {
+      if(localStorage.getItem("user")){
+        return localStorage.getItem("user") || "";
+      }else {
+        return "";
+      }
+
     }
 
     setUser(user: UserDetails): void {

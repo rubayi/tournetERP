@@ -19,14 +19,19 @@ export class LoginService {
   }
 
   static getCurrentUser(): Promise<UserDetails> {
-    const userInfo: UserDetails | null = TokenService.getUser();
-    console.log(userInfo);
-    if (userInfo) {
-      return api
-        .get<UserDetails>(API_URL + "getCurrentUser", {
-          headers: authHeader(),
-        })
-        .then((response) => response.data);
+    if(TokenService.getUser()){
+      const userInfo: UserDetails | null = JSON.parse(TokenService.getUser());
+      if (userInfo) {
+        return api
+          .get<UserDetails>(API_URL + "getCurrentUser", {
+            headers: authHeader(),
+          })
+          .then((response) => response.data);
+      } else {
+        return api
+          .get<UserDetails>(API_URL + 'getCurrentUser')
+          .then((response) => response.data);
+      }
     } else {
       return api
         .get<UserDetails>(API_URL + 'getCurrentUser')
