@@ -12,18 +12,17 @@
       <span class="q-btn__wrapper col row q-anchor--skip">
         <span
           class="q-btn__content text-center col icon-assets q-anchor--skip justify-center row"
+          style="display: flex; justify-content: center; align-items: center"
         >
-          <i
+          <img
             v-if="isActivebtn"
-            aria-hidden="true"
-            class="edit"
-            style="font-size: 20px;"
+            src="img/folder.svg"
+            style="width: 20px; height: 20px"
           />
-          <i
+          <img
             v-if="!isActivebtn"
-            aria-hidden="true"
-            class="edit"
-            style="font-size: 20px"
+            src="img/folder.svg"
+            style="width: 20px; height: 20px"
           />
         </span>
       </span>
@@ -32,17 +31,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
-  name: "OpenButtonCellRenderer",
+  name: 'OpenButtonCellRenderer',
   props: {
     params: {
       type: Object,
       required: true,
     },
   },
-  data(){
+  data() {
     return {
       isActivebtn: false,
     };
