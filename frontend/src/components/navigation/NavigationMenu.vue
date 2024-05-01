@@ -56,6 +56,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     interface MenuOption {
+      menuUuid: number;
       label: string;
       expandChildren: boolean;
       icon: string;
@@ -63,7 +64,6 @@ export default defineComponent({
       focused: boolean;
       link: string;
       upperMenuUuid: number;
-      menuUuid: number;
       caption: string;
     }
 
@@ -132,7 +132,6 @@ export default defineComponent({
       path: string
     ): boolean {
       let foundOption = false;
-      console.log(options);
       for (let option of options) {
         if (option.link === path) {
           foundOption = true;

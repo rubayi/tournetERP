@@ -1,6 +1,6 @@
-import { ColDef, ICellRendererParams } from "ag-grid-community";
+import { ColDef } from "ag-grid-community";
 import OpenButtonCellRenderer from "src/components/table/OpenButtonCellRenderer.vue";
-
+const moment = require('moment');
 export class CodeFormTableConfig {
   static overlay =
     '<span class="ag-overlay-loading-center">Please wait while your Data are loading</span>';
@@ -77,6 +77,9 @@ export class CodeFormTableConfig {
       flex: 1,
       sortable: true,
       resizable: true,
+      valueFormatter: (params) => {
+        return moment(params.value).format('YYYY-MM-DD HH:mm:ss');
+      },
     },
   ];
 
