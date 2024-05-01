@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, watch } from "vue";
+import { ref, Ref, computed, defineComponent, watch } from "vue";
 import { useRoute } from "vue-router";
 import store from "src/store";
 import ItemComp from "src/components/list/ItemComp.vue";
@@ -67,7 +67,7 @@ export default defineComponent({
       caption: string;
     }
 
-    let menuOptions: MenuForm[] = [];
+    const menuOptions: Ref<MenuForm[]> = ref([]);
 
     function buildComMenuTree(menuItems: MenuForm[], parentUuid: number): any[] {
       const filteredComMenus = menuItems.filter(
@@ -98,7 +98,8 @@ export default defineComponent({
         let rawMenuOption:  MenuForm[];
         if (response) {
           rawMenuOption = response;
-          menuOptions = buildComMenuTree(rawMenuOption, 0);
+          menuOptions.value = buildComMenuTree(rawMenuOption, 0);
+
         }
         // if (gridOptions.value.columnApi) {
         //   gridOptions.value.columnApi.applyColumnState({
@@ -113,14 +114,16 @@ export default defineComponent({
       () => store.state.currentUser,
       () => {
         setMenuOptions();
+
       },
       { deep: true, immediate: true }
     );
 
     const menuOptionsWithPathHighlighted = computed(() => {
       const path = route.fullPath;
-      const optionsWithPath = JSON.parse(JSON.stringify(menuOptions));
-      setFocusForOptionWithPath(optionsWithPath, path);
+      const optionsWithPath = menuOptions.value;
+
+      //setFocusForOptionWithPath(optionsWithPath, path);
       return path !== "/not-found" ? optionsWithPath : menuOptions;
     });
 
@@ -129,6 +132,7 @@ export default defineComponent({
       path: string
     ): boolean {
       let foundOption = false;
+      console.log(options);
       for (let option of options) {
         if (option.link === path) {
           foundOption = true;

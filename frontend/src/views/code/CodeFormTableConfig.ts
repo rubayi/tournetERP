@@ -1,14 +1,10 @@
-import { ColDef } from "ag-grid-community";
+import { ColDef, ICellRendererParams } from "ag-grid-community";
 import OpenButtonCellRenderer from "src/components/table/OpenButtonCellRenderer.vue";
 
 export class CodeFormTableConfig {
-
-  static components = {
-    openButtonCellRenderer: OpenButtonCellRenderer,
-  };
-
   static overlay =
     '<span class="ag-overlay-loading-center">Please wait while your Data are loading</span>';
+
   static columns: ColDef[] = [
     {
       headerName: "",
@@ -83,6 +79,10 @@ export class CodeFormTableConfig {
       resizable: true,
     },
   ];
+
+  static frameworkComponents = {
+    openButtonCellRenderer: OpenButtonCellRenderer,
+  };
 
   static defaultSortModel = [
     {

@@ -11,6 +11,7 @@
     :row-data="rowData"
     :row-selection="rowSelection"
     :set-count="100"
+    :open-action="openAction"
     :tooltip-show-delay="0"
     @filter-changed="filterChanged"
     @grid-ready="$emit('grid-ready', $event)"
@@ -35,8 +36,12 @@ interface InternalGridOptions {
 }
 export default defineComponent({
   name: "TableComp",
-  components: { AgGridVue },
+  components: { AgGridVue},
   props: {
+    openAction: {
+      type: Function,
+      required: true,
+    },
     columnDefs: {
       type: Object as () => Array<ColDef>,
       default: Object as () => [],

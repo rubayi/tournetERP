@@ -6,12 +6,14 @@ import { createRouter,
   } from 'vue-router';
 import store from "src/store";
 import { LoginService } from "src/services/LoginService";
+import CodeForm from "src/views/code/AppBody.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
     component: () => import("src/views/Home.vue"),
+
   },
   {
     path: "/comp",
@@ -36,7 +38,9 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/comcode",
     name: "comcode",
-    component: () => import("src/views/code/AppBody.vue"),
+    children: [
+      { path: '', component: () => CodeForm }
+    ]
   },
   // Always leave this as last one,
   // but you can also remove it

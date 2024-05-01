@@ -105,16 +105,15 @@ export default defineComponent({
     let listMouseOver = ref(false);
     let timeout = 0;
     let leftDrawerOpen = ref(true);
-    const showMenuOptions = computed(() => {
 
+    console.log(props.menuOptions);
+    const showMenuOptions = computed(() => {
       if (props.menuOptions) {
         return props.menuOptions.filter((m: any) => !m.hide);
       } else {
         return props.menuOptions;
       }
     });
-
-    // let showMenuOptions = ref(props.menuOptions);
 
     function setMenuOpen() {
       openMenu.value = menuMouseOver.value || listMouseOver.value;

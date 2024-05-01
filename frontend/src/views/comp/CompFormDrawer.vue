@@ -16,7 +16,7 @@
       :title="title"
       :width="80"
       @cancel-clicked="closeDrawer"
-      @confirm-clicked="saveUpdatedtournetFormData"
+      @confirm-clicked="saveUpdatedTournetFormData"
       @confirm-printeded="printedonetournetData"
       @delete-clicked="openDeleteConfirm = true"
       ref="drawerComp"
@@ -256,7 +256,7 @@ export default defineComponent({
     }
 
     //Add & Edit
-    function saveUpdatedtournetFormData() {
+    function saveUpdatedTournetFormData() {
       notificationHelper.dismiss();
       notificationHelper.createOngoingNotification("Saving...");
       loading.value = true;
@@ -349,7 +349,7 @@ export default defineComponent({
       deleteAction,
       openDeleteConfirm,
       deleteTournetForm,
-      saveUpdatedtournetFormData,
+      saveUpdatedTournetFormData,
       printedonetournetData,
       getTournetFormData,
       printdata,

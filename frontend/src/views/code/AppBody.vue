@@ -37,9 +37,11 @@
             id="code-form-grid"
             :column-defs="columns"
             :context="context"
+            :framework-components="frameworkComponents"
             :loading="loading"
             :overlay-loading-template="overlayLoadingTemplate"
             :row-data="data"
+            :open-action="openAction"
             row-selection="single"
             @grid-ready="loadData"
             ref="codeformGrid"
@@ -97,6 +99,7 @@ export default defineComponent({
     const openSearchDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
     const columns = CodeFormTableConfig.columns;
+    const frameworkComponents: { [key: string]: any } = CodeFormTableConfig.frameworkComponents;
     const overlayLoadingTemplate = TableHelper.loadingOverlay;
     const data = ref<CodeForm[]>([]);
     const searchdefaultdata = ref<CodeSearchForm>(new CodeSearchForm());
@@ -140,6 +143,7 @@ export default defineComponent({
           //   gridOptions.value.columnApi.applyColumnState({
           //     state: CodeFormTableConfig.defaultSortModel,
           //   });
+
           // }
         });
       }
@@ -175,6 +179,7 @@ export default defineComponent({
     function filterAction() {
       openSearchDrawer.value = true;
     }
+
     return {
       gridOptions,
       data,
@@ -193,6 +198,7 @@ export default defineComponent({
       resetloadData,
       filterNumber,
       showinsertbutton,
+      frameworkComponents
     };
   },
   data() {

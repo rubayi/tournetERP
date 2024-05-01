@@ -11,20 +11,18 @@
       <span class="q-focus-helper" />
       <span class="q-btn__wrapper col row q-anchor--skip">
         <span
-          class="q-btn__content text-center col items-center q-anchor--skip justify-center row"
+          class="q-btn__content text-center col icon-assets q-anchor--skip justify-center row"
         >
           <i
             v-if="isActivebtn"
             aria-hidden="true"
-            class="far fa-folder-open"
-            role="img"
-            style="font-size: 20px"
+            class="edit"
+            style="font-size: 20px;"
           />
           <i
             v-if="!isActivebtn"
             aria-hidden="true"
-            class="far fa-folder"
-            role="img"
+            class="edit"
             style="font-size: 20px"
           />
         </span>
@@ -34,14 +32,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 
 export default defineComponent({
   name: "OpenButtonCellRenderer",
-
-  data(): { params: any; isActivebtn: boolean } {
+  props: {
+    params: {
+      type: Object,
+      required: true,
+    },
+  },
+  data(){
     return {
-      params: {},
       isActivebtn: false,
     };
   },
@@ -64,7 +66,7 @@ export default defineComponent({
   .button {
     background-color: Transparent;
     background-repeat: no-repeat;
-    border: none;
+    border: 1px solid;
     cursor: pointer;
     overflow: hidden;
     outline: none;

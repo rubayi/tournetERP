@@ -53,7 +53,7 @@
             v-if="showinsertbutton"
             color="primary"
             icon="add"
-            label="NEW WORK ORDER"
+            label="ADD NEW COMPANY"
             outline
             @click="createAction"
           />
