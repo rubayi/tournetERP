@@ -1,109 +1,98 @@
-import {
-  getDateMemberValue,
-  getStringMemberValue,
-} from "src/utils/helpers/ConstructorHelper";
-import { getNumberMemberValue } from "src/utils/helpers/ConstructorHelper";
-import { CodeForm } from "src/types/CodeForm";
-import { CompAttachmentForm } from "src/types/CompAttachmentForm";
-import { CompDocumentsgForm } from "src/types/CompDocumentsgForm";
-import { CompWorkorderlogForm } from "src/types/CompWorkorderlogForm";
-import { CompMultiCheckbox } from "src/types/CompMultiCheckbox";
-import { AppCodeType } from "src/types/AppCodeType";
 
+import { getNumberMemberValue } from "src/utils/helpers/ConstructorHelper";
 
 export interface ICompForm {
-  worknum: number | 0;
-  workno: string | null;
-  workdate: string | null;
-  langtype: AppCodeType;
-  workdep: string | null;
-  letterto: string | null;
-  letterattn: string | null;
-  letterfrom: string | null;
-  lettersubject: string | null;
-  attached: boolean | true;
-  separatesheet: boolean | false;
-  workstatusname: CodeForm;
-  resubmitcopies: number | 0;
-  suspensedate: string | null;
-  trafficengineer: string | null;
-  copiessendto: string | null;
-  remarks: string | null;
-  workrouteno: string | null;
+  compUuid: number | 0;
+  compSector: number | 0;
+  compKor: string | null;
+  compEng: string | null;
+  compGroup: string | null;
+  compAbb: string | null;
+  compColor: string | null;
+  logoFile: string | null;
+  estDate: string | null;
+  compRate: number | 0;
+  hotelRate: number | 0;
+  optionRate: number | 0;
+  rentcarRate: number | 0;
+  restaurantRate: number | 0;
+  packRegRate: number | 0;
+  packRate: number | 0;
+  honeymoonRegRate: number | 0;
+  honeymoonRate: number | 0;
+  beginDt: string | null;
+  endDt: string | null;
+  minAge: string | null;
+  childAge: string | null;
+  youthAge: string | null;
+  couponYn: number | 0;
+  prepaidHow: number | 0;
+  compMemo: string | null;
 
-  userNameID: string | null;
-  lastUpdated: string | null;
+  modifiedDt: string | null;
 
-  workorderlogform: CompWorkorderlogForm;
-  attachmentlist: CompAttachmentForm[];
-  documentslist: CompDocumentsgForm[];
-  crewassignlist: CompMultiCheckbox[];
-  memostatueslist: CompMultiCheckbox[];
-
-  fullStatues: string;
-  fullCrewassign: string;
 }
 
 export class CompForm implements ICompForm {
-  public worknum: number | 0;
-  public workno: string | null;
-  public workdate: string | null;
-  public langtype: AppCodeType;
-  public workdep: string | null;
-  public letterto: string | null;
-  public letterattn: string | null;
-  public letterfrom: string | "HWY-T";
-  public lettersubject: string | null;
-  public attached: boolean | true;
-  public separatesheet: boolean | false;
-  public workstatusname: CodeForm;
-  public resubmitcopies: number | 0;
-  public suspensedate: string | null;
-  public trafficengineer: string | null;
-  public copiessendto: string | null;
-  public remarks: string | null;
-  public workrouteno: string | null;
-  public userNameID: string | null;
-  public lastUpdated: string | null;
+  public compUuid: number | 0;
+  public compSector: number | 0;
+  public compKor: string | null;
+  public compEng: string | null;
+  public compGroup: string | null;
+  public compAbb: string | null;
+  public compColor: string | null;
+  public logoFile: string | null;
+  public estDate: string | null;
+  public compRate: number | 0;
+  public hotelRate: number | 0;
+  public optionRate: number | 0;
+  public rentcarRate: number | 0;
+  public restaurantRate: number | 0;
+  public packRegRate: number | 0;
+  public packRate: number | 0;
+  public honeymoonRegRate: number | 0;
+  public honeymoonRate: number | 0;
+  public beginDt: string | null;
+  public endDt: string | null;
+  public minAge: string | null;
+  public childAge: string | null;
+  public youthAge: string | null;
+  public couponYn: number | 0;
+  public prepaidHow: number | 0;
+  public compMemo: string | null;
 
-  public workorderlogform: CompWorkorderlogForm;
-  public attachmentlist: CompAttachmentForm[];
-  public documentslist: CompDocumentsgForm[];
-  public crewassignlist: CompMultiCheckbox[];
-  public memostatueslist: CompMultiCheckbox[];
-  public fullStatues: string;
-  public fullCrewassign: string;
+  public modifiedDt: string | null;
+
 
   constructor(obj?: ICompForm) {
-    this.worknum = getNumberMemberValue(obj && obj.worknum);
-    this.workno = (obj && obj.workno) || "";
-    this.workdep = (obj && obj.workdep) || "";
-    this.langtype = (obj && obj.langtype) || new AppCodeType();
-    this.letterto = (obj && obj.letterto) || "HAWAII-OP";
-    this.letterattn = (obj && obj.letterattn) || "";
-    this.letterfrom = (obj && obj.letterfrom) || "HAWAII-IT";
-    this.lettersubject = (obj && obj.lettersubject) || "";
-    this.attached = (obj && obj.attached) || true;
-    this.separatesheet = (obj && obj.separatesheet) || false;
-    this.resubmitcopies = (obj && obj.resubmitcopies) || 0;
-    this.suspensedate = getDateMemberValue(obj?.suspensedate);
-    this.trafficengineer = (obj && obj.trafficengineer) || "";
-    this.copiessendto = (obj && obj.copiessendto) || "";
-    this.remarks = (obj && obj.remarks) || "";
-    this.workrouteno = (obj && obj.workrouteno) || "";
+    this.compUuid = getNumberMemberValue(obj && obj.compUuid);
+    this.compSector = (obj && obj.compSector) || 0;
+    this.compKor = (obj && obj?.compKor) || "";
+    this.compEng = (obj && obj?.compEng) || "";
+    this.compGroup = (obj && obj.compGroup) || "";
+    this.compAbb = (obj && obj.compAbb) || "";
+    this.compColor = (obj && obj.compColor) || "";
+    this.logoFile = (obj && obj.logoFile) || "";
+    this.estDate = (obj && obj.estDate) || "";
+    this.compRate = (obj?.optionRate) || 0;
+    this.hotelRate = (obj && obj.hotelRate) || 0;
+    this.optionRate = (obj?.optionRate) || 0;
+    this.rentcarRate = (obj?.rentcarRate) || 0;
+    this.restaurantRate = (obj?.restaurantRate) || 0;
+    this.packRegRate = (obj && obj.packRegRate) || 0;
+    this.packRate = (obj && obj.packRate) || 0;
+    this.honeymoonRegRate = (obj && obj.packRegRate) || 0;
+    this.honeymoonRate = (obj && obj.packRate) || 0;
+    this.beginDt = (obj && obj.beginDt) || "";
+    this.endDt = (obj && obj.endDt) || "";
+    this.minAge = (obj && obj.minAge) || "";
+    this.childAge = (obj && obj.childAge) || "";
+    this.youthAge = (obj && obj.youthAge) || "";
+    this.couponYn = (obj && obj.couponYn) || 0;
+    this.prepaidHow = (obj?.prepaidHow) || 0;
+    this.compMemo = (obj && obj.compMemo) || "";
 
-    this.userNameID = (obj && obj.userNameID) || "";
-    this.lastUpdated = (obj && obj.lastUpdated) || "";
+    this.modifiedDt = (obj && obj.modifiedDt) || "";
 
-    this.workdate = getDateMemberValue(obj?.workdate);
-    this.workstatusname = (obj && obj.workstatusname) || new CodeForm();
-    this.workorderlogform =
-      (obj && obj.workorderlogform) || new CompWorkorderlogForm();
-    this.attachmentlist = (obj && obj.attachmentlist) || [];
-    this.documentslist = (obj && obj.documentslist) || [];
-    this.crewassignlist = (obj && obj.crewassignlist) || [];
-    this.memostatueslist = (obj && obj.memostatueslist) || [];
-    this.fullStatues = getStringMemberValue(obj?.fullStatues);
-    this.fullCrewassign = getStringMemberValue(obj?.fullCrewassign);
   }
 }

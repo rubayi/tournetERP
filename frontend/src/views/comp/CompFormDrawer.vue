@@ -26,10 +26,7 @@
           <div class="col-12 col-md-12 col-xs-12">
             <tournet-form-drawer-primary
               v-model:data="tournetformData"
-              v-model:suspensedate="tournetformData.suspensedate"
-              v-model:workdate="tournetformData.workdate"
-              v-model:workstatues="tournetformData.memostatueslist"
-              :langtypelistgroup="langtypelistgroup"
+              :compSectorList="compSectorList"
               :workdeplistgroup="workdeplistgroup"
               :workstatuslistgroup="workstatuslistgroup"
               ref="tournetformDrawerprimary"
@@ -37,33 +34,14 @@
           </div>
         </div>
         <div
-          v-if="tournetformData.worknum != null"
+          v-if="tournetformData.compUuid != null"
           class="row q-col-gutter-md q-mt-xs"
         >
           <div class="col-8 col-md-8 col-xs-12">
-            <tournet-form-drawer-orderlog
-              v-model:data="tournetformData.workorderlogform"
-              v-model:datecompleted="tournetformData.workorderlogform.datecompleted"
-              v-model:datecrewassigned="tournetformData.workorderlogform.datecrewassigned"
-              v-model:datesentbacktotraffic="tournetformData.workorderlogform.datesentbacktotraffic"
-              v-model:posteddate="tournetformData.workorderlogform.posteddate"
-              v-model:receiveddate="tournetformData.workorderlogform.receiveddate"
-              v-model:workcrewassign="tournetformData.crewassignlist"
-              :crewassignedlistgroup="crewassignedlistgroup"
-              :postedbylistgroup="postedbylistgroup"
-              :receivedbylistgroup="receivedbylistgroup"
-              ref="tournetformDrawerorderlog"
-            />
+
           </div>
           <div class="col-4 col-md-4 col-xs-12">
-            <tournet-form-drawer-attachment
-              v-if="tournetformData.worknnum != 0"
-              v-model:attachmentlist="tournetformData.attachmentlist"
-              v-model:subworknum="tournetformData.worknum"
-              :attachmenttypelistgroup="attachmenttypelistgroup"
-              @subAttachment-changed="getTournetFormData"
-              ref="tournetformDrawerattachment"
-            />
+
           </div>
         </div>
       </div>
@@ -91,8 +69,8 @@ import DialogComp from "src/components/common/DialogComp.vue";
 
 // View Layout
 import TournetFormDrawerPrimary from "src/views/comp/CompFormDrawerPrimary.vue";
-import TournetFormDrawerOrderlog from "src/views/comp/CompFormDrawerOrderlog.vue";
-import TournetFormDrawerAttachment from "src/views/comp/CompFormDrawerAttachment.vue";
+//import TournetFormDrawerOrderlog from "src/views/comp/CompFormDrawerOrderlog.vue";
+//import TournetFormDrawerAttachment from "src/views/comp/CompFormDrawerAttachment.vue";
 
 // Services
 import { TournetService } from "src/services/TournetService";
@@ -117,8 +95,6 @@ export default defineComponent({
     DrawerComp,
     DialogComp,
     TournetFormDrawerPrimary,
-    TournetFormDrawerOrderlog,
-    TournetFormDrawerAttachment,
   },
   props: {
     worknum: {
@@ -153,7 +129,7 @@ export default defineComponent({
       type: Array as () => SelectOption[],
       default: () => [],
     },
-    langtypelistgroup: {
+    compSectorList: {
       type: Array as () => SelectOption[],
       default: () => [],
     },

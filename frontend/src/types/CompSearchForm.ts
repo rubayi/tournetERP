@@ -1,72 +1,41 @@
 export interface ICompSearchForm {
-  searchyeartype: number | 0;
-  searchsdate: string | null;
-  searchedate: string | null;
-  searchsubject: string | null;
-  searchremarks: string | null;
-  searchcomment: string | null;
-  searchworkno: string | null;
-  searchletterto: string | null;
-  searchletterfrom: string | null;
-  searchreceiveddate: string | null;
-  searchdatecrewassigned: string | null;
-  searchdatecompleted: string | null;
-  searchposteddate: string | null;
-  searchdatesentbacktotraffic: string | null;
-  searchworkstatus: number[] | [];
-  searchletterrouteno: string | null;
-  searchworkdep: string[] | [];
-  searchcrewassigned: number[] | [];
-  searchreceivedby: string[] | [];
-  searchpostedby: string[] | [];
-  searchcount: number | 0;
+  searchCompSector: number | 0;
+  searchBeginDt: string | null;
+  searchEndDt: string | null;
+  searchCompKor: string | null;
+  searchCompEng: string | null;
+  searchCompMemo: string | null;
+  searchCompUuid: string | null;
+  searchCompRate: string | null;
+  searchCouponYn: string | null;
+  searchCompGroup: string | null;
+
 }
 
 export class CompSearchForm implements ICompSearchForm {
-  public searchyeartype: number | 0;
-  public searchsdate: string | null;
-  public searchedate: string | null;
-  public searchsubject: string | null;
-  public searchremarks: string | null;
-  public searchcomment: string | null;
-  public searchworkno: string | null;
-  public searchletterto: string | null;
-  public searchletterfrom: string | null;
-  public searchreceiveddate: string | null;
-  public searchdatecrewassigned: string | null;
-  public searchdatecompleted: string | null;
-  public searchposteddate: string | null;
-  public searchdatesentbacktotraffic: string | null;
-  public searchworkstatus: number[] | [];
-  public searchletterrouteno: string | null;
-  public searchworkdep: string[] | [];
-  public searchcrewassigned: number[] | [];
-  public searchreceivedby: string[] | [];
-  public searchpostedby: string[] | [];
-  public searchcount: number | 0;
+  public searchCompSector: number | 0;
+  public searchBeginDt: string | null;
+  public searchEndDt: string | null;
+  public searchCompKor: string | null;
+  public searchCompEng: string | null;
+  public searchCompMemo: string | null;
+  public searchCompUuid: string | null;
+  public searchCompRate: string | null;
+  public searchCouponYn: string | null;
+  public searchCompGroup: string | null;
+
 
   constructor(obj?: ICompSearchForm) {
-    this.searchyeartype = (obj && obj.searchyeartype) || 0;
-    this.searchsdate = (obj && obj.searchsdate) || "";
-    this.searchedate = (obj && obj.searchedate) || "";
-    this.searchsubject = (obj && obj.searchsubject) || "";
-    this.searchremarks = (obj && obj.searchremarks) || "";
-    this.searchcomment = (obj && obj.searchcomment) || "";
-    this.searchworkno = (obj && obj.searchworkno) || "";
-    this.searchletterto = (obj && obj.searchletterto) || "";
-    this.searchletterfrom = (obj && obj.searchletterfrom) || "";
-    this.searchreceiveddate = (obj && obj.searchreceiveddate) || "";
-    this.searchdatecrewassigned = (obj && obj.searchdatecrewassigned) || "";
-    this.searchdatecompleted = (obj && obj.searchdatecompleted) || "";
-    this.searchposteddate = (obj && obj.searchposteddate) || "";
-    this.searchdatesentbacktotraffic =
-      (obj && obj.searchdatesentbacktotraffic) || "";
-    this.searchworkstatus = (obj && obj.searchworkstatus) || [];
-    this.searchletterrouteno = (obj && obj.searchletterrouteno) || "";
-    this.searchworkdep = (obj && obj.searchworkdep) || [];
-    this.searchcrewassigned = (obj && obj.searchcrewassigned) || [];
-    this.searchreceivedby = (obj && obj.searchreceivedby) || [];
-    this.searchpostedby = (obj && obj.searchpostedby) || [];
-    this.searchcount = (obj && obj.searchcount) || 0;
+    this.searchCompSector = (obj && obj.searchCompSector) || 0;
+    this.searchBeginDt = (obj && obj.searchBeginDt) || "";
+    this.searchEndDt = (obj && obj.searchEndDt) || "";
+    this.searchCompKor = (obj && obj.searchCompKor) || "";
+    this.searchCompEng = (obj && obj.searchCompEng) || "";
+    this.searchCompMemo = (obj && obj.searchCompMemo) || "";
+    this.searchCompUuid = (obj && obj.searchCompUuid) || "";
+    this.searchCompRate = (obj && obj.searchCompRate) || "";
+    this.searchCouponYn = (obj && obj.searchCouponYn) || "";
+    this.searchCompGroup = (obj && obj.searchCompGroup) || "";
+
   }
 }

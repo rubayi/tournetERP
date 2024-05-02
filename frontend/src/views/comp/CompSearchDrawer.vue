@@ -23,12 +23,6 @@
       <div class="flex flex-grow-1 q-pa-md">
         <comp-search-drawer-content
           v-model="tournetsearchData"
-          :crewassignedlistgroup="crewassignedlistgroup"
-          :letterroutenolistgroup="letterroutenolistgroup"
-          :postedbylistgroup="postedbylistgroup"
-          :receivedbylistgroup="receivedbylistgroup"
-          :workdeplistgroup="workdeplistgroup"
-          :workstatuslistgroup="workstatuslistgroup"
           ref="tournetsearchDrawerContent"
         />
       </div>
@@ -64,30 +58,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    crewassignedlistgroup: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
-    letterroutenolistgroup: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
-    postedbylistgroup: {
-      type: Array as () => string[],
-      default: () => [],
-    },
-    receivedbylistgroup: {
-      type: Array as () => string[],
-      default: () => [],
-    },
-    workdeplistgroup: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
-    workstatuslistgroup: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
   },
   emits: [
     "update:modelValue",
@@ -101,7 +71,7 @@ export default defineComponent({
     const opensearchDrawer = ref<boolean>(false);
     const showconfirmbutton = ref<boolean>(false);
     showconfirmbutton.value =
-      store.getters.currentUserHasApplicationPermission("LOG_R");
+      store.getters.currentUserHasApplicationPermission("COMP_R");
     const tournetsearchDrawerContent = ref();
     const tournetsearchData = ref<CompSearchForm>();
 

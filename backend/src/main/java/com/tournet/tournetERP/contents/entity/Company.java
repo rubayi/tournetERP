@@ -41,7 +41,7 @@ public class Company {
     private String logoFile; //로고
 
     @Column(name = "ESTABLISHMENT_DATE", nullable = true)
-    private String estDate; //설립일
+    private Date estDate; //설립일
 
     @Column(name = "COMPANY_RATE", nullable = true)
     private long compRate; //등급
@@ -83,13 +83,16 @@ public class Company {
     private String couponYn; //쿠폰사용가능유무
 
     @Column(name = "PREPAID_HOW", nullable = true)
-    private String prepaidHow; //프리페이드지정
+    private long prepaidHow; //프리페이드지정
+
+    @Column(name = "COMP_MEMO", nullable = true)
+    private String compMemo; //메모
 
     @Column(name = "BEGIN_DT", nullable = true)
-    private String beginDt; //시작일
+    private Date beginDt; //시작일
 
     @Column(name = "END_DT", nullable = true)
-    private String endDt; //종료일
+    private Date endDt; //종료일
 
     @CreatedDate
     @Column(name = "CREATED_DT", updatable = false)

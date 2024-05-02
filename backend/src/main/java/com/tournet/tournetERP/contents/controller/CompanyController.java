@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.tournet.tournetERP.auth.dto.MessageResponse;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
+import com.tournet.tournetERP.common.dto.ComCodeDTO;
 import com.tournet.tournetERP.common.service.FilesStorageService;
 import com.tournet.tournetERP.contents.dto.CompanyDTO;
 import com.tournet.tournetERP.contents.entity.Company;
@@ -52,21 +53,16 @@ public class CompanyController {
     CompanyConverter companyConverter;
 
     @PostMapping("/searchCompByCondition")
-    public ResponseEntity<Map<String, Object>> selectCompanys ( @RequestBody CompanyDTO companyReq) {
+    public ResponseEntity<List<CompanyDTO>> selectCompanys (@RequestBody CompanyDTO companyReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        String message = "";
         List<CompanyDTO> currentComps = new ArrayList<CompanyDTO>();
                 //compRepository.findAllByOrderByModifiedDtDesc();
         if(storUser.isAuthenticated()) {
             currentComps = compService.findCompsList(companyReq);
-            message = "OK";
         }
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("compList", currentComps);
-        resMap.put("message", message);
-        return new ResponseEntity<>(resMap, HttpStatus.OK);
+        return new ResponseEntity<>(currentComps, HttpStatus.OK);
     }
 
     @Transactional
@@ -108,15 +104,14 @@ public class CompanyController {
                 companyReq.setPackRegRate(companyJsonNode.get("packRegRate").asLong());
                 companyReq.setCouponYn(companyJsonNode.get("couponYn").asText());
 
-                companyReq.setPrepaidHow(companyJsonNode.get("prepaidHow").asText());
+                companyReq.setPrepaidHow(companyJsonNode.get("prepaidHow").asLong());
                 companyReq.setMinAge(companyJsonNode.get("minAge").asText());
                 companyReq.setChildAge(companyJsonNode.get("childAge").asText());
                 companyReq.setYouthAge(companyJsonNode.get("youthAge").asText());
 
-                companyReq.setBeginDt(companyJsonNode.get("beginDt").asText());
-                companyReq.setEndDt(companyJsonNode.get("endDt").asText());
-
-                companyReq.setEstDate(companyJsonNode.get("estDate").asText());
+                companyReq.setBeginDt(new Date(companyJsonNode.get("beginDt").asLong()));
+                companyReq.setEndDt(new Date(companyJsonNode.get("endDt").asLong()));
+                companyReq.setEstDate(new Date(companyJsonNode.get("estDate").asLong()));
                 companyReq.setCompKor(companyJsonNode.get("compKor").asText());
                 companyReq.setCompKor(companyJsonNode.get("compKor").asText());
 

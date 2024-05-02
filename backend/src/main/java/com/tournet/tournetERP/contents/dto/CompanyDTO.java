@@ -23,7 +23,7 @@ public class CompanyDTO {
 
     private String logoFile; //로고
 
-    private String estDate; //설립일
+    private Date estDate; //설립일
 
     private long compRate; //등급
 
@@ -51,11 +51,13 @@ public class CompanyDTO {
 
     private String couponYn; //쿠폰사용가능유무
 
-    private String prepaidHow; //프리페이드지정
+    private long prepaidHow; //프리페이드지정
 
-    private String beginDt; //시작일
+    private String compMemo; //메모
 
-    private String endDt; //종료일
+    private Date beginDt; //시작일
+
+    private Date endDt; //종료일
 
     private Date createdDt; //생성일
 
@@ -64,10 +66,6 @@ public class CompanyDTO {
     private long modifiedBy; //최종수정자
 
     private Date modifiedDt; //최종수정일
-
-    private int page;
-
-    private int size;
 
     private String compSectorName;
 
@@ -89,11 +87,25 @@ public class CompanyDTO {
 
     private String honeymoonRateName;
 
-    private String searchKeyword;
+    private String searchCompKor;
 
-    private String searchKeyword2;
+    private String searchCompEng;
 
-    private String searchKeyword3;
+    private long searchCompSector;
+
+    private Date searchBeginDt;
+
+    private Date searchEndDt;
+
+    private String searchCompMemo;
+
+    private long searchCompUuid;
+
+    private long searchCompRate;
+
+    private long searchCouponYn;
+
+    private long searchCompGroup;
 
     private String createdByName; //생성자
 

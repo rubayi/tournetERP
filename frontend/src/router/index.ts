@@ -7,8 +7,9 @@ import {
 } from 'vue-router';
 import store from 'src/store';
 import { LoginService } from 'src/services/LoginService';
-import CodeForm from 'src/views/code/AppBody.vue';
-import EmpForm from 'src/views/emp/AppBody.vue';
+import Code from 'src/views/code/AppBody.vue';
+import Comp from 'src/views/comp/AppBody.vue';
+import Emp from 'src/views/emp/AppBody.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -19,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/comp',
     name: 'comp',
-    component: () => import('src/views/comp/AppBody.vue'),
+    children: [{ path: '', component: () => Comp }],
   },
   {
     path: '/temp',
@@ -39,12 +40,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/comcode',
     name: 'comcode',
-    children: [{ path: '', component: () => CodeForm }],
+    children: [{ path: '', component: () => Code }],
   },
   // {
   //   path: '/emp',
   //   name: 'emp',
-  //   children: [{ path: '', component: () => EmpForm }],
+  //   children: [{ path: '', component: () => Emp }],
   // },
   // Always leave this as last one,
   // but you can also remove it

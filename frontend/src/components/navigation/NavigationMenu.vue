@@ -73,17 +73,23 @@ export default defineComponent({
       const filteredComMenus = menuItems.filter(
         (menu) => menu.upperMenuUuid === parentUuid
       );
+      let  langFlag = "KOR";
+      if (store.getters.currentUserHasApplicationPermission("ENG")) {
+        langFlag = "ENG";
+      } else if (store.getters.currentUserHasApplicationPermission("JPN")) {
+        langFlag = "JPN";
+      }
       return filteredComMenus.map((menu) => ({
         menuUuid: menu.menuUuid,
         expandChildren: true,
         upperMenuUuid: menu.upperMenuUuid,
         icon: menu.menuIcon ? menu.menuIcon : "label",
-        label: menu.menuKor + (menu.menuUrl ? ` :${menu.menuUrl}` : ""),
+        label: langFlag == "KOR" ? menu.menuKor : menu.menuEng,
         link: menu.menuUrl,
         caption: menu.menuDesc,
         children: buildComMenuTree(menuItems, menu.menuUuid),
       }));
-    };
+    }
 
     function setMenuOptions() {
 

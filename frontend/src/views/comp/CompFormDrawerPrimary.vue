@@ -17,20 +17,10 @@
               </div>
               <div class="col-4">
                 <select-comp
-                  v-model="edittournetformData.workdep"
+                  v-model="edittournetformData.searchCompSector"
                   class="full-width"
                   label="Work Order Office"
-                  :options="workdeplistgroup"
-                  :readonly="readonlybtn"
-                />
-              </div>
-              <div class="col-4">
-                <input-comp
-                  v-model="edittournetformData.workno"
-                  class="full-width"
-                  clearable="false"
-                  label="Work Order No"
-                  max-length="9"
+                  :options="searchCompSectorlistgroup"
                   :readonly="readonlybtn"
                 />
               </div>
@@ -39,7 +29,7 @@
             <div class="row q-col-gutter-md">
               <div class="col-4">
                 <input-comp
-                  v-model="edittournetformData.letterfrom"
+                  v-model="edittournetformData.searchCompMemo"
                   class="full-width"
                   clearable
                   label="FROM:"
@@ -48,7 +38,7 @@
               </div>
               <div class="col-4">
                 <input-comp
-                  v-model="edittournetformData.letterto"
+                  v-model="edittournetformData.searchCompKor"
                   class="full-width"
                   clearable
                   label="TO:"
@@ -57,7 +47,7 @@
               </div>
               <div class="col-4">
                 <input-comp
-                  v-model="edittournetformData.letterattn"
+                  v-model="edittournetformData.compEng"
                   class="full-width"
                   clearable
                   label="ATTN:"
@@ -67,179 +57,13 @@
             </div>
 
             <div class="row q-col-gutter-md">
-              <div class="col-10">
-                <input-comp
-                  v-model="edittournetformData.workrouteno"
-                  autogrow
-                  class="full-width full-height"
-                  label="Route :"
-                  :readonly="readonlybtn"
-                />
-              </div>
               <div class="col-2">
                 <select-comp
-                        v-model="edittournetformData.langtype.id"
-                        label="Language"
-                        :options="langtypelistgroup"
+                        v-model="edittournetformData.searchCompRate"
+                        label="Company Rate"
+                        :options="compRateList"
                 />
 
-              </div>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="row q-col-gutter-md">
-              <div class="col-12">
-                <input-comp
-                  v-model="edittournetformData.lettersubject"
-                  autogrow
-                  class="full-width full-height"
-                  label="Subject:"
-                  outlined
-                  :readonly="readonlybtn"
-                />
-              </div>
-            </div>
-            <div class="row q-col-gutter-md">
-              <div class="col-12">
-                <text-area-comp
-                  v-model="edittournetformData.remarks"
-                  class="full-width full-height"
-                  clearable
-                  label="Remarks:"
-                  max-length="10000"
-                  outlined
-                  :readonly="readonlybtn"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row q-col-gutter-xs">
-          <div class="col-6">
-            <div class="fieldset03 q-mt-xs q-mb-none">
-              <h1><span>We are forwarding the following :</span></h1>
-              <div class="row q-col-gutter-xs">
-                <div class="col-5 q-pt-sm">
-                  <q-btn
-                    v-show="!readonlybtn"
-                    label="+ Add"
-                    size="sm"
-                    @click="adddocumentslist"
-                  />
-                </div>
-                <div class="col-auto">
-                  <q-checkbox
-                    v-model="edittournetformData.attached"
-                    :disable="readonlybtn"
-                    label="Attached"
-                    val="true"
-                  />
-                </div>
-                <div class="col-auto">
-                  <q-checkbox
-                    v-model="edittournetformData.separatesheet"
-                    :disable="readonlybtn"
-                    label="Under Separate Sheet"
-                    val="true"
-                  />
-                </div>
-              </div>
-
-              <div class="no-padding q-mb-md">
-                <q-markup-table
-                  id="copiesactionTable"
-                  bordered
-                  flat
-                  separator="vertical"
-                >
-                  <thead class="bg-blue-grey-1">
-                    <tr>
-                      <th class="text-center no-padding" style="width: 60px">
-                        COPIES
-                      </th>
-                      <th class="text-center no-padding">DESCRIPTION</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="item in edittournetformData.documentslist"
-                      :key="item.idx"
-                    >
-                      <td class="text-center q-pl-sm q-pr-sm no-padding">
-                        <input-comp
-                          v-model="item.workcopies"
-                          class="full-width q-pl-md q-pr-md text-center"
-                          clearable="false"
-                          :readonly="readonlybtn"
-                        />
-                      </td>
-                      <td class="text-left q-pl-sm q-pr-sm no-padding">
-                        <input-comp
-                          v-model="item.workdescription"
-                          class="full-width q-pl-md q-pr-md"
-                          clearable="false"
-                          :readonly="readonlybtn"
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </q-markup-table>
-              </div>
-
-              <div class="row q-col-gutter-md">
-                <div class="col-3">Copies sent to:</div>
-                <div class="col-9">
-                  <input-comp
-                    v-model="edittournetformData.copiessendto"
-                    class="full-width"
-                    clearable
-                    label=""
-                    outlined
-                    :readonly="readonlybtn"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="fieldset03 q-mt-xs q-mb-none">
-              <h1><span>These are transmitted as checked below :</span></h1>
-              <div class="row">
-                <q-checkbox
-                  v-for="(option, index) in workstatuslistgroup"
-                  v-model="statusselection"
-                  class="col-6"
-                  :label="option.label"
-                  :val="option.value"
-                  :key="index"
-                ></q-checkbox>
-                <div
-                  v-show="edittournetformData.workstatus == 68"
-                  class="col-3 offset-2"
-                >
-                  <input-comp
-                    v-model="edittournetformData.resubmitcopies"
-                    class="full-width"
-                    clearable
-                    label="Copies"
-                    outlined
-                    :readonly="readonlybtn"
-                  />
-                </div>
-                <div
-                  v-show="edittournetformData.workstatus == 69"
-                  class="col-6 offset-6"
-                >
-                  <date-picker-comp
-                    v-model="suspensedateVal"
-                    class="full-width"
-                    clearable
-                    label="Suspense Date"
-                    outlined
-                    :readonly="readonlybtn"
-                  />
-                </div>
               </div>
             </div>
           </div>
@@ -255,7 +79,6 @@ import { defineComponent, ref, watch } from "vue";
 import CardCompDesign from "src/components/common/CardCompDesign.vue";
 import InputComp from "src/components/common/InputComp.vue";
 import DatePickerComp from "src/components/common/DatePickerComp.vue";
-import TextAreaComp from "src/components/common/TextAreaComp.vue";
 import SelectComp from "src/components/common/SelectComp.vue";
 // Type
 import { CompForm } from "src/types/CompForm";
@@ -274,7 +97,6 @@ export default defineComponent({
   components: {
     InputComp,
     DatePickerComp,
-    TextAreaComp,
     SelectComp,
     CardCompDesign,
   },
@@ -295,7 +117,7 @@ export default defineComponent({
       type: String,
       default: null,
     },
-    workdeplistgroup: {
+    searchCompSectorlistgroup: {
       type: Array as () => SelectOption[],
       default: () => [],
     },
@@ -374,17 +196,6 @@ export default defineComponent({
       }
     );
 
-    watch(
-      () => props.data,
-      (newValue) => {
-        loadworkstatues();
-        documentslist.value = newValue.documentslist;
-        if (newValue.worknum == null) {
-          resetreadData();
-          adddocumentslist();
-        }
-      }
-    );
     function resetreadData() {
       statusselection.value = [];
       if (
@@ -396,13 +207,13 @@ export default defineComponent({
         readonlybtn.value = true;
       }
     }
-    function adddocumentslist() {
+    function addCompany() {
       documentslist.value.push(new CompDocumentsgForm());
     }
 
     return {
       edittournetformData,
-      adddocumentslist,
+      addCompany,
       readonlybtn,
       suspensedateVal,
       workdateVal,

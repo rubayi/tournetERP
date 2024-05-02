@@ -40,6 +40,7 @@
             :framework-components="frameworkComponents"
             :loading="loading"
             :overlay-loading-template="overlayLoadingTemplate"
+            :pagination="true"
             :row-data="data"
             :open-action="openAction"
             row-selection="single"

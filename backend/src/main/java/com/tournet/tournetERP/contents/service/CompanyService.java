@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,21 +37,58 @@ public class CompanyService {
         long compSector = 0;
         String compKor = "";
         String compEng = "";
+        String compMemo = "";
+        Date beginDt = null;
+        Date endDt = null;
+
+        long compGroup = 0;
+        long couponYn = 0;
+        long compRate = 0;
+        long compUuid = 0;
         
-        if (compReq.getCompSector() != 0) {
-            compSector = compReq.getCompSector();
+        if (compReq.getSearchCompSector() != 0) {
+            compSector = compReq.getSearchCompSector();
         }
-        if (compReq.getCompKor() != null) {
-            compKor = compReq.getCompKor();
+        if (compReq.getSearchCompRate() != 0) {
+            compRate = compReq.getSearchCompRate();
         }
-        if (compReq.getCompEng() != null) {
-            compEng = compReq.getCompEng();
+        if (compReq.getSearchCompUuid() != 0) {
+            compUuid = compReq.getSearchCompUuid();
         }
-        
+        if (compReq.getSearchCouponYn() != 0) {
+            couponYn = compReq.getSearchCouponYn();
+        }
+        if (compReq.getSearchCompGroup() != 0) {
+            compGroup = compReq.getSearchCompGroup();
+        }
+        if (compReq.getSearchCompKor() != null) {
+            compKor = compReq.getSearchCompKor();
+        }
+        if (compReq.getSearchCompEng() != null) {
+            compEng = compReq.getSearchCompEng();
+        }
+        if (compReq.getSearchBeginDt() != null) {
+            beginDt = compReq.getSearchBeginDt();
+        }
+        if (compReq.getSearchEndDt() != null) {
+            endDt = compReq.getSearchEndDt();
+        }
+        if (compReq.getSearchCompMemo() != null) {
+            compMemo = compReq.getSearchCompMemo();
+        }
+
         List<Company> selectedCompanys = compRepository.findAllByOrderByModifiedDtDesc(
                 compSector == 0 ? null : compSector,
+                compUuid == 0 ? null : compUuid,
+                couponYn == 0 ? null : couponYn,
+                compGroup == 0 ? null : compGroup,
+                compRate == 0 ? null : compRate,
+
                 compKor.isEmpty() ? null : compKor,
-                compEng.isEmpty() ? null : compEng
+                compEng.isEmpty() ? null : compEng,
+                beginDt,
+                endDt,
+                compMemo.isEmpty() ? null : compMemo
         );
 
         List<CompanyDTO> compResList = selectedCompanys.stream()
