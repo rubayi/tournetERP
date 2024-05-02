@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div id="officeform">
     <q-page class="q-pa-md">
       <div class="row">
@@ -75,22 +75,27 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import _ from 'lodash';
 import { ref, onMounted, defineComponent } from 'vue';
+
+// Table
 import { GridOptions } from 'ag-grid-community';
 import { TableHelper } from 'src/components/table/TableHelper';
 import TableComp from 'src/components/table/TableComp.vue';
 import { EmpFormTableConfig } from 'src/views/emp/EmpFormTableConfig';
-import { initialData } from 'src/views/emp/EmpData';
+// import { initialData } from 'src/views/emp/EmpData';
 // import { getCommonValue } from 'src/utils/common.js'; // 공통코드 값
 
 // Service
 import { EmpService } from 'src/services/EmpService';
 // Type
 import { EmpForm } from 'src/types/EmpForm';
-
+import { EmpSearchForm } from 'src/types/EmpSearchForm';
+// Store
+import store from 'src/store';
 // import PageComp from "src/components/table/PaginationRenderer.vue";
-// Layout
+// Drawer
 import EmpFormDrawer from 'src/views/emp/EmpFormDrawer.vue';
 // import EventBus from 'src/common/EventBus';
 
@@ -102,6 +107,39 @@ export default defineComponent({
     EmpFormDrawer,
   },
   setup() {
+    const openDrawer = ref<boolean>(false);
+    const openSearchDrawer = ref<boolean>(false);
+    const loading = ref<boolean>(false);
+    const columns = EmpFormTableConfig.columns;
+    const frameworkComponents: { [key: string]: any } =
+      EmpFormTableConfig.frameworkComponents;
+    const overlayLoadingTemplate = TableHelper.loadingOverlay;
+    const data = ref<EmpForm[]>([]);
+    const searchdefaultdata = ref<EmpSearchForm>(new EmpSearchForm());
+    const searchdata = ref<EmpSearchForm>(new EmpSearchForm());
+    const empformGrid = ref();
+    const empUuid = ref<number>(0);
+    const gridOptions = ref<GridOptions>({});
+    var filterNumber = ref<number>(0);
+    const showinsertbutton = ref<boolean>(false);
+
+    function loadData() {
+      loading.value = true;
+      filterNumber.value = 0;
+      if (
+        !_.isEqual(
+          searchdata.value.searchEmpUuid,
+          searchdefaultdata.value.searchEmpUuid
+        )
+      ) {
+        searchdata.value.page = 0;
+      }
+      searchdefaultdata.value = _.cloneDeep(searchdata.value);
+      EmpService.searchCode(searchdata.value).then((response) => {
+        data.value = response.data;
+        loading.value = false;
+      });
+    }
     const drawerWidth = ref(0);
     onMounted(() => {
       drawerWidth.value = window.innerWidth * 0.8;
@@ -284,4 +322,4 @@ export default defineComponent({
     }
   }
 }
-</style>
+</style> -->
