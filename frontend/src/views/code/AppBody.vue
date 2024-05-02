@@ -66,29 +66,28 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
-import { defineComponent, ref} from "vue";
+import _ from 'lodash';
+import { defineComponent, ref } from 'vue';
 
 // Table
-import { GridOptions } from "ag-grid-community";
-import { CodeFormTableConfig } from "src/views/code/CodeFormTableConfig";
-import TableComp from "src/components/table/TableComp.vue";
-import { TableHelper } from "src/components/table/TableHelper";
+import { GridOptions } from 'ag-grid-community';
+import { CodeFormTableConfig } from 'src/views/code/CodeFormTableConfig';
+import TableComp from 'src/components/table/TableComp.vue';
+import { TableHelper } from 'src/components/table/TableHelper';
 
 // Service
-import { CodeService } from "src/services/CodeService";
+import { CodeService } from 'src/services/CodeService';
 //Type
-import { CodeForm } from "src/types/CodeForm";
-import { CodeSearchForm } from "src/types/CodeSearchForm";
+import { CodeForm } from 'src/types/CodeForm';
+import { CodeSearchForm } from 'src/types/CodeSearchForm';
 // Store
-import store from "src/store";
+import store from 'src/store';
 // Drawer
-import CodeFormDrawer from "src/views/code/CodeFormDrawer.vue";
-import CodeSearchDrawer from "src/views/code/CodeSearchDrawer.vue";
-
+import CodeFormDrawer from 'src/views/code/CodeFormDrawer.vue';
+import CodeSearchDrawer from 'src/views/code/CodeSearchDrawer.vue';
 
 export default defineComponent({
-  name: "CodeForm",
+  name: 'CodeForm',
   components: {
     TableComp,
     CodeFormDrawer,
@@ -99,7 +98,9 @@ export default defineComponent({
     const openSearchDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
     const columns = CodeFormTableConfig.columns;
-    const frameworkComponents: { [key: string]: any } = CodeFormTableConfig.frameworkComponents;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const frameworkComponents: { [key: string]: any } =
+      CodeFormTableConfig.frameworkComponents;
     const overlayLoadingTemplate = TableHelper.loadingOverlay;
     const data = ref<CodeForm[]>([]);
     const searchdefaultdata = ref<CodeSearchForm>(new CodeSearchForm());
@@ -129,9 +130,9 @@ export default defineComponent({
       ) {
         filterNumber.value++;
       }
-      showinsertbutton.value = store.getters.currentUserHasApplicationPermission("CODE_W");
-      if (store.getters.currentUserHasApplicationPermission("CODE_R")) {
-
+      showinsertbutton.value =
+        store.getters.currentUserHasApplicationPermission('CODE_W');
+      if (store.getters.currentUserHasApplicationPermission('CODE_R')) {
         CodeService.getAll(searchdata.value).then((response) => {
           loading.value = false;
           codeUuid.value = 0;
@@ -147,7 +148,6 @@ export default defineComponent({
           // }
         });
       }
-
     }
     function resetloadData() {
       searchdata.value = new CodeSearchForm();
@@ -198,7 +198,7 @@ export default defineComponent({
       resetloadData,
       filterNumber,
       showinsertbutton,
-      frameworkComponents
+      frameworkComponents,
     };
   },
   data() {
