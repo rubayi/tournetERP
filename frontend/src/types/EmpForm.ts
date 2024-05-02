@@ -1,0 +1,100 @@
+import { getNumberMemberValue } from 'src/utils/helpers/ConstructorHelper';
+
+export interface IEmpForm {
+  empUuid: number | 0;
+  empEmail: string | null;
+  empKor: string | null;
+  password: string | null;
+  username: string | null;
+  empEng: string | null;
+  empImg: string | null;
+  empDiv: number | 0;
+  empRole: number | 0;
+  empTitle: number | 0;
+  empWorkType: number | 0;
+  empPhone: string | null;
+  empWorkPhone: string | null;
+  empAddress1: string | null;
+  empAddress2: string | null;
+  empCity: string | null;
+  empDob: string | null;
+  empDobType: number | 0;
+  empEmailBook: string | null;
+  empState: string | null;
+  empZip: string | null;
+  empBeginDt: string | null;
+  empMemo: string | null;
+  empStatus: number | 0;
+  empEndDt: string | null;
+  empCountry: number | 0;
+  modifiedBy: number | 0;
+  modifiedDt: Date | null;
+  backColor: string | null;
+  fontColor: string | null;
+}
+
+export class EmpForm implements IEmpForm {
+  public empUuid: number | 0;
+  public empEmail: string | null;
+  public empKor: string | null;
+  public password: string | null;
+  public username: string | null;
+  public empEng: string | null;
+  public empImg: string | null;
+  public empDiv: number | 0;
+  public empRole: number | 0;
+  public empTitle: number | 0;
+  public empWorkType: number | 0;
+  public empPhone: string | null;
+  public empWorkPhone: string | null;
+  public empAddress1: string | null;
+  public empAddress2: string | null;
+  public empCity: string | null;
+  public empDob: string | null;
+  public empDobType: number | 0;
+  public empEmailBook: string | null;
+  public empState: string | null;
+  public empZip: string | null;
+  public empBeginDt: string | null;
+  public empMemo: string | null;
+  public empStatus: number | 0;
+  public empEndDt: string | null;
+  public empCountry: number | 0;
+  public modifiedBy: number | 0;
+  public modifiedDt: Date | null;
+  public backColor: string | null;
+  public fontColor: string | null;
+
+  constructor(obj?: IEmpForm) {
+    this.empUuid = getNumberMemberValue(obj && obj.empUuid);
+    this.empEmail = (obj && obj.empEmail) || '';
+    this.empKor = (obj && obj.empKor) || '';
+    this.password = (obj && obj.password) || '';
+    this.username = (obj && obj.username) || '';
+    this.empEng = (obj && obj.empEng) || '';
+    this.empImg = (obj && obj.empImg) || '';
+    this.empDiv = (obj && obj.empDiv) || 0;
+    this.empRole = (obj && obj.empRole) || 0;
+    this.empTitle = (obj && obj.empTitle) || 0;
+    this.empWorkType = (obj && obj.empWorkType) || 0;
+    this.empPhone = (obj && obj.empPhone) || '';
+    this.empWorkPhone = (obj && obj.empWorkPhone) || '';
+    this.empAddress1 = (obj && obj.empAddress1) || '';
+    this.empAddress2 = (obj && obj.empAddress2) || '';
+    this.empCity = (obj && obj.empCity) || '';
+    this.empDob = (obj && obj.empDob) || '';
+    this.empDobType = (obj && obj.empDobType) || 0;
+    this.empEmailBook = (obj && obj.empEmailBook) || '';
+    this.empState = (obj && obj.empState) || '';
+    this.empZip = (obj && obj.empZip) || '';
+    this.empBeginDt = (obj && obj.empBeginDt) || '';
+    this.empMemo = (obj && obj.empMemo) || '';
+    this.empStatus = (obj && obj.empStatus) || 0;
+    this.empEndDt = (obj && obj.empEndDt) || '';
+    this.empCountry = (obj && obj.empCountry) || 0;
+    this.modifiedBy = (obj && obj.modifiedBy) || 0;
+    this.modifiedDt = (obj && obj.modifiedDt) || null;
+    this.backColor = (obj && obj.backColor) || '';
+    this.fontColor = (obj && obj.fontColor) || '';
+  }
+}
