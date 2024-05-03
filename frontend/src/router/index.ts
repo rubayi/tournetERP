@@ -48,11 +48,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'cdcd',
     children: [{ path: '', component: () => Cdcd }],
   },
-  // {
-  //   path: '/emp',
-  //   name: 'emp',
-  //   children: [{ path: '', component: () => Emp }],
-  // },
+  {
+    path: '/emp',
+    name: 'emp',
+    children: [{ path: '', component: () => Emp }],
+  },
   // Always leave this as last one,
   // but you can also remove it
   {

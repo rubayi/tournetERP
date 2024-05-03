@@ -149,7 +149,7 @@ export default defineComponent({
       showinsertbutton.value =
         store.getters.currentUserHasApplicationPermission('CODE_W');
       if (store.getters.currentUserHasApplicationPermission('CODE_R')) {
-        EmpService.getAll(searchdata.value).then((response) => {
+        EmpService.selectEmpsByCondition(searchdata.value).then((response) => {
           loading.value = false;
           empUuid.value = 0;
 

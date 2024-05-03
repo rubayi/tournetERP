@@ -84,24 +84,51 @@ public class EmpController {
         return null;
     }
 
-    @PostMapping("/searchEmpBySelected")
-    public ResponseEntity<Map<String, Object>> searchEmpBySelected(@RequestBody UserRequest empSearchForm) {
-        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+    /**
+ * 직원 목록 조회
+ *
+ * @param empDiv, empKor, empEng
+ * @return
+ */
+@PostMapping("/selectEmpsByCondition")
+public ResponseEntity<List<User>> selectEmpsByCondition(@RequestBody UserRequest empReq) {
 
-        List<UserResponse> selectedUsers = new ArrayList<UserResponse>();
+    Long empDiv = empReq.getSearchEmpDiv();
+    String empKor = empReq.getSearchEmpKor();
+    String empEng = empReq.getSearchEmpEng();
 
-        if (storUser.isAuthenticated()) {
-            UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
-            selectedUsers = userService.findEmpsBySearch(empSearchForm);
+    Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+    if (storUser.isAuthenticated()) {
+        List<User> emps = new ArrayList<User>();
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("selectedUsers", selectedUsers);
-
-            return new ResponseEntity<>(response, HttpStatus.OK);
-
+        if (empDiv != 0) {
+            if (empKor != "" ) {
+                if (empEng != "" ) {
+                    emps.addAll(empRepository.findByEmpDivAndEmpKorContainingAndEmpEngContaining(empDiv, empKor, empEng));
+                } else {
+                    emps.addAll(empRepository.findByEmpDivAndEmpKorContaining(empDiv, empKor));
+                }
+            } else if (empEng != "" ) {
+                emps.addAll(empRepository.findByEmpDivAndEmpEngContaining(empDiv, empEng));
+            } else {
+                emps.addAll(empRepository.findByEmpDiv(empDiv));
+            }
+        } else if (empKor != "" ) {
+            if (empEng != "") {
+                emps.addAll(empRepository.findByEmpKorContainingAndEmpEngContaining(empKor, empEng));
+            } else {
+                emps.addAll(empRepository.findByEmpKorContaining(empKor));
+            }
+        } else if (empEng != "") {
+            emps.addAll(empRepository.findByEmpEngContaining(empEng));
+        } else {
+            emps.addAll(empRepository.findAllByOrderByEmpBeginDtDesc());
         }
-        return null;
+
+        return new ResponseEntity<>(emps, HttpStatus.OK);
     }
+    return null;
+}
 
     /**
      *  직원 개별 조회

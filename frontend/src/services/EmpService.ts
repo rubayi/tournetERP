@@ -7,17 +7,9 @@ import authHeader from 'src/services/auth-header';
 const API_URL = '/empTn/';
 
 export class EmpService {
-  static getAll(codesearchform: EmpSearchForm): Promise<EmpForm[]> {
+  static getAll(empSearchForm: EmpSearchForm): Promise<EmpForm[]> {
     return api
-      .post<EmpForm[]>(API_URL + 'selectEmps', codesearchform, {
-        headers: authHeader(),
-      })
-      .then((response) => response.data);
-  }
-
-  static getEmpBySearch(codeSearchForm: EmpSearchForm): Promise<EmpForm[]> {
-    return api
-      .post<EmpForm[]>(API_URL + 'searchEmps', codeSearchForm, {
+      .post<EmpForm[]>(API_URL + 'selectEmps', empSearchForm, {
         headers: authHeader(),
       })
       .then((response) => response.data);
@@ -37,17 +29,13 @@ export class EmpService {
       .then((response) => response.data);
   }
 
-  static searchEmpBySelected(
+  static selectEmpsByCondition(
     empSearchForm: EmpSearchForm
-  ): Promise<Map<string, unknown>> {
+  ): Promise<EmpForm[]> {
     return api
-      .post<Map<string, unknown>>(
-        API_URL + 'searchEmpBySelected',
-        empSearchForm,
-        {
-          headers: authHeader(),
-        }
-      )
+      .post<EmpForm[]>(API_URL + 'selectEmpsByCondition', empSearchForm, {
+        headers: authHeader(),
+      })
       .then((response) => response.data);
   }
 

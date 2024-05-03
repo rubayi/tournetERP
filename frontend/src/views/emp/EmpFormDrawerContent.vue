@@ -116,7 +116,7 @@ export default defineComponent({
     loaduprCodeUuidgroupOptions();
     function loaduprCodeUuidgroupOptions() {
       let empSearchForm = new EmpSearchForm();
-      EmpService.getEmpBySearch(empSearchForm).then((response) => {
+      EmpService.getAll(empSearchForm).then((response) => {
         uprCodeUuidgroup.value = response.map(
           (x) => new SelectOption(x.empKor, x.empEng)
         );

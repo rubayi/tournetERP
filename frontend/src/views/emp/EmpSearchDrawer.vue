@@ -6,8 +6,8 @@
       center-title
       confirm-button-color="secondary"
       confirm-button-label="Search"
-      confirm-icon="fas fa-search"
-      icon-title="far fa-compass"
+      confirm-icon="search"
+      icon-title="compass"
       :show-confirm-button="showconfirmbutton"
       :show-delete-button="false"
       :show-print-button="false"

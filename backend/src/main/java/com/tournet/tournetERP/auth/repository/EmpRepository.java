@@ -22,7 +22,14 @@ public interface EmpRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByOrderByEmpBeginDtDesc();
 
-    List<User> findByEmpDivAndEmpKorAndEmpEng(Long empDiv, String empKor, String empEng);
+    List<User> findByEmpDivAndEmpKorContainingAndEmpEngContaining(Long empDiv, String empKor, String empEng);
+    List<User> findByEmpDivAndEmpKorContaining(Long empDiv, String empKor);
+    List<User> findByEmpDivAndEmpEngContaining(Long empDiv, String empEng);
+    List<User> findByEmpKorContainingAndEmpEngContaining(String empKor, String empEng);
+
+    List<User> findByEmpDiv(Long empDiv);
+    List<User> findByEmpKorContaining(String empKor);
+    List<User> findByEmpEngContaining(String empEng);
 
     @Query("SELECT u FROM User u " +
             "WHERE (:empStatus IS NULL OR u.empStatus = :empStatus) " +

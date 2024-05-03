@@ -76,7 +76,7 @@
               <q-btn
                 v-if="isAddMode && showConfirmButton"
                 color="secondary"
-                icon="fas fa-arrow-right"
+                icon="arrow_forward"
                 label="Next New"
                 @click="nextNewClicked"
               />
@@ -85,7 +85,7 @@
                 v-if="showDeleteButton && !isAddMode"
                 color="red"
                 :disable="editableLoading"
-                icon="fa fa-trash"
+                icon="trash"
                 :label="deleteButtonLabel"
                 text-color="white"
                 @click="deleteClicked"
@@ -93,7 +93,7 @@
               <q-btn
                 v-if="showResetButton"
                 color="white"
-                icon="fas fa-magic"
+                icon="autorenew"
                 label="Reset"
                 outline
                 text-color="primary"
@@ -101,7 +101,7 @@
               />
               <q-btn
                 color="white"
-                :icon="cancelButtonicon"
+                icon="close"
                 :label="cancelButtonLabel"
                 text-color="primary"
                 @click="cancelClicked"
@@ -116,29 +116,29 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
-import { computed, defineComponent, ref, watch } from "vue";
-import { Screen } from "quasar";
-import TabsComp from "src/components/tabs/TabsComp.vue";
-import InnerLoadingComp from "src/components/common/InnerLoadingComp.vue";
-import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
-import { TabOptions } from "src/types/TabOptions";
+import _ from 'lodash';
+import { computed, defineComponent, ref, watch } from 'vue';
+import { Screen } from 'quasar';
+import TabsComp from 'src/components/tabs/TabsComp.vue';
+import InnerLoadingComp from 'src/components/common/InnerLoadingComp.vue';
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
+import { TabOptions } from 'src/types/TabOptions';
 
 export default defineComponent({
-  name: "DrawerComp",
+  name: 'DrawerComp',
   components: { InnerLoadingComp, TabsComp },
   props: {
     cancelButtonLabel: {
       type: String,
-      default: "Close",
+      default: 'Close',
     },
     cancelButtonicon: {
       type: String,
-      default: "fa fa-chevron-left",
+      default: 'fa fa-chevron-left',
     },
     iconTitle: {
       type: String,
-      default: "far fa-folder-open",
+      default: 'far fa-folder-open',
     },
     changesIndicator: {
       type: Boolean,
@@ -146,7 +146,7 @@ export default defineComponent({
     },
     deleteButtonLabel: {
       type: String,
-      default: "Delete",
+      default: 'Delete',
     },
     showDeleteButton: {
       type: Boolean,
@@ -158,11 +158,11 @@ export default defineComponent({
     },
     confirmButtonLabel: {
       type: String,
-      default: "Confirm",
+      default: 'Confirm',
     },
     confirmButtonColor: {
       type: String,
-      default: "primary",
+      default: 'primary',
     },
     confirmIcon: {
       type: String,
@@ -182,7 +182,7 @@ export default defineComponent({
     },
     side: {
       type: String,
-      default: "Left",
+      default: 'Left',
     },
     showPrintButton: {
       type: Boolean,
@@ -190,7 +190,7 @@ export default defineComponent({
     },
     tab: {
       type: String,
-      default: "",
+      default: '',
     },
     tabOptions: {
       type: Object as () => Array<TabOptions>,
@@ -198,11 +198,11 @@ export default defineComponent({
     },
     title: {
       type: String,
-      default: "",
+      default: '',
     },
     width: {
       type: [Number, String],
-      default: "650px",
+      default: '650px',
     },
     isAddMode: {
       type: Boolean,
@@ -210,15 +210,15 @@ export default defineComponent({
     },
   },
   emits: [
-    "update:tab",
-    "cancel-clicked",
-    "reset-clicked",
-    "update:modelValue",
-    "update:loading",
-    "confirm-clicked",
-    "confirm-printeded",
-    "delete-clicked",
-    "next-new-clicked",
+    'update:tab',
+    'cancel-clicked',
+    'reset-clicked',
+    'update:modelValue',
+    'update:loading',
+    'confirm-clicked',
+    'confirm-printeded',
+    'delete-clicked',
+    'next-new-clicked',
   ],
   setup(props, { emit, slots }) {
     const openDrawer = ref(false);
@@ -232,34 +232,34 @@ export default defineComponent({
     watch(
       () => openDrawer.value,
       (newValue) => {
-        emit("update:modelValue", newValue);
+        emit('update:modelValue', newValue);
       }
     );
 
     function cancelClicked() {
-      emit("cancel-clicked");
+      emit('cancel-clicked');
     }
     function resetClicked() {
-      emit("reset-clicked");
+      emit('reset-clicked');
     }
     function confirmClicked() {
-      emit("confirm-clicked");
+      emit('confirm-clicked');
     }
     function confirmPrinted() {
-      emit("confirm-printeded");
+      emit('confirm-printeded');
     }
 
     function nextNewClicked() {
-      emit("next-new-clicked");
+      emit('next-new-clicked');
     }
 
     function deleteClicked() {
-      emit("delete-clicked");
+      emit('delete-clicked');
     }
 
     const drawerWidth = computed(() => {
       if (_.isString(props.width)) {
-        return Number(props.width.replace("px", ""));
+        return Number(props.width.replace('px', ''));
       } else if (
         _.isNumber(props.width) &&
         0 <= props.width &&
@@ -275,14 +275,14 @@ export default defineComponent({
     });
 
     const editableTab = ref();
-    useSyncModelValue(props, "tab", emit, "update:tab", editableTab);
+    useSyncModelValue(props, 'tab', emit, 'update:tab', editableTab);
 
     const editableLoading = ref();
     useSyncModelValue(
       props,
-      "loading",
+      'loading',
       emit,
-      "update:loading",
+      'update:loading',
       editableLoading
     );
 
@@ -352,6 +352,6 @@ export default defineComponent({
 }
 
 .commonThead {
-  background-image: url("~src/assets/top_main.png");
+  background-image: url('~src/assets/top_main.png');
 }
 </style>

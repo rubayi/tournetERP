@@ -84,4 +84,12 @@ public class UserRequest {
 
     private String password;
 
+    private int searchEmpUuid;
+
+    private String searchEmpKor;
+
+    private String searchEmpEng;
+
+    private Long searchEmpDiv;
+
 }
