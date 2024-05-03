@@ -15,45 +15,21 @@ export class CdcdService {
       .then((response) => response.data);
   }
 
-
-  static getCdcdForm(cdcdUuid:number): Promise<CdcdForm[]> {
-
-    const searchReq = {
-      searchCdCdUuid: cdcdUuid,
-      searchMngNameKor: "",
-      searchMngNameEng: "",
-      searchCardNumber: 0,
-    }
+  static getOneCdcdForm(cdcdUuid: number): Promise<CdcdForm> {
     return api
-      .post<CdcdForm[]>(API_URL + `searchComCodesByGrp`, searchReq,{ headers: authHeader() })
-      .then((response) => response.data);
-  }
-  static getpartGroupCdcdForm(
-    uprCodeUuid: number,
-    certduration: string
-  ): Promise<CdcdForm[]> {
-    return api
-      .get<CdcdForm[]>(API_URL + `getComCodeByGrp/${uprCodeUuid}/${certduration}`, {
-        headers: authHeader(),
-      })
+      .get<CdcdForm>(API_URL + `getCreditCardMngBy/${cdcdUuid}`, { headers: authHeader() })
       .then((response) => response.data);
   }
 
-  static getOneCdcdForm(codeUuid: number): Promise<CdcdForm> {
+  static saveCdcdForm(cdcdform: CdcdForm): Promise<CdcdForm> {
     return api
-      .get<CdcdForm>(API_URL + `getComcode/${codeUuid}`, { headers: authHeader() })
+      .post<CdcdForm>(API_URL + "updateCreditCardMng", cdcdform, { headers: authHeader() })
       .then((response) => response.data);
   }
 
-  static saveCdcdForm(codeform: CdcdForm): Promise<CdcdForm> {
+  static deleteCdcdForm(cdcdUuid: number): Promise<void> {
     return api
-      .post<CdcdForm>(API_URL + "updateComCode", codeform, { headers: authHeader() })
-      .then((response) => response.data);
-  }
-
-  static deleteCdcdForm(codeUuid: number): Promise<void> {
-    return api
-      .delete(API_URL + `deleteComcode/${codeUuid}`, { headers: authHeader() })
+      .delete(API_URL + `deleteCreditCardMng/${cdcdUuid}`, { headers: authHeader() })
       .then((response) => response.data);
   }
 }

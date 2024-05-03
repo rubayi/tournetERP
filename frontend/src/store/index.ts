@@ -25,13 +25,10 @@ export default createStore({
       //     state.currentUser.enabled &&
       //     state.currentUser.credentialsNonExpired
       // ) {
-      if (
-            state.currentUser &&
+      if (  state.currentUser &&
             state.currentUser.enabled &&
             state.currentUser.credentialsNonExpired
         ) {
-
-        console.log(state.currentUser.authorities);
         return state.currentUser.authorities.some(
             (p) => p.authority === role
         );

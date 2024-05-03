@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from "axios";
 import api from "./api";
 import qs from "qs";
-import { IReportVO } from "src/types/TournetReportVO";
+import { IReportVO } from "src/types/CompReportVO";
 
 export enum ReportURL {
   // TODO: Replace the "/somethingHere" urls when the report is implemented
@@ -11,7 +11,7 @@ export enum ReportURL {
 }
 const user = JSON.parse(localStorage.getItem("user") || "");
 export class ReportService {
-  static getTournetListReport(data: IReportVO): Promise<ArrayBuffer> {
+  static getCompListReport(data: IReportVO): Promise<ArrayBuffer> {
     return api
       .post<ArrayBuffer>(ReportURL.EXPORTEXCELREPORT_LIST, data, {
         responseType: "arraybuffer",
@@ -23,7 +23,7 @@ export class ReportService {
       })
       .then((response) => response.data);
   }
-  static getTournetListPdfReport(data: IReportVO): Promise<ArrayBuffer> {
+  static getCompListPdfReport(data: IReportVO): Promise<ArrayBuffer> {
     return api
       .post<ArrayBuffer>(ReportURL.EXPORTPDFREPORT_LIST, data, {
         responseType: "arraybuffer",
@@ -35,7 +35,7 @@ export class ReportService {
       })
       .then((response) => response.data);
   }
-  static getTournetOnePdfReport(data: IReportVO): Promise<ArrayBuffer> {
+  static getCompOnePdfReport(data: IReportVO): Promise<ArrayBuffer> {
     return api
       .post<ArrayBuffer>(ReportURL.EXPORTPDFREPORT_ONE, data, {
         responseType: "arraybuffer",

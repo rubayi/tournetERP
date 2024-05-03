@@ -55,9 +55,12 @@ public class CreditCardMngService {
                     compResponse.setNameOnCard(comp.getNameOnCard());
                     compResponse.setExpMonth(comp.getExpMonth());
                     compResponse.setExpYear(comp.getExpYear());
+                    compResponse.setCardNumber(comp.getCardNumber());
 
                     compResponse.setBeginDt(comp.getBeginDt());
+                    compResponse.setEndDt(comp.getEndDt());
                     compResponse.setCreatedDt(comp.getCreatedDt());
+                    compResponse.setModifiedDt(comp.getModifiedDt());
                     compResponse.setModifiedByName(comp.getModifyUser().getUsername());
                     compResponse.setCreatedByName(comp.getCreateUser().getUsername());
 

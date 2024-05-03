@@ -97,18 +97,21 @@ public class CreditCardMngController {
 
 
     @Transactional
-    @PostMapping("/deleteCreditCardMng/{id}")
+    @GetMapping("/deleteCreditCardMng/{id}")
     public ResponseEntity<?> deleteCdCdMng(@PathVariable long id) {
-
-        String message = "";
 
         creditCardMngRepository.deleteByCdCdUuid(id);
 
-        message="삭제 되었습니다.";
+        return ResponseEntity.ok("삭제 되었습니다");
 
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("message", message);
-        return new ResponseEntity<>(resMap, HttpStatus.OK);
+    }
+
+    @GetMapping("/getCreditCardMngBy/{id}")
+    public ResponseEntity<?> getCreditCardMngBy(@PathVariable long id) {
+
+        CreditCardMng cdcdMng = creditCardMngRepository.findOneByCdCdUuid(id);
+
+        return new ResponseEntity<>(cdcdMng, HttpStatus.OK);
 
     }
 

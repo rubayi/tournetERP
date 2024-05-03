@@ -100,7 +100,7 @@ import { ReportService } from "src/services/ReportService";
 //Type
 import { CompForm } from "src/types/CompForm";
 import { CompSearchForm } from "src/types/CompSearchForm";
-import { TournetListReportVO } from "src/types/ReportVO";
+import { CompListReportVO } from "src/types/CompReportVO";
 import { SelectOption } from "src/types/SelectOption";
 // Store
 import store from "src/store";
@@ -252,7 +252,7 @@ export default defineComponent({
     /* Detail Export PDF */
     function exportAction() {
       const exportFilename = "TOURNET ERP";
-      const listReportVO: TournetListReportVO = {
+      const listReportVO: CompListReportVO = {
         title: "",
         sort: compformGrid.value.getExportSortString(reportHeaderMap),
         filter:
@@ -268,7 +268,7 @@ export default defineComponent({
     /* Detail Export PDF */
     function printAction() {
       const exportFilename = "TOURNET ERP";
-      const listReportVO: TournetListReportVO = {
+      const listReportVO: CompListReportVO = {
         title: "",
         sort: compformGrid.value.getExportSortString(reportHeaderMap),
         filter:

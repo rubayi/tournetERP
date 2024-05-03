@@ -3,20 +3,13 @@
     <template #content>
       <q-card-section>
         <div class="row q-col-gutter-md">
-          <div class="col-4">
-            <input-comp
-              v-model="editcodeformData.cardNumber"
-              class="full-width"
-              label="Card Number"
-              outlined
-            />
-          </div>
+
           <div class="col-4">
             <input-comp
               v-model="editcodeformData.mngNameKor"
               class="full-width"
               clearable
-              label="Code Name"
+              label="Card Manage Name"
               outlined
               required
             />
@@ -26,9 +19,17 @@
               v-model="editcodeformData.mngNameEng"
               class="full-width"
               clearable
-              label="Code Name(En)"
+              label="Card Manage Name(En)"
               outlined
               required
+            />
+          </div>
+          <div class="col-4">
+            <input-comp
+              v-model="editcodeformData.cardNumber"
+              class="full-width"
+              label="Card Number"
+              outlined
             />
           </div>
           <div class="col-4">
@@ -42,19 +43,21 @@
             />
           </div>
           <div class="col-4">
+            {{editcodeformData.expMonth}}
             <select-comp
               v-model="editcodeformData.expMonth"
               class="full-width"
-              label="Code Group"
+              label="Exp Month"
               :options="monNumbers"
               outlined
             />
           </div>
           <div class="col-4">
+            {{editcodeformData.expYear}}
             <select-comp
               v-model="editcodeformData.expYear"
               class="full-width"
-              label="Code Group"
+              label="Exp Year"
               :options="yearNumbers"
               outlined
             />
@@ -119,17 +122,17 @@ export default defineComponent({
       for (let i = 0
         ; i <= 20; i++) {
         let tnum = i.toString().padStart(2, '0');
-        monNumbers.value.push(tnum, tnum);
+        monNumbers.value.push({ label: tnum, value: parseInt(tnum) });
       }
     }
 
     loadcdYearOptions();
-    const currentYear = +new Date().getFullYear();
     function loadcdYearOptions() {
-
-        for (let t = currentYear; t <= (currentYear + 20); t++) {
-          yearNumbers.value.push(t, t);
-        }
+      let currentYear = +new Date().getFullYear();
+      for (let t = currentYear; t <= (currentYear + 20); t++) {
+        let label = t.toString();
+        yearNumbers.value.push({ label: label, value: t });
+      }
     }
 
     return {

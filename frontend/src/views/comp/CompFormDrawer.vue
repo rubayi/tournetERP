@@ -59,11 +59,11 @@ import CompFormDrawerPrimary from "src/views/comp/CompFormDrawerPrimary.vue";
 
 // Services
 import { CompService } from "src/services/CompService";
-import { ReportService } from "src/services/ReportService";
+import { ReportService } from "src/services/CompReportService";
 
 // Types
 import { CompForm } from "src/types/CompForm";
-import { TournetListReportVO } from "src/types/ReportVO";
+import { CompListReportVO } from "src/types/CompReportVO";
 import { SelectOption } from "src/types/SelectOption";
 
 // Store
@@ -241,7 +241,7 @@ export default defineComponent({
     /* Detail Export PDF */
     function printedonecompData() {
       const exportFilename = "HWY Traffic Work Order Report";
-      const listReportVO: TournetListReportVO = {
+      const listReportVO: CompListReportVO = {
         title: "",
         sort: "",
         filter: "",
@@ -251,7 +251,7 @@ export default defineComponent({
       ReportHelper.exportPDFData(
         exportFilename,
         listReportVO,
-        ReportService.getTournetOnePdfReport
+        ReportService.getCompOnePdfReport
       );
     }
 

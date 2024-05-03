@@ -46,4 +46,5 @@ public interface CreditCardMngRepository extends JpaRepository<CreditCardMng,Lon
     void deleteByCdCdUuid(@Param("id") long creditCardUuid);
 
 
+    CreditCardMng findOneByCdCdUuid(long id);
 }

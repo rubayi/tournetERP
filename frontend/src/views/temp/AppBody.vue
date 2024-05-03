@@ -124,7 +124,7 @@ import { ReportService } from "src/services/ReportService";
 //Type
 import { TournetForm } from "src/types/TournetForm";
 import { TournetSearchForm } from "src/types/TournetSearchForm";
-import { TournetListReportVO } from "src/types/ReportVO";
+import { TournetListReportVO } from "src/types/TournetReportVO";
 import { SelectOption } from "src/types/SelectOption";
 // Helpers
 import ReportHelper from "src/utils/helpers/ReportHelper";

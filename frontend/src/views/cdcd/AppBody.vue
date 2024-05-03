@@ -106,7 +106,7 @@ export default defineComponent({
     const data = ref<CdcdForm[]>([]);
     const searchdefaultdata = ref<CdcdSearchForm>(new CdcdSearchForm());
     const searchdata = ref<CdcdSearchForm>(new CdcdSearchForm());
-    const codeformGrid = ref();
+    const cdcdformGrid = ref();
     const codeUuid = ref<number>(0);
     const gridOptions = ref<GridOptions>({});
     var filterNumber = ref<number>(0);
@@ -149,12 +149,7 @@ export default defineComponent({
           if (response) {
             data.value = response;
           }
-          // if (gridOptions.value.columnApi) {
-          //   gridOptions.value.columnApi.applyColumnState({
-          //     state: CdcdFormTableConfig.defaultSortModel,
-          //   });
 
-          // }
         });
       }
     }
@@ -201,7 +196,7 @@ export default defineComponent({
       createAction,
       openAction,
       filterAction,
-      codeformGrid,
+      cdcdformGrid,
       overlayLoadingTemplate,
       searchdata,
       resetloadData,

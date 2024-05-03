@@ -137,6 +137,7 @@ export default defineComponent({
         loading.value = true;
         CdcdService.getOneCdcdForm(props.codeSeq)
           .then((response) => {
+            console.log(response);
             cdcdformData.value = response;
           })
           .finally(() => {

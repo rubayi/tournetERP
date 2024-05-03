@@ -24,8 +24,8 @@ export class CdcdForm implements ICdcdForm {
     this.cardNumber = (obj && obj.cardNumber) || "";
     this.mngNameKor = (obj && obj.mngNameKor) || "";
     this.mngNameEng = (obj && obj.mngNameEng) || "";
-    this.expMonth = (obj && obj.mngNameKor) || "";
-    this.expYear = (obj && obj.mngNameEng) || "";
+    this.expMonth = (obj && obj.expMonth) || "";
+    this.expYear = (obj && obj.expYear) || "";
     this.nameOnCard = (obj && obj.nameOnCard) || "";
   }
 }

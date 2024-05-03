@@ -101,7 +101,7 @@ import { ReportService } from "src/services/ReportService";
 // Types
 import { TournetForm } from "src/types/TournetForm";
 import { TournetWorkorderlogForm } from "src/types/TournetWorkorderlogForm";
-import { TournetListReportVO } from "src/types/ReportVO";
+import { TournetListReportVO } from "src/types/TournetReportVO";
 import { SelectOption } from "src/types/SelectOption";
 
 // Store

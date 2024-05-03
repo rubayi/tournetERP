@@ -1,7 +1,7 @@
-import { ReportService, ReportURL } from "src/services/ReportService";
+import { ReportService, ReportURL } from "src/services/CompReportService";
 import { notificationHelper } from "src/utils/helpers/NotificationHelper";
 import FileHelper from "src/utils/helpers/FileHelper";
-import { IReportVO } from "src/types/TournetReportVO";
+import { IReportVO } from "src/types/CompReportVO";
 
 function exportEXCELData(
   exportFilename: string,
