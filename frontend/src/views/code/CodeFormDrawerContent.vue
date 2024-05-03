@@ -2,7 +2,7 @@
   <card-comp-design title="Code Information">
     <template #content>
       <q-card-section>
-        <div class="row q-col-gutter-md">
+        <div v-if="editcodeformData != null" class="row q-col-gutter-md">
           <div class="col-4">
             <select-comp
               v-model="editcodeformData.uprCodeUuid"

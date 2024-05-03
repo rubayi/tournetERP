@@ -34,8 +34,8 @@ export class CompFormTableConfig {
       headerName: "Comp Sector",
       field: "CompSectorName",
       filter: true,
-      minWidth: 90,
-      maxWidth: 90,
+      minWidth: 100,
+      maxWidth: 100,
       sortable: true,
       resizable: true,
     },
@@ -80,7 +80,7 @@ export class CompFormTableConfig {
     },
     {
       headerName: "Hotel Rate",
-      field: "hotelRate",
+      field: "hotelRateName",
       filter: true,
       minWidth: 180,
       maxWidth: 180,
@@ -117,7 +117,7 @@ export class CompFormTableConfig {
       },
     },
     {
-      headerName: "Posted",
+      headerName: "Created Date",
       field: "createdDt",
       filter: true,
       minWidth: 110,

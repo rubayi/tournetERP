@@ -2,6 +2,7 @@
   <card-comp-design title="Primary Information">
     <template #content>
       <div class="q-pt-md q-pb-xs q-pl-md q-pr-md">
+        <div v-if="compFormData != null">
         <div class="row q-col-gutter-md">
           <div class="col-6">
             <div class="row q-col-gutter-md">
@@ -10,50 +11,56 @@
                   v-model="compFormData.compSector"
                   class="full-width"
                   label="Sector"
-                  :options="searchCompSectorlistgroup"
-                  :readonly="readonlybtn"
+                  :options="compSectorList"
                 />
               </div>
-            </div>
 
-            <div class="row q-col-gutter-md">
-              <div class="col-4">
-                <input-comp
-                  v-model="compFormData.compMemo"
-                  class="full-width"
-                  clearable
-                  label="FROM:"
-                  :readonly="readonlybtn"
-                />
-              </div>
               <div class="col-4">
                 <input-comp
                   v-model="compFormData.compKor"
                   class="full-width"
                   clearable
-                  label="TO:"
+                  label="Company Name"
                   :readonly="readonlybtn"
                 />
+
               </div>
               <div class="col-4">
                 <input-comp
                   v-model="compFormData.compEng"
                   class="full-width"
                   clearable
-                  label="ATTN:"
+                  label="Company Name(En)"
+                  :readonly="readonlybtn"
+                />
+              </div>
+              <div class="col-4">
+                <input-label-template-content
+                  v-model="compFormData.compColor"
+                  class="full-width"
+                  clearable
+                  label="Company Color"
+                  :readonly="readonlybtn"
+                />
+              </div>
+              <div class="col-4">
+                <input-comp
+                  v-model="compFormData.compAbb"
+                  class="full-width"
+                  clearable
+                  label="Abbreviation"
                   :readonly="readonlybtn"
                 />
               </div>
             </div>
 
             <div class="row q-col-gutter-md">
-              <div class="col-2">
+              <div class="col-4">
                 <select-comp
                         v-model="compFormData.compRate"
                         label="Company Rate"
                         :options="compRateList"
                 />
-
               </div>
               <div class="col-4">
                 <date-picker-comp
@@ -68,6 +75,7 @@
             </div>
           </div>
         </div>
+      </div>
       </div>
     </template>
   </card-comp-design>
@@ -91,21 +99,30 @@ import store from "src/store";
 // Helper
 import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
 import DateHelper from "src/utils/helpers/DateHelper";
+import InputLabelTemplateContent from "src/components/common/InputLabelTemplateContent.vue";
 
 export default defineComponent({
   name: "CompFormDrawerPrimary",
   components: {
+    InputLabelTemplateContent,
     CardCompDesign,
-    InputComp,
     SelectComp,
-    DatePickerComp
+    InputComp,
+    DatePickerComp,
   },
   props: {
     primaryData: {
       type: Object as () => CompForm,
       default: () => new CompForm(),
     },
-
+    compSectorList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    compRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
   },
   setup(props, { emit }) {
     const compFormData = ref<CompForm>();
@@ -118,11 +135,13 @@ export default defineComponent({
       "update:primaryData",
       compFormData
     );
+
     watch(
       () => props.primaryData,
       (newValue) => {
         compFormData.value = newValue;
         console.log(compFormData.value);
+        console.log(props.compRateList);
       }
     );
 

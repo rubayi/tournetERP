@@ -26,7 +26,9 @@
           <div class="col-12 col-md-12 col-xs-12">
             <comp-form-drawer-primary
               :primary-data="compFormData"
-              ref="compFormDrawerprimary"
+              :comp-sector-list = "compSectorList"
+              :comp-rate-list = "compRateList"
+              ref="compFormDrawerPrimary"
             />
           </div>
         </div>
@@ -93,6 +95,10 @@ export default defineComponent({
       type: Array as () => SelectOption[],
       default: () => [],
     },
+    compRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
   },
   emits: [
     "update:modelValue",
@@ -117,7 +123,7 @@ export default defineComponent({
     const showdeletebutton = ref<boolean>(false);
     const showprintbutton = ref<boolean>(false);
 
-    const compFormDrawerprimary = ref();
+    const compFormDrawerPrimary = ref();
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
 
@@ -267,7 +273,7 @@ export default defineComponent({
       drawerComp,
       openDrawer,
       closeDrawer,
-      compFormDrawerprimary,
+      compFormDrawerPrimary,
       confirmbuttoncolor,
       confirmbuttonlabel,
       confirmicon,

@@ -211,6 +211,7 @@ export default defineComponent({
           (response) => {
             loading.value = false;
             compUuid.value = 0;
+            console.log(response);
             data.value = response;
 
           }
@@ -283,7 +284,7 @@ export default defineComponent({
     }
 
     function printcodeValue() {
-      // loadCompRateListOptions();
+      loadCompRateListOptions();
       // loadCouponYnListOptions();
       // loadCompGroupListOptions();
       loadCompSectorOptions();
@@ -291,7 +292,7 @@ export default defineComponent({
     /*Comp Sector List*/
     const compSectorList = ref<SelectOption[]>([]);
     function loadCompSectorOptions() {
-      CodeService.getGroupCodeForm(19).then((response) => {
+      CodeService.getGroupCodeForm(22).then((response) => {
         compSectorList.value = response.map(
           (x) => new SelectOption(x.codeKr, x.codeUuid)
         );
