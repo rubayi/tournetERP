@@ -1,6 +1,6 @@
 import { ColDef } from "ag-grid-community";
-import OpenButtonCellRenderer from "@/components/table/OpenButtonCellRenderer.vue";
-import CheckIconCellRenderer from "@/components/table/CheckIconCellRenderer.vue";
+import OpenButtonCellRenderer from "src/components/table/OpenButtonCellRenderer.vue";
+import CheckIconCellRenderer from "src/components/table/CheckIconCellRenderer.vue";
 export class ReportFormTableConfig {
   static overlay =
     '<span class="ag-overlay-loading-center">Please wait while your Data are loading</span>';
@@ -10,7 +10,7 @@ export class ReportFormTableConfig {
       field: "reportId",
       cellClass: "no-border",
       floatingFilter: false,
-      cellRenderer: "openButtonCellRenderer",
+      cellRenderer: OpenButtonCellRenderer,
       maxWidth: 50,
       minWidth: 50,
       sortable: false,

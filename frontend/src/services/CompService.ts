@@ -12,22 +12,22 @@ export class CompService {
       .then((response) => response.data);
   }
 
-  static getOneCompLogForm(worknum: number): Promise<CompForm> {
-    return api.get<CompForm>(API_URL + `active/${worknum}`, {
+  static getOneCompForm(compUuid: number): Promise<CompForm> {
+    return api.get<CompForm>(API_URL + `getComp/${compUuid}`, {
       headers: authHeader(),
     })
       .then((response) => response.data);
   }
 
-  static saveCompLogForm(h3caseform: CompForm): Promise<CompForm> {
-    return api.post<CompForm>(API_URL + "update", h3caseform, {
+  static saveCompForm(h3caseform: CompForm): Promise<CompForm> {
+    return api.post<CompForm>(API_URL + "updateComp", h3caseform, {
       headers: authHeader(),
     })
       .then((response) => response.data);
   }
 
-  static deleteCompForm(worknum: number): Promise<void> {
-    return api.delete(API_URL + `delete/${worknum}`, {
+  static deleteCompForm(compUuid: number): Promise<void> {
+    return api.delete(API_URL + `delete/${compUuid}`, {
       headers: authHeader(),
     })
       .then((response) => response.data);

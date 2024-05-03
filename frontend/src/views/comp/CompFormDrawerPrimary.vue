@@ -6,20 +6,10 @@
           <div class="col-6">
             <div class="row q-col-gutter-md">
               <div class="col-4">
-                <date-picker-comp
-                  v-model="workdateVal"
-                  class="full-width"
-                  clearable
-                  label="DATE"
-                  :readonly="readonlybtn"
-                  required="true"
-                />
-              </div>
-              <div class="col-4">
                 <select-comp
-                  v-model="edittournetformData.searchCompSector"
+                  v-model="compFormData.compSector"
                   class="full-width"
-                  label="Work Order Office"
+                  label="Sector"
                   :options="searchCompSectorlistgroup"
                   :readonly="readonlybtn"
                 />
@@ -29,7 +19,7 @@
             <div class="row q-col-gutter-md">
               <div class="col-4">
                 <input-comp
-                  v-model="edittournetformData.searchCompMemo"
+                  v-model="compFormData.compMemo"
                   class="full-width"
                   clearable
                   label="FROM:"
@@ -38,7 +28,7 @@
               </div>
               <div class="col-4">
                 <input-comp
-                  v-model="edittournetformData.searchCompKor"
+                  v-model="compFormData.compKor"
                   class="full-width"
                   clearable
                   label="TO:"
@@ -47,7 +37,7 @@
               </div>
               <div class="col-4">
                 <input-comp
-                  v-model="edittournetformData.compEng"
+                  v-model="compFormData.compEng"
                   class="full-width"
                   clearable
                   label="ATTN:"
@@ -59,11 +49,21 @@
             <div class="row q-col-gutter-md">
               <div class="col-2">
                 <select-comp
-                        v-model="edittournetformData.searchCompRate"
+                        v-model="compFormData.compRate"
                         label="Company Rate"
                         :options="compRateList"
                 />
 
+              </div>
+              <div class="col-4">
+                <date-picker-comp
+                  v-model="compFormData.estDate"
+                  class="full-width"
+                  clearable
+                  label="DATE"
+                  :readonly="readonlybtn"
+                  required="true"
+                />
               </div>
             </div>
           </div>
@@ -82,7 +82,7 @@ import DatePickerComp from "src/components/common/DatePickerComp.vue";
 import SelectComp from "src/components/common/SelectComp.vue";
 // Type
 import { CompForm } from "src/types/CompForm";
-import { CompDocumentsgForm } from "src/types/CompDocumentsgForm";
+//import { CompDocumentsgForm } from "src/types/CompDocumentsgForm";
 import { SelectOption } from "src/types/SelectOption";
 import { CompMultiCheckbox } from "src/types/CompMultiCheckbox";
 
@@ -95,130 +95,41 @@ import DateHelper from "src/utils/helpers/DateHelper";
 export default defineComponent({
   name: "CompFormDrawerPrimary",
   components: {
-    InputComp,
-    DatePickerComp,
-    SelectComp,
     CardCompDesign,
+    InputComp,
+    SelectComp,
+    DatePickerComp
   },
   props: {
-    data: {
+    primaryData: {
       type: Object as () => CompForm,
       default: () => new CompForm(),
     },
-    workstatues: {
-      type: Array as () => CompMultiCheckbox[],
-      default: () => [],
-    },
-    workdate: {
-      type: String,
-      default: null,
-    },
-    suspensedate: {
-      type: String,
-      default: null,
-    },
-    searchCompSectorlistgroup: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
-    workstatuslistgroup: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
-    langtypelistgroup: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
+
   },
   setup(props, { emit }) {
-    const edittournetformData = ref<CompForm>();
-    const documentslist = ref<CompDocumentsgForm[]>([]);
-    const refworkstatues = ref<CompMultiCheckbox[]>([]);
+    const compFormData = ref<CompForm>();
     const readonlybtn = ref<boolean>(true);
 
     useSyncModelValue(
       props,
-      "workstatues",
+      "primaryData",
       emit,
-      "update:workstatues",
-      refworkstatues
+      "update:primaryData",
+      compFormData
     );
-
-    useSyncModelValue(
-      props,
-      "data",
-      emit,
-      "update:data",
-      edittournetformData
-    );
-
-    const workdateVal = ref();
-    useSyncModelValue(
-      props,
-      "workdate",
-      emit,
-      "update:workdate",
-      workdateVal,
-      DateHelper.formatISOStringToShortDateString,
-      DateHelper.formatShortDateToISOString
-    );
-
-    const suspensedateVal = ref();
-    useSyncModelValue(
-      props,
-      "suspensedate",
-      emit,
-      "update:suspensedate",
-      suspensedateVal,
-      DateHelper.formatISOStringToShortDateString,
-      DateHelper.formatShortDateToISOString
-    );
-
-    const statusselection = ref<number[]>([]);
-    // Load Statues Checkbox
-    function loadworkstatues() {
-      for (var val of props.workstatues) {
-        statusselection.value.push(val.codevalue);
-      }
-    }
-
     watch(
-      () => statusselection.value,
+      () => props.primaryData,
       (newValue) => {
-        if (newValue) {
-          refworkstatues.value = [];
-          for (var x of statusselection.value) {
-            let tempmulticheckbox = new CompMultiCheckbox();
-            tempmulticheckbox.codevalue = x;
-            refworkstatues.value.push(tempmulticheckbox);
-          }
-        }
+        compFormData.value = newValue;
+        console.log(compFormData.value);
       }
     );
-
-    function resetreadData() {
-      statusselection.value = [];
-      if (
-        store.getters.currentUserHasApplicationPermission("LOG_A") ||
-        store.getters.currentUserHasApplicationPermission("LOG_E")
-      ) {
-        readonlybtn.value = false;
-      } else {
-        readonlybtn.value = true;
-      }
-    }
-    function addCompany() {
-      documentslist.value.push(new CompDocumentsgForm());
-    }
 
     return {
-      edittournetformData,
-      addCompany,
+      compFormData,
+      //addCompany,
       readonlybtn,
-      suspensedateVal,
-      workdateVal,
-      statusselection,
-      refworkstatues,
     };
   },
 });

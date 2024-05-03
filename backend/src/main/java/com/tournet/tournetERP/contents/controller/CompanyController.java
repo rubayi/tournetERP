@@ -87,7 +87,7 @@ public class CompanyController {
                 companyReq.setCompUuid(companyJsonNode.get("compUuid").asLong());
                 companyReq.setCompSector(companyJsonNode.get("compSector").asLong());
 
-                companyReq.setCompGroup(companyJsonNode.get("compGroup").asText());
+                companyReq.setCompGroup(companyJsonNode.get("compGroup").asLong());
                 companyReq.setCompKor(companyJsonNode.get("compKor").asText());
                 companyReq.setCompEng(companyJsonNode.get("compEng").asText());
                 companyReq.setCompAbb(companyJsonNode.get("compAbb").asText());
@@ -114,8 +114,6 @@ public class CompanyController {
                 companyReq.setEstDate(new Date(companyJsonNode.get("estDate").asLong()));
                 companyReq.setCompKor(companyJsonNode.get("compKor").asText());
                 companyReq.setCompKor(companyJsonNode.get("compKor").asText());
-
-
 
                 Optional<Company> currentCompany = compRepository.findByCompUuid(companyReq.getCompUuid());
 
@@ -167,18 +165,24 @@ public class CompanyController {
     }
 
 
+    @GetMapping("/getComp/{id}")
+    public ResponseEntity<?> searchCompany(@PathVariable long id) {
+
+        Company company = compRepository.findFirstByCompUuid(id);
+
+        return new ResponseEntity<>(company, HttpStatus.OK);
+    }
+
+
+
     @Transactional
-    @PostMapping("/deleteComp/{id}")
+    @GetMapping("/deleteComp/{id}")
     public ResponseEntity<?> deleteCompany(@PathVariable long id) {
 
         compRepository.deleteByCompUuid(id);
 
         return ResponseEntity.ok(new MessageResponse("삭제 되었습니다."));
     }
-
-
-
-
 
 
 

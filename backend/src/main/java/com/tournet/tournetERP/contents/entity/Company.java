@@ -23,7 +23,7 @@ public class Company {
     private long compSector; //업체유형
 
     @Column(name = "COMP_GROUP", nullable = true)
-    private String compGroup; //그룹
+    private long compGroup; //그룹
 
     @Column(name = "COMP_KOR", nullable = true)
     private String compKor; //업체명KOR

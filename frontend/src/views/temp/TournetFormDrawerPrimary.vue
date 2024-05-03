@@ -125,7 +125,7 @@
                     v-show="!readonlybtn"
                     label="+ Add"
                     size="sm"
-                    @click="adddocumentslist"
+                    @click="addContactList"
                   />
                 </div>
                 <div class="col-auto">
@@ -163,7 +163,7 @@
                   </thead>
                   <tbody>
                     <tr
-                      v-for="item in edittournetformData.documentslist"
+                      v-for="item in edittournetformData.ContactList"
                       :key="item.idx"
                     >
                       <td class="text-center q-pl-sm q-pr-sm no-padding">
@@ -258,7 +258,7 @@ import DatePickerComp from "src/components/common/DatePickerComp.vue";
 import TextAreaComp from "src/components/common/TextAreaComp.vue";
 import SelectComp from "src/components/common/SelectComp.vue";
 // Type
-import { TournetForm } from "src/types/TournetForm";
+import { CompForm } from "src/types/CompForm";
 import { TournetDocumentsgForm } from "src/types/TournetDocumentsgForm";
 import { SelectOption } from "src/types/SelectOption";
 import { TournetMultiCheckbox } from "src/types/TournetMultiCheckbox";
@@ -270,7 +270,7 @@ import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
 import DateHelper from "src/utils/helpers/DateHelper";
 
 export default defineComponent({
-  name: "TournetFormDrawerPrimary",
+  name: "CompFormDrawerPrimary",
   components: {
     InputComp,
     DatePickerComp,
@@ -280,8 +280,8 @@ export default defineComponent({
   },
   props: {
     data: {
-      type: Object as () => TournetForm,
-      default: () => new TournetForm(),
+      type: Object as () => CompForm,
+      default: () => new CompForm(),
     },
     workstatues: {
       type: Array as () => TournetMultiCheckbox[],
@@ -309,8 +309,8 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const edittournetformData = ref<TournetForm>();
-    const documentslist = ref<TournetDocumentsgForm[]>([]);
+    const edittournetformData = ref<CompForm>();
+    const ContactList = ref<TournetDocumentsgForm[]>([]);
     const refworkstatues = ref<TournetMultiCheckbox[]>([]);
     const readonlybtn = ref<boolean>(true);
 
@@ -378,31 +378,27 @@ export default defineComponent({
       () => props.data,
       (newValue) => {
         loadworkstatues();
-        documentslist.value = newValue.documentslist;
-        if (newValue.worknum == null) {
-          resetreadData();
-          adddocumentslist();
-        }
+
       }
     );
     function resetreadData() {
       statusselection.value = [];
       if (
-        store.getters.currentUserHasApplicationPermission("LOG_A") ||
-        store.getters.currentUserHasApplicationPermission("LOG_E")
+        store.getters.currentUserHasApplicationPermission("COMP_R") ||
+        store.getters.currentUserHasApplicationPermission("COMP_W")
       ) {
         readonlybtn.value = false;
       } else {
         readonlybtn.value = true;
       }
     }
-    function adddocumentslist() {
-      documentslist.value.push(new TournetDocumentsgForm());
+    function addContactList() {
+      ContactList.value.push(new TournetDocumentsgForm());
     }
 
     return {
       edittournetformData,
-      adddocumentslist,
+      addContactList,
       readonlybtn,
       suspensedateVal,
       workdateVal,

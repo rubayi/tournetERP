@@ -9,6 +9,7 @@ import store from 'src/store';
 import { LoginService } from 'src/services/LoginService';
 import Code from 'src/views/code/AppBody.vue';
 import Comp from 'src/views/comp/AppBody.vue';
+import Cdcd from 'src/views/cdcd/AppBody.vue';
 import Emp from 'src/views/emp/AppBody.vue';
 
 const routes: Array<RouteRecordRaw> = [
@@ -43,10 +44,15 @@ const routes: Array<RouteRecordRaw> = [
     children: [{ path: '', component: () => Code }],
   },
   {
-    path: '/emp',
-    name: 'emp',
-    children: [{ path: '', component: () => Emp }],
+    path: '/cdcd',
+    name: 'cdcd',
+    children: [{ path: '', component: () => Cdcd }],
   },
+  // {
+  //   path: '/emp',
+  //   name: 'emp',
+  //   children: [{ path: '', component: () => Emp }],
+  // },
   // Always leave this as last one,
   // but you can also remove it
   {

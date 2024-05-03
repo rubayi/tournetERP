@@ -1,93 +1,58 @@
-import { ColDef, ValueFormatterParams } from "ag-grid-community";
+import {ColDef, ValueFormatterParams} from "ag-grid-community";
 import OpenButtonCellRenderer from "src/components/table/OpenButtonCellRenderer.vue";
 import DateHelper from "src/utils/helpers/DateHelper";
-import TooltipComponent from "src/components/table/TooltipComponent.vue";
-export class CompFormTableConfig {
-  static reportHeaderMap = {
-    callid: "NO",
-  };
-
+const moment = require('moment');
+export class CdcdFormTableConfig {
   static overlay =
     '<span class="ag-overlay-loading-center">Please wait while your Data are loading</span>';
+
   static columns: ColDef[] = [
     {
       headerName: "",
-      field: "compUuid",
+      field: "cdCdUuid",
       cellClass: "no-border",
       floatingFilter: false,
       cellRenderer: OpenButtonCellRenderer,
-      maxWidth: 50,
-      minWidth: 50,
+      maxWidth: 80,
+      minWidth: 80,
       sortable: false,
       suppressMovable: true,
       suppressNavigable: true,
     },
     {
-      headerName: "Group",
-      field: "compGroupName",
-      filter: true,
-      minWidth: 50,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Comp Sector",
-      field: "CompSectorName",
-      filter: true,
-      minWidth: 90,
-      maxWidth: 90,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Company",
-      field: "compKor",
-      filter: true,
-      minWidth: 150,
-      maxWidth: 150,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Company(En)",
-      field: "compEng",
-      filter: true,
+      headerName: "Manage Name",
+      field: "mngNameKor",
+      floatingFilter: false,
       minWidth: 100,
       maxWidth: 100,
       sortable: true,
       resizable: true,
     },
     {
-      headerName: "Establish Date",
-      field: "estDate",
+      headerName: "Manage Name(En)",
+      field: "mngNameEng",
       filter: true,
-      minWidth: 110,
-      maxWidth: 110,
-      sortable: true,
-      resizable: true,
-      valueFormatter: (params: ValueFormatterParams): string => {
-        return DateHelper.formatISOStringToShortDateString(params.value);
-      },
-    },
-    {
-      headerName: "Comp Rate",
-      field: "compRate",
-      filter: true,
-      minWidth: 90,
-      maxWidth: 90,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Hotel Rate",
-      field: "hotelRate",
-      filter: true,
-      minWidth: 180,
-      maxWidth: 180,
+      minWidth: 100,
       sortable: true,
       resizable: true,
     },
 
+    {
+      headerName: "Card Number",
+      field: "cardNumber",
+      floatingFilter: false,
+      minWidth: 100,
+      maxWidth: 100,
+      sortable: true,
+      resizable: true,
+    },
+    {
+      headerName: "Name On Card",
+      field: "nameOnCard",
+      filter: true,
+      sortable: true,
+      resizable: true,
+    },
     {
       headerName: "Begin Date",
       field: "beginDt",
@@ -117,37 +82,39 @@ export class CompFormTableConfig {
       },
     },
     {
-      headerName: "Posted",
-      field: "createdDt",
-      filter: true,
-      minWidth: 110,
-      maxWidth: 110,
+      headerName: "ModifiedByName",
+      field: "modifiedByName",
+      floatingFilter: false,
+      minWidth: 220,
+      maxWidth: 220,
+      flex: 1,
+      sortable: true,
+      resizable: true,
+    },
+    {
+      headerName: "LastUpdated",
+      field: "modifiedDt",
+      floatingFilter: false,
+      minWidth: 220,
+      maxWidth: 220,
+      flex: 1,
       sortable: true,
       resizable: true,
       valueFormatter: (params: ValueFormatterParams): string => {
-        return DateHelper.formatISOStringToShortDateString(params.value);
+        return params.value
+          ? DateHelper.formatISOStringToDateTimeString(params.value)
+          : "";
       },
-    },
-    {
-      headerName: "Modified Date",
-      field: "modifiedDt",
-      filter: true,
-      suppressMenu: true,
-      minWidth: 100,
-      maxWidth: 100,
-      sortable: true,
-      resizable: true,
     },
   ];
 
   static frameworkComponents = {
     openButtonCellRenderer: OpenButtonCellRenderer,
-    customTooltip: TooltipComponent,
   };
 
   static defaultSortModel = [
     {
-      colId: "modifiedDt",
+      colId: "cdCdUuid",
       sort: "desc",
       sortIndex: 0,
     },

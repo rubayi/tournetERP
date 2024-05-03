@@ -11,7 +11,7 @@ public class CompanyDTO {
 
     private long compSector; //유형
 
-    private String compGroup; //그룹
+    private long compGroup; //그룹
 
     private String compKor; //업체명KOR
 
@@ -68,6 +68,8 @@ public class CompanyDTO {
     private Date modifiedDt; //최종수정일
 
     private String compSectorName;
+
+    private String compGroupName;
 
     private String compRateName; //등급
 

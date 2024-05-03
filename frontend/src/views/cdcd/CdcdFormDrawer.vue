@@ -1,5 +1,5 @@
 <template>
-  <div id="comp-form-drawer">
+  <div id="cdcd-form-drawer">
     <drawer-comp
       v-model="openDrawer"
       v-model:loading="loading"
@@ -8,29 +8,23 @@
       :confirm-button-color="confirmbuttoncolor"
       :confirm-button-label="confirmbuttonlabel"
       :confirm-icon="confirmicon"
-      icon-title="far fa-folder-open"
+      icon-title="fas fa-cogs"
       :show-confirm-button="showconfirmbutton"
       :show-delete-button="showdeletebutton"
-      :show-print-button="showprintbutton"
+      :show-print-button="false"
       side="right"
       :title="title"
-      :width="80"
+      :width="60"
       @cancel-clicked="closeDrawer"
-      @confirm-clicked="saveUpdatedCompData"
-      @confirm-printeded="printedonecompData"
+      @confirm-clicked="saveUpdatedCodeData"
       @delete-clicked="openDeleteConfirm = true"
       ref="drawerComp"
     >
-      <div class="q-pa-lg">
-        <div class="row q-col-gutter-md">
-          <div class="col-12 col-md-12 col-xs-12">
-            <comp-form-drawer-primary
-              :primary-data="compFormData"
-              ref="compFormDrawerprimary"
-            />
-          </div>
-        </div>
-
+      <div class="flex flex-grow-1 q-pa-md">
+        <cdcd-form-drawer-content
+          v-model="cdcdformData"
+          ref="codeFormDrawerContent"
+        />
       </div>
     </drawer-comp>
   </div>
@@ -38,8 +32,8 @@
     v-model="openDeleteConfirm"
     action-button-label="Delete"
     max-width="500px"
-    modal-title="Delete Work Order"
-    @confirm-clicked="deleteCompForm"
+    modal-title="Delete Code"
+    @confirm-clicked="deleteCdcdForm"
   >
     <template #htmlContent>
       <div>Are you sure you want to <b>PERMANENTLY DELETE</b> this Data?</div>
@@ -55,33 +49,26 @@ import DrawerComp from "src/components/drawers/DrawerComp.vue";
 import DialogComp from "src/components/common/DialogComp.vue";
 
 // View Layout
-import CompFormDrawerPrimary from "src/views/comp/CompFormDrawerPrimary.vue";
+import CdcdFormDrawerContent from "src/views/cdcd/CdcdFormDrawerContent.vue";
 
 // Services
-import { CompService } from "src/services/CompService";
-import { ReportService } from "src/services/ReportService";
+import { CdcdService } from "src/services/CdcdService";
 
 // Types
-import { CompForm } from "src/types/CompForm";
-import { TournetListReportVO } from "src/types/ReportVO";
-import { SelectOption } from "src/types/SelectOption";
-
+import { CdcdForm } from "src/types/CdcdForm";
 // Store
 import store from "src/store";
-
 //helper
 import { notificationHelper } from "src/utils/helpers/NotificationHelper";
-import ReportHelper from "src/utils/helpers/ReportHelper";
-
 export default defineComponent({
-  name: "CompFormDrawer",
+  name: "CdcdFormDrawer",
   components: {
     DrawerComp,
     DialogComp,
-    CompFormDrawerPrimary,
+    CdcdFormDrawerContent,
   },
   props: {
-    compSeq: {
+    codeSeq: {
       type: Number,
       default: 0,
     },
@@ -89,25 +76,17 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    compSectorList: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
   },
   emits: [
     "update:modelValue",
     "update:drawerData",
-    "compform-saved",
-    "compform-deleted",
-    "compform-drawer-closed",
+    "codeform-saved",
+    "codeform-deleted",
+    "codeform-drawer-closed",
   ],
   setup(props, { emit }) {
-    const title = "Manage Company";
-    const compFormData = ref<CompForm | undefined>(
-      new CompForm()
-    );
-
-    const printdata = ref<CompForm[]>([]);
+    const title = "Manage Code";
+    const cdcdformData = ref<CdcdForm | null>(new CdcdForm());
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>("primary");
@@ -115,9 +94,7 @@ export default defineComponent({
     const confirmicon = ref<string>("fas fa-plus");
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
-    const showprintbutton = ref<boolean>(false);
-
-    const compFormDrawerprimary = ref();
+    const codeformDrawerContent = ref();
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
 
@@ -131,53 +108,36 @@ export default defineComponent({
       () => openDrawer.value,
       (newValue) => {
         emit("update:modelValue", newValue);
-        if (newValue == true) {
-          getCompFormData();
-        }
+        getCodeformData();
       }
     );
 
     // Reset Drawer
     function resetDrawer() {
-      compFormData.value = new CompForm();
-      if (props.compSeq != 0) {
+      cdcdformData.value = new CdcdForm();
+      if (props.codeSeq != 0) {
         confirmbuttoncolor.value = "warning";
         confirmbuttonlabel.value = "CHANGE";
         confirmicon.value = "fas fa-edit";
-        if (
-          store.getters.currentUserHasApplicationPermission("COMP_W")
-        ) {
-          showconfirmbutton.value = true;
-        } else {
-          showconfirmbutton.value = false;
-        }
-        showdeletebutton.value =
-          store.getters.currentUserHasApplicationPermission("COMP_D");
-        showprintbutton.value =
-          store.getters.currentUserHasApplicationPermission("COMP_R");
+        showconfirmbutton.value = store.getters.currentUserHasApplicationPermission("CODE_W");
+        showdeletebutton.value = store.getters.currentUserHasApplicationPermission("CODE_D");
       } else {
         confirmbuttoncolor.value = "primary";
         confirmbuttonlabel.value = "ADD";
         confirmicon.value = "fas fa-plus";
-        showconfirmbutton.value =
-          store.getters.currentUserHasApplicationPermission("COMP_R");
+        showconfirmbutton.value = store.getters.currentUserHasApplicationPermission("CODE_W");
         showdeletebutton.value = false;
-        showprintbutton.value = false;
       }
     }
 
     // Loading One Data
-    function getCompFormData() {
+    function getCodeformData() {
       resetDrawer();
-      if (props.compSeq) {
+      if (props.codeSeq != 0) {
         loading.value = true;
-        CompService.getOneCompForm(props.compSeq)
+        CdcdService.getOneCdcdForm(props.codeSeq)
           .then((response) => {
-
-            compFormData.value = response;
-
-            printdata.value = [];
-            printdata.value.push(response);
+            cdcdformData.value = response;
           })
           .finally(() => {
             loading.value = false;
@@ -186,18 +146,23 @@ export default defineComponent({
     }
 
     //Add & Edit
-    function saveUpdatedCompData() {
+    function saveUpdatedCodeData() {
       notificationHelper.dismiss();
       notificationHelper.createOngoingNotification("Saving...");
       loading.value = true;
-      if (compFormData.value) {
-        CompService.saveCompForm(compFormData.value)
+      if (cdcdformData.value) {
+        CdcdService.saveCdcdForm(cdcdformData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
-              `Company Info saved.`
+              `Code  " ${response.codeKr} " saved.`
             );
-            emit("compform-saved", response);
-            closeDrawer();
+            if (props.codeSeq != 0) {
+              emit("codeform-saved", response);
+              cdcdformData.value = new CdcdForm(response);
+            } else {
+              emit("codeform-saved", response);
+              closeDrawer();
+            }
           })
           .catch((error) => {
             notificationHelper.createErrorNotification(
@@ -215,16 +180,16 @@ export default defineComponent({
     function deleteAction() {
       openDeleteConfirm.value = true;
     }
-    function deleteCompForm() {
+    function deleteCdcdForm() {
       loading.value = true;
-      CompService.deleteCompForm(props.compSeq)
+      CdcdService.deleteCdcdForm(props.codeSeq)
         .then((response) => {
           notificationHelper.createSuccessNotification(
-            `Defendant ${
-              compFormData.value ? compFormData.value.compUuid: 0
+            `Code ${
+              cdcdformData.value ? cdcdformData.value.codeKr : ""
             } deleted`
           );
-          emit("compform-deleted", response);
+          emit("codeform-deleted", response);
           closeDrawer();
         })
         .catch((error) => {
@@ -238,56 +203,35 @@ export default defineComponent({
         });
     }
 
-    /* Detail Export PDF */
-    function printedonecompData() {
-      const exportFilename = "HWY Traffic Work Order Report";
-      const listReportVO: TournetListReportVO = {
-        title: "",
-        sort: "",
-        filter: "",
-        data: printdata.value,
-      };
-
-      ReportHelper.exportPDFData(
-        exportFilename,
-        listReportVO,
-        ReportService.getTournetOnePdfReport
-      );
-    }
-
     function closeDrawer() {
       openDrawer.value = false;
       resetDrawer();
-      emit("compform-drawer-closed");
+      emit("codeform-drawer-closed");
     }
     return {
       title,
-      compFormData,
+      cdcdformData,
       loading,
       drawerComp,
       openDrawer,
       closeDrawer,
-      compFormDrawerprimary,
+      codeformDrawerContent,
       confirmbuttoncolor,
       confirmbuttonlabel,
       confirmicon,
       showconfirmbutton,
       showdeletebutton,
-      showprintbutton,
       deleteAction,
       openDeleteConfirm,
-      deleteCompForm,
-      saveUpdatedCompData,
-      printedonecompData,
-      getCompFormData,
-      printdata,
+      deleteCdcdForm,
+      saveUpdatedCodeData,
     };
   },
 });
 </script>
 
 <style lang="scss">
-#compform-drawer {
+#codeform-drawer {
   .q-page {
     display: flex;
     flex-direction: column;

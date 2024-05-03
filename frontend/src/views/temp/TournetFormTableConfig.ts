@@ -15,7 +15,7 @@ export class TournetFormTableConfig {
       field: "worknum",
       cellClass: "no-border",
       floatingFilter: false,
-      cellRenderer: "openButtonCellRenderer",
+      cellRenderer: OpenButtonCellRenderer,
       maxWidth: 50,
       minWidth: 50,
       pinned: "left",

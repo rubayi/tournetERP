@@ -61,4 +61,5 @@ public interface CompanyRepository extends JpaRepository<Company,Long> {
 
 
     Company findFirstByCompUuid(long id);
+
 }
