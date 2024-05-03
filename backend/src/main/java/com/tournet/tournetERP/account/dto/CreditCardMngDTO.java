@@ -40,11 +40,13 @@ public class CreditCardMngDTO {
 
     private Date modifiedDt; //최종수정일
 
-    private String searchKeyword;
+    private long searchCdCdUuid;
 
-    private String searchKeyword2;
+    private String searchMngNameKor;
 
-    private String searchKeyword3;
+    private String searchMngNameEng;
+
+    private String searchCardNumber;
 
     private String createdByName; //생성자
 

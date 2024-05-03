@@ -33,14 +33,16 @@ public class CreditCardMngService {
 
         ModelMapper modelMapper=new ModelMapper();
 
-        long cdcdUuid = compReq.getCdCdUuid();
-        String mngNameKor = compReq.getMngNameKor();
-        String mngNameEng = compReq.getMngNameEng();
+        long cdcdUuid = compReq.getSearchCdCdUuid();
+        String mngNameKor = compReq.getSearchMngNameKor();
+        String mngNameEng = compReq.getSearchMngNameEng();
+        String cardNumber = compReq.getSearchCardNumber();
 
         List<CreditCardMng> selectedCreditCardMngs = cdcdMngRepository.findAllByOrderByModifiedDtDesc(
                 cdcdUuid == 0 ? null : cdcdUuid,
                 mngNameKor.isEmpty() ? null : mngNameKor,
-                mngNameEng.isEmpty() ? null : mngNameEng
+                mngNameEng.isEmpty() ? null : mngNameEng,
+                cardNumber.isEmpty() ? null : cardNumber
         );
 
         List<CreditCardMngDTO> compResList = selectedCreditCardMngs.stream()

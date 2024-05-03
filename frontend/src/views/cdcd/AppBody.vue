@@ -5,7 +5,7 @@
         <div class="col q-pr-md">
           <span class="part_title text-primary">
             <i class="fas fa-cogs q-ml-xs q-mr-md"></i>
-            Manage Code
+            Manage Credit Card
           </span>
         </div>
         <div class="col-2 text-right q-pr-md">
@@ -25,7 +25,7 @@
             v-if="showinsertbutton"
             color="primary"
             icon="add"
-            label="NEW CODE"
+            label="NEW CARD"
             outline
             @click="createAction"
           />
@@ -34,7 +34,7 @@
       <div id="code-form-grid-container" class="row">
         <div class="col-12">
           <table-comp
-            id="code-form-grid"
+            id="cdcd-form-grid"
             :column-defs="columns"
             :context="context"
             :framework-components="frameworkComponents"
@@ -45,7 +45,7 @@
             :open-action="openAction"
             row-selection="single"
             @grid-ready="loadData"
-            ref="codeformGrid"
+            ref="cdcdformGrid"
           />
         </div>
       </div>

@@ -2,7 +2,7 @@ import { getNumberMemberValue } from "src/utils/helpers/ConstructorHelper";
 
 export interface ICdcdForm {
   cdCdUuid: number | 0;
-  cardNumber: number | 0;
+  cardNumber: string | null;
   mngNameKor: string | null;
   mngNameEng: string | null;
   expMonth: string | null;
@@ -12,7 +12,7 @@ export interface ICdcdForm {
 
 export class CdcdForm implements ICdcdForm {
   public cdCdUuid: number | 0;
-  public cardNumber: number | 0;
+  public cardNumber: string | null;
   public mngNameKor: string | null;
   public mngNameEng: string | null;
   public expMonth: string | null;
@@ -21,7 +21,7 @@ export class CdcdForm implements ICdcdForm {
 
   constructor(obj?: ICdcdForm) {
     this.cdCdUuid = getNumberMemberValue(obj && obj.cdCdUuid);
-    this.cardNumber = (obj && obj.cardNumber) || 0;
+    this.cardNumber = (obj && obj.cardNumber) || "";
     this.mngNameKor = (obj && obj.mngNameKor) || "";
     this.mngNameEng = (obj && obj.mngNameEng) || "";
     this.expMonth = (obj && obj.mngNameKor) || "";

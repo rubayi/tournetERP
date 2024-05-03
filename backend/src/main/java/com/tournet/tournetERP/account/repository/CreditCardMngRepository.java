@@ -31,12 +31,14 @@ public interface CreditCardMngRepository extends JpaRepository<CreditCardMng,Lon
             "WHERE (:cdcdUuid IS NULL OR u.cdCdUuid = :cdcdUuid) " +
             "AND (:mngNameKor IS NULL OR u.mngNameKor LIKE CONCAT('%', :mngNameKor, '%')) " +
             "AND (:mngNameEng IS NULL OR u.mngNameEng LIKE CONCAT('%', :mngNameEng, '%')) " +
-            "OR (:cdcdUuid IS NULL AND :mngNameKor IS NULL AND :mngNameEng IS NULL) " +
+            "AND (:cardNumber IS NULL OR u.cardNumber LIKE CONCAT('%', :cardNumber, '%')) " +
+            "OR (:cdcdUuid IS NULL AND :mngNameKor IS NULL AND :mngNameEng IS NULL AND :cardNumber IS NULL) " +
             "ORDER BY u.modifiedDt DESC")
     List<CreditCardMng> findAllByOrderByModifiedDtDesc(
             @Param("cdcdUuid") Long cdcdUuid,
             @Param("mngNameKor") String mngNameKor,
-            @Param("mngNameEng") String mngNameEng
+            @Param("mngNameEng") String mngNameEng,
+            @Param("cardNumber") String cardNumber
             
     );
 

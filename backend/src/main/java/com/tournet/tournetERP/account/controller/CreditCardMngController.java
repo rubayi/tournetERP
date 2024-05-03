@@ -18,6 +18,7 @@ import com.tournet.tournetERP.account.service.CreditCardMngService;
 import com.tournet.tournetERP.auth.dto.MessageResponse;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
+import com.tournet.tournetERP.contents.dto.CompanyDTO;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -50,20 +51,16 @@ public class CreditCardMngController {
     CreditCardMngService creditCardMngService;
 
     @PostMapping("/selectCreditCardMngs")
-    public ResponseEntity<Map<String, Object>> selectCreditCardMngs (@RequestBody CreditCardMngDTO searchcreditCardMngReq) {
+    public ResponseEntity<List<CreditCardMngDTO>> selectCreditCardMngs (@RequestBody CreditCardMngDTO searchcreditCardMngReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        String message = "";
         List<CreditCardMngDTO> listCreditCardMng = new ArrayList<CreditCardMngDTO>();
         if(storUser.isAuthenticated()) {
             listCreditCardMng = creditCardMngService.findCreditCardMngList(searchcreditCardMngReq);
-            message = "OK";
         }
 
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("listCreditCardMng", listCreditCardMng);
-        return new ResponseEntity<>(resMap, HttpStatus.OK);
+        return new ResponseEntity<>(listCreditCardMng, HttpStatus.OK);
     }
 
     @PostMapping("/updateCreditCardMng")

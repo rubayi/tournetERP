@@ -80,9 +80,9 @@ export default defineComponent({
   emits: [
     "update:modelValue",
     "update:drawerData",
-    "codeform-saved",
-    "codeform-deleted",
-    "codeform-drawer-closed",
+    "cdcdform-saved",
+    "cdcdform-deleted",
+    "cdcdform-drawer-closed",
   ],
   setup(props, { emit }) {
     const title = "Manage Code";
@@ -154,13 +154,13 @@ export default defineComponent({
         CdcdService.saveCdcdForm(cdcdformData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
-              `Code  " ${response.codeKr} " saved.`
+              `Code  " ${response.mngNameKor} " saved.`
             );
             if (props.codeSeq != 0) {
-              emit("codeform-saved", response);
+              emit("cdcdform-saved", response);
               cdcdformData.value = new CdcdForm(response);
             } else {
-              emit("codeform-saved", response);
+              emit("cdcdform-saved", response);
               closeDrawer();
             }
           })
@@ -186,10 +186,10 @@ export default defineComponent({
         .then((response) => {
           notificationHelper.createSuccessNotification(
             `Code ${
-              cdcdformData.value ? cdcdformData.value.codeKr : ""
+              cdcdformData.value ? cdcdformData.value.mngNameKor : ""
             } deleted`
           );
-          emit("codeform-deleted", response);
+          emit("cdcdform-deleted", response);
           closeDrawer();
         })
         .catch((error) => {
@@ -206,7 +206,7 @@ export default defineComponent({
     function closeDrawer() {
       openDrawer.value = false;
       resetDrawer();
-      emit("codeform-drawer-closed");
+      emit("cdcdform-drawer-closed");
     }
     return {
       title,
@@ -231,7 +231,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-#codeform-drawer {
+#cdcdform-drawer {
   .q-page {
     display: flex;
     flex-direction: column;

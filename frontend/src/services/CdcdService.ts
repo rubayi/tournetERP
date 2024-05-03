@@ -21,6 +21,7 @@ export class CdcdService {
     const searchReq = {
       searchCdCdUuid: cdcdUuid,
       searchMngNameKor: "",
+      searchMngNameEng: "",
       searchCardNumber: 0,
     }
     return api

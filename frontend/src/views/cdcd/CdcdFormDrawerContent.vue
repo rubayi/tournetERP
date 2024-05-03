@@ -4,17 +4,16 @@
       <q-card-section>
         <div class="row q-col-gutter-md">
           <div class="col-4">
-            <select-comp
-              v-model="editcodeformData.uprCodeUuid"
+            <input-comp
+              v-model="editcodeformData.cardNumber"
               class="full-width"
-              label="Code Group"
-              :options="uprCodeUuidgroup"
+              label="Card Number"
               outlined
             />
           </div>
           <div class="col-4">
             <input-comp
-              v-model="editcodeformData.codeKr"
+              v-model="editcodeformData.mngNameKor"
               class="full-width"
               clearable
               label="Code Name"
@@ -24,7 +23,7 @@
           </div>
           <div class="col-4">
             <input-comp
-              v-model="editcodeformData.codeEn"
+              v-model="editcodeformData.mngNameEng"
               class="full-width"
               clearable
               label="Code Name(En)"
@@ -34,33 +33,33 @@
           </div>
           <div class="col-4">
             <input-comp
-              v-model="editcodeformData.codeLvl"
+              v-model="editcodeformData.nameOnCard"
               class="full-width"
               clearable
-              label="Code Level"
+              label="Name on Card"
+              outlined
+              required
+            />
+          </div>
+          <div class="col-4">
+            <select-comp
+              v-model="editcodeformData.expMonth"
+              class="full-width"
+              label="Code Group"
+              :options="monNumbers"
               outlined
             />
           </div>
           <div class="col-4">
-            <input-comp
-              v-model="editcodeformData.useYn"
+            <select-comp
+              v-model="editcodeformData.expYear"
               class="full-width"
-              clearable
-              label="Desciption"
+              label="Code Group"
+              :options="yearNumbers"
               outlined
             />
           </div>
-          <div class="col-4">
-            <number-comp
-              v-model="editcodeformData.codeOrd"
-              class="full-width"
-              label="Sort Order"
-              :max-number="100"
-              :min-number="0"
-              outlined
-              validation-message="Number must be [0-100]"
-            />
-          </div>
+
         </div>
       </q-card-section>
     </template>
@@ -80,27 +79,26 @@ import NumberComp from "src/components/common/NumberComp.vue";
 import { CodeService } from "src/services/CodeService";
 
 // Type
-import { CodeForm } from "src/types/CodeForm";
+import { CdcdForm } from "src/types/CdcdForm";
 import { SelectOption } from "src/types/SelectOption";
 // Helper
 import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
 
 export default defineComponent({
-  name: "CodeFormDrawerContent",
+  name: "CdcdFormDrawerContent",
   components: {
     InputComp,
     SelectComp,
-    NumberComp,
     CardCompDesign,
   },
   props: {
     modelValue: {
-      type: Object as () => CodeForm,
-      default: () => new CodeForm(),
+      type: Object as () => CdcdForm,
+      default: () => new CdcdForm(),
     },
   },
   setup(props, { emit }) {
-    const editcodeformData = ref<CodeForm>();
+    const editcodeformData = ref<CdcdForm>();
     useSyncModelValue(
       props,
       "modelValue",
@@ -111,20 +109,33 @@ export default defineComponent({
 
     // Loading Group Code Options
 
-    const uprCodeUuidgroup = ref<SelectOption[]>([]);
-    loaduprCodeUuidgroupOptions();
-    function loaduprCodeUuidgroupOptions() {
+    const yearNumbers = ref<SelectOption[]>([]);
+    const monNumbers = ref<SelectOption[]>([]);
 
-      CodeService.getGroupCodeForm(0).then((response) => {
-        uprCodeUuidgroup.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeUuid)
-        );
-      });
+    loadcdMonthOptions();
+
+    function loadcdMonthOptions() {
+
+      for (let i = 0
+        ; i <= 20; i++) {
+        let tnum = i.toString().padStart(2, '0');
+        monNumbers.value.push(tnum, tnum);
+      }
+    }
+
+    loadcdYearOptions();
+    const currentYear = +new Date().getFullYear();
+    function loadcdYearOptions() {
+
+        for (let t = currentYear; t <= (currentYear + 20); t++) {
+          yearNumbers.value.push(t, t);
+        }
     }
 
     return {
       editcodeformData,
-      uprCodeUuidgroup,
+      monNumbers,
+      yearNumbers
     };
   },
 });
