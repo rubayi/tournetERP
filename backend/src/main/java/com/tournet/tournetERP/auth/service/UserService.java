@@ -45,8 +45,7 @@ public class UserService {
                 empStatus == 0 ? null : empStatus,
                 empKor.isEmpty() ? null : empKor,
                 empEng.isEmpty() ? null : empEng,
-                username.isEmpty() ? null : username
-        );
+                username.isEmpty() ? null : username);
 
         List<UserResponse> userResList = selectedUsers.stream()
                 .map(user -> {
@@ -56,7 +55,7 @@ public class UserService {
                     userResponse.setEmpKor(user.getEmpKor());
                     userResponse.setEmpEng(user.getEmpEng());
                     userResponse.setEmpImg(user.getEmpImg());
-                    
+
                     userResponse.setEmpWorkTypeName(fetchCodeKr(user.getEmpWorkType()));
                     userResponse.setEmpDivName(fetchCodeKr(user.getEmpDiv()));
                     userResponse.setEmpTitleName(fetchCodeKr(user.getEmpTitle()));
@@ -93,10 +92,31 @@ public class UserService {
                     return userResponse;
                 })
                 .collect(Collectors.toList());
-//        List<UserResponse> userResList = null;
+        //        List<UserResponse> userResList = null;
         return userResList;
     }
 
+    public List<UserResponse> findEmpsBySearch(UserRequest empSearchForm) {
+        Long empDiv = empSearchForm.getEmpDiv();
+        String empKor = empSearchForm.getEmpKor();
+        String empEng = empSearchForm.getEmpEng();
+        
+        List<User> selectedUsers = empRepository.findByEmpDivAndEmpKorAndEmpEng(
+            empDiv == 0 ? null : empDiv,
+            empKor.isEmpty() ? null : empKor,
+            empEng.isEmpty() ? null : empEng
+        );
+        
+        List<UserResponse> userResList = selectedUsers.stream()
+            .map(user -> {
+                UserResponse userResponse = new UserResponse();
+                // Set the properties of userResponse here
+                return userResponse;
+            })
+            .collect(Collectors.toList());
+    
+        return userResList;
+    }
 
     public UserResponse findByEmpUuid(long id) {
         ModelMapper modelMapper=new ModelMapper();

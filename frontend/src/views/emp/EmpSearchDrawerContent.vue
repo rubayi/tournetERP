@@ -5,7 +5,7 @@
         <div class="row q-col-gutter-md">
           <div class="col-4 col-xs-12">
             <select-comp
-              v-model="editempsearchData.searchEmpKor"
+              v-model="editempsearchData.searchEmpDiv"
               class="full-width"
               label="Employer Division"
               :options="code1group"
@@ -15,6 +15,16 @@
           <div class="col-5 col-xs-12">
             <input-comp
               v-model="editempsearchData.searchEmpKor"
+              class="full-width"
+              clearable
+              label="Employer Korean Name"
+              outlined
+              required
+            />
+          </div>
+          <div class="col-5 col-xs-12">
+            <input-comp
+              v-model="editempsearchData.searchEmpEng"
               class="full-width"
               clearable
               label="Employer Name"
@@ -36,7 +46,8 @@ import InputComp from 'src/components/common/InputComp.vue';
 import SelectComp from 'src/components/common/SelectComp.vue';
 
 //Service
-import { EmpService } from 'src/services/EmpService';
+// import { EmpService } from 'src/services/EmpService';
+import { CodeService } from 'src/services/CodeService';
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
 //Type
@@ -68,12 +79,20 @@ export default defineComponent({
 
     // Loading Group Code Options
     const code1group = ref<SelectOption[]>([]);
-    loadcode1groupOptions();
-    function loadcode1groupOptions() {
-      let empSearchForm = new EmpSearchForm();
-      EmpService.getEmpBySearch(empSearchForm).then((response) => {
+    // loadcode1groupOptions();
+    // function loadcode1groupOptions() {
+    //   let empSearchForm = new EmpSearchForm();
+    //   EmpService.getEmpBySearch(empSearchForm).then((response) => {
+    //     code1group.value = response.map(
+    //       (x) => new SelectOption(x.empKor, x.empEng)
+    //     );
+    //   });
+    // }
+    loadDivision();
+    function loadDivision() {
+      CodeService.getGroupCodeForm(19).then((response) => {
         code1group.value = response.map(
-          (x) => new SelectOption(x.empKor, x.empEng)
+          (x) => new SelectOption(x.codeKr, x.codeLvl)
         );
       });
     }

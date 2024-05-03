@@ -22,6 +22,7 @@ public interface EmpRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByOrderByEmpBeginDtDesc();
 
+    List<User> findByEmpDivAndEmpKorAndEmpEng(Long empDiv, String empKor, String empEng);
 
     @Query("SELECT u FROM User u " +
             "WHERE (:empStatus IS NULL OR u.empStatus = :empStatus) " +

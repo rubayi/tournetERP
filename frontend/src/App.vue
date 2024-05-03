@@ -2,8 +2,9 @@
   <q-layout view="hHh lpR fFf">
     <q-header v-if="currentUserIsLoggedIn" class="topNav" elevated>
       <q-toolbar>
-        <router-link to="/"
-        > <img src="img/mainlogorev.png" class="toplogo" /></router-link>
+        <router-link to="/">
+          <img src="img/mainlogorev.png" class="toplogo"
+        /></router-link>
         <q-toolbar-title> TOURNET ERP </q-toolbar-title>
         <q-btn
           aria-label="Home"
@@ -28,6 +29,14 @@
       v-if="currentUserIsLoggedIn"
       v-model="openNavigationDrawer"
     />
+    <q-btn
+      v-if="currentUserIsLoggedIn"
+      class="drawer-toggle-button"
+      :style="{ left: drawerButtonPosition, transition: 'left 0.1s' }"
+      icon="menu"
+      dense
+      @click="openNavigationDrawer = !openNavigationDrawer"
+    />
     <q-page-container style="background-color: #f0eeee">
       <router-view />
     </q-page-container>
@@ -35,16 +44,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref} from "vue";
-import store from "src/store";
-import NavigationDrawer from "src/components/navigation/NavigationDrawer.vue";
+import { defineComponent, computed, ref } from 'vue';
+import store from 'src/store';
+import NavigationDrawer from 'src/components/navigation/NavigationDrawer.vue';
 
 export default defineComponent({
-  name: "App",
+  name: 'App',
   components: { NavigationDrawer },
   setup() {
     let openNavigationDrawer = ref(false);
-    const version = ref<string>("");
+    const version = ref<string>('');
 
     const currentUserIsLoggedIn = computed(() => {
       return store.getters.currentUserIsLoggedIn;
@@ -56,11 +65,16 @@ export default defineComponent({
       version,
     };
   },
+  computed: {
+    drawerButtonPosition() {
+      return this.openNavigationDrawer ? '240px' : '0px';
+    },
+  },
 });
 </script>
 <style lang="scss">
 .topNav {
-  background-image: url("src/assets/top_main.png");
+  background-image: url('src/assets/top_main.png');
   font-family: Raleway;
   font-weight: 500;
   color: #f0eeee;
@@ -99,7 +113,7 @@ export default defineComponent({
 
 .fieldset > h1:before {
   border-top: 1px solid #ddd;
-  content: " ";
+  content: ' ';
   float: left;
   margin: 0.5em 2px 0 -1px;
   width: 0.75em;
@@ -107,7 +121,7 @@ export default defineComponent({
 
 .fieldset > h1:after {
   border-top: 1px solid #ddd;
-  content: " ";
+  content: ' ';
   display: block;
   height: 1.5em;
   left: 2px;
@@ -137,7 +151,7 @@ export default defineComponent({
 
 .fieldset02 > h1:before {
   border-top: 1px solid #ddd;
-  content: " ";
+  content: ' ';
   float: left;
   margin: 0.5em 2px 0 -1px;
   width: 0.9em;
@@ -145,7 +159,7 @@ export default defineComponent({
 
 .fieldset02 > h1:after {
   border-top: 1px solid #ddd;
-  content: "";
+  content: '';
   display: block;
   height: 1.2em;
   left: 2px;
@@ -175,7 +189,7 @@ export default defineComponent({
 
 .fieldset03 > h1:before {
   border-top: 1px solid #ddd;
-  content: " ";
+  content: ' ';
   float: left;
   margin: 0.5em 2px 0 -1px;
   width: 0.9em;
@@ -183,7 +197,7 @@ export default defineComponent({
 
 .fieldset03 > h1:after {
   border-top: 1px solid #ddd;
-  content: "";
+  content: '';
   display: block;
   height: 1.2em;
   left: 2px;
@@ -191,5 +205,22 @@ export default defineComponent({
   overflow: hidden;
   position: relative;
   top: 0.5em;
+}
+
+.drawer-toggle-button {
+  position: fixed;
+  left: 0px;
+  top: 50%;
+  font-size: 10px;
+  transform: translateY(-50%);
+  background-color: rgb(255, 255, 255);
+  border-top: 1px solid #3f3f3f;
+  border-right: 1px solid #3f3f3f;
+  border-bottom: 1px solid #3f3f3f;
+  z-index: 2;
+  width: 25px;
+  height: 30px;
+  border-radius: 0 50% 50% 0; /* Make the right of the button circular */
+  overflow: hidden; /* Hide the bottom half of the button */
 }
 </style>

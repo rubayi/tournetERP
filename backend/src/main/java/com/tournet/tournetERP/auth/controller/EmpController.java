@@ -49,7 +49,7 @@ public class EmpController {
     public ResponseEntity<List<User>> getEmps() {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
-        if(storUser.isAuthenticated()) {
+        if (storUser.isAuthenticated()) {
             List<User> emps = new ArrayList<User>();
             emps.addAll(empRepository.findAllByOrderByEmpBeginDtDesc());
 
@@ -57,7 +57,7 @@ public class EmpController {
         }
         return null;
     }
-
+    
     /**
      *  직원 조회
      *
@@ -71,9 +71,28 @@ public class EmpController {
 
         List<UserResponse> selectedUsers = new ArrayList<UserResponse>();
 
-        if(storUser.isAuthenticated()) {
+        if (storUser.isAuthenticated()) {
             UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
             selectedUsers = userService.findEmpsList(empReq);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("selectedUsers", selectedUsers);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        }
+        return null;
+    }
+
+    @PostMapping("/searchEmpBySelected")
+    public ResponseEntity<Map<String, Object>> searchEmpBySelected(@RequestBody UserRequest empSearchForm) {
+        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+
+        List<UserResponse> selectedUsers = new ArrayList<UserResponse>();
+
+        if (storUser.isAuthenticated()) {
+            UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
+            selectedUsers = userService.findEmpsBySearch(empSearchForm);
 
             Map<String, Object> response = new HashMap<>();
             response.put("selectedUsers", selectedUsers);

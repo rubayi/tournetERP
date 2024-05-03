@@ -1,4 +1,4 @@
-// empEmergencyData.js
+// empEmergencyData.ts
 
 export const initialData = {
   emergencyUuid: 0,

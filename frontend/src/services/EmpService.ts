@@ -23,6 +23,34 @@ export class EmpService {
       .then((response) => response.data);
   }
 
+  static searchEmpByCondition(
+    empSearchForm: EmpSearchForm
+  ): Promise<Map<string, unknown>> {
+    return api
+      .post<Map<string, unknown>>(
+        API_URL + 'searchEmpByCondition',
+        empSearchForm,
+        {
+          headers: authHeader(),
+        }
+      )
+      .then((response) => response.data);
+  }
+
+  static searchEmpBySelected(
+    empSearchForm: EmpSearchForm
+  ): Promise<Map<string, unknown>> {
+    return api
+      .post<Map<string, unknown>>(
+        API_URL + 'searchEmpBySelected',
+        empSearchForm,
+        {
+          headers: authHeader(),
+        }
+      )
+      .then((response) => response.data);
+  }
+
   static getEmpForm(empUuid: number): Promise<EmpForm> {
     return api
       .get<EmpForm>(API_URL + `searchEmpBy/${empUuid}`, {
