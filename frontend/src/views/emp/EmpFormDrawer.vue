@@ -1,284 +1,242 @@
 <template>
   <div id="emp-form-drawer">
     <drawer-comp
-      :open-drawer="openDrawer"
-      :drawerWidth="drawerWidth"
-      :on-close-click="onCloseClick"
-      @save="handleSaveData"
-      @delete="handleDeleteData"
-      :iconTitle="'person'"
-      :title="edited.empUuid ? '직원 수정' : '직원 등록'"
+      v-model="openDrawer"
+      v-model:loading="loading"
+      cancel-buttonicon="fa fa-chevron-right"
+      center-title
+      :confirm-button-color="confirmbuttoncolor"
+      :confirm-button-label="confirmbuttonlabel"
+      :confirm-icon="confirmicon"
+      icon-title="fas fa-cogs"
+      :show-confirm-button="showconfirmbutton"
+      :show-delete-button="showdeletebutton"
+      :show-print-button="false"
+      side="right"
+      :title="title"
+      :width="60"
+      @cancel-clicked="closeDrawer"
+      @confirm-clicked="saveUpdatedEmpData"
+      @delete-clicked="openDeleteConfirm = true"
+      ref="drawerComp"
     >
       <div class="flex flex-grow-1 q-pa-md">
-        <emp-form-drawer-content :data-val="edited" />
-
-        <emp-form-drawer-menu-auth
+        <emp-form-drawer-content
+          v-model="empformData"
+          ref="empFormDrawerContent"
+        />
+        <!-- <emp-form-drawer-menu-auth
           v-if="edited.empUuid"
           :data-val="empMunuAuthList"
           :option-list="munuAuthList"
           :req-list="checkedAuthUuids"
           :menu-max="munuMax"
           @update:checkedAuthUuids="munuAuthList = $event"
-        />
+        /> -->
       </div>
     </drawer-comp>
   </div>
+  <dialog-comp
+    v-model="openDeleteConfirm"
+    action-button-label="Delete"
+    max-width="500px"
+    modal-title="Delete Employee"
+    @confirm-clicked="deleteEmpForm"
+  >
+    <template #htmlContent>
+      <div>Are you sure you want to <b>PERMANENTLY DELETE</b> this Data?</div>
+    </template>
+  </dialog-comp>
 </template>
 
-<script>
-// import { defineComponent, ref, watch, onMounted } from 'vue';
-// import DrawerComp from 'src/components/drawers/DrawerComp.vue';
-// import { empTn } from 'src/store/emp.module';
-// import { auth } from 'src/store/auth.module';
-// import { empMenuAuth } from 'src/store/empmenuauth.module';
-// // Layout
-// import EmpFormDrawerContent from 'src/components/emp/EmpFormDrawerContent.vue';
-// import EmpFormDrawerMenuAuth from 'src/components/emp/EmpFormDrawerMenuAuth.vue';
+<script lang="ts">
+import { defineComponent, ref, watch } from 'vue';
+// Components
+import DrawerComp from 'src/components/drawers/DrawerComp.vue';
+import DialogComp from 'src/components/common/DialogComp.vue';
+// View Layout
+import EmpFormDrawerContent from 'src/views/emp/EmpFormDrawerContent.vue';
+// Services
+import { EmpService } from 'src/services/EmpService';
+// Types
+import { EmpForm } from 'src/types/EmpForm';
+// Store
+import store from 'src/store';
+//helper
+import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
+export default defineComponent({
+  name: 'EmpFormDrawer',
+  components: {
+    DrawerComp,
+    DialogComp,
+    EmpFormDrawerContent,
+  },
+  props: {
+    empSeq: {
+      type: Number,
+      default: 0,
+    },
+    modelValue: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: [
+    'update:modelValue',
+    'update:drawerData',
+    'empform-saved',
+    'empform-deleted',
+    'empform-drawer-closed',
+  ],
+  setup(props, { emit }) {
+    const title = 'Manage Employees';
+    const empformData = ref<EmpForm | null>(new EmpForm());
+    const loading = ref<boolean>(false);
+    const openDrawer = ref<boolean>(false);
+    const confirmbuttoncolor = ref<string>('primary');
+    const confirmbuttonlabel = ref<string>('ADD');
+    const confirmicon = ref<string>('fas fa-plus');
+    const showconfirmbutton = ref<boolean>(false);
+    const showdeletebutton = ref<boolean>(false);
+    const empformDrawerContent = ref();
+    const drawerComp = ref();
+    const openDeleteConfirm = ref<boolean>(false);
 
-// export default defineComponent({
-//   name: 'EmpFormDrawer',
-//   components: {
-//     DrawerComp,
-//     EmpFormDrawerContent,
-//     EmpFormDrawerMenuAuth,
-//   },
-//   props: {
-//     openDrawer: Boolean,
-//     drawerWidth: Number,
-//     dataVal: Object,
-//     onCloseClick: Function,
-//   },
-//   emits: ['update:dataVal', 'update:openDrawer', 'update:changeFlag'],
-//   setup(props, { emit }) {
-//     const edited = ref(props.dataVal);
-//     const eOpenDrawer = ref(props.openDrawer);
+    watch(
+      () => props.modelValue,
+      (newValue) => {
+        openDrawer.value = newValue;
+      }
+    );
+    watch(
+      () => openDrawer.value,
+      (newValue) => {
+        emit('update:modelValue', newValue);
+        getEmpformData();
+      }
+    );
 
-//     // const updateEdited = {};
-//     // const initEdited = {};
+    // Reset Drawer
+    function resetDrawer() {
+      empformData.value = new EmpForm();
+      if (props.empSeq != 0) {
+        confirmbuttoncolor.value = 'warning';
+        confirmbuttonlabel.value = 'CHANGE';
+        confirmicon.value = 'fas fa-edit';
+        showconfirmbutton.value =
+          store.getters.currentUserHasApplicationPermission('CODE_W');
+        showdeletebutton.value =
+          store.getters.currentUserHasApplicationPermission('CODE_D');
+      } else {
+        confirmbuttoncolor.value = 'primary';
+        confirmbuttonlabel.value = 'ADD';
+        confirmicon.value = 'fas fa-plus';
+        showconfirmbutton.value =
+          store.getters.currentUserHasApplicationPermission('CODE_W');
+        showdeletebutton.value = false;
+      }
+    }
 
-//     const munuAuthList = ref([]);
-//     const munuMax = ref([]);
-//     const empMunuAuthList = ref([]);
+    // Loading One Data
+    function getEmpformData() {
+      resetDrawer();
+      if (props.empSeq != 0) {
+        loading.value = true;
+        EmpService.getEmpForm(props.empSeq)
+          .then((response) => {
+            empformData.value = response;
+          })
+          .finally(() => {
+            loading.value = false;
+          });
+      }
+    }
 
-//     const checkedAuthUuids = ref([]);
+    function saveUpdatedEmpData() {
+      notificationHelper.dismiss();
+      notificationHelper.createOngoingNotification('Saving...');
+      loading.value = true;
+      if (empformData.value) {
+        EmpService.saveEmpForm(empformData.value)
+          .then((response) => {
+            notificationHelper.createSuccessNotification(
+              `Employer  " ${response.empKor} " saved.`
+            );
+            if (props.empSeq != 0) {
+              emit('empform-saved', response);
+              empformData.value = new EmpForm(response);
+            } else {
+              emit('empform-saved', response);
+              resetDrawer();
+            }
+          })
+          .catch((error) => {
+            notificationHelper.createErrorNotification(
+              notificationHelper.formatResponseToErrorMessage(error.response)
+            );
+          })
+          .finally(() => {
+            notificationHelper.dismissOngoingNotification();
+            loading.value = false;
+          });
+      }
+    }
 
-//     const initialData = ref(null);
+    //Delete Data
+    function deleteAction() {
+      openDeleteConfirm.value = true;
+    }
+    function deleteEmpForm() {
+      loading.value = true;
+      EmpService.deleteEmpForm(props.empSeq)
+        .then((response) => {
+          notificationHelper.createSuccessNotification(
+            `Employer  ${
+              empformData.value ? empformData.value.empKor : ''
+            } deleted`
+          );
+          emit('empform-deleted', response);
+          closeDrawer();
+        })
+        .catch((error) => {
+          notificationHelper.createErrorNotification(
+            notificationHelper.formatResponseToErrorMessage(error.response)
+          );
+        })
+        .finally(() => {
+          notificationHelper.dismissOngoingNotification();
+          loading.value = false;
+        });
+    }
 
-//     watch(
-//       () => props.dataVal,
-//       (newVal) => {
-//         edited.value = { ...newVal };
-//         initialData.value = { ...newVal };
-//         getAuthListByEmp();
-//       },
-//       { deep: true }
-//     );
+    function closeDrawer() {
+      openDrawer.value = false;
+      resetDrawer();
+      emit('empform-drawer-closed');
+    }
 
-//     watch(
-//       () => props.checkedAuthUuids,
-//       (newVal) => {
-//         checkedAuthUuids.value = newVal;
-//       },
-//       { deep: true }
-//     );
-
-//     async function handleSaveData() {
-//       //사용자 정보 관련 req 데이터
-//       const dataChanged =
-//         JSON.stringify(initialData.value) !== JSON.stringify(edited.value);
-
-//       //메뉴 권한 관련 req 데이터
-//       const menuAuthUuids = new Set();
-//       const deleteMenuAuthUuids = new Set();
-
-//       // Iterate through checkedAuthUuids.value and add unique menuAuthUuids to menuAuthUuids Set
-//       for (let makeReq of checkedAuthUuids.value) {
-//         if (makeReq.deleteFlag && makeReq.deleteFlag === 'Y') {
-//           deleteMenuAuthUuids.add(makeReq.menuAuthUuid);
-//         } else {
-//           menuAuthUuids.add(makeReq.menuAuthUuid);
-//         }
-//       }
-
-//       // Create menuAuthReq object with menuAuthUuids Set and empUuid
-//       const menuAuthReq = {
-//         menuAuthUuids: Array.from(menuAuthUuids),
-//         empUuid: edited.value.empUuid,
-//       };
-//       const deleteMenuAuthReq = {
-//         menuAuthUuids: Array.from(deleteMenuAuthUuids),
-//         empUuid: edited.value.empUuid,
-//       };
-
-//       const promises = [];
-//       if (
-//         dataChanged ||
-//         menuAuthReq.menuAuthUuids.length > 0 ||
-//         deleteMenuAuthReq.menuAuthUuids.length > 0
-//       ) {
-//         if (edited.value.empUuid != 0) {
-//           //사용자 수정
-//           if (dataChanged) {
-//             promises.push(
-//               empTn.actions
-//                 .updateEmp(
-//                   {
-//                     state: {},
-//                   },
-//                   edited.value
-//                 )
-//                 .then(
-//                   (response) => {
-//                     alert(response.data.message);
-//                   },
-//                   (error) => {
-//                     console.log('saveEmp failed', error);
-//                   }
-//                 )
-//             );
-//           }
-//         } else {
-//           //사용자 등록
-//           promises.push(
-//             auth.actions
-//               .register(
-//                 {
-//                   state: {},
-//                 },
-//                 edited.value
-//               )
-//               .then(
-//                 (response) => {
-//                   alert(response.message);
-//                 },
-//                 (error) => {
-//                   console.log('saveEmp failed', error);
-//                 }
-//               )
-//           );
-//         }
-
-//         if (menuAuthReq.menuAuthUuids.length > 0) {
-//           // Call updateEmpAuth method
-//           promises.push(
-//             empMenuAuth.actions
-//               .updateEmpAuth(
-//                 {
-//                   state: {},
-//                 },
-//                 menuAuthReq
-//               )
-//               .then(
-//                 (response) => {
-//                   alert(response.data.message);
-//                 },
-//                 (error) => {
-//                   console.log('saveEmp failed', error);
-//                 }
-//               )
-//           );
-//         }
-
-//         if (deleteMenuAuthReq.menuAuthUuids.length > 0) {
-//           promises.push(
-//             empMenuAuth.actions
-//               .deleteEmpAuth(
-//                 {
-//                   state: {},
-//                 },
-//                 deleteMenuAuthReq
-//               )
-//               .then(
-//                 (response) => {
-//                   alert(response.data.message);
-//                 },
-//                 (error) => {
-//                   console.log('saveEmp failed', error);
-//                 }
-//               )
-//           );
-//         }
-//         //Action after update,delete
-//         try {
-//           await Promise.all(promises);
-//           // Emit the event after all promises have resolved
-//           emitCloseDrawer();
-//         } catch (error) {
-//           console.error('One or more promises failed:', error);
-//           // Handle error if necessary
-//         }
-//       } else {
-//         alert('변경할 데이터가 없습니다.');
-//       }
-//     }
-//     function getAuthList() {
-//       empMenuAuth.actions.searchAuthList({ state: {} }).then(
-//         (response) => {
-//           munuAuthList.value = response.menuAuths;
-//           munuMax.value = response.maxNumber;
-//         },
-//         (error) => {
-//           console.log('saveEmp failed', error);
-//         }
-//       );
-//     }
-
-//     function getAuthListByEmp() {
-//       empMenuAuth.actions
-//         .searchAuthListByEmpId({ state: {} }, edited.value)
-//         .then(
-//           (response) => {
-//             empMunuAuthList.value = response.menuAuths;
-
-//             for (let menuAuth of munuAuthList.value) {
-//               // Check if the menuAuth's menuAuthUuid exists in empMunuAuthList
-//               const found = empMunuAuthList.value.some(
-//                 (empMenuAuth) =>
-//                   empMenuAuth.menuAuthUuid === menuAuth.menuAuthUuid
-//               );
-
-//               // If found, set authYn to true, otherwise set it to false
-//               menuAuth.authYn = found;
-//             }
-//           },
-//           (error) => {
-//             console.log('saveEmp failed', error);
-//           }
-//         );
-//     }
-
-//     function emitCloseDrawer() {
-//       emit('update:openDrawer', false);
-//       emit('dataSaved');
-//     }
-
-//     //   function resetForm() {
-//     //     if (edited.value && edited.value.empUuid != 0) {
-//     //       edited.value = updateEdited;
-//     //     } else {
-//     //       edited.value = { ...initEdited };
-//     //     }
-//     //   }
-//     //   function handleDeleteData(data) {
-//     //     emit("delete", edited.value.empUuid);
-//     //   }
-
-//     onMounted(() => {
-//       getAuthList();
-//     });
-
-//     return {
-//       edited,
-//       eOpenDrawer,
-//       handleSaveData,
-//       // handleDeleteData,
-//       empMunuAuthList,
-//       munuAuthList,
-//       munuMax,
-//       checkedAuthUuids,
-//     };
-//   },
-// });
+    return {
+      title,
+      empformData,
+      loading,
+      openDrawer,
+      confirmbuttoncolor,
+      confirmbuttonlabel,
+      confirmicon,
+      showconfirmbutton,
+      showdeletebutton,
+      empformDrawerContent,
+      drawerComp,
+      openDeleteConfirm,
+      resetDrawer,
+      getEmpformData,
+      saveUpdatedEmpData,
+      deleteAction,
+      deleteEmpForm,
+      closeDrawer,
+    };
+  },
+});
 </script>
 
 <style lang="scss">

@@ -45,7 +45,7 @@ public class EmpController {
      *
      * @return
      */
-    @GetMapping("/selectEmps")
+    @PostMapping("/selectEmps")
     public ResponseEntity<List<User>> getEmps() {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();

@@ -42,11 +42,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'comcode',
     children: [{ path: '', component: () => Code }],
   },
-  // {
-  //   path: '/emp',
-  //   name: 'emp',
-  //   children: [{ path: '', component: () => Emp }],
-  // },
+  {
+    path: '/emp',
+    name: 'emp',
+    children: [{ path: '', component: () => Emp }],
+  },
   // Always leave this as last one,
   // but you can also remove it
   {

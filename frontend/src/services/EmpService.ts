@@ -1,14 +1,23 @@
 import api from './api';
 import { EmpForm } from 'src/types/EmpForm';
+import { EmpSearchForm } from 'src/types/EmpSearchForm';
 
 import authHeader from 'src/services/auth-header';
 
 const API_URL = '/empTn/';
 
 export class EmpService {
-  static getAll(): Promise<EmpForm[]> {
+  static getAll(codesearchform: EmpSearchForm): Promise<EmpForm[]> {
     return api
-      .get<EmpForm[]>(API_URL + 'selectEmps', {
+      .post<EmpForm[]>(API_URL + 'selectEmps', codesearchform, {
+        headers: authHeader(),
+      })
+      .then((response) => response.data);
+  }
+
+  static getEmpBySearch(codeSearchForm: EmpSearchForm): Promise<EmpForm[]> {
+    return api
+      .post<EmpForm[]>(API_URL + 'searchEmps', codeSearchForm, {
         headers: authHeader(),
       })
       .then((response) => response.data);

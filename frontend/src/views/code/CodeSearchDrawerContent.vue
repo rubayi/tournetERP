@@ -29,22 +29,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref } from 'vue';
 //Component
-import CardCompDesign from "src/components/common/CardCompDesign.vue";
-import InputComp from "src/components/common/InputComp.vue";
-import SelectComp from "src/components/common/SelectComp.vue";
+import CardCompDesign from 'src/components/common/CardCompDesign.vue';
+import InputComp from 'src/components/common/InputComp.vue';
+import SelectComp from 'src/components/common/SelectComp.vue';
 
 //Service
-import { CodeService } from "src/services/CodeService";
-import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
+import { CodeService } from 'src/services/CodeService';
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
 //Type
-import { SelectOption } from "src/types/SelectOption";
-import { CodeSearchForm } from "src/types/CodeSearchForm";
+import { SelectOption } from 'src/types/SelectOption';
+import { CodeSearchForm } from 'src/types/CodeSearchForm';
 
 export default defineComponent({
-  name: "CodeSearchFormDrawerContent",
+  name: 'CodeSearchFormDrawerContent',
   components: {
     InputComp,
     SelectComp,
@@ -60,9 +60,9 @@ export default defineComponent({
     const editcodesearchData = ref<CodeSearchForm>();
     useSyncModelValue(
       props,
-      "modelValue",
+      'modelValue',
       emit,
-      "update:modelValue",
+      'update:modelValue',
       editcodesearchData
     );
 
