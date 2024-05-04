@@ -28,6 +28,16 @@
               :primary-data="compFormData"
               :comp-sector-list = "compSectorList"
               :comp-rate-list = "compRateList"
+              :comp-optionRate-List="compOptionRateList"
+              :coupon-yn-list="couponYnList"
+              :comp-group-list="compGroupList"
+              :pkg-rate-list="pkgRateList"
+              :pkg-only-rate-list="pkgOnlyRateList"
+              :rentcar-rate-list="rentcarRateList"
+              :restaurant-rate-list="restaurantRateList"
+              :honeymoon-only-rate-list="honeymoonOnlyRateList"
+              :honeymoon-rate-list="honeymoonRateList"
+              :prepaid-how-list="prepaidHowList"
               ref="compFormDrawerPrimary"
             />
           </div>
@@ -96,6 +106,46 @@ export default defineComponent({
       default: () => [],
     },
     compRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    compOptionRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    couponYnList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    compGroupList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    pkgRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    pkgOnlyRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    rentcarRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    restaurantRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    honeymoonOnlyRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    honeymoonRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    prepaidHowList: {
       type: Array as () => SelectOption[],
       default: () => [],
     },
@@ -179,7 +229,6 @@ export default defineComponent({
         loading.value = true;
         CompService.getOneCompForm(props.compSeq)
           .then((response) => {
-
             compFormData.value = response;
 
             printdata.value = [];

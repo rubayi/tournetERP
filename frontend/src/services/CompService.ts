@@ -2,6 +2,7 @@ import api from "./api";
 import { CompForm } from "src/types/CompForm";
 import { CompSearchForm } from "src/types/CompSearchForm";
 import authHeader from "src/services/auth-header";
+import {CodeForm} from "src/types/CodeForm";
 
 const API_URL = "/comp/";
 export class CompService {
@@ -16,7 +17,9 @@ export class CompService {
     return api.get<CompForm>(API_URL + `getComp/${compUuid}`, {
       headers: authHeader(),
     })
-      .then((response) => response.data);
+      .then((response) => {
+        return response.data;
+      });
   }
 
   static saveCompForm(h3caseform: CompForm): Promise<CompForm> {

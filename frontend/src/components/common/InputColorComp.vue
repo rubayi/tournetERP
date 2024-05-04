@@ -3,27 +3,18 @@
     clearable
     :disable="disable"
     :hint="hint"
-    lazy-rules="ondemand"
-    mask="####/##/##"
+    :rules="['anyColor']"
     :model-value="inputValue"
-    validation-message="Date is Invalid"
-    :validator="validator"
-    @blur="validate"
     @update:model-value="inputValueChange"
-    ref="dateInput"
+    ref="colorInput"
   >
     <template #append>
-      <q-icon class="cursor-pointer" name="event">
+      <q-icon class="cursor-pointer" name="colorize">
         <q-popup-proxy
           transition-hide="scale"
           transition-show="scale"
-          ref="qDateProxy"
         >
-          <q-date v-model="inputValue" mask="MM/DD/YYYY">
-            <div class="row items-center justify-end">
-              <q-btn v-close-popup color="primary" flat label="Close"></q-btn>
-            </div>
-          </q-date>
+          <q-color v-model="inputValue" />
         </q-popup-proxy>
       </q-icon>
     </template>
@@ -40,13 +31,13 @@
 import { requiredValidator } from "src/utils/helpers/InputValidatorHelper";
 import { defineComponent, ref, computed } from "vue";
 import DateHelper from "src/utils/helpers/DateHelper";
-import { useValidateInputs } from "src/utils/helpers/useValidateInputs";
 import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
 
 import InputComp from "src/components/common/InputComp.vue";
+import {useValidateInputs} from "src/utils/helpers/useValidateInputs";
 
 export default defineComponent({
-  name: "DatePickerComp",
+  name: "InputColorComp",
   components: { InputComp },
   props: {
     disable: {
@@ -116,16 +107,16 @@ export default defineComponent({
       inputValue
     );
 
-    const dateInput = ref();
+    const colorInput = ref();
     const { inputHasError, validate, hasError } = useValidateInputs([
-      dateInput,
+      colorInput,
     ]);
 
     function resetValidation() {
       if (props.modelValue !== inputValue.value) {
         inputValue.value = "";
       }
-      dateInput.value.resetValidation();
+      colorInput.value.resetValidation();
     }
 
     const validator = (dateString: string): boolean => {
@@ -142,7 +133,7 @@ export default defineComponent({
     return {
       inputValue,
       inputValueChange,
-      dateInput,
+      colorInput,
       validate,
       hasError,
       resetValidation,

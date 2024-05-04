@@ -69,6 +69,17 @@
       <comp-form-drawer
         v-model="openDrawer"
         :comp-sector-list="compSectorList"
+        :comp-rate-list="compRateList"
+        :comp-optionRate-List="compOptionRateList"
+        :coupon-yn-list="couponYnList"
+        :comp-group-list="compGroupList"
+        :pkg-rate-list="pkgRateList"
+        :pkg-only-rate-list="pkgOnlyRateList"
+        :rentcar-rate-list="rentcarRateList"
+        :restaurant-rate-list="restaurantRateList"
+        :honeymoon-only-rate-list="honeymoonOnlyRateList"
+        :honeymoon-rate-list="honeymoonRateList"
+        :prepaid-how-list="prepaidHowList"
         :comp-seq="compUuid"
         />
 <!--      <comp-search-drawer-->
@@ -96,6 +107,7 @@ import { TableHelper } from "src/components/table/TableHelper";
 // Service
 import { CompService } from "src/services/CompService";
 import { CodeService } from "src/services/CodeService";
+import { CdcdService } from "src/services/CdcdService";
 import { ReportService } from "src/services/ReportService";
 //Type
 import { CompForm } from "src/types/CompForm";
@@ -108,6 +120,8 @@ import store from "src/store";
 import ReportHelper from "src/utils/helpers/ReportHelper";
 // Drawer
 import CompFormDrawer from "src/views/comp/CompFormDrawer.vue";
+import {CdcdForm} from "@/types/CdcdForm";
+import {CdcdSearchForm} from "@/types/CdcdSearchForm";
 // import CompSearchDrawer from "src/views/comp/CompSearchDrawer.vue";
 
 export default defineComponent({
@@ -285,9 +299,17 @@ export default defineComponent({
 
     function printcodeValue() {
       loadCompRateListOptions();
-      // loadCouponYnListOptions();
-      // loadCompGroupListOptions();
+      loadCouponYnListOptions();
+      loadCompGroupListOptions();
       loadCompSectorOptions();
+      loadOptionRateListOptions();
+      loadRentcarRateListOptions();
+      loadRestaurantRateListOptions();
+      loadHoneymoonOnlyRateListOptions();
+      loadHoneymoonRateListOptions();
+      loadPkgOnlyListOptions();
+      loadPkgRateListOptions();
+      loadPrepaidHowListOptions();
     }
     /*Comp Sector List*/
     const compSectorList = ref<SelectOption[]>([]);
@@ -312,7 +334,7 @@ export default defineComponent({
     /* Coupon Yn List*/
     const couponYnList = ref<SelectOption[]>([]);
     function loadCouponYnListOptions() {
-      CodeService.getGroupCodeForm(343).then((response) => {
+      CodeService.getGroupCodeForm(515).then((response) => {
         couponYnList.value = response.map(
           (x) => new SelectOption(x.codeKr, x.codeUuid)
         );
@@ -329,6 +351,92 @@ export default defineComponent({
       });
     }
 
+    /*Option Tour Rate List*/
+    const compOptionRateList = ref<SelectOption[]>([]);
+    function loadOptionRateListOptions() {
+      CodeService.getGroupCodeForm(240).then((response) => {
+        compOptionRateList.value = response.map(
+          (x) => new SelectOption(x.codeKr, x.codeUuid)
+        );
+      });
+    }
+
+    /*Pacakage Rate List*/
+    const  pkgRateList = ref<SelectOption[]>([]);
+    function loadPkgRateListOptions() {
+      CodeService.getGroupCodeForm(353).then((response) => {
+        pkgRateList.value = response.map(
+          (x) => new SelectOption(x.codeKr, x.codeUuid)
+        );
+      });
+    }
+
+    /*Pacakage Only Rate List*/
+    const pkgOnlyRateList = ref<SelectOption[]>([]);
+    function loadPkgOnlyListOptions() {
+      CodeService.getGroupCodeForm(354).then((response) => {
+        pkgOnlyRateList.value = response.map(
+          (x) => new SelectOption(x.codeKr, x.codeUuid)
+        );
+      });
+    }
+
+    /*Honeymoon Rate List*/
+    const honeymoonRateList = ref<SelectOption[]>([]);
+    function loadHoneymoonRateListOptions() {
+      CodeService.getGroupCodeForm(355).then((response) => {
+        honeymoonRateList.value = response.map(
+          (x) => new SelectOption(x.codeKr, x.codeUuid)
+        );
+      });
+    }
+
+    /*Honeymoon Only Rate List*/
+    const honeymoonOnlyRateList = ref<SelectOption[]>([]);
+    function loadHoneymoonOnlyRateListOptions() {
+      CodeService.getGroupCodeForm(356).then((response) => {
+        honeymoonOnlyRateList.value = response.map(
+          (x) => new SelectOption(x.codeKr, x.codeUuid)
+        );
+      });
+    }
+
+    /*Restaurant Tour Rate List*/
+    const restaurantRateList = ref<SelectOption[]>([]);
+    function loadRestaurantRateListOptions() {
+      CodeService.getGroupCodeForm(240).then((response) => {
+        restaurantRateList.value = response.map(
+          (x) => new SelectOption(x.codeKr, x.codeUuid)
+        );
+      });
+    }
+
+    /*Rentcar Rate List*/
+    const rentcarRateList = ref<SelectOption[]>([]);
+    function loadRentcarRateListOptions() {
+      CodeService.getGroupCodeForm(240).then((response) => {
+        rentcarRateList.value = response.map(
+          (x) => new SelectOption(x.codeKr, x.codeUuid)
+        );
+      });
+    }
+
+
+    /*Prepaid How List*/
+    const prepaidHowList = ref<SelectOption[]>([]);
+    function loadPrepaidHowListOptions() {
+      let searchReq: CdcdSearchForm = {
+        searchCdCdUuid: 0,
+        searchMngNameKor: "",
+        searchMngNameEng: "",
+        searchCardNumber:  ""
+      }
+      CdcdService.getAll(searchReq).then((response) => {
+        prepaidHowList.value = response.map(
+          (x) => new SelectOption(x.mngNameKor, x.cdCdUuid)
+        );
+      });
+    }
 
     return {
       gridOptions,
@@ -355,6 +463,14 @@ export default defineComponent({
       couponYnList,
       compGroupList,
       compSectorList,
+      compOptionRateList,
+      pkgRateList,
+      pkgOnlyRateList,
+      rentcarRateList,
+      restaurantRateList,
+      honeymoonOnlyRateList,
+      honeymoonRateList,
+      prepaidHowList
     };
   },
   data() {

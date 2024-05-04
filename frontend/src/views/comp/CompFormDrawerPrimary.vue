@@ -4,9 +4,9 @@
       <div class="q-pt-md q-pb-xs q-pl-md q-pr-md">
         <div v-if="compFormData != null">
         <div class="row q-col-gutter-md">
-          <div class="col-6">
+          <div class="col-12">
             <div class="row q-col-gutter-md">
-              <div class="col-4">
+              <div class="col-3">
                 <select-comp
                   v-model="compFormData.compSector"
                   class="full-width"
@@ -15,61 +15,98 @@
                 />
               </div>
 
-              <div class="col-4">
+              <div class="col-3">
                 <input-comp
                   v-model="compFormData.compKor"
                   class="full-width"
                   clearable
                   label="Company Name"
-                  :readonly="readonlybtn"
                 />
 
               </div>
-              <div class="col-4">
+              <div class="col-3">
                 <input-comp
                   v-model="compFormData.compEng"
                   class="full-width"
                   clearable
                   label="Company Name(En)"
-                  :readonly="readonlybtn"
                 />
               </div>
-              <div class="col-4">
-                <input-label-template-content
+              <div class="col-3">
+                <input-color-comp
                   v-model="compFormData.compColor"
                   class="full-width"
                   clearable
                   label="Company Color"
-                  :readonly="readonlybtn"
                 />
               </div>
-              <div class="col-4">
+              <div class="col-3">
                 <input-comp
                   v-model="compFormData.compAbb"
                   class="full-width"
                   clearable
                   label="Abbreviation"
-                  :readonly="readonlybtn"
+                />
+              </div>
+
+              <div class="col-3">
+                <select-comp
+                  v-model="compFormData.compGroup"
+                  label="Group"
+                  class="full-width"
+                  :options="compGroupList"
+                />
+
+              </div>
+              <div class="col-3">
+                <select-comp
+                  v-model="compFormData.compRate"
+                  label="Company Rate"
+                  class="full-width"
+                  :options="compRateList"
                 />
               </div>
             </div>
 
             <div class="row q-col-gutter-md">
-              <div class="col-4">
+              <div class="col-3">
                 <select-comp
-                        v-model="compFormData.compRate"
-                        label="Company Rate"
-                        :options="compRateList"
+                  v-model="compFormData.couponYn"
+                  label="Coupon Can Use"
+                  class="full-width"
+                  :options="couponYnList"
                 />
               </div>
-              <div class="col-4">
+              <div class="col-3">
+                <select-comp
+                  v-model="compFormData.hotelRate"
+                  label="Hotel Rate"
+                  class="full-width"
+                  :options="couponYnList"
+                />
+              </div>
+              <div class="col-3">
+                <select-comp
+                  v-model="compFormData.optionRate"
+                  label="Option Rate"
+                  class="full-width"
+                  :options="compOptionRateList"
+                />
+              </div>
+              <div class="col-3">
+                <select-comp
+                  v-model="compFormData.packRegRate"
+                  label="Package Rate"
+                  class="full-width"
+                  :options="pkgRateList"
+                />
+              </div>
+              <div class="col-3">
                 <date-picker-comp
                   v-model="compFormData.estDate"
                   class="full-width"
                   clearable
-                  label="DATE"
-                  :readonly="readonlybtn"
-                  required="true"
+                  label="Establishment Date"
                 />
               </div>
             </div>
@@ -86,29 +123,27 @@ import { defineComponent, ref, watch } from "vue";
 // Component
 import CardCompDesign from "src/components/common/CardCompDesign.vue";
 import InputComp from "src/components/common/InputComp.vue";
+import InputColorComp from "src/components/common/InputColorComp.vue";
 import DatePickerComp from "src/components/common/DatePickerComp.vue";
 import SelectComp from "src/components/common/SelectComp.vue";
 // Type
 import { CompForm } from "src/types/CompForm";
 //import { CompDocumentsgForm } from "src/types/CompDocumentsgForm";
 import { SelectOption } from "src/types/SelectOption";
-import { CompMultiCheckbox } from "src/types/CompMultiCheckbox";
+//import { CompMultiCheckbox } from "src/types/CompMultiCheckbox";
 
-// Store
-import store from "src/store";
 // Helper
 import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
-import DateHelper from "src/utils/helpers/DateHelper";
 import InputLabelTemplateContent from "src/components/common/InputLabelTemplateContent.vue";
 
 export default defineComponent({
   name: "CompFormDrawerPrimary",
   components: {
-    InputLabelTemplateContent,
     CardCompDesign,
     SelectComp,
     InputComp,
     DatePickerComp,
+    InputColorComp
   },
   props: {
     primaryData: {
@@ -120,6 +155,46 @@ export default defineComponent({
       default: () => [],
     },
     compRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    compOptionRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    couponYnList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    compGroupList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    pkgRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    pkgOnlyRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    rentcarRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    restaurantRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    honeymoonOnlyRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    honeymoonRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    prepaidHowList: {
       type: Array as () => SelectOption[],
       default: () => [],
     },

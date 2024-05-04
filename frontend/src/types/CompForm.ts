@@ -10,7 +10,6 @@ export interface ICompForm {
   compAbb: string | null;
   compColor: string | null;
   logoFile: string | null;
-  estDate: string | null;
   compRate: number | 0;
   hotelRate: number | 0;
   optionRate: number | 0;
@@ -20,6 +19,7 @@ export interface ICompForm {
   packRate: number | 0;
   honeymoonRegRate: number | 0;
   honeymoonRate: number | 0;
+  estDate: string | null;
   beginDt: string | null;
   endDt: string | null;
   minAge: string | null;
@@ -42,7 +42,6 @@ export class CompForm implements ICompForm {
   public compAbb: string | null;
   public compColor: string | null;
   public logoFile: string | null;
-  public estDate: string | null;
   public compRate: number | 0;
   public hotelRate: number | 0;
   public optionRate: number | 0;
@@ -52,6 +51,7 @@ export class CompForm implements ICompForm {
   public packRate: number | 0;
   public honeymoonRegRate: number | 0;
   public honeymoonRate: number | 0;
+  public estDate: string | null;
   public beginDt: string | null;
   public endDt: string | null;
   public minAge: string | null;
@@ -62,7 +62,6 @@ export class CompForm implements ICompForm {
   public compMemo: string | null;
 
   public modifiedDt: string | null;
-
 
   constructor(obj?: ICompForm) {
     this.compUuid = getNumberMemberValue(obj && obj.compUuid);

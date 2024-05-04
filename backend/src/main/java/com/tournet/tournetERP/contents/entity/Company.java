@@ -40,9 +40,6 @@ public class Company {
     @Column(name = "LOGO_FILE", nullable = true)
     private String logoFile; //로고
 
-    @Column(name = "ESTABLISHMENT_DATE", nullable = true)
-    private Date estDate; //설립일
-
     @Column(name = "COMPANY_RATE", nullable = true)
     private long compRate; //등급
 
@@ -87,6 +84,9 @@ public class Company {
 
     @Column(name = "COMP_MEMO", nullable = true)
     private String compMemo; //메모
+
+    @Column(name = "ESTABLISHMENT_DATE", nullable = true)
+    private Date estDate; //설립일
 
     @Column(name = "BEGIN_DT", nullable = true)
     private Date beginDt; //시작일
