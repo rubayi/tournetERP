@@ -16,13 +16,21 @@
               </div>
 
               <div class="col-3">
+                <select-comp
+                  v-model="compFormData.compGroup"
+                  label="Group"
+                  class="full-width"
+                  :options="compGroupList"
+                />
+              </div>
+
+              <div class="col-3">
                 <input-comp
                   v-model="compFormData.compKor"
                   class="full-width"
                   clearable
                   label="Company Name"
                 />
-
               </div>
               <div class="col-3">
                 <input-comp
@@ -48,16 +56,6 @@
                   label="Abbreviation"
                 />
               </div>
-
-              <div class="col-3">
-                <select-comp
-                  v-model="compFormData.compGroup"
-                  label="Group"
-                  class="full-width"
-                  :options="compGroupList"
-                />
-
-              </div>
               <div class="col-3">
                 <select-comp
                   v-model="compFormData.compRate"
@@ -66,9 +64,6 @@
                   :options="compRateList"
                 />
               </div>
-            </div>
-
-            <div class="row q-col-gutter-md">
               <div class="col-3">
                 <select-comp
                   v-model="compFormData.couponYn"

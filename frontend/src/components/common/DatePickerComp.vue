@@ -1,4 +1,5 @@
 <template>
+  <div v-if="inputValue != ''">
   <input-comp
     clearable
     :disable="disable"
@@ -34,6 +35,7 @@
       <slot name="hint" />
     </template>
   </input-comp>
+  </div>
 </template>
 
 <script lang="ts">
@@ -81,7 +83,7 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     let timeout = 0;
-    const inputValue = ref<string | null>(props.modelValue);
+    const inputValue = ref<string | "">(props.modelValue);
     const formatDate = computed(
       () => props.formatToMonth || props.formatToDay || props.formatToYear
     );
