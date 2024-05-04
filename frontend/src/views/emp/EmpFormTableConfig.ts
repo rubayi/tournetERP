@@ -88,43 +88,23 @@ export class EmpFormTableConfig {
       hide: true,
     },
     {
-      field: 'empAddress1',
-      headerName: 'Address1',
+      field: 'empAddress',
+      headerName: 'Address',
       hide: true,
     },
     {
-      field: 'empAddress2',
-      headerName: 'Address2',
+      field: 'empComp',
+      headerName: 'Company',
       hide: true,
     },
     {
-      field: 'empCity',
-      headerName: 'City',
-      hide: true,
-    },
-    {
-      field: 'empState',
-      headerName: 'State',
-      hide: true,
-    },
-    {
-      field: 'empCountry',
-      headerName: 'Country',
-      hide: true,
-    },
-    {
-      field: 'empZip',
-      headerName: 'Zip Code',
+      field: 'empOffice',
+      headerName: 'Office',
       hide: true,
     },
     {
       field: 'empDob',
       headerName: 'DOB',
-      hide: true,
-    },
-    {
-      field: 'empDobType',
-      headerName: 'DOB Type',
       hide: true,
     },
     {
