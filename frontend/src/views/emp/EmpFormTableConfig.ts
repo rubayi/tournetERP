@@ -7,7 +7,7 @@ export class EmpFormTableConfig {
 
   static columns: ColDef[] = [
     {
-      field: 'edit',
+      field: 'empUuid',
       headerName: '',
       cellClass: 'no-border',
       floatingFilter: false,

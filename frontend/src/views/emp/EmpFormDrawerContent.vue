@@ -8,7 +8,7 @@
               v-model="editEmpFormData.empDiv"
               class="full-width"
               label="Code Group"
-              :options="uprCodeUuidgroup"
+              :options="code1group"
               outlined
             />
           </div>
@@ -50,17 +50,6 @@
                 outlined
               />
             </div> -->
-          <div class="col-4">
-            <number-comp
-              v-model="editEmpFormData.empPhone"
-              class="full-width"
-              label="Sort Order"
-              :max-number="100"
-              :min-number="0"
-              outlined
-              validation-message="Number must be [0-100]"
-            />
-          </div>
         </div>
       </q-card-section>
     </template>
@@ -69,20 +58,15 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-
 // Component
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 import InputComp from 'src/components/common/InputComp.vue';
 import SelectComp from 'src/components/common/SelectComp.vue';
-import NumberComp from 'src/components/common/NumberComp.vue';
-
 // Service
-import { EmpService } from 'src/services/EmpService';
-import { EmpSearchForm } from 'src/types/EmpSearchForm';
-
+import { CodeService } from 'src/services/CodeService';
 // Type
-import { EmpForm } from 'src/types/EmpForm';
 import { SelectOption } from 'src/types/SelectOption';
+import { EmpForm } from 'src/types/EmpForm';
 // Helper
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
@@ -91,7 +75,6 @@ export default defineComponent({
   components: {
     InputComp,
     SelectComp,
-    NumberComp,
     CardCompDesign,
   },
   props: {
@@ -101,7 +84,7 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const editEmpFormData = ref<EmpForm>();
+    const editEmpFormData = ref<EmpForm>(new EmpForm());
     useSyncModelValue(
       props,
       'modelValue',
@@ -110,22 +93,19 @@ export default defineComponent({
       editEmpFormData
     );
 
-    // Loading Group Emp Options
-
-    const uprCodeUuidgroup = ref<SelectOption[]>([]);
-    loaduprCodeUuidgroupOptions();
-    function loaduprCodeUuidgroupOptions() {
-      let empSearchForm = new EmpSearchForm();
-      EmpService.getAll(empSearchForm).then((response) => {
-        uprCodeUuidgroup.value = response.map(
-          (x) => new SelectOption(x.empKor, x.empEng)
+    const code1group = ref<SelectOption[]>([]);
+    loadDivision();
+    function loadDivision() {
+      CodeService.getGroupCodeForm(19).then((response) => {
+        code1group.value = response.map(
+          (x) => new SelectOption(x.codeKr, x.codeUuid)
         );
       });
     }
 
     return {
       editEmpFormData,
-      uprCodeUuidgroup,
+      code1group,
     };
   },
 });

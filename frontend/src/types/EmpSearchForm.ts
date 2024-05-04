@@ -1,14 +1,14 @@
 export interface IEmpSearchForm {
   searchEmpUuid: number | 0;
-  searchEmpKor: string | null;
-  searchEmpEng: string | null;
+  searchEmpKor: string | '';
+  searchEmpEng: string | '';
   searchEmpDiv: number | 0;
 }
 
 export class EmpSearchForm implements IEmpSearchForm {
   public searchEmpUuid: number | 0;
-  public searchEmpKor: string | null;
-  public searchEmpEng: string | null;
+  public searchEmpKor: string | '';
+  public searchEmpEng: string | '';
   public searchEmpDiv: number | 0;
 
   constructor(obj?: IEmpSearchForm) {

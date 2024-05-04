@@ -8,7 +8,7 @@
       :confirm-button-color="confirmbuttoncolor"
       :confirm-button-label="confirmbuttonlabel"
       :confirm-icon="confirmicon"
-      icon-title="fas fa-cogs"
+      icon-title="person"
       :show-confirm-button="showconfirmbutton"
       :show-delete-button="showdeletebutton"
       :show-print-button="false"
@@ -90,7 +90,7 @@ export default defineComponent({
   ],
   setup(props, { emit }) {
     const title = 'Manage Employees';
-    const empformData = ref<EmpForm | null>(new EmpForm());
+    const empformData = ref<EmpForm>(new EmpForm());
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
@@ -122,7 +122,7 @@ export default defineComponent({
       if (props.empSeq != 0) {
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = 'CHANGE';
-        confirmicon.value = 'fas fa-edit';
+        confirmicon.value = 'edit';
         showconfirmbutton.value =
           store.getters.currentUserHasApplicationPermission('CODE_W');
         showdeletebutton.value =
@@ -130,7 +130,7 @@ export default defineComponent({
       } else {
         confirmbuttoncolor.value = 'primary';
         confirmbuttonlabel.value = 'ADD';
-        confirmicon.value = 'fas fa-plus';
+        confirmicon.value = 'add';
         showconfirmbutton.value =
           store.getters.currentUserHasApplicationPermission('CODE_W');
         showdeletebutton.value = false;

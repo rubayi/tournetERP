@@ -51,16 +51,16 @@
 </template>
 
 <script lang="ts">
-import InnerLoadingComp from "src/components/common/InnerLoadingComp.vue";
-import { computed, defineComponent, ref, watch } from "vue";
+import InnerLoadingComp from 'src/components/common/InnerLoadingComp.vue';
+import { computed, defineComponent, ref, watch } from 'vue';
 
 export default defineComponent({
-  name: "DialogComp",
+  name: 'DialogComp',
   components: { InnerLoadingComp },
   props: {
     actionButtonLabel: {
       type: String,
-      default: "Confirm",
+      default: 'Confirm',
     },
     actionButtonDisabled: {
       type: Boolean,
@@ -68,7 +68,7 @@ export default defineComponent({
     },
     actionButtonIcon: {
       type: String,
-      default: undefined,
+      default: 'delete',
     },
     actionButtonLoading: {
       type: Boolean,
@@ -76,7 +76,7 @@ export default defineComponent({
     },
     cancelButtonLabel: {
       type: String,
-      default: "Cancel",
+      default: 'Cancel',
     },
     contentIsLoading: {
       type: Boolean,
@@ -88,31 +88,37 @@ export default defineComponent({
     },
     modalText: {
       type: String,
-      default: "",
+      default: '',
     },
     modalTitle: {
       type: String,
-      default: "Confirm",
+      default: 'Confirm',
     },
     width: {
       type: String,
-      default: "unset",
+      default: 'unset',
     },
     maxWidth: {
       type: String,
-      default: "unset",
+      default: 'unset',
     },
     maxHeight: {
       type: String,
-      default: "unset",
+      default: 'unset',
     },
     height: {
       type: String,
-      default: "unset",
+      default: 'unset',
     },
     position: {
-      type: String,
-      default: "standard",
+      type: String as () =>
+        | 'left'
+        | 'standard'
+        | 'top'
+        | 'right'
+        | 'bottom'
+        | undefined,
+      default: 'standard',
     },
     showActionButton: {
       type: Boolean,
@@ -131,7 +137,7 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ["update:modelValue", "cancelClicked", "confirmClicked"],
+  emits: ['update:modelValue', 'cancelClicked', 'confirmClicked'],
   setup(props, { emit }) {
     const modalOpen = ref(false);
 
@@ -142,15 +148,15 @@ export default defineComponent({
 
     watch(
       () => modalOpen.value,
-      (newVal) => emit("update:modelValue", newVal)
+      (newVal) => emit('update:modelValue', newVal)
     );
 
     const style = computed(() => {
       return {
         width: props.width,
-        "max-width": props.maxWidth,
+        'max-width': props.maxWidth,
         height: props.height,
-        "max-height": props.maxHeight,
+        'max-height': props.maxHeight,
       };
     });
 
@@ -162,12 +168,12 @@ export default defineComponent({
       if (!props.suppressCloseOnActionButtonClick) {
         closeModal();
       }
-      emit("confirmClicked");
+      emit('confirmClicked');
     }
 
     function cancelClicked() {
       closeModal();
-      emit("cancelClicked");
+      emit('cancelClicked');
     }
 
     return {

@@ -85,7 +85,7 @@
                 v-if="showDeleteButton && !isAddMode"
                 color="red"
                 :disable="editableLoading"
-                icon="trash"
+                icon="delete"
                 :label="deleteButtonLabel"
                 text-color="white"
                 @click="deleteClicked"
@@ -181,7 +181,7 @@ export default defineComponent({
       default: false,
     },
     side: {
-      type: String,
+      type: String as () => 'left' | 'right',
       default: 'Left',
     },
     showPrintButton: {

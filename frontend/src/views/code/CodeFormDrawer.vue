@@ -42,26 +42,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, ref, watch } from 'vue';
 
 // Components
-import DrawerComp from "src/components/drawers/DrawerComp.vue";
-import DialogComp from "src/components/common/DialogComp.vue";
+import DrawerComp from 'src/components/drawers/DrawerComp.vue';
+import DialogComp from 'src/components/common/DialogComp.vue';
 
 // View Layout
-import CodeFormDrawerContent from "src/views/code/CodeFormDrawerContent.vue";
+import CodeFormDrawerContent from 'src/views/code/CodeFormDrawerContent.vue';
 
 // Services
-import { CodeService } from "src/services/CodeService";
+import { CodeService } from 'src/services/CodeService';
 
 // Types
-import { CodeForm } from "src/types/CodeForm";
+import { CodeForm } from 'src/types/CodeForm';
 // Store
-import store from "src/store";
+import store from 'src/store';
 //helper
-import { notificationHelper } from "src/utils/helpers/NotificationHelper";
+import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 export default defineComponent({
-  name: "CodeFormDrawer",
+  name: 'CodeFormDrawer',
   components: {
     DrawerComp,
     DialogComp,
@@ -78,20 +78,20 @@ export default defineComponent({
     },
   },
   emits: [
-    "update:modelValue",
-    "update:drawerData",
-    "codeform-saved",
-    "codeform-deleted",
-    "codeform-drawer-closed",
+    'update:modelValue',
+    'update:drawerData',
+    'codeform-saved',
+    'codeform-deleted',
+    'codeform-drawer-closed',
   ],
   setup(props, { emit }) {
-    const title = "Manage Code";
-    const codeformData = ref<CodeForm | null>(new CodeForm());
+    const title = 'Manage Code';
+    const codeformData = ref<CodeForm>(new CodeForm());
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
-    const confirmbuttoncolor = ref<string>("primary");
-    const confirmbuttonlabel = ref<string>("ADD");
-    const confirmicon = ref<string>("fas fa-plus");
+    const confirmbuttoncolor = ref<string>('primary');
+    const confirmbuttonlabel = ref<string>('ADD');
+    const confirmicon = ref<string>('fas fa-plus');
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
     const codeformDrawerContent = ref();
@@ -107,7 +107,7 @@ export default defineComponent({
     watch(
       () => openDrawer.value,
       (newValue) => {
-        emit("update:modelValue", newValue);
+        emit('update:modelValue', newValue);
         getCodeformData();
       }
     );
@@ -116,16 +116,19 @@ export default defineComponent({
     function resetDrawer() {
       codeformData.value = new CodeForm();
       if (props.codeSeq != 0) {
-        confirmbuttoncolor.value = "warning";
-        confirmbuttonlabel.value = "CHANGE";
-        confirmicon.value = "fas fa-edit";
-        showconfirmbutton.value = store.getters.currentUserHasApplicationPermission("CODE_W");
-        showdeletebutton.value = store.getters.currentUserHasApplicationPermission("CODE_D");
+        confirmbuttoncolor.value = 'warning';
+        confirmbuttonlabel.value = 'CHANGE';
+        confirmicon.value = 'edit';
+        showconfirmbutton.value =
+          store.getters.currentUserHasApplicationPermission('CODE_W');
+        showdeletebutton.value =
+          store.getters.currentUserHasApplicationPermission('CODE_D');
       } else {
-        confirmbuttoncolor.value = "primary";
-        confirmbuttonlabel.value = "ADD";
-        confirmicon.value = "fas fa-plus";
-        showconfirmbutton.value = store.getters.currentUserHasApplicationPermission("CODE_W");
+        confirmbuttoncolor.value = 'primary';
+        confirmbuttonlabel.value = 'ADD';
+        confirmicon.value = 'add';
+        showconfirmbutton.value =
+          store.getters.currentUserHasApplicationPermission('CODE_W');
         showdeletebutton.value = false;
       }
     }
@@ -148,7 +151,7 @@ export default defineComponent({
     //Add & Edit
     function saveUpdatedCodeData() {
       notificationHelper.dismiss();
-      notificationHelper.createOngoingNotification("Saving...");
+      notificationHelper.createOngoingNotification('Saving...');
       loading.value = true;
       if (codeformData.value) {
         CodeService.saveCodeForm(codeformData.value)
@@ -157,10 +160,10 @@ export default defineComponent({
               `Code  " ${response.codeKr} " saved.`
             );
             if (props.codeSeq != 0) {
-              emit("codeform-saved", response);
+              emit('codeform-saved', response);
               codeformData.value = new CodeForm(response);
             } else {
-              emit("codeform-saved", response);
+              emit('codeform-saved', response);
               closeDrawer();
             }
           })
@@ -186,10 +189,10 @@ export default defineComponent({
         .then((response) => {
           notificationHelper.createSuccessNotification(
             `Code ${
-              codeformData.value ? codeformData.value.codeKr : ""
+              codeformData.value ? codeformData.value.codeKr : ''
             } deleted`
           );
-          emit("codeform-deleted", response);
+          emit('codeform-deleted', response);
           closeDrawer();
         })
         .catch((error) => {
@@ -206,7 +209,7 @@ export default defineComponent({
     function closeDrawer() {
       openDrawer.value = false;
       resetDrawer();
-      emit("codeform-drawer-closed");
+      emit('codeform-drawer-closed');
     }
     return {
       title,

@@ -44,15 +44,13 @@ import { defineComponent, ref } from 'vue';
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 import InputComp from 'src/components/common/InputComp.vue';
 import SelectComp from 'src/components/common/SelectComp.vue';
-
 //Service
-// import { EmpService } from 'src/services/EmpService';
 import { CodeService } from 'src/services/CodeService';
-import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
-
 //Type
 import { SelectOption } from 'src/types/SelectOption';
 import { EmpSearchForm } from 'src/types/EmpSearchForm';
+// Helper
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
 export default defineComponent({
   name: 'EmpSearchFormDrawerContent',
@@ -68,7 +66,7 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const editempsearchData = ref<EmpSearchForm>();
+    const editempsearchData = ref<EmpSearchForm>(new EmpSearchForm());
     useSyncModelValue(
       props,
       'modelValue',
@@ -77,9 +75,7 @@ export default defineComponent({
       editempsearchData
     );
 
-    // Loading Group Code Options
     const code1group = ref<SelectOption[]>([]);
-
     loadDivision();
     function loadDivision() {
       CodeService.getGroupCodeForm(19).then((response) => {
