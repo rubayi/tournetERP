@@ -45,20 +45,32 @@
           </div>
           <div class="col-3">
             <select-comp
-              v-model="editEmpFormData.empDiv"
+              v-model="editEmpFormData.empComp"
               class="full-width"
-              label="Division (Department)"
-              :options="code1group"
+              label="Company"
+              :options="CompList"
               outlined
+              required
             />
           </div>
           <div class="col-3">
             <select-comp
-              v-model="editEmpFormData.empStatus"
+              v-model="editEmpFormData.empOffice"
               class="full-width"
-              label="Work Status"
-              :options="code1group"
+              label="Office"
+              :options="OfficeList"
               outlined
+              required
+            />
+          </div>
+          <div class="col-3">
+            <select-comp
+              v-model="editEmpFormData.empDiv"
+              class="full-width"
+              label="Division (Department)"
+              :options="DivisionList"
+              outlined
+              required
             />
           </div>
           <div class="col-3">
@@ -66,7 +78,7 @@
               v-model="editEmpFormData.empTitle"
               class="full-width"
               label="Job Title"
-              :options="code1group"
+              :options="JobTitleList"
               outlined
             />
           </div>
@@ -75,48 +87,122 @@
               v-model="editEmpFormData.empRole"
               class="full-width"
               label="Job Role"
-              :options="code1group"
+              :options="JobRoleList"
               outlined
             />
           </div>
-          <q-input
-            filled
-            v-model="editEmpFormData.backColor"
-            :rules="['anyColor']"
-            label="Emp Background Color"
-            class="col-4"
-          >
-            <template v-slot:append>
-              <q-icon name="colorize" class="cursor-pointer">
-                <q-popup-proxy
-                  cover
-                  transition-show="scale"
-                  transition-hide="scale"
-                >
-                  <q-color v-model="editEmpFormData.backColor" />
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-          <q-input
-            filled
-            v-model="editEmpFormData.fontColor"
-            :rules="['anyColor']"
-            label="Emp Font(Name) Color"
-            class="col-4"
-          >
-            <template v-slot:append>
-              <q-icon name="colorize" class="cursor-pointer">
-                <q-popup-proxy
-                  cover
-                  transition-show="scale"
-                  transition-hide="scale"
-                >
-                  <q-color v-model="editEmpFormData.fontColor" />
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
+          <div class="col-3">
+            <select-comp
+              v-model="editEmpFormData.empStatus"
+              class="full-width"
+              label="Work Status"
+              :options="WorkStatusList"
+              outlined
+              required
+            />
+          </div>
+          <div class="col-3">
+            <input-comp
+              v-model="editEmpFormData.empEmail"
+              class="full-width"
+              clearable
+              label="Personal Email"
+              outlined
+            />
+          </div>
+          <div class="col-3">
+            <input-comp
+              v-model="editEmpFormData.empEmailBook"
+              class="full-width"
+              clearable
+              label="Booking(Work) Email"
+              outlined
+              required
+            />
+          </div>
+          <div class="col-3">
+            <input-comp
+              v-model="editEmpFormData.empPhone"
+              class="full-width"
+              clearable
+              label="Phone Number"
+              outlined
+            />
+          </div>
+          <div class="col-3">
+            <input-comp
+              v-model="editEmpFormData.empWorkPhone"
+              class="full-width"
+              clearable
+              label="Work(Extention) Number"
+              outlined
+            />
+          </div>
+          <div class="col-3">
+            <input-comp
+              v-model="editEmpFormData.empAddress"
+              class="full-width"
+              clearable
+              label="Address"
+              outlined
+            />
+          </div>
+          <div class="col-3">
+            <date-picker-comp
+              v-model="editEmpFormData.empDob"
+              class="full-width"
+              clearable
+              label="Date of Birth"
+              outlined
+            />
+          </div>
+
+          <div class="col-3">
+            <date-picker-comp
+              v-model="editEmpFormData.empBeginDt"
+              class="full-width"
+              clearable
+              label="Hire Date"
+              outlined
+              required
+            />
+          </div>
+          <div class="col-3">
+            <date-picker-comp
+              v-model="editEmpFormData.empEndDt"
+              class="full-width"
+              clearable
+              label="Resign Date"
+              outlined
+              required
+            />
+          </div>
+
+          <div class="col-3">
+            <input-comp
+              v-model="editEmpFormData.empMemo"
+              class="full-width"
+              clearable
+              label="Memo"
+              outlined
+            />
+          </div>
+          <div class="col-3">
+            <input-color-comp
+              v-model="editEmpFormData.backColor"
+              class="full-width"
+              clearable
+              label="Emp Background Colo"
+            />
+          </div>
+          <div class="col-3">
+            <input-color-comp
+              v-model="editEmpFormData.fontColor"
+              class="full-width"
+              clearable
+              label="Emp Font(Name) Colo"
+            />
+          </div>
         </div>
       </q-card-section>
     </template>
@@ -129,6 +215,8 @@ import { defineComponent, ref } from 'vue';
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 import InputComp from 'src/components/common/InputComp.vue';
 import SelectComp from 'src/components/common/SelectComp.vue';
+import DatePickerComp from 'src/components/common/DatePickerComp.vue';
+import InputColorComp from 'src/components/common/InputColorComp.vue';
 // Service
 import { CodeService } from 'src/services/CodeService';
 // Type
@@ -143,6 +231,8 @@ export default defineComponent({
     InputComp,
     SelectComp,
     CardCompDesign,
+    DatePickerComp,
+    InputColorComp,
   },
   props: {
     modelValue: {
@@ -160,11 +250,61 @@ export default defineComponent({
       editEmpFormData
     );
 
-    const code1group = ref<SelectOption[]>([]);
+    const DivisionList = ref<SelectOption[]>([]);
     loadDivision();
     function loadDivision() {
       CodeService.getGroupCodeForm(19).then((response) => {
-        code1group.value = response.map(
+        DivisionList.value = response.map(
+          (x) => new SelectOption(x.codeKr, x.codeUuid)
+        );
+      });
+    }
+
+    const CompList = ref<SelectOption[]>([]);
+    loadCopmany();
+    function loadCopmany() {
+      CodeService.getGroupCodeForm(21).then((response) => {
+        CompList.value = response.map(
+          (x) => new SelectOption(x.codeKr, x.codeUuid)
+        );
+      });
+    }
+
+    const OfficeList = ref<SelectOption[]>([]);
+    loadOffice();
+    function loadOffice() {
+      CodeService.getGroupCodeForm(2).then((response) => {
+        CompList.value = response.map(
+          (x) => new SelectOption(x.codeKr, x.codeUuid)
+        );
+      });
+    }
+
+    const JobTitleList = ref<SelectOption[]>([]);
+    loadJobTitle();
+    function loadJobTitle() {
+      CodeService.getGroupCodeForm(17).then((response) => {
+        CompList.value = response.map(
+          (x) => new SelectOption(x.codeKr, x.codeUuid)
+        );
+      });
+    }
+
+    const JobRoleList = ref<SelectOption[]>([]);
+    loadJobRole();
+    function loadJobRole() {
+      CodeService.getGroupCodeForm(18).then((response) => {
+        CompList.value = response.map(
+          (x) => new SelectOption(x.codeKr, x.codeUuid)
+        );
+      });
+    }
+
+    const WorkStatusList = ref<SelectOption[]>([]);
+    loadWorkStatus();
+    function loadWorkStatus() {
+      CodeService.getGroupCodeForm(15).then((response) => {
+        CompList.value = response.map(
           (x) => new SelectOption(x.codeKr, x.codeUuid)
         );
       });
@@ -172,7 +312,12 @@ export default defineComponent({
 
     return {
       editEmpFormData,
-      code1group,
+      DivisionList,
+      CompList,
+      OfficeList,
+      JobTitleList,
+      JobRoleList,
+      WorkStatusList,
     };
   },
 });
