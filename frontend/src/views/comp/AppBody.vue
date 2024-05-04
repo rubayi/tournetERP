@@ -73,6 +73,7 @@
         :comp-optionRate-List="compOptionRateList"
         :coupon-yn-list="couponYnList"
         :comp-group-list="compGroupList"
+        :hotel-rate-list="hotelRateList"
         :pkg-rate-list="pkgRateList"
         :pkg-only-rate-list="pkgOnlyRateList"
         :rentcar-rate-list="rentcarRateList"
@@ -310,6 +311,7 @@ export default defineComponent({
       loadPkgOnlyListOptions();
       loadPkgRateListOptions();
       loadPrepaidHowListOptions();
+      loadHotelRateListOptions();
     }
     /*Comp Sector List*/
     const compSectorList = ref<SelectOption[]>([]);
@@ -325,8 +327,19 @@ export default defineComponent({
     const compRateList = ref<SelectOption[]>([]);
     function loadCompRateListOptions() {
 
-      CodeService.getGroupCodeForm(239).then((response) => {
+      CodeService.getGroupCodeForm(652).then((response) => {
         compRateList.value = response.map(
+          (x) => new SelectOption(x.codeKr, x.codeUuid)
+        );
+      });
+    }
+
+    /*Hotel Rate List*/
+    const hotelRateList = ref<SelectOption[]>([]);
+    function loadHotelRateListOptions() {
+
+      CodeService.getGroupCodeForm(239).then((response) => {
+        hotelRateList.value = response.map(
           (x) => new SelectOption(x.codeKr, x.codeUuid)
         );
       });
@@ -404,7 +417,7 @@ export default defineComponent({
     /*Restaurant Tour Rate List*/
     const restaurantRateList = ref<SelectOption[]>([]);
     function loadRestaurantRateListOptions() {
-      CodeService.getGroupCodeForm(240).then((response) => {
+      CodeService.getGroupCodeForm(242).then((response) => {
         restaurantRateList.value = response.map(
           (x) => new SelectOption(x.codeKr, x.codeUuid)
         );
@@ -414,7 +427,7 @@ export default defineComponent({
     /*Rentcar Rate List*/
     const rentcarRateList = ref<SelectOption[]>([]);
     function loadRentcarRateListOptions() {
-      CodeService.getGroupCodeForm(240).then((response) => {
+      CodeService.getGroupCodeForm(241).then((response) => {
         rentcarRateList.value = response.map(
           (x) => new SelectOption(x.codeKr, x.codeUuid)
         );
@@ -470,7 +483,8 @@ export default defineComponent({
       restaurantRateList,
       honeymoonOnlyRateList,
       honeymoonRateList,
-      prepaidHowList
+      prepaidHowList,
+      hotelRateList
     };
   },
   data() {

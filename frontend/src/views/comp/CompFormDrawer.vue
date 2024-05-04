@@ -28,6 +28,7 @@
               :primary-data="compFormData"
               :comp-sector-list = "compSectorList"
               :comp-rate-list = "compRateList"
+              :hotel-rate-list="hotelRateList"
               :comp-optionRate-List="compOptionRateList"
               :coupon-yn-list="couponYnList"
               :comp-group-list="compGroupList"
@@ -106,6 +107,10 @@ export default defineComponent({
       default: () => [],
     },
     compRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    hotelRateList: {
       type: Array as () => SelectOption[],
       default: () => [],
     },

@@ -14,7 +14,6 @@
                   :options="compSectorList"
                 />
               </div>
-
               <div class="col-3">
                 <select-comp
                   v-model="compFormData.compGroup"
@@ -23,7 +22,22 @@
                   :options="compGroupList"
                 />
               </div>
-
+              <div class="col-3">
+                <date-picker-comp
+                  v-model="compFormData.estDate"
+                  class="full-width"
+                  clearable
+                  label="Establishment Date"
+                />
+              </div>
+              <div class="col-3">
+                <input-color-comp
+                  v-model="compFormData.compColor"
+                  class="full-width"
+                  clearable
+                  label="Company Color"
+                />
+              </div>
               <div class="col-3">
                 <input-comp
                   v-model="compFormData.compKor"
@@ -40,14 +54,7 @@
                   label="Company Name(En)"
                 />
               </div>
-              <div class="col-3">
-                <input-color-comp
-                  v-model="compFormData.compColor"
-                  class="full-width"
-                  clearable
-                  label="Company Color"
-                />
-              </div>
+
               <div class="col-3">
                 <input-comp
                   v-model="compFormData.compAbb"
@@ -59,9 +66,17 @@
               <div class="col-3">
                 <select-comp
                   v-model="compFormData.compRate"
-                  label="Company Rate"
+                  label="Company Level"
                   class="full-width"
                   :options="compRateList"
+                />
+              </div>
+              <div class="col-3">
+                <select-comp
+                  v-model="compFormData.prepaidHow"
+                  label="Assign Prepaid"
+                  class="full-width"
+                  :options="prepaidHowList"
                 />
               </div>
               <div class="col-3">
@@ -77,7 +92,7 @@
                   v-model="compFormData.hotelRate"
                   label="Hotel Rate"
                   class="full-width"
-                  :options="couponYnList"
+                  :options="hotelRateList"
                 />
               </div>
               <div class="col-3">
@@ -90,6 +105,22 @@
               </div>
               <div class="col-3">
                 <select-comp
+                  v-model="compFormData.rentcarRate"
+                  label="Rent Car Rate"
+                  class="full-width"
+                  :options="rentcarRateList"
+                />
+              </div>
+              <div class="col-3">
+                <select-comp
+                  v-model="compFormData.restaurantRate"
+                  label="Restaurant Rate"
+                  class="full-width"
+                  :options="restaurantRateList"
+                />
+              </div>
+              <div class="col-3">
+                <select-comp
                   v-model="compFormData.packRegRate"
                   label="Package Rate"
                   class="full-width"
@@ -97,11 +128,27 @@
                 />
               </div>
               <div class="col-3">
-                <date-picker-comp
-                  v-model="compFormData.estDate"
+                <select-comp
+                  v-model="compFormData.packRate"
+                  label="Package Only Rate"
                   class="full-width"
-                  clearable
-                  label="Establishment Date"
+                  :options="pkgOnlyRateList"
+                />
+              </div>
+              <div class="col-3">
+                <select-comp
+                  v-model="compFormData.honeymoonRegRate"
+                  label="Honeymoon Rate"
+                  class="full-width"
+                  :options="restaurantRateList"
+                />
+              </div>
+              <div class="col-3">
+                <select-comp
+                  v-model="compFormData.honeymoonRate"
+                  label="Honeymoon Only Rate"
+                  class="full-width"
+                  :options="honeymoonOnlyRateList"
                 />
               </div>
             </div>
@@ -190,6 +237,10 @@ export default defineComponent({
       default: () => [],
     },
     prepaidHowList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    hotelRateList: {
       type: Array as () => SelectOption[],
       default: () => [],
     },
