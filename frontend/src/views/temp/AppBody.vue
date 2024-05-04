@@ -319,8 +319,8 @@ export default defineComponent({
         filterNumber.value++;
       }
       searchdata.value.searchcount = filterNumber.value;
-      showinsertbutton.value =
-        store.getters.currentUserHasApplicationPermission("LOG_A");
+      showinsertbutton.value = true
+        // store.getters.currentUserHasApplicationPermission("LOG_A");
       if (store.getters.currentUserHasApplicationPermission("LOG_R")) {
         TournetService.getAllTournet(searchdata.value).then(
           (response) => {
