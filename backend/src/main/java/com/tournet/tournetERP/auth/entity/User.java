@@ -62,7 +62,7 @@ public class User {
     @Column(name = "EMP_ADDRESS", nullable = true)
     private String empAddress;
 
-    @Column(name = "EMP_Office", nullable = true)
+    @Column(name = "EMP_OFFICE", nullable = true)
     private long empOffice;
 
     @Column(name = "EMP_COMP", nullable = true)
