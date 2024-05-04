@@ -96,27 +96,27 @@ public class UserService {
         return userResList;
     }
 
-    public List<UserResponse> findEmpsBySearch(UserRequest empSearchForm) {
-        Long empDiv = empSearchForm.getEmpDiv();
-        String empKor = empSearchForm.getEmpKor();
-        String empEng = empSearchForm.getEmpEng();
+    // public List<UserResponse> findEmpsBySearch(UserRequest empSearchForm) {
+    //     Long empDiv = empSearchForm.getEmpDiv();
+    //     String empKor = empSearchForm.getEmpKor();
+    //     String empEng = empSearchForm.getEmpEng();
         
-        List<User> selectedUsers = empRepository.findByEmpDivAndEmpKorAndEmpEng(
-            empDiv == 0 ? null : empDiv,
-            empKor.isEmpty() ? null : empKor,
-            empEng.isEmpty() ? null : empEng
-        );
+    //     List<User> selectedUsers = empRepository.findByEmpDivAndEmpKorAndEmpEng(
+    //         empDiv == 0 ? null : empDiv,
+    //         empKor.isEmpty() ? null : empKor,
+    //         empEng.isEmpty() ? null : empEng
+    //     );
         
-        List<UserResponse> userResList = selectedUsers.stream()
-            .map(user -> {
-                UserResponse userResponse = new UserResponse();
-                // Set the properties of userResponse here
-                return userResponse;
-            })
-            .collect(Collectors.toList());
+    //     List<UserResponse> userResList = selectedUsers.stream()
+    //         .map(user -> {
+    //             UserResponse userResponse = new UserResponse();
+    //             // Set the properties of userResponse here
+    //             return userResponse;
+    //         })
+    //         .collect(Collectors.toList());
     
-        return userResList;
-    }
+    //     return userResList;
+    // }
 
     public UserResponse findByEmpUuid(long id) {
         ModelMapper modelMapper=new ModelMapper();
