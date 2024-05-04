@@ -1,18 +1,9 @@
 <template>
-  <card-comp-design title="Code Information">
+  <card-comp-design title="Employer Information">
     <template #content>
       <q-card-section>
         <div class="row q-col-gutter-md">
-          <div class="col-4">
-            <select-comp
-              v-model="editEmpFormData.empDiv"
-              class="full-width"
-              label="Code Group"
-              :options="code1group"
-              outlined
-            />
-          </div>
-          <div class="col-4">
+          <div class="col-3">
             <input-comp
               v-model="editEmpFormData.empKor"
               class="full-width"
@@ -22,34 +13,110 @@
               required
             />
           </div>
-          <div class="col-4">
+          <div class="col-3">
             <input-comp
               v-model="editEmpFormData.empEng"
               class="full-width"
               clearable
-              label="Name"
+              label="English Name"
               outlined
               required
             />
           </div>
-          <!-- <div class="col-4">
-              <input-comp
-                v-model="editEmpFormData.codeLvl"
-                class="full-width"
-                clearable
-                label="Code Level"
-                outlined
-              />
-            </div>
-            <div class="col-4">
-              <input-comp
-                v-model="editEmpFormData.useYn"
-                class="full-width"
-                clearable
-                label="Desciption"
-                outlined
-              />
-            </div> -->
+          <div class="col-3">
+            <input-comp
+              v-model="editEmpFormData.username"
+              class="full-width"
+              clearable
+              label="Username"
+              outlined
+              required
+            />
+          </div>
+          <div class="col-3">
+            <input-comp
+              v-model="editEmpFormData.password"
+              class="full-width"
+              clearable
+              label="Password"
+              outlined
+              required
+            />
+          </div>
+          <div class="col-3">
+            <select-comp
+              v-model="editEmpFormData.empDiv"
+              class="full-width"
+              label="Division (Department)"
+              :options="code1group"
+              outlined
+            />
+          </div>
+          <div class="col-3">
+            <select-comp
+              v-model="editEmpFormData.empStatus"
+              class="full-width"
+              label="Work Status"
+              :options="code1group"
+              outlined
+            />
+          </div>
+          <div class="col-3">
+            <select-comp
+              v-model="editEmpFormData.empTitle"
+              class="full-width"
+              label="Job Title"
+              :options="code1group"
+              outlined
+            />
+          </div>
+          <div class="col-3">
+            <select-comp
+              v-model="editEmpFormData.empRole"
+              class="full-width"
+              label="Job Role"
+              :options="code1group"
+              outlined
+            />
+          </div>
+          <q-input
+            filled
+            v-model="editEmpFormData.backColor"
+            :rules="['anyColor']"
+            label="Emp Background Color"
+            class="col-4"
+          >
+            <template v-slot:append>
+              <q-icon name="colorize" class="cursor-pointer">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-color v-model="editEmpFormData.backColor" />
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+          <q-input
+            filled
+            v-model="editEmpFormData.fontColor"
+            :rules="['anyColor']"
+            label="Emp Font(Name) Color"
+            class="col-4"
+          >
+            <template v-slot:append>
+              <q-icon name="colorize" class="cursor-pointer">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-color v-model="editEmpFormData.fontColor" />
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
         </div>
       </q-card-section>
     </template>

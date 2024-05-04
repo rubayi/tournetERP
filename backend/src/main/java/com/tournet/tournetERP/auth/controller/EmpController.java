@@ -169,7 +169,6 @@ public ResponseEntity<List<User>> selectEmpsByCondition(@RequestBody UserRequest
 
                 _emp.setEmpKor(empReq.getEmpKor());
                 _emp.setEmpEng(empReq.getEmpEng());
-                _emp.setEmpWorkType(empReq.getEmpWorkType());
                 _emp.setEmpDiv(empReq.getEmpDiv());
                 _emp.setEmpTitle(empReq.getEmpTitle());
                 _emp.setEmpWorkPhone(empReq.getEmpWorkPhone());
@@ -179,20 +178,14 @@ public ResponseEntity<List<User>> selectEmpsByCondition(@RequestBody UserRequest
                 _emp.setEmpPhone(empReq.getEmpPhone());
                 _emp.setEmpEmail(empReq.getEmpEmail());
                 _emp.setEmpEmailBook(empReq.getEmpEmailBook());
-                _emp.setEmpAddress1(empReq.getEmpAddress1());
-                _emp.setEmpAddress2(empReq.getEmpAddress2());
-                _emp.setEmpCity(empReq.getEmpCity());
-                _emp.setEmpState(empReq.getEmpState());
-                _emp.setEmpCountry(empReq.getEmpCountry());
-                _emp.setEmpZip(empReq.getEmpZip());
+                _emp.setEmpAddress(empReq.getEmpAddress());
+                _emp.setEmpOffice(empReq.getEmpOffice());
+                _emp.setEmpComp(empReq.getEmpComp());
                 _emp.setEmpDob(empReq.getEmpDob());
-                _emp.setEmpDobType(empReq.getEmpDobType());
                 _emp.setEmpMemo(empReq.getEmpMemo());
                 _emp.setEmpStatus(empReq.getEmpStatus());
-
                 _emp.setBackColor(empReq.getBackColor());
                 _emp.setFontColor(empReq.getFontColor());
-                _emp.setEmpDobType(empReq.getEmpDobType());
                 _emp.setEmpMemo(empReq.getEmpMemo());
                 _emp.setEmpStatus(empReq.getEmpStatus());
 

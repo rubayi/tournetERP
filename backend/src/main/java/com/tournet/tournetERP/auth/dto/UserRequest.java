@@ -26,8 +26,6 @@ public class UserRequest {
 
     private String empImg;
 
-    private long empWorkType;
-
     private long empDiv;
 
     private long empTitle;
@@ -40,21 +38,13 @@ public class UserRequest {
 
     private String empEmailBook;
 
-    private String empAddress1;
+    private String empAddress;
 
-    private String empAddress2;
+    private long empOffice;
 
-    private String empCity;
-
-    private String empState;
-
-    private long empCountry;
-
-    private String empZip;
+    private long empComp;
 
     private String empDob;
-
-    private long empDobType;
 
     private String empMemo;
 

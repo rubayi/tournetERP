@@ -55,32 +55,20 @@ public class UserService {
                     userResponse.setEmpKor(user.getEmpKor());
                     userResponse.setEmpEng(user.getEmpEng());
                     userResponse.setEmpImg(user.getEmpImg());
-
-                    userResponse.setEmpWorkTypeName(fetchCodeKr(user.getEmpWorkType()));
                     userResponse.setEmpDivName(fetchCodeKr(user.getEmpDiv()));
                     userResponse.setEmpTitleName(fetchCodeKr(user.getEmpTitle()));
                     userResponse.setEmpRoleName(fetchCodeKr(user.getEmpRole()));
-                    userResponse.setEmpDobTypeName(fetchCodeKr(user.getEmpDobType()));
                     userResponse.setEmpStatusName(fetchCodeKr(user.getEmpStatus()));
-                    userResponse.setEmpCountryName(fetchCodeKr(user.getEmpCountry()));
-
-                    userResponse.setEmpWorkType(user.getEmpWorkType());
+                    userResponse.setEmpCountryName(fetchCodeKr(user.getEmpOffice()));
+                    userResponse.setEmpCountryName(fetchCodeKr(user.getEmpComp()));
                     userResponse.setEmpDiv(user.getEmpDiv());
                     userResponse.setEmpTitle(user.getEmpTitle());
                     userResponse.setEmpRole(user.getEmpRole());
-                    userResponse.setEmpDobType(user.getEmpDobType());
                     userResponse.setEmpStatus(user.getEmpStatus());
-
                     userResponse.setEmpPhone(user.getEmpPhone());
                     userResponse.setEmpWorkPhone(user.getEmpWorkPhone());
                     userResponse.setEmpEmailBook(user.getEmpEmailBook());
-                    userResponse.setEmpAddress1(user.getEmpAddress1());
-                    userResponse.setEmpAddress2(user.getEmpAddress2());
-                    userResponse.setEmpCity(user.getEmpCity());
-                    userResponse.setEmpState(user.getEmpState());
-                    userResponse.setEmpZip(user.getEmpZip());
-                    userResponse.setEmpCountry(user.getEmpCountry());
-                    userResponse.setEmpDob(user.getEmpDob());
+                    userResponse.setEmpAddress(user.getEmpAddress());
                     userResponse.setEmpMemo(user.getEmpMemo());
                     userResponse.setBackColor(user.getBackColor());
                     userResponse.setFontColor(user.getFontColor());
@@ -95,28 +83,6 @@ public class UserService {
         //        List<UserResponse> userResList = null;
         return userResList;
     }
-
-    // public List<UserResponse> findEmpsBySearch(UserRequest empSearchForm) {
-    //     Long empDiv = empSearchForm.getEmpDiv();
-    //     String empKor = empSearchForm.getEmpKor();
-    //     String empEng = empSearchForm.getEmpEng();
-        
-    //     List<User> selectedUsers = empRepository.findByEmpDivAndEmpKorAndEmpEng(
-    //         empDiv == 0 ? null : empDiv,
-    //         empKor.isEmpty() ? null : empKor,
-    //         empEng.isEmpty() ? null : empEng
-    //     );
-        
-    //     List<UserResponse> userResList = selectedUsers.stream()
-    //         .map(user -> {
-    //             UserResponse userResponse = new UserResponse();
-    //             // Set the properties of userResponse here
-    //             return userResponse;
-    //         })
-    //         .collect(Collectors.toList());
-    
-    //     return userResList;
-    // }
 
     public UserResponse findByEmpUuid(long id) {
         ModelMapper modelMapper=new ModelMapper();

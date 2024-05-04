@@ -4,16 +4,12 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tournet.tournetERP.common.entity.ComCode;
 import lombok.Data;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -45,9 +41,6 @@ public class User {
     @Column(name = "EMP_IMG", nullable = true)
     private String empImg;
 
-    @Column(name = "EMP_WORK_TYPE", nullable = true)
-    private long empWorkType;
-
     @Column(name = "EMP_DIV", nullable = true)
     private long empDiv;
 
@@ -66,29 +59,17 @@ public class User {
     @Column(name = "EMP_EMAIL_BOOK", nullable = true)
     private String empEmailBook;
 
-    @Column(name = "EMP_ADDRESS1", nullable = true)
-    private String empAddress1;
+    @Column(name = "EMP_ADDRESS", nullable = true)
+    private String empAddress;
 
-    @Column(name = "EMP_ADDRESS2", nullable = true)
-    private String empAddress2;
+    @Column(name = "EMP_Office", nullable = true)
+    private long empOffice;
 
-    @Column(name = "EMP_CITY", nullable = true)
-    private String empCity;
-
-    @Column(name = "EMP_STATE", nullable = true)
-    private String empState;
-
-    @Column(name = "EMP_COUNTRY", nullable = true)
-    private long empCountry;
-
-    @Column(name = "EMP_ZIP", nullable = true)
-    private String empZip;
+    @Column(name = "EMP_COMP", nullable = true)
+    private long empComp;
 
     @Column(name = "EMP_DOB", nullable = true)
     private String empDob;
-
-    @Column(name = "EMP_DOB_TYPE", nullable = true)
-    private long empDobType;
 
     @Column(name = "EMP_MEMO", nullable = true)
     private String empMemo;
@@ -137,34 +118,26 @@ public class User {
     }
 
     public User(String username, String empEmail, String password,
-                String empKor, String empEng, long empWorkType,
-                String empWorkPhone, long empDiv, long empTitle,
-                String empPhone, String empEmailBook, String empAddress1,
-                String empAddress2, String empCity, String empState, long empCountry,
-                String empZip, String empDob, long empDobType,
-                String empMemo, long empStatus, long modifiedBy
+                String empKor, String empEng, String empWorkPhone,
+                long empDiv, long empTitle, String empPhone,
+                String empEmailBook, String empAddress, long empOffice, 
+                long empComp, String empDob, String empMemo, long empStatus,
+                long modifiedBy
     ) {
         this.username = username;
         this.empEmail = empEmail;
         this.password = password;
         this.empKor = empKor;
         this.empEng = empEng;
-        this.empWorkType = empWorkType;
         this.empWorkPhone = empWorkPhone;
         this.empDiv = empDiv;
         this.empTitle = empTitle;
         this.empPhone = empPhone;
-
         this.empEmailBook = empEmailBook;
-        this.empAddress1 = empAddress1;
-        this.empAddress2 = empAddress2;
-        this.empCity = empCity;
-        this.empState = empState;
-        this.empCountry = empCountry;
-        this.empZip = empZip;
-
+        this.empAddress = empAddress;
+        this.empOffice = empOffice;
+        this.empComp = empComp;
         this.empDob = empDob;
-        this.empDobType = empDobType;
         this.empMemo = empMemo;
         this.empStatus = empStatus;
         this.modifiedBy = modifiedBy;
