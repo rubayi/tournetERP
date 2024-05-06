@@ -261,8 +261,6 @@ export default defineComponent({
       () => props.primaryData,
       (newValue) => {
         compFormData.value = newValue;
-        console.log(compFormData.value);
-        console.log(props.compRateList);
       }
     );
 

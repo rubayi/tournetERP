@@ -2,7 +2,6 @@ import api from "./api";
 import { CompForm } from "src/types/CompForm";
 import { CompSearchForm } from "src/types/CompSearchForm";
 import authHeader from "src/services/auth-header";
-import {CodeForm} from "src/types/CodeForm";
 
 const API_URL = "/comp/";
 export class CompService {
@@ -23,9 +22,8 @@ export class CompService {
   }
 
   static saveCompForm(h3caseform: CompForm): Promise<CompForm> {
-    return api.post<CompForm>(API_URL + "updateComp", h3caseform, {
-      headers: authHeader(),
-    })
+    return api.post<CompForm>(API_URL + "updateComp", h3caseform,
+      { headers: {...authHeader(), "Content-Type": "multipart/form-data"}  })
       .then((response) => response.data);
   }
 

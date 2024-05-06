@@ -21,22 +21,23 @@
           </q-btn>
         </div>
         <div class="col-auto text-right q-pr-md">
-          <q-btn
-            class="q-ml-md"
-            color="secondary"
-            icon="download"
-            label="EXPORT"
-            outline
-            @click="exportAction"
-          />
-          <q-btn
-            class="q-ml-md"
-            color="secondary"
-            icon="print"
-            label="PRINT"
-            outline
-            @click="printAction"
-          />
+<!--          <q-btn-->
+<!--            v-if="showexportbutton"-->
+<!--            class="q-ml-md"-->
+<!--            color="secondary"-->
+<!--            icon="download"-->
+<!--            label="EXPORT"-->
+<!--            outline-->
+<!--            @click="exportAction"-->
+<!--          />-->
+<!--          <q-btn-->
+<!--            class="q-ml-md"-->
+<!--            color="secondary"-->
+<!--            icon="print"-->
+<!--            label="PRINT"-->
+<!--            outline-->
+<!--            @click="printAction"-->
+<!--          />-->
         </div>
         <div class="col-auto text-right">
           <q-btn
@@ -109,7 +110,7 @@ import { TableHelper } from "src/components/table/TableHelper";
 import { CompService } from "src/services/CompService";
 import { CodeService } from "src/services/CodeService";
 import { CdcdService } from "src/services/CdcdService";
-import { ReportService } from "src/services/ReportService";
+import { ReportService } from "src/services/CompReportService";
 //Type
 import { CompForm } from "src/types/CompForm";
 import { CompSearchForm } from "src/types/CompSearchForm";
@@ -150,6 +151,7 @@ export default defineComponent({
     const gridOptions = ref<GridOptions>({});
     var filterNumber = ref<number>(0);
     const showinsertbutton = ref<boolean>(false);
+    const showexportbutton = ref<boolean>(false);
 
     /* List */
     function loadData() {
@@ -266,37 +268,37 @@ export default defineComponent({
     }
 
     /* Detail Export PDF */
-    function exportAction() {
-      const exportFilename = "TOURNET ERP";
-      const listReportVO: CompListReportVO = {
-        title: "",
-        sort: compformGrid.value.getExportSortString(reportHeaderMap),
-        filter:
-          compformGrid.value.getExportFilterString(reportHeaderMap),
-        data: compformGrid.value.getFilteredRows(),
-      };
-      ReportHelper.exportEXCELData(
-        exportFilename,
-        listReportVO,
-        ReportService.getTournetListReport
-      );
-    }
+    // function exportAction() {
+    //   const exportFilename = "TOURNET ERP";
+    //   const listReportVO: CompListReportVO = {
+    //     title: "",
+    //     sort: compformGrid.value.getExportSortString(reportHeaderMap),
+    //     filter:
+    //       compformGrid.value.getExportFilterString(reportHeaderMap),
+    //     data: compformGrid.value.getFilteredRows(),
+    //   };
+    //   ReportHelper.exportEXCELData(
+    //     exportFilename,
+    //     listReportVO,
+    //     ReportService.getCompListReport
+    //   );
+    // }
     /* Detail Export PDF */
-    function printAction() {
-      const exportFilename = "TOURNET ERP";
-      const listReportVO: CompListReportVO = {
-        title: "",
-        sort: compformGrid.value.getExportSortString(reportHeaderMap),
-        filter:
-          compformGrid.value.getExportFilterString(reportHeaderMap),
-        data: compformGrid.value.getFilteredRows(),
-      };
-      ReportHelper.exportPDFData(
-        exportFilename,
-        listReportVO,
-        ReportService.getTournetListPdfReport
-      );
-    }
+    // function printAction() {
+    //   const exportFilename = "TOURNET ERP";
+    //   const listReportVO: CompListReportVO = {
+    //     title: "",
+    //     sort: compformGrid.value.getExportSortString(reportHeaderMap),
+    //     filter:
+    //       compformGrid.value.getExportFilterString(reportHeaderMap),
+    //     data: compformGrid.value.getFilteredRows(),
+    //   };
+    //   ReportHelper.exportPDFData(
+    //     exportFilename,
+    //     listReportVO,
+    //     ReportService.getCompListPdfReport
+    //   );
+    // }
 
     function printcodeValue() {
       loadCompRateListOptions();
@@ -469,9 +471,8 @@ export default defineComponent({
       searchdata,
       resetLoadData,
       filterNumber,
-      exportAction,
-      printAction,
       showinsertbutton,
+      showexportbutton,
       compRateList,
       couponYnList,
       compGroupList,

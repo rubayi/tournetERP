@@ -72,7 +72,7 @@ import CompFormDrawerPrimary from "src/views/comp/CompFormDrawerPrimary.vue";
 
 // Services
 import { CompService } from "src/services/CompService";
-import { ReportService } from "src/services/CompReportService";
+// import { ReportService } from "src/services/CompReportService";
 
 // Types
 import { CompForm } from "src/types/CompForm";
@@ -251,6 +251,7 @@ export default defineComponent({
       notificationHelper.createOngoingNotification("Saving...");
       loading.value = true;
       if (compFormData.value) {
+        console.log(compFormData.value);
         CompService.saveCompForm(compFormData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
@@ -299,21 +300,21 @@ export default defineComponent({
     }
 
     /* Detail Export PDF */
-    function printedonecompData() {
-      const exportFilename = "HWY Traffic Work Order Report";
-      const listReportVO: CompListReportVO = {
-        title: "",
-        sort: "",
-        filter: "",
-        data: printdata.value,
-      };
-
-      ReportHelper.exportPDFData(
-        exportFilename,
-        listReportVO,
-        ReportService.getCompOnePdfReport
-      );
-    }
+    // function printedonecompData() {
+    //   const exportFilename = "HWY Traffic Work Order Report";
+    //   const listReportVO: CompListReportVO = {
+    //     title: "",
+    //     sort: "",
+    //     filter: "",
+    //     data: printdata.value,
+    //   };
+    //
+    //   ReportHelper.exportPDFData(
+    //     exportFilename,
+    //     listReportVO,
+    //     ReportService.getCompOnePdfReport
+    //   );
+    // }
 
     function closeDrawer() {
       openDrawer.value = false;
@@ -338,7 +339,6 @@ export default defineComponent({
       openDeleteConfirm,
       deleteCompForm,
       saveUpdatedCompData,
-      printedonecompData,
       getCompFormData,
       printdata,
     };
