@@ -140,7 +140,7 @@
                     v-model="compFormData.honeymoonRegRate"
                     label="Honeymoon Rate"
                     class="full-width"
-                    :options="restaurantRateList"
+                    :options="honeymoonRateList"
                   />
                 </div>
                 <div class="col-3">
