@@ -21,23 +21,23 @@
           </q-btn>
         </div>
         <div class="col-auto text-right q-pr-md">
-<!--          <q-btn-->
-<!--            v-if="showexportbutton"-->
-<!--            class="q-ml-md"-->
-<!--            color="secondary"-->
-<!--            icon="download"-->
-<!--            label="EXPORT"-->
-<!--            outline-->
-<!--            @click="exportAction"-->
-<!--          />-->
-<!--          <q-btn-->
-<!--            class="q-ml-md"-->
-<!--            color="secondary"-->
-<!--            icon="print"-->
-<!--            label="PRINT"-->
-<!--            outline-->
-<!--            @click="printAction"-->
-<!--          />-->
+          <q-btn
+            v-if="showexportbutton"
+            class="q-ml-md"
+            color="secondary"
+            icon="download"
+            label="EXPORT"
+            outline
+            @click="exportAction"
+          />
+          <q-btn
+            class="q-ml-md"
+            color="secondary"
+            icon="print"
+            label="PRINT"
+            outline
+            @click="printAction"
+          />
         </div>
         <div class="col-auto text-right">
           <q-btn
@@ -122,8 +122,8 @@ import store from "src/store";
 import ReportHelper from "src/utils/helpers/ReportHelper";
 // Drawer
 import CompFormDrawer from "src/views/comp/CompFormDrawer.vue";
-import {CdcdForm} from "@/types/CdcdForm";
-import {CdcdSearchForm} from "@/types/CdcdSearchForm";
+//import {CdcdForm} from "src/types/CdcdForm";
+import {CdcdSearchForm} from "src/types/CdcdSearchForm";
 // import CompSearchDrawer from "src/views/comp/CompSearchDrawer.vue";
 
 export default defineComponent({
@@ -268,37 +268,37 @@ export default defineComponent({
     }
 
     /* Detail Export PDF */
-    // function exportAction() {
-    //   const exportFilename = "TOURNET ERP";
-    //   const listReportVO: CompListReportVO = {
-    //     title: "",
-    //     sort: compformGrid.value.getExportSortString(reportHeaderMap),
-    //     filter:
-    //       compformGrid.value.getExportFilterString(reportHeaderMap),
-    //     data: compformGrid.value.getFilteredRows(),
-    //   };
-    //   ReportHelper.exportEXCELData(
-    //     exportFilename,
-    //     listReportVO,
-    //     ReportService.getCompListReport
-    //   );
-    // }
+    function exportAction() {
+      const exportFilename = "TOURNET ERP";
+      const listReportVO: CompListReportVO = {
+        title: "",
+        sort: compformGrid.value.getExportSortString(reportHeaderMap),
+        filter:
+          compformGrid.value.getExportFilterString(reportHeaderMap),
+        data: compformGrid.value.getFilteredRows(),
+      };
+      ReportHelper.exportEXCELData(
+        exportFilename,
+        listReportVO,
+        ReportService.getCompListReport
+      );
+    }
     /* Detail Export PDF */
-    // function printAction() {
-    //   const exportFilename = "TOURNET ERP";
-    //   const listReportVO: CompListReportVO = {
-    //     title: "",
-    //     sort: compformGrid.value.getExportSortString(reportHeaderMap),
-    //     filter:
-    //       compformGrid.value.getExportFilterString(reportHeaderMap),
-    //     data: compformGrid.value.getFilteredRows(),
-    //   };
-    //   ReportHelper.exportPDFData(
-    //     exportFilename,
-    //     listReportVO,
-    //     ReportService.getCompListPdfReport
-    //   );
-    // }
+    function printAction() {
+      const exportFilename = "TOURNET ERP";
+      const listReportVO: CompListReportVO = {
+        title: "",
+        sort: compformGrid.value.getExportSortString(reportHeaderMap),
+        filter:
+          compformGrid.value.getExportFilterString(reportHeaderMap),
+        data: compformGrid.value.getFilteredRows(),
+      };
+      ReportHelper.exportPDFData(
+        exportFilename,
+        listReportVO,
+        ReportService.getCompListPdfReport
+      );
+    }
 
     function printcodeValue() {
       loadCompRateListOptions();
@@ -465,6 +465,8 @@ export default defineComponent({
       createAction,
       openAction,
       filterAction,
+      exportAction,
+      printAction,
       frameworkComponents,
       compformGrid,
       overlayLoadingTemplate,

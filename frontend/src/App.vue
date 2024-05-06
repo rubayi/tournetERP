@@ -44,9 +44,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import store from 'src/store';
 import NavigationDrawer from 'src/components/navigation/NavigationDrawer.vue';
+import router from "src/router";
 
 export default defineComponent({
   name: 'App',
@@ -54,11 +55,20 @@ export default defineComponent({
   setup() {
     let openNavigationDrawer = ref(false);
     const version = ref<string>('');
+    const currentUserIsLoggedIn = ref(false);
 
-    const currentUserIsLoggedIn = computed(() => {
-      return store.getters.currentUserIsLoggedIn;
-    });
+    // const currentUserIsLoggedIn = computed(() => {
+    //   return store.getters.currentUserIsLoggedIn;
+    // });
 
+    if (store.state.currentUser) {
+      currentUserIsLoggedIn.value = true;
+      // const currentUserIsLoggedIn = computed(() => {
+      //   return store.getters.currentUserIsLoggedIn;
+      // });
+    } else {
+      router.push({ path: "/Login" });
+    }
     return {
       openNavigationDrawer,
       currentUserIsLoggedIn,

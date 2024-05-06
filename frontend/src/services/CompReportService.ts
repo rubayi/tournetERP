@@ -2,6 +2,7 @@ import { AxiosRequestConfig } from "axios";
 import api from "./api";
 import qs from "qs";
 import { IReportVO } from "src/types/CompReportVO";
+import authHeader from "src/services/auth-header";
 
 export enum ReportURL {
   // TODO: Replace the "/somethingHere" urls when the report is implemented
@@ -9,8 +10,9 @@ export enum ReportURL {
   EXPORTPDFREPORT_LIST = "/report/exportpdf",
   EXPORTPDFREPORT_ONE = "/report/exportpdfone",
 }
-const user = JSON.parse(localStorage.getItem("user") || "");
+//const user = JSON.parse(localStorage.getItem("user") || "");
 export class ReportService {
+
   static getCompListReport(data: IReportVO): Promise<ArrayBuffer> {
     return api
       .post<ArrayBuffer>(ReportURL.EXPORTEXCELREPORT_LIST, data, {
@@ -18,7 +20,7 @@ export class ReportService {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/pdf",
-          Authorization: `Bearer ${user.accessToken}`,
+          ...authHeader(),
         },
       })
       .then((response) => response.data);
@@ -30,7 +32,7 @@ export class ReportService {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/pdf",
-          Authorization: `Bearer ${user.accessToken}`,
+          ...authHeader(),
         },
       })
       .then((response) => response.data);
@@ -42,7 +44,7 @@ export class ReportService {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/pdf",
-          Authorization: `Bearer ${user.accessToken}`,
+          ...authHeader(),
         },
       })
       .then((response) => response.data);
