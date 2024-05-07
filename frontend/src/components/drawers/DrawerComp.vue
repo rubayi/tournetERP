@@ -286,6 +286,7 @@ export default defineComponent({
       editableLoading
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async function loopThroughTabsThenRunFunction(func: any) {
       await loopThroughTabs();
       func();

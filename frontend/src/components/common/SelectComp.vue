@@ -6,7 +6,7 @@
     :label="label"
     :model-value="inputValue"
     :options="options"
-    :rules="inputRules"
+    :rules="inputRules ? inputRules : []"
     stack-label
     :style="maxInputWidth"
     @update:model-value="inputValueChange"
@@ -28,12 +28,12 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
-import { computed, defineComponent, ref, watch } from "vue";
-import { ISelectOption, SelectOption } from "src/types/SelectOption";
+import _ from 'lodash';
+import { computed, defineComponent, ref, watch } from 'vue';
+import { ISelectOption, SelectOption } from 'src/types/SelectOption';
 
 export default defineComponent({
-  name: "SelectComp",
+  name: 'SelectComp',
   props: {
     clearable: {
       type: Boolean,
@@ -69,7 +69,7 @@ export default defineComponent({
     },
     validationMessage: {
       type: String,
-      default: "",
+      default: '',
     },
     valueUniqueIdentifier: {
       type: String,
@@ -80,7 +80,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ["update:modelValue", "change"],
+  emits: ['update:modelValue', 'change'],
   setup(props, { emit }) {
     const inputValue = ref<ISelectOption | null>();
     setInputValue(props.modelValue);
@@ -93,7 +93,10 @@ export default defineComponent({
           matchingOption = props.options.find((o) => _.isEqual(o.value, value));
         } else {
           matchingOption = props.options.find((o) =>
-            _.isEqual(o.value[props.valueUniqueIdentifier as keyof typeof o.value], value)
+            _.isEqual(
+              o.value[props.valueUniqueIdentifier as keyof typeof o.value],
+              value
+            )
           );
         }
         if (matchingOption === undefined) {
@@ -126,7 +129,10 @@ export default defineComponent({
           return inputValue.value.value;
         } else {
           const value = inputValue.value.value;
-          if (typeof value === 'object' && props.valueUniqueIdentifier in value) {
+          if (
+            typeof value === 'object' &&
+            props.valueUniqueIdentifier in value
+          ) {
             return value[props.valueUniqueIdentifier];
           }
         }
@@ -137,19 +143,19 @@ export default defineComponent({
 
     function inputValueChange(newVal: ISelectOption | null) {
       inputValue.value = newVal;
-      emit("change", newVal == null ? null : outputValue.value);
+      emit('change', newVal == null ? null : outputValue.value);
     }
 
     watch(
       () => inputValue.value,
       () => {
-        emit("update:modelValue", outputValue.value);
+        emit('update:modelValue', outputValue.value);
       },
       { deep: true }
     );
 
     const maxInputWidth = computed(() =>
-      props.maxWidth ? { width: props.maxWidth + "px" } : ""
+      props.maxWidth ? { width: props.maxWidth + 'px' } : ''
     );
 
     const input = ref();

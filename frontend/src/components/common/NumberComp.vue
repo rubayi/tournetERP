@@ -5,7 +5,6 @@
     :disable="disable"
     :label="label"
     lazy-rules="ondemand"
-    :model-value="inputValue"
     type="number"
     :validation-message="validationMessage"
     :validator="validator"
@@ -26,16 +25,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { useValidateInputs } from "src/utils/helpers/useValidateInputs";
-import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
+import { defineComponent, ref } from 'vue';
+import { useValidateInputs } from 'src/utils/helpers/useValidateInputs';
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
-import InputComp from "src/components/common/InputComp.vue";
-import NumberHelper from "src/utils/helpers/NumberHelper";
-import FormatHelper from "src/utils/helpers/FormatHelper";
+import InputComp from 'src/components/common/InputComp.vue';
+import NumberHelper from 'src/utils/helpers/NumberHelper';
+import FormatHelper from 'src/utils/helpers/FormatHelper';
 
 export default defineComponent({
-  name: "NumberComp",
+  name: 'NumberComp',
   components: { InputComp },
   props: {
     modelValue: {
@@ -64,7 +63,7 @@ export default defineComponent({
     },
     validationMessage: {
       type: String,
-      default: "Number is Invalid",
+      default: 'Number is Invalid',
     },
     required: {
       type: Boolean,
@@ -75,14 +74,14 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ["update:modelValue"],
+  emits: ['update:modelValue'],
   setup(props, { emit }) {
-    const inputValue = ref<string>("");
+    const inputValue = ref<string>('');
     useSyncModelValue(
       props,
-      "modelValue",
+      'modelValue',
       emit,
-      "update:modelValue",
+      'update:modelValue',
       inputValue,
       FormatHelper.convertToString,
       FormatHelper.convertToNumber

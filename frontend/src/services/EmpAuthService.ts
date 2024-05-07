@@ -6,10 +6,15 @@ import authHeader from 'src/services/auth-header';
 
 const API_URL = '/empEmpMenuAuth/';
 
+export interface EmpAuthResponse {
+  menuAuths: EmpAuthForm[];
+  maxNumber: number;
+}
+
 export class EmpAuthService {
-  static searchAuthList(): Promise<EmpAuthForm[]> {
+  static selectMenuAuths(): Promise<EmpAuthResponse> {
     return api
-      .get<EmpAuthForm[]>(API_URL + 'searchAuthList', {
+      .post<EmpAuthResponse>('/menuAuth/' + 'selectMenuAuths', {
         headers: authHeader(),
       })
       .then((response) => response.data);
@@ -17,9 +22,9 @@ export class EmpAuthService {
 
   static searchAuthListByEmpId(
     empReq: EmpAuthSearchForm
-  ): Promise<EmpAuthForm[]> {
+  ): Promise<EmpAuthResponse> {
     return api
-      .post<EmpAuthForm[]>(API_URL + 'selectEmpMenuAuths', empReq, {
+      .post<EmpAuthResponse>(API_URL + 'selectEmpMenuAuths', empReq, {
         headers: authHeader(),
       })
       .then((response) => response.data);

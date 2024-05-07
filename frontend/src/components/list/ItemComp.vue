@@ -36,6 +36,8 @@
             }"
             clickable
             :external-u-r-l="item.menuUrl"
+            as
+            string
             :icon="item.menuIcon"
             :label="item.menuKor"
             :open-menu-on-hover="item.openMenuOnHover"
@@ -51,15 +53,15 @@
 </template>
 
 <script lang="ts">
-import DebounceHelper from "src/utils/helpers/DebounceHelper";
-import URLHelper from "src/utils/helpers/URLHelper";
-import { defineComponent, computed, ref, watch } from "vue";
-import ListComp from "src/components/list/ListComp.vue";
-import MenuComp from "src/components/list/MenuComp.vue";
-import router from "src/router";
+import DebounceHelper from 'src/utils/helpers/DebounceHelper';
+import URLHelper from 'src/utils/helpers/URLHelper';
+import { defineComponent, computed, ref, watch } from 'vue';
+import ListComp from 'src/components/list/ListComp.vue';
+import MenuComp from 'src/components/list/MenuComp.vue';
+import router from 'src/router';
 
 export default defineComponent({
-  name: "ItemComp",
+  name: 'ItemComp',
   components: { ListComp, MenuComp },
   props: {
     focused: {
@@ -72,11 +74,11 @@ export default defineComponent({
     },
     icon: {
       type: String,
-      default: "",
+      default: '',
     },
     label: {
       type: String,
-      default: "",
+      default: '',
     },
     menuOptions: {
       type: Array,
@@ -88,7 +90,7 @@ export default defineComponent({
     },
     to: {
       type: String,
-      default: "",
+      default: '',
     },
     replace: {
       type: Boolean,
@@ -96,7 +98,7 @@ export default defineComponent({
     },
     externalURL: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   setup(props) {
@@ -109,6 +111,7 @@ export default defineComponent({
     console.log(props.menuOptions);
     const showMenuOptions = computed(() => {
       if (props.menuOptions) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return props.menuOptions.filter((m: any) => !m.hide);
       } else {
         return props.menuOptions;
@@ -130,6 +133,7 @@ export default defineComponent({
       menuMouseOver.value = value;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function focusOnItem(item: any) {
       return item.to && item.focused;
     }
@@ -141,7 +145,7 @@ export default defineComponent({
       // Reloads the page again if on an Add page without adding a router entry
       else if (
         props.to &&
-        props.to.includes("?mode=") &&
+        props.to.includes('?mode=') &&
         router.currentRoute.value.fullPath === props.to
       ) {
         router.go(0);

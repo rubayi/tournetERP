@@ -1,20 +1,15 @@
 <template>
-  <q-checkbox
-    v-model="inputValue"
-    :disable="disable"
-    :label="label"
-    :model-value="inputValue"
-  >
+  <q-checkbox v-model="inputValue" :disable="disable" :label="label">
     <slot name="label" />
   </q-checkbox>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
+import { defineComponent, ref } from 'vue';
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
 export default defineComponent({
-  name: "CheckboxComp",
+  name: 'CheckboxComp',
   props: {
     disable: {
       type: Boolean,
@@ -33,15 +28,15 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ["update:modelValue"],
+  emits: ['update:modelValue'],
   setup(props, { emit }) {
     const inputValue = ref<boolean>(false);
 
     useSyncModelValue(
       props,
-      "modelValue",
+      'modelValue',
       emit,
-      "update:modelValue",
+      'update:modelValue',
       inputValue
     );
 

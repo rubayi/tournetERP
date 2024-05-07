@@ -5,7 +5,6 @@
     :disable="disable"
     :label="label"
     lazy-rules="ondemand"
-    :model-value="inputValue"
     :validation-message="validationMessage"
     :validator="validator"
     @input-blur="blurEvent"
@@ -25,16 +24,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { useValidateInputs } from "src/utils/helpers/useValidateInputs";
-import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
+import { defineComponent, ref } from 'vue';
+import { useValidateInputs } from 'src/utils/helpers/useValidateInputs';
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
-import InputComp from "src/components/common/InputComp.vue";
-import FormatHelper from "src/utils/helpers/FormatHelper";
-import NumberHelper from "src/utils/helpers/NumberHelper";
+import InputComp from 'src/components/common/InputComp.vue';
+import FormatHelper from 'src/utils/helpers/FormatHelper';
+import NumberHelper from 'src/utils/helpers/NumberHelper';
 
 export default defineComponent({
-  name: "CurrencyComp",
+  name: 'CurrencyComp',
   components: { InputComp },
   props: {
     modelValue: {
@@ -55,23 +54,23 @@ export default defineComponent({
     },
     validationMessage: {
       type: String,
-      default: "Number is Invalid",
+      default: 'Number is Invalid',
     },
     disable: {
       type: Boolean,
       default: false,
     },
   },
-  emits: ["update:modelValue"],
+  emits: ['update:modelValue'],
   setup(props, { emit }) {
     let timeout = 0;
 
-    const inputValue = ref<string>("");
+    const inputValue = ref<string>('');
     useSyncModelValue(
       props,
-      "modelValue",
+      'modelValue',
       emit,
-      "update:modelValue",
+      'update:modelValue',
       inputValue,
       FormatHelper.convertNumberToCurrency,
       FormatHelper.convertToNumber,
@@ -110,7 +109,7 @@ export default defineComponent({
         FormatHelper.convertToScale(inputValue.value, 2, true)
       );
       if (props.modelValue !== updatedValue) {
-        emit("update:modelValue", updatedValue);
+        emit('update:modelValue', updatedValue);
       }
     }
 

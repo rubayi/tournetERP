@@ -58,8 +58,11 @@ import DialogComp from 'src/components/common/DialogComp.vue';
 import EmpFormDrawerContent from 'src/views/emp/EmpFormDrawerContent.vue';
 // Services
 import { EmpService } from 'src/services/EmpService';
+import { EmpAuthService, EmpAuthResponse } from 'src/services/EmpAuthService';
 // Types
 import { EmpForm } from 'src/types/EmpForm';
+import { EmpAuthForm } from 'src/types/EmpAuthForm';
+import { EmpAuthSearchForm } from 'src/types/EmpAuthSearchForm';
 // Store
 import store from 'src/store';
 //helper
@@ -91,6 +94,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const title = 'Manage Employees';
     const empformData = ref<EmpForm>(new EmpForm());
+    const empAuthFormDatas = ref<EmpAuthForm[]>([]);
+    const menuAuthList = ref<EmpAuthForm[]>([]);
+    const menuMax = ref<number>(0);
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
@@ -113,6 +119,8 @@ export default defineComponent({
       (newValue) => {
         emit('update:modelValue', newValue);
         getEmpformData();
+        getAuthList();
+        getEmpAuthFormDatas();
       }
     );
 
@@ -145,6 +153,33 @@ export default defineComponent({
         EmpService.getEmpForm(props.empSeq)
           .then((response) => {
             empformData.value = response;
+          })
+          .finally(() => {
+            loading.value = false;
+          });
+      }
+    }
+
+    function getAuthList() {
+      EmpAuthService.selectMenuAuths().then((response) => {
+        menuAuthList.value = response.menuAuths;
+        menuMax.value = response.maxNumber;
+        console.log(response);
+      });
+    }
+
+    // Loading Auth Datas
+    function getEmpAuthFormDatas() {
+      if (props.empSeq != 0) {
+        loading.value = true;
+        const form: EmpAuthSearchForm = {
+          empUuid: props.empSeq,
+          empAuthUuid: 0,
+          menuAuthUuid: 0,
+        };
+        EmpAuthService.searchAuthListByEmpId(form)
+          .then((response: EmpAuthResponse) => {
+            empAuthFormDatas.value = response.menuAuths;
           })
           .finally(() => {
             loading.value = false;

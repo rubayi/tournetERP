@@ -6,11 +6,10 @@
     :key="index"
   >
     <q-radio
-      v-model="inputValue"
+      v-model="inputValue as any"
       checked-icon="task_alt"
       :disable="disabled"
       :label="n.label"
-      :model-value="inputValue"
       unchecked-icon="panorama_fish_eye"
       :val="n.value"
     >
@@ -20,13 +19,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
+import { defineComponent, ref } from 'vue';
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 //Type
-import { SelectOption } from "src/types/SelectOption";
+import { SelectOption } from 'src/types/SelectOption';
 
 export default defineComponent({
-  name: "RadioGroupComp",
+  name: 'RadioGroupComp',
   props: {
     modelValue: {
       type: [String, Number, Object],
@@ -34,7 +33,7 @@ export default defineComponent({
     },
     colnum: {
       type: String,
-      default: "col-4",
+      default: 'col-4',
     },
     options: {
       type: Array as () => SelectOption[],
@@ -45,15 +44,15 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ["update:modelValue"],
+  emits: ['update:modelValue'],
   setup(props, { emit }) {
     const inputValue = ref<boolean>(false);
 
     useSyncModelValue(
       props,
-      "modelValue",
+      'modelValue',
       emit,
-      "update:modelValue",
+      'update:modelValue',
       inputValue
     );
 

@@ -15,7 +15,6 @@
       label-slot
       :mask="mask"
       :maxlength="maxLength"
-      :model-value="inputValue"
       :outlined="outlined"
       :placeholder="placeholder"
       :prefix="prefix"
@@ -44,11 +43,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
-import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
+import { computed, defineComponent, ref } from 'vue';
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
 export default defineComponent({
-  name: "InputComp",
+  name: 'InputComp',
   props: {
     clearable: {
       type: Boolean,
@@ -64,7 +63,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: "",
+      default: '',
     },
     error: {
       type: Boolean,
@@ -72,20 +71,20 @@ export default defineComponent({
     },
     hint: {
       type: String,
-      default: "",
+      default: '',
     },
     inputClass: {
       type: String,
-      default: "",
+      default: '',
     },
 
     labelcolor: {
       type: String,
-      default: "",
+      default: '',
     },
     mask: {
       type: String,
-      default: "",
+      default: '',
     },
     maxLength: {
       type: Number,
@@ -97,7 +96,7 @@ export default defineComponent({
     },
     modelValue: {
       type: String,
-      default: "",
+      default: '',
     },
     readonly: {
       type: Boolean,
@@ -105,7 +104,7 @@ export default defineComponent({
     },
     type: {
       type: String,
-      default: "text",
+      default: 'text',
     },
     validator: {
       type: Function,
@@ -113,15 +112,15 @@ export default defineComponent({
     },
     validationMessage: {
       type: String,
-      default: "",
+      default: '',
     },
     placeholder: {
       type: String,
-      default: "",
+      default: '',
     },
     prefix: {
       type: String,
-      default: "",
+      default: '',
     },
     outlined: {
       type: Boolean,
@@ -132,7 +131,7 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ["update:modelValue", "input-blur"],
+  emits: ['update:modelValue', 'input-blur'],
   setup(props, { emit }) {
     const rules = computed(() =>
       props.validationMessage
@@ -140,13 +139,13 @@ export default defineComponent({
         : null
     );
 
-    const inputValue = ref<string>("");
+    const inputValue = ref<string>('');
 
     useSyncModelValue(
       props,
-      "modelValue",
+      'modelValue',
       emit,
-      "update:modelValue",
+      'update:modelValue',
       inputValue
     );
 
@@ -164,11 +163,11 @@ export default defineComponent({
     }
 
     const maxInputWidth = computed(() =>
-      props.maxWidth ? { width: props.maxWidth + "px" } : ""
+      props.maxWidth ? { width: props.maxWidth + 'px' } : ''
     );
 
     function emitBlur(event: Event) {
-      emit("input-blur", event);
+      emit('input-blur', event);
     }
 
     return {
