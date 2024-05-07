@@ -1,7 +1,7 @@
 <template>
   <card-comp-design title="Code Information">
     <template #content>
-      <q-card-section>
+      <q-card-section v-if="editcodeformData">
         <div class="row q-col-gutter-md">
 
           <div class="col-4">
@@ -43,7 +43,6 @@
             />
           </div>
           <div class="col-4">
-            {{editcodeformData.expMonth}}
             <select-comp
               v-model="editcodeformData.expMonth"
               class="full-width"
@@ -53,7 +52,6 @@
             />
           </div>
           <div class="col-4">
-            {{editcodeformData.expYear}}
             <select-comp
               v-model="editcodeformData.expYear"
               class="full-width"
@@ -62,7 +60,31 @@
               outlined
             />
           </div>
-
+          <div class="col-3">
+            <date-picker-comp
+              v-model="editcodeformData.beginDt"
+              class="full-width"
+              clearable
+              label="Apply Begin Date"
+            />
+          </div>
+          <div class="col-3">
+            <date-picker-comp
+              v-model="editcodeformData.endDt"
+              class="full-width"
+              clearable
+              label="Apply End Date"
+            />
+          </div>
+          <div class="col-4">
+            <select-comp
+              v-model="editcodeformData.useYn"
+              class="full-width"
+              label="Use YN"
+              :options="useYnList"
+              outlined
+            />
+          </div>
         </div>
       </q-card-section>
     </template>
@@ -76,16 +98,15 @@ import { defineComponent, ref } from "vue";
 import CardCompDesign from "src/components/common/CardCompDesign.vue";
 import InputComp from "src/components/common/InputComp.vue";
 import SelectComp from "src/components/common/SelectComp.vue";
-import NumberComp from "src/components/common/NumberComp.vue";
-
-// Service
-import { CodeService } from "src/services/CodeService";
 
 // Type
 import { CdcdForm } from "src/types/CdcdForm";
 import { SelectOption } from "src/types/SelectOption";
 // Helper
 import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
+// Service
+import {CodeService} from "src/services/CodeService";
+import DatePickerComp from "src/components/common/DatePickerComp.vue";
 
 export default defineComponent({
   name: "CdcdFormDrawerContent",
@@ -93,6 +114,7 @@ export default defineComponent({
     InputComp,
     SelectComp,
     CardCompDesign,
+    DatePickerComp
   },
   props: {
     modelValue: {
@@ -135,10 +157,20 @@ export default defineComponent({
       }
     }
 
+    loadCouponYnListOptions();
+    const useYnList = ref<SelectOption[]>([]);
+    function loadCouponYnListOptions() {
+      CodeService.getGroupCodeForm(515).then((response) => {
+        useYnList.value = response.map(
+          (x) => new SelectOption(x.codeKr, x.codeUuid)
+        );
+      });
+    }
     return {
       editcodeformData,
       monNumbers,
-      yearNumbers
+      yearNumbers,
+      useYnList
     };
   },
 });

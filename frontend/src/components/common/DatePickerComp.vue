@@ -1,5 +1,4 @@
 <template>
-  <div v-if="inputValue != ''">
   <input-comp
     clearable
     :disable="disable"
@@ -20,7 +19,7 @@
           transition-show="scale"
           ref="qDateProxy"
         >
-          <q-date v-model="inputValue" mask="MM/DD/YYYY">
+          <q-date v-model="inputValue" mask="YYYY/MM/DD/">
             <div class="row items-center justify-end">
               <q-btn v-close-popup color="primary" flat label="Close"></q-btn>
             </div>
@@ -35,7 +34,6 @@
       <slot name="hint" />
     </template>
   </input-comp>
-  </div>
 </template>
 
 <script lang="ts">

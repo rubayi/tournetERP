@@ -50,6 +50,9 @@ public class CreditCardMng {
     @Column(name = "END_DT", nullable = true)
     private String endDt; //종료일
 
+    @Column(name = "USE_YN", nullable = true)
+    private String useYn; //종료일
+
     @CreatedDate
     @Column(name = "CREATED_DT", updatable = false)
     private Date createdDt; //생성일

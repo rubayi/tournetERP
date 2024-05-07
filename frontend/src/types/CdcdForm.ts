@@ -8,6 +8,9 @@ export interface ICdcdForm {
   expMonth: string | null;
   expYear: string | null;
   nameOnCard: string | null;
+  beginDt: string | null;
+  endDt: string | null;
+  useYn: number | 0;
 }
 
 export class CdcdForm implements ICdcdForm {
@@ -18,6 +21,9 @@ export class CdcdForm implements ICdcdForm {
   public expMonth: string | null;
   public expYear: string | null;
   public nameOnCard: string | null;
+  public beginDt: string | null;
+  public endDt: string | null;
+  public useYn: number | 0;
 
   constructor(obj?: ICdcdForm) {
     this.cdCdUuid = getNumberMemberValue(obj && obj.cdCdUuid);
@@ -27,5 +33,8 @@ export class CdcdForm implements ICdcdForm {
     this.expMonth = (obj && obj.expMonth) || "";
     this.expYear = (obj && obj.expYear) || "";
     this.nameOnCard = (obj && obj.nameOnCard) || "";
+    this.beginDt = (obj && obj.beginDt) || "";
+    this.endDt = (obj && obj.endDt) || "";
+    this.useYn = (obj && obj.useYn) || 0;
   }
 }
