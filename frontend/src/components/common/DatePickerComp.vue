@@ -6,7 +6,7 @@
     lazy-rules="ondemand"
     mask="####/##/##"
     :model-value="inputValue"
-    validation-message="Date is Invalid"
+    :validation-message="validationMessage"
     :validator="validator"
     @blur="validate"
     @update:model-value="inputValueChange"
@@ -81,7 +81,23 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     let timeout = 0;
-    const inputValue = ref<string | "">(props.modelValue);
+    const inputValue = ref<string | "">(
+      props.modelValue ? props.modelValue :
+        DateHelper.formatToMonthDayYearShortDateString(
+          new Date().toLocaleDateString(),
+          props.formatToMonth,
+          props.formatToDay,
+          props.formatToYear
+        )
+    );
+
+    const validationMessage = computed(() => {
+      if (!props.modelValue && !validator(inputValue.value)) {
+        return "Date is Invalid";
+      }
+      return null;
+    });
+
     const formatDate = computed(
       () => props.formatToMonth || props.formatToDay || props.formatToYear
     );
@@ -94,6 +110,7 @@ export default defineComponent({
           clearTimeout(timeout);
         }
         if (validator(newVal)) {
+
           // Timer to pause for user input
           timeout = window.setTimeout(() => {
             inputValue.value = DateHelper.formatToMonthDayYearShortDateString(
@@ -129,6 +146,7 @@ export default defineComponent({
     }
 
     const validator = (dateString: string): boolean => {
+
       return (
         DateHelper.isValidShortDateString(dateString) &&
         computedRequiredValidator.value(dateString)
@@ -148,6 +166,7 @@ export default defineComponent({
       resetValidation,
       inputHasError,
       validator,
+      validationMessage
     };
   },
 });

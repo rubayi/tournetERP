@@ -60,7 +60,7 @@
               outlined
             />
           </div>
-          <div class="col-3">
+          <div class="col-4">
             <date-picker-comp
               v-model="editcodeformData.beginDt"
               class="full-width"
@@ -68,7 +68,7 @@
               label="Apply Begin Date"
             />
           </div>
-          <div class="col-3">
+          <div class="col-4">
             <date-picker-comp
               v-model="editcodeformData.endDt"
               class="full-width"
