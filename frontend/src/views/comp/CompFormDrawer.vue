@@ -26,8 +26,8 @@
           <div class="col-12 col-md-12 col-xs-12">
             <comp-form-drawer-primary
               :primary-data="compFormData"
-              :comp-sector-list = "compSectorList"
-              :comp-rate-list = "compRateList"
+              :comp-sector-list="compSectorList"
+              :comp-rate-list="compRateList"
               :hotel-rate-list="hotelRateList"
               :comp-optionRate-List="compOptionRateList"
               :coupon-yn-list="couponYnList"
@@ -45,7 +45,6 @@
             />
           </div>
         </div>
-
       </div>
     </drawer-comp>
   </div>
@@ -63,34 +62,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, ref, watch } from 'vue';
 
 // Components
-import DrawerComp from "src/components/drawers/DrawerComp.vue";
-import DialogComp from "src/components/common/DialogComp.vue";
+import DrawerComp from 'src/components/drawers/DrawerComp.vue';
+import DialogComp from 'src/components/common/DialogComp.vue';
 
 // View Layout
-import CompFormDrawerPrimary from "src/views/comp/CompFormDrawerPrimary.vue";
+import CompFormDrawerPrimary from 'src/views/comp/CompFormDrawerPrimary.vue';
 
 // Services
-import { CompService } from "src/services/CompService";
-import { ReportService } from "src/services/CompReportService";
+import { CompService } from 'src/services/CompService';
+import { ReportService } from 'src/services/CompReportService';
 
 // Types
-import { CompForm } from "src/types/CompForm";
-import { CompListReportVO } from "src/types/CompReportVO";
-import { SelectOption } from "src/types/SelectOption";
+import { CompForm } from 'src/types/CompForm';
+import { CompListReportVO } from 'src/types/CompReportVO';
+import { SelectOption } from 'src/types/SelectOption';
 
 // Store
-import store from "src/store";
+import store from 'src/store';
 
 //helper
-import { notificationHelper } from "src/utils/helpers/NotificationHelper";
-import ReportHelper from "src/utils/helpers/ReportHelper";
-import {AnyData} from "src/types/AnyData";
+import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
+import ReportHelper from 'src/utils/helpers/ReportHelper';
+import { AnyData } from 'src/types/AnyData';
 
 export default defineComponent({
-  name: "CompFormDrawer",
+  name: 'CompFormDrawer',
   components: {
     DrawerComp,
     DialogComp,
@@ -159,24 +158,22 @@ export default defineComponent({
     },
   },
   emits: [
-    "update:modelValue",
-    "update:drawerData",
-    "compform-saved",
-    "compform-deleted",
-    "compform-drawer-closed",
+    'update:modelValue',
+    'update:drawerData',
+    'compform-saved',
+    'compform-deleted',
+    'compform-drawer-closed',
   ],
   setup(props, { emit }) {
-    const title = "Manage Company";
-    const compFormData = ref<CompForm | undefined>(
-      new CompForm()
-    );
+    const title = 'Manage Company';
+    const compFormData = ref<CompForm | undefined>(new CompForm());
 
     const printdata = ref<CompForm[]>([]);
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
-    const confirmbuttoncolor = ref<string>("primary");
-    const confirmbuttonlabel = ref<string>("ADD");
-    const confirmicon = ref<string>("fas fa-plus");
+    const confirmbuttoncolor = ref<string>('primary');
+    const confirmbuttonlabel = ref<string>('ADD');
+    const confirmicon = ref<string>('fas fa-plus');
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
     const showprintbutton = ref<boolean>(false);
@@ -185,7 +182,7 @@ export default defineComponent({
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
     const attfile = ref<AnyData | null>(null);
-    const previewImage = ref<string>("");
+    const previewImage = ref<string>('');
 
     watch(
       () => props.modelValue,
@@ -196,8 +193,7 @@ export default defineComponent({
     watch(
       () => openDrawer.value,
       (newValue) => {
-
-        emit("update:modelValue", newValue);
+        emit('update:modelValue', newValue);
         if (newValue == true) {
           getCompFormData();
         }
@@ -208,35 +204,33 @@ export default defineComponent({
     function resetDrawer() {
       compFormData.value = new CompForm();
       attfile.value = null;
-      previewImage.value = "";
+      previewImage.value = '';
       console.log(previewImage.value);
       if (props.compSeq != 0) {
-        confirmbuttoncolor.value = "warning";
-        confirmbuttonlabel.value = "CHANGE";
-        confirmicon.value = "fas fa-edit";
-        if (
-          store.getters.currentUserHasApplicationPermission("COMP_W")
-        ) {
+        confirmbuttoncolor.value = 'warning';
+        confirmbuttonlabel.value = 'CHANGE';
+        confirmicon.value = 'edit';
+        if (store.getters.currentUserHasApplicationPermission('COMP_W')) {
           showconfirmbutton.value = true;
         } else {
           showconfirmbutton.value = false;
         }
         showdeletebutton.value =
-          store.getters.currentUserHasApplicationPermission("COMP_D");
+          store.getters.currentUserHasApplicationPermission('COMP_D');
         showprintbutton.value =
-          store.getters.currentUserHasApplicationPermission("COMP_R");
+          store.getters.currentUserHasApplicationPermission('COMP_R');
       } else {
-        confirmbuttoncolor.value = "primary";
-        confirmbuttonlabel.value = "ADD";
-        confirmicon.value = "fas fa-plus";
+        confirmbuttoncolor.value = 'primary';
+        confirmbuttonlabel.value = 'ADD';
+        confirmicon.value = 'add';
         showconfirmbutton.value =
-          store.getters.currentUserHasApplicationPermission("COMP_R");
+          store.getters.currentUserHasApplicationPermission('COMP_R');
         showdeletebutton.value = false;
         showprintbutton.value = false;
       }
     }
 
-    function uploadFile (files:AnyData) {
+    function uploadFile(files: AnyData) {
       if (files) {
         attfile.value = files;
       }
@@ -264,17 +258,14 @@ export default defineComponent({
     //Add & Edit
     function saveUpdatedCompData() {
       notificationHelper.dismiss();
-      notificationHelper.createOngoingNotification("Saving...");
+      notificationHelper.createOngoingNotification('Saving...');
       loading.value = true;
       if (compFormData.value) {
-
         const fileToUpload = attfile.value; // Get the first file
         CompService.saveCompForm(fileToUpload, compFormData.value)
           .then((response) => {
-            notificationHelper.createSuccessNotification(
-              `Company Info saved.`
-            );
-            emit("compform-saved", response);
+            notificationHelper.createSuccessNotification(`Company Info saved.`);
+            emit('compform-saved', response);
             closeDrawer();
           })
           .catch((error) => {
@@ -299,10 +290,10 @@ export default defineComponent({
         .then((response) => {
           notificationHelper.createSuccessNotification(
             `Defendant ${
-              compFormData.value ? compFormData.value.compUuid: 0
+              compFormData.value ? compFormData.value.compUuid : 0
             } deleted`
           );
-          emit("compform-deleted", response);
+          emit('compform-deleted', response);
           closeDrawer();
         })
         .catch((error) => {
@@ -318,11 +309,11 @@ export default defineComponent({
 
     /* Detail Export PDF */
     function printedonecompData() {
-      const exportFilename = "HWY Traffic Work Order Report";
+      const exportFilename = 'HWY Traffic Work Order Report';
       const listReportVO: CompListReportVO = {
-        title: "",
-        sort: "",
-        filter: "",
+        title: '',
+        sort: '',
+        filter: '',
         data: printdata.value,
       };
 
@@ -336,7 +327,7 @@ export default defineComponent({
     function closeDrawer() {
       openDrawer.value = false;
       resetDrawer();
-      emit("compform-drawer-closed");
+      emit('compform-drawer-closed');
     }
     return {
       title,
@@ -360,7 +351,7 @@ export default defineComponent({
       printedonecompData,
       printdata,
       uploadFile,
-      previewImage
+      previewImage,
     };
   },
 });

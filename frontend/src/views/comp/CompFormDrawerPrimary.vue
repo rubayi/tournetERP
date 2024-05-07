@@ -155,32 +155,23 @@
                   <label for="file-upload" class="custom-file-upload">
                     로고파일
                   </label>
-                  <div class="col-3">
-                    <input-comp
-                      type="file"
-                      clearable
-                      class="btn btn-info input-style"
-                      @change="handleFileChange"
-                    >
-                      <template #prepend>
-                        <q-icon class="icon-style" name="cloud_upload" />
-                        <span class="span-style">Choose Image</span>
-                      </template>
-                    </input-comp>
-                  </div>
-                  <div class="col-3">
+                  <input-comp
+                    type="file"
+                    clearable
+                    class="btn btn-info input-style"
+                    @change="handleFileChange"
+                  />
+                  <q-img
+                    class="image-max-width"
+                    v-if="compFormData.logoFile"
+                    :src="fileUrl + compFormData.logoFile"
+                  />
+                  <div v-if="lcPreviewImage">
                     <q-img
+                      :src="lcPreviewImage"
                       class="image-max-width"
-                      v-if="compFormData.logoFile"
-                      :src="fileUrl + compFormData.logoFile"
+                      alt="Preview Image"
                     />
-                    <div v-if="lcPreviewImage">
-                      <q-img
-                        :src="lcPreviewImage"
-                        class="image-max-width"
-                        alt="Preview Image"
-                      />
-                    </div>
                   </div>
                 </div>
               </div>
@@ -370,11 +361,9 @@ export default defineComponent({
   -webkit-user-select: none;
   touch-action: manipulation;
 }
-
 .custom-file-upload:active {
   background-color: #006ae8;
 }
-
 .custom-file-upload:hover {
   background-color: #1c84ff;
 }
@@ -383,20 +372,5 @@ input[type='file'] {
 }
 .image-max-width {
   max-width: 100px;
-}
-.icon-style {
-  padding: 0 10px;
-  font-size: 20px;
-  color: white;
-}
-.span-style {
-  font-weight: bold;
-  color: white;
-  font-size: 16px;
-}
-.input-style {
-  background-color: rgb(187, 187, 187);
-  color: white;
-  max-height: 40px;
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div id="input-comp">
     <q-input
+      v-if="type !== 'file'"
       v-model="inputValue"
       :autogrow="autogrow"
       :class="inputClass"
@@ -39,6 +40,13 @@
         <slot name="hint" />
       </template>
     </q-input>
+    <div v-else>
+      <input id="file-upload" type="file" class="hidden" @blur="emitBlur" />
+      <label for="file-upload" class="custom-file-upload">
+        <q-icon class="icon-style" name="cloud_upload" />
+        <span class="span-style">Choose Image</span>
+      </label>
+    </div>
   </div>
 </template>
 
@@ -192,5 +200,20 @@ export default defineComponent({
   .q-field--outlined:hover .q-field__control:before {
     border-color: primary;
   }
+}
+.icon-style {
+  padding: 0 10px;
+  font-size: 20px;
+  color: white;
+}
+.span-style {
+  font-weight: bold;
+  color: white;
+  font-size: 16px;
+}
+.input-style {
+  background-color: rgb(187, 187, 187);
+  color: white;
+  max-height: 40px;
 }
 </style>
