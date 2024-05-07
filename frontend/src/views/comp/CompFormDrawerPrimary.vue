@@ -152,23 +152,35 @@
                   />
                 </div>
                 <div class="col-5">
-                  <label  for="file-upload" class="custom-file-upload">
+                  <label for="file-upload" class="custom-file-upload">
                     로고파일
                   </label>
                   <div class="col-3">
                     <input-comp
                       type="file"
                       clearable
-                      class="btn btn-info"
+                      class="btn btn-info input-style"
                       @change="handleFileChange"
-                    />
+                    >
+                      <template #prepend>
+                        <q-icon class="icon-style" name="cloud_upload" />
+                        <span class="span-style">Choose Image</span>
+                      </template>
+                    </input-comp>
                   </div>
                   <div class="col-3">
-                  <q-img v-if="compFormData.logoFile"
-                         :src="fileUrl + compFormData.logoFile"/>
-                  <div v-if="previewImage">
-                    <q-img :src="previewImage" alt="Preview Image"/>
-                  </div>
+                    <q-img
+                      v-if="compFormData.logoFile"
+                      :src="fileUrl + compFormData.logoFile"
+                      class="image-max-width"
+                    />
+                    <div v-if="previewImage">
+                      <q-img
+                        :src="previewImage"
+                        class="image-max-width"
+                        alt="Preview Image"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -198,7 +210,7 @@ import { SelectOption } from 'src/types/SelectOption';
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
 //Fileinfo
-import { fileInfo } from "src/utils/helpers/Fileinfo";
+import { fileInfo } from 'src/utils/helpers/Fileinfo';
 export default defineComponent({
   name: 'CompFormDrawerPrimary',
   components: {
@@ -292,13 +304,9 @@ export default defineComponent({
     const handleFileChange = (event: Event) => {
       const target = event.target as HTMLInputElement;
       const file: File | null = (target.files && target.files[0]) || null;
-      console.log(target.files);
-      console.log();
       if (file) {
-        console.log("bbbbbbbbbbbbbbbbbb");
         const reader = new FileReader();
         reader.onload = (e) => {
-          console.log("ccccccccccccccc");
           const result: string | null = e.target?.result as string;
           previewImage.value = result;
           if (props.uploadFile) {
@@ -318,7 +326,7 @@ export default defineComponent({
       readonlybtn,
       fileUrl,
       handleFileChange,
-      previewImage
+      previewImage,
     };
   },
 });
@@ -330,7 +338,7 @@ export default defineComponent({
 }
 .custom-file-upload {
   align-items: center;
-  background-color: #0276FF;
+  background-color: #0276ff;
   border-radius: 5px;
   border-style: none;
   box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
@@ -340,27 +348,46 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
   flex-shrink: 0;
-  font-family: "RM Neue",sans-serif;
+  font-family: 'RM Neue', sans-serif;
   font-size: 100%;
   line-height: 1.15;
   margin: 0;
   padding: 10px 21px;
   text-align: center;
   text-transform: none;
-  transition: color .13s ease-in-out,background .13s ease-in-out,opacity .13s ease-in-out,box-shadow .13s ease-in-out;
+  transition: color 0.13s ease-in-out, background 0.13s ease-in-out,
+    opacity 0.13s ease-in-out, box-shadow 0.13s ease-in-out;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
 }
 
 .custom-file-upload:active {
-  background-color: #006AE8;
+  background-color: #006ae8;
 }
 
 .custom-file-upload:hover {
-  background-color: #1C84FF;
+  background-color: #1c84ff;
 }
-input[type="file"] {
+input[type='file'] {
   display: none;
+}
+.image-max-width {
+  max-width: 100px;
+}
+.icon-style {
+  padding: 0 10px;
+  font-size: 20px;
+  color: white;
+}
+.span-style {
+  font-weight: bold;
+  color: white;
+  font-size: 16px;
+}
+.input-style {
+  background-color: rgb(187, 187, 187);
+  color: white;
+  max-height: 40px;
 }
 </style>
