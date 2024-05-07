@@ -40,6 +40,7 @@
               :honeymoon-rate-list="honeymoonRateList"
               :prepaid-how-list="prepaidHowList"
               :upload-file="uploadFile"
+              :preview-image="previewImage"
               ref="compFormDrawerPrimary"
             />
           </div>
@@ -184,6 +185,7 @@ export default defineComponent({
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
     const attfile = ref<AnyData | null>(null);
+    const previewImage = ref<string>("");
 
     watch(
       () => props.modelValue,
@@ -194,6 +196,7 @@ export default defineComponent({
     watch(
       () => openDrawer.value,
       (newValue) => {
+
         emit("update:modelValue", newValue);
         if (newValue == true) {
           getCompFormData();
@@ -205,6 +208,8 @@ export default defineComponent({
     function resetDrawer() {
       compFormData.value = new CompForm();
       attfile.value = null;
+      previewImage.value = "";
+      console.log(previewImage.value);
       if (props.compSeq != 0) {
         confirmbuttoncolor.value = "warning";
         confirmbuttonlabel.value = "CHANGE";
@@ -264,7 +269,6 @@ export default defineComponent({
       if (compFormData.value) {
 
         const fileToUpload = attfile.value; // Get the first file
-console.log(fileToUpload);
         CompService.saveCompForm(fileToUpload, compFormData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
@@ -355,7 +359,8 @@ console.log(fileToUpload);
       getCompFormData,
       printedonecompData,
       printdata,
-      uploadFile
+      uploadFile,
+      previewImage
     };
   },
 });

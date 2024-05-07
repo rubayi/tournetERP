@@ -170,13 +170,13 @@
                   </div>
                   <div class="col-3">
                     <q-img
+                      class="image-max-width"
                       v-if="compFormData.logoFile"
                       :src="fileUrl + compFormData.logoFile"
-                      class="image-max-width"
                     />
-                    <div v-if="previewImage">
+                    <div v-if="lcPreviewImage">
                       <q-img
-                        :src="previewImage"
+                        :src="lcPreviewImage"
                         class="image-max-width"
                         alt="Preview Image"
                       />
@@ -278,13 +278,17 @@ export default defineComponent({
       default: () => [],
     },
     uploadFile: Function,
+    previewImage: {
+      type: String,
+      default: '',
+    },
   },
   setup(props, { emit }) {
     const compFormData = ref<CompForm>(new CompForm());
     const readonlybtn = ref<boolean>(true);
 
     const fileUrl = ref(fileInfo);
-    const previewImage = ref<string | null>(null);
+    const lcPreviewImage = ref<string | null>(props.previewImage);
 
     useSyncModelValue(
       props,
@@ -300,6 +304,12 @@ export default defineComponent({
         compFormData.value = newValue;
       }
     );
+    watch(
+      () => props.previewImage,
+      (newValue) => {
+        lcPreviewImage.value = newValue;
+      }
+    );
 
     const handleFileChange = (event: Event) => {
       const target = event.target as HTMLInputElement;
@@ -308,15 +318,14 @@ export default defineComponent({
         const reader = new FileReader();
         reader.onload = (e) => {
           const result: string | null = e.target?.result as string;
-          previewImage.value = result;
+          lcPreviewImage.value = result;
           if (props.uploadFile) {
-            console.log(file);
             props.uploadFile(file);
           }
         };
         reader.readAsDataURL(file);
       } else {
-        previewImage.value = null;
+        lcPreviewImage.value = null;
       }
     };
 
@@ -326,7 +335,7 @@ export default defineComponent({
       readonlybtn,
       fileUrl,
       handleFileChange,
-      previewImage,
+      lcPreviewImage,
     };
   },
 });
