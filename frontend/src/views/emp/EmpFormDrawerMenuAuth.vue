@@ -91,12 +91,12 @@ export default defineComponent({
   components: {
     CardCompDesign,
   },
-  props: {
-    modelValue: {
-      type: Object as () => EmpAuthForm,
-      default: () => new EmpAuthForm(),
-    },
-  },
+  //   props: {
+  //     modelValue: {
+  //       type: Object as () => EmpAuthForm,
+  //       default: () => new EmpAuthForm(),
+  //     },
+  //   },
   setup(props, { emit }) {
     const authList = ref(props.optionList);
     const authListEmpId = ref(props.dataVal);
