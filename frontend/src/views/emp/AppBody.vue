@@ -5,8 +5,7 @@
         <div class="col q-pr-md">
           <span class="part_title text-primary">
             <q-icon name="person" class="q-ml-xs q-mb-xs" size="md"></q-icon
-            >{{ t('manageEmployees') }}</span
-          >
+          ></span>
         </div>
         <div class="col-2 text-right q-pr-md">
           <q-btn
@@ -85,7 +84,6 @@ import { EmpSearchForm } from 'src/types/EmpSearchForm';
 import store from 'src/store';
 // Store
 import i18n from 'src/i18n';
-import { useI18n } from 'vue-i18n';
 // Drawer
 import EmpFormDrawer from 'src/views/emp/EmpFormDrawer.vue';
 import EmpSearchDrawer from 'src/views/emp/EmpSearchDrawer.vue';
@@ -98,7 +96,6 @@ export default defineComponent({
     EmpSearchDrawer,
   },
   setup() {
-    const { t } = useI18n();
     const openDrawer = ref<boolean>(false);
     const openSearchDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
@@ -181,7 +178,6 @@ export default defineComponent({
     console.log(i18n.global.t('manageEmployees'));
 
     return {
-      t,
       gridOptions,
       data,
       loadData,
