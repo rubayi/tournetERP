@@ -26,12 +26,9 @@
           ref="empFormDrawerContent"
         />
         <!-- <emp-form-drawer-menu-auth
-          v-if="edited.empUuid"
-          :data-val="empMunuAuthList"
-          :option-list="munuAuthList"
-          :req-list="checkedAuthUuids"
-          :menu-max="munuMax"
-          @update:checkedAuthUuids="munuAuthList = $event"
+          v-model="menuAuthList"
+          ref="empFormDrawerMenuAuth"
+          :data-val="empAuthFormDatas"
         /> -->
       </div>
     </drawer-comp>
@@ -56,6 +53,7 @@ import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 import DialogComp from 'src/components/common/DialogComp.vue';
 // View Layout
 import EmpFormDrawerContent from 'src/views/emp/EmpFormDrawerContent.vue';
+import EmpFormDrawerMenuAuth from 'src/views/emp/EmpFormDrawerMenuAuth.vue';
 // Services
 import { EmpService } from 'src/services/EmpService';
 import { EmpAuthService, EmpAuthResponse } from 'src/services/EmpAuthService';
@@ -73,6 +71,7 @@ export default defineComponent({
     DrawerComp,
     DialogComp,
     EmpFormDrawerContent,
+    // EmpFormDrawerMenuAuth,
   },
   props: {
     empSeq: {
@@ -96,6 +95,7 @@ export default defineComponent({
     const empformData = ref<EmpForm>(new EmpForm());
     const empAuthFormDatas = ref<EmpAuthForm[]>([]);
     const menuAuthList = ref<EmpAuthForm[]>([]);
+    const checkedAuthUuids = ref<number[]>([]);
     const menuMax = ref<number>(0);
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
@@ -105,6 +105,7 @@ export default defineComponent({
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
     const empformDrawerContent = ref();
+    const empformDrawerMenuAuth = ref();
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
 
@@ -253,6 +254,8 @@ export default defineComponent({
     return {
       title,
       empformData,
+      empAuthFormDatas,
+      menuAuthList,
       loading,
       openDrawer,
       confirmbuttoncolor,
@@ -261,6 +264,7 @@ export default defineComponent({
       showconfirmbutton,
       showdeletebutton,
       empformDrawerContent,
+      empformDrawerMenuAuth,
       drawerComp,
       openDeleteConfirm,
       resetDrawer,

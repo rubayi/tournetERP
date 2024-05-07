@@ -207,6 +207,14 @@
       </q-card-section>
     </template>
   </card-comp-design>
+
+  <!-- <emp-emergency-dawer-content
+    v-model="openDrawer"
+    :emp-seq="empUuid"
+        @empform-deleted="loadData"
+        @empform-drawer-closed="empUuid = 0"
+        @empform-saved="loadData"
+      /> -->
 </template>
 
 <script lang="ts">
