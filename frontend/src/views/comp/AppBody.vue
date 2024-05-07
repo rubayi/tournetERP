@@ -228,7 +228,6 @@ export default defineComponent({
           (response) => {
             loading.value = false;
             compUuid.value = 0;
-            console.log(response);
             data.value = response;
 
           }
@@ -260,6 +259,7 @@ export default defineComponent({
     function openAction(value: number) {
       compUuid.value = value;
       openDrawer.value = true;
+
     }
 
     /* Detail Filter */

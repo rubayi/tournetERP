@@ -21,10 +21,20 @@ export class CompService {
       });
   }
 
-  static saveCompForm(h3caseform: CompForm): Promise<CompForm> {
-    return api.post<CompForm>(API_URL + "updateComp", h3caseform,
-      { headers: {...authHeader(), "Content-Type": "multipart/form-data"}  })
-      .then((response) => response.data);
+  static saveCompForm(attachFile: any, h3caseform: CompForm): Promise<CompForm> {
+    // console.log(h3caseform);
+    // return api.post<CompForm>(API_URL + "updateComp", h3caseform,
+    //   { headers: {...authHeader(), "Content-Type": "multipart/form-data"}  })
+    //   .then((response) => response.data);
+    const formData = new FormData();
+
+    formData.append("companyReq", JSON.stringify(h3caseform));
+    formData.append("file", attachFile);
+    // for (let pair of formData.entries()) {
+    //   console.log(pair[0] + ', ' + pair[1]);
+    // }
+    return api.post("/comp/updateComp", formData,
+      { headers: {...authHeader(), "Content-Type": "multipart/form-data"}  });
   }
 
   static deleteCompForm(compUuid: number): Promise<void> {

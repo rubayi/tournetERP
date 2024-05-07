@@ -39,6 +39,7 @@
               :honeymoon-only-rate-list="honeymoonOnlyRateList"
               :honeymoon-rate-list="honeymoonRateList"
               :prepaid-how-list="prepaidHowList"
+              :upload-file="uploadFile"
               ref="compFormDrawerPrimary"
             />
           </div>
@@ -72,7 +73,7 @@ import CompFormDrawerPrimary from "src/views/comp/CompFormDrawerPrimary.vue";
 
 // Services
 import { CompService } from "src/services/CompService";
-// import { ReportService } from "src/services/CompReportService";
+import { ReportService } from "src/services/CompReportService";
 
 // Types
 import { CompForm } from "src/types/CompForm";
@@ -85,6 +86,7 @@ import store from "src/store";
 //helper
 import { notificationHelper } from "src/utils/helpers/NotificationHelper";
 import ReportHelper from "src/utils/helpers/ReportHelper";
+import {AnyData} from "src/types/AnyData";
 
 export default defineComponent({
   name: "CompFormDrawer",
@@ -181,6 +183,7 @@ export default defineComponent({
     const compFormDrawerPrimary = ref();
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
+    const attfile = ref<AnyData | null>(null);
 
     watch(
       () => props.modelValue,
@@ -201,6 +204,7 @@ export default defineComponent({
     // Reset Drawer
     function resetDrawer() {
       compFormData.value = new CompForm();
+      attfile.value = null;
       if (props.compSeq != 0) {
         confirmbuttoncolor.value = "warning";
         confirmbuttonlabel.value = "CHANGE";
@@ -227,6 +231,13 @@ export default defineComponent({
       }
     }
 
+    function uploadFile (files:AnyData) {
+      if (files) {
+        attfile.value = files;
+      }
+      //attfile.value = files[0];
+    }
+
     // Loading One Data
     function getCompFormData() {
       resetDrawer();
@@ -251,8 +262,10 @@ export default defineComponent({
       notificationHelper.createOngoingNotification("Saving...");
       loading.value = true;
       if (compFormData.value) {
-        console.log(compFormData.value);
-        CompService.saveCompForm(compFormData.value)
+
+        const fileToUpload = attfile.value; // Get the first file
+console.log(fileToUpload);
+        CompService.saveCompForm(fileToUpload, compFormData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
               `Company Info saved.`
@@ -300,21 +313,21 @@ export default defineComponent({
     }
 
     /* Detail Export PDF */
-    // function printedonecompData() {
-    //   const exportFilename = "HWY Traffic Work Order Report";
-    //   const listReportVO: CompListReportVO = {
-    //     title: "",
-    //     sort: "",
-    //     filter: "",
-    //     data: printdata.value,
-    //   };
-    //
-    //   ReportHelper.exportPDFData(
-    //     exportFilename,
-    //     listReportVO,
-    //     ReportService.getCompOnePdfReport
-    //   );
-    // }
+    function printedonecompData() {
+      const exportFilename = "HWY Traffic Work Order Report";
+      const listReportVO: CompListReportVO = {
+        title: "",
+        sort: "",
+        filter: "",
+        data: printdata.value,
+      };
+
+      ReportHelper.exportPDFData(
+        exportFilename,
+        listReportVO,
+        ReportService.getCompOnePdfReport
+      );
+    }
 
     function closeDrawer() {
       openDrawer.value = false;
@@ -340,7 +353,9 @@ export default defineComponent({
       deleteCompForm,
       saveUpdatedCompData,
       getCompFormData,
+      printedonecompData,
       printdata,
+      uploadFile
     };
   },
 });

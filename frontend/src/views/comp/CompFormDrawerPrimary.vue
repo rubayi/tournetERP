@@ -151,6 +151,26 @@
                     :options="honeymoonOnlyRateList"
                   />
                 </div>
+                <div class="col-5">
+                  <label  for="file-upload" class="custom-file-upload">
+                    로고파일
+                  </label>
+                  <div class="col-3">
+                    <input-comp
+                      type="file"
+                      clearable
+                      class="btn btn-info"
+                      @change="handleFileChange"
+                    />
+                  </div>
+                  <div class="col-3">
+                  <q-img v-if="compFormData.logoFile"
+                         :src="fileUrl + compFormData.logoFile"/>
+                  <div v-if="previewImage">
+                    <q-img :src="previewImage" alt="Preview Image"/>
+                  </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -176,8 +196,9 @@ import { SelectOption } from 'src/types/SelectOption';
 
 // Helper
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
-import InputLabelTemplateContent from 'src/components/common/InputLabelTemplateContent.vue';
 
+//Fileinfo
+import { fileInfo } from "src/utils/helpers/Fileinfo";
 export default defineComponent({
   name: 'CompFormDrawerPrimary',
   components: {
@@ -244,10 +265,14 @@ export default defineComponent({
       type: Array as () => SelectOption[],
       default: () => [],
     },
+    uploadFile: Function,
   },
   setup(props, { emit }) {
     const compFormData = ref<CompForm>(new CompForm());
     const readonlybtn = ref<boolean>(true);
+
+    const fileUrl = ref(fileInfo);
+    const previewImage = ref<string | null>(null);
 
     useSyncModelValue(
       props,
@@ -264,10 +289,36 @@ export default defineComponent({
       }
     );
 
+    const handleFileChange = (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      const file: File | null = (target.files && target.files[0]) || null;
+      console.log(target.files);
+      console.log();
+      if (file) {
+        console.log("bbbbbbbbbbbbbbbbbb");
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          console.log("ccccccccccccccc");
+          const result: string | null = e.target?.result as string;
+          previewImage.value = result;
+          if (props.uploadFile) {
+            console.log(file);
+            props.uploadFile(file);
+          }
+        };
+        reader.readAsDataURL(file);
+      } else {
+        previewImage.value = null;
+      }
+    };
+
     return {
       compFormData,
       //addCompany,
       readonlybtn,
+      fileUrl,
+      handleFileChange,
+      previewImage
     };
   },
 });
@@ -276,5 +327,40 @@ export default defineComponent({
 <style lang="scss">
 .fieldset03 > h1:after {
   margin: 0 1px 0 20em;
+}
+.custom-file-upload {
+  align-items: center;
+  background-color: #0276FF;
+  border-radius: 5px;
+  border-style: none;
+  box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  font-family: "RM Neue",sans-serif;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+  padding: 10px 21px;
+  text-align: center;
+  text-transform: none;
+  transition: color .13s ease-in-out,background .13s ease-in-out,opacity .13s ease-in-out,box-shadow .13s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.custom-file-upload:active {
+  background-color: #006AE8;
+}
+
+.custom-file-upload:hover {
+  background-color: #1C84FF;
+}
+input[type="file"] {
+  display: none;
 }
 </style>
