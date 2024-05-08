@@ -165,7 +165,6 @@ export default defineComponent({
       EmpAuthService.selectMenuAuths().then((response) => {
         menuAuthList.value = response.menuAuths;
         menuMax.value = response.maxNumber;
-        console.log(response);
       });
     }
 

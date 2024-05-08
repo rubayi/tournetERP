@@ -4,7 +4,7 @@
       <div class="row q-mb-none">
         <div class="col q-pr-md">
           <span class="part_title text-primary">
-            <i class="fas fa-cogs q-ml-xs q-mr-md"></i>
+            <q-icon name="settings" class="q-ml-xs q-mr-sm"></q-icon>
             Manage Code
           </span>
         </div>
@@ -104,6 +104,7 @@ export default defineComponent({
       CodeFormTableConfig.frameworkComponents;
     const overlayLoadingTemplate = TableHelper.loadingOverlay;
     const data = ref<CodeForm[]>([]);
+    const uprName = ref<{ codeUuid: number; codeEn: string }[]>([]);
     const searchdefaultdata = ref<CodeSearchForm>(new CodeSearchForm());
     const searchdata = ref<CodeSearchForm>(new CodeSearchForm());
     const codeformGrid = ref();
@@ -131,6 +132,14 @@ export default defineComponent({
       ) {
         filterNumber.value++;
       }
+      if (
+        !_.isEqual(
+          searchdata.value.searchCodeEn,
+          searchdefaultdata.value.searchCodeEn
+        )
+      ) {
+        filterNumber.value++;
+      }
       showinsertbutton.value =
         store.getters.currentUserHasApplicationPermission('CODE_W');
       if (store.getters.currentUserHasApplicationPermission('CODE_R')) {
@@ -145,8 +154,16 @@ export default defineComponent({
           //   gridOptions.value.columnApi.applyColumnState({
           //     state: CodeFormTableConfig.defaultSortModel,
           //   });
-
           // }
+        });
+        CodeService.getGroupCodeForm(0).then((response) => {
+          if (response) {
+            uprName.value = response.map((item) => ({
+              codeUuid: item.codeUuid,
+              codeEn: item.codeEn,
+            }));
+            CodeFormTableConfig.setUprName(uprName.value);
+          }
         });
       }
     }

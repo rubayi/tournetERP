@@ -40,11 +40,11 @@ public class ComCodeService {
         if (comCodeReq.getSearchUprCodeUuid() != 0) {
             uprCodeUuid = comCodeReq.getSearchUprCodeUuid();
         }
-        if (comCodeReq.getCodeKr() != null) {
-            comCodeKor = comCodeReq.getCodeKr();
+        if (comCodeReq.getSearchCodeKr() != null) {
+            comCodeKor = comCodeReq.getSearchCodeKr();
         }
-        if (comCodeReq.getCodeEn() != null) {
-            comCodeEng = comCodeReq.getCodeEn();
+        if (comCodeReq.getSearchCodeEn() != null) {
+            comCodeEng = comCodeReq.getSearchCodeEn();
         }
 
         List<ComCode> selectedComCodes = comCodeRepository.findAllByOrderByCodeOrd(

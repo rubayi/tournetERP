@@ -1,97 +1,132 @@
-import {ColDef, ValueFormatterParams} from "ag-grid-community";
-import OpenButtonCellRenderer from "src/components/table/OpenButtonCellRenderer.vue";
-import DateHelper from "src/utils/helpers/DateHelper";
+import { ColDef, ValueFormatterParams } from 'ag-grid-community';
+import OpenButtonCellRenderer from 'src/components/table/OpenButtonCellRenderer.vue';
+import DateHelper from 'src/utils/helpers/DateHelper';
 const moment = require('moment');
+
 export class CodeFormTableConfig {
   static overlay =
     '<span class="ag-overlay-loading-center">Please wait while your Data are loading</span>';
 
+  // Add a new property to store uprName
+  static uprName: { codeUuid: number; codeEn: string }[] = [];
+  // Add a new method to set uprName
+  static setUprName(uprName: { codeUuid: number; codeEn: string }[]) {
+    CodeFormTableConfig.uprName = uprName;
+  }
+
   static columns: ColDef[] = [
     {
-      headerName: "",
-      field: "codeUuid",
-      cellClass: "no-border",
+      headerName: '',
+      field: 'codeUuid',
+      cellClass: 'no-border',
       floatingFilter: false,
       cellRenderer: OpenButtonCellRenderer,
+      minWidth: 70,
       maxWidth: 80,
-      minWidth: 80,
       sortable: false,
       suppressMovable: true,
       suppressNavigable: true,
+      cellStyle: { 'text-align': 'center' },
     },
     {
-      headerName: "Group",
-      field: "uprCodeUuid",
+      headerName: 'Group',
+      field: 'uprCodeUuid',
       floatingFilter: false,
-      minWidth: 100,
+      maxWidth: 120,
+      sortable: true,
+      resizable: true,
+      cellStyle: { 'text-align': 'center' },
+      valueGetter: (params) => {
+        // Find the uprName object where codeUuid equals uprCodeUuid
+        const uprNameObj = CodeFormTableConfig.uprName.find(
+          (uprName: { codeUuid: number }) =>
+            uprName.codeUuid == params.data.uprCodeUuid
+        );
+        // If found, return the codeEn value, otherwise return an empty string
+        return uprNameObj ? uprNameObj.codeEn : 'Root';
+      },
+    },
+    {
+      headerName: 'Code Name(Kr)',
+      field: 'codeKr',
+      filter: true,
+      sortable: true,
+      resizable: true,
+      flex: 1,
+    },
+    {
+      headerName: 'Code Name(Eng)',
+      field: 'codeEn',
+      filter: true,
+      sortable: true,
+      resizable: true,
+      flex: 1,
+    },
+    {
+      headerName: 'Abbreviation',
+      field: 'codeAbb',
+      filter: true,
+      minWidth: 110,
+      maxWidth: 140,
+      sortable: true,
+      resizable: true,
+      cellStyle: { 'text-align': 'center' },
+    },
+    {
+      headerName: 'Order',
+      field: 'codeOrd',
+      floatingFilter: false,
+      minWidth: 70,
       maxWidth: 100,
       sortable: true,
       resizable: true,
+      cellStyle: { 'text-align': 'center' },
     },
     {
-      headerName: "Code Name(Kr)",
-      field: "codeKr",
+      headerName: 'Code Lvl',
+      field: 'codeLvl',
       filter: true,
-      minWidth: 250,
+      minWidth: 70,
+      maxWidth: 110,
       sortable: true,
       resizable: true,
+      cellStyle: { 'text-align': 'center' },
     },
     {
-      headerName: "Code Name(Eng)",
-      field: "codeEn",
-      filter: true,
-      minWidth: 250,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Order",
-      field: "codeOrd",
+      headerName: 'Use Y/N',
+      field: 'useYn',
       floatingFilter: false,
-      minWidth: 100,
+      minWidth: 70,
       maxWidth: 100,
       sortable: true,
       resizable: true,
+      cellStyle: { 'text-align': 'center' },
     },
     {
-      headerName: "Code Level",
-      field: "codeLvl",
-      filter: true,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "USE YN",
-      field: "useYn",
+      headerName: 'ModifiedByName',
+      field: 'modifiedByName',
       floatingFilter: false,
-      minWidth: 80,
-      maxWidth: 80,
+      minWidth: 170,
+      maxWidth: 200,
+      flex: 1,
       sortable: true,
       resizable: true,
+      cellStyle: { 'text-align': 'center' },
     },
     {
-      headerName: "ModifiedByName",
-      field: "modifiedByName",
+      headerName: 'LastUpdated',
+      field: 'modifiedDt',
       floatingFilter: false,
       minWidth: 220,
       maxWidth: 220,
       flex: 1,
       sortable: true,
       resizable: true,
-    },
-    {
-      headerName: "LastUpdated",
-      field: "modifiedDt",
-      floatingFilter: false,
-      minWidth: 220,
-      maxWidth: 220,
-      flex: 1,
-      sortable: true,
-      resizable: true,
+      cellStyle: { 'text-align': 'center' },
       valueFormatter: (params: ValueFormatterParams): string => {
         return params.value
           ? DateHelper.formatISOStringToDateTimeString(params.value)
-          : "";
+          : '';
       },
     },
   ];
@@ -102,8 +137,8 @@ export class CodeFormTableConfig {
 
   static defaultSortModel = [
     {
-      colId: "codeUuid",
-      sort: "desc",
+      colId: 'codeUuid',
+      sort: 'desc',
       sortIndex: 0,
     },
   ];

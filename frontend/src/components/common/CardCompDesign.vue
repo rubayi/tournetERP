@@ -13,22 +13,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "CardCompDesign",
+  name: 'CardCompDesign',
   props: {
     title: {
       type: String,
-      default: "",
+      default: '',
     },
     headerSectionClass: {
       type: String,
-      default: "q-my-xs q-mr-sm text-subtitle1",
+      default: 'q-my-xs q-mr-sm text-subtitle1',
     },
     headersubSectionClass: {
       type: String,
-      default: "doc-card-title text-h7 text-primary",
+      default: 'doc-card-title text-h7 text-primary',
     },
     fit: {
       type: Boolean,
@@ -61,7 +61,7 @@ export default defineComponent({
   border: 0 solid #0000;
   border-top-color: #bebebe;
   border-width: 9px 0 0 11px;
-  content: "";
+  content: '';
   height: 0;
   left: 0;
   position: absolute;
@@ -91,7 +91,7 @@ export default defineComponent({
 }
 
 .main-title {
-  background-image: url("src/assets/top_main.png");
+  background-image: url('src/assets/top_main.png');
   font-family: Raleway;
   font-weight: 500;
   color: #f0eeee;

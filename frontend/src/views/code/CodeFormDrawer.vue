@@ -14,7 +14,7 @@
       :show-print-button="false"
       side="right"
       :title="title"
-      :width="60"
+      :width="50"
       @cancel-clicked="closeDrawer"
       @confirm-clicked="saveUpdatedCodeData"
       @delete-clicked="openDeleteConfirm = true"

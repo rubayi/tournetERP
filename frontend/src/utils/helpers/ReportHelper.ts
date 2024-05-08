@@ -1,7 +1,7 @@
-import { ReportService, ReportURL } from "src/services/ReportService";
-import { notificationHelper } from "src/utils/helpers/NotificationHelper";
-import FileHelper from "src/utils/helpers/FileHelper";
-import { IReportVO } from "src/types/TournetReportVO";
+import { ReportService, ReportURL } from 'src/services/ReportService';
+import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
+import FileHelper from 'src/utils/helpers/FileHelper';
+import { IReportVO } from 'src/types/TournetReportVO';
 
 function exportEXCELData(
   exportFilename: string,
@@ -11,14 +11,14 @@ function exportEXCELData(
   notificationHelper.dismiss();
 
   if (reportService) {
-    notificationHelper.createOngoingNotification("Exporting...");
+    notificationHelper.createOngoingNotification('Exporting...');
 
-    const filename = exportFilename ? exportFilename : "Report";
+    const filename = exportFilename ? exportFilename : 'Report';
     reportService(reportVO)
       .then((result) => {
         setTimeout(() => {
-          FileHelper.downloadFile(result, filename, "xls", "application/CSV");
-          notificationHelper.createSuccessNotification("Export Successful!");
+          FileHelper.downloadFile(result, filename, 'xls', 'application/CSV');
+          notificationHelper.createSuccessNotification('Export Successful!');
         }, 500);
       })
       .catch((error) => {
@@ -40,14 +40,14 @@ function exportPDFData(
   notificationHelper.dismiss();
 
   if (reportService) {
-    notificationHelper.createOngoingNotification("Exporting...");
+    notificationHelper.createOngoingNotification('Exporting...');
 
-    const filename = exportFilename ? exportFilename : "Report";
+    const filename = exportFilename ? exportFilename : 'Report';
     reportService(reportVO)
       .then((result) => {
         setTimeout(() => {
-          FileHelper.downloadFile(result, filename, "pdf", "application/pdf");
-          notificationHelper.createSuccessNotification("Export Successful!");
+          FileHelper.downloadFile(result, filename, 'pdf', 'application/pdf');
+          notificationHelper.createSuccessNotification('Export Successful!');
         }, 500);
       })
       .catch((error) => {
@@ -63,9 +63,9 @@ function exportPDFData(
 
 export function runReportWithURLAndParameters(
   reportURL: ReportURL,
-  reportParameters: Record<string, any>
-): Promise<any> {
-  notificationHelper.createOngoingNotification("Running Report");
+  reportParameters: Record<string, unknown>
+): Promise<unknown> {
+  notificationHelper.createOngoingNotification('Running Report');
   return runReport(() =>
     ReportService.getReportDTOWithParameterString(reportURL, reportParameters)
   ).then((response) => {
@@ -76,9 +76,9 @@ export function runReportWithURLAndParameters(
 
 export function runExcelReportWithURLAndParameters(
   reportURL: ReportURL,
-  reportParameters: Record<string, any>
-): Promise<any> {
-  notificationHelper.createOngoingNotification("Running Excel Report");
+  reportParameters: Record<string, unknown>
+): Promise<unknown> {
+  notificationHelper.createOngoingNotification('Running Excel Report');
   return runReport(() =>
     ReportService.getReportDTOWithParameterString(reportURL, reportParameters)
   ).then((response) => {
@@ -87,12 +87,12 @@ export function runExcelReportWithURLAndParameters(
   });
 }
 
-function runReport(reportEndpointFunction: () => Promise<any>) {
+function runReport(reportEndpointFunction: () => Promise<unknown>) {
   notificationHelper.dismissLastErrorNotification();
   return reportEndpointFunction()
     .then((response) => {
       notificationHelper.createSuccessNotification(
-        "Report Successfully Generated"
+        'Report Successfully Generated'
       );
       return response;
     })
@@ -112,18 +112,18 @@ function showReportGenerationErrorMessage(errorMsg: string): void {
 export function showReportFormErrorMessage(): void {
   notificationHelper.dismissLastErrorNotification();
   notificationHelper.createErrorNotification(
-    "The Report could not be generated due to form errors. Please correct form field(s)."
+    'The Report could not be generated due to form errors. Please correct form field(s).'
   );
 }
 
 export const NO_INPUTS_MODAL_TEXT =
-  "There are no inputs for this report. Please click a report button below to proceed.";
+  'There are no inputs for this report. Please click a report button below to proceed.';
 
 export function districtParameterFormatter(
   value: string
 ): Array<string> | string {
-  return value?.includes(",")
-    ? value.split(",").map((str) => str.trim())
+  return value?.includes(',')
+    ? value.split(',').map((str) => str.trim())
     : value;
 }
 

@@ -1,24 +1,36 @@
-import { ColDef, ColumnState, RowNode } from "ag-grid-community";
-import _ from "lodash";
-import { ref, watch } from "vue";
-import DateHelper from "src/utils/helpers/DateHelper";
+import { ColDef, ColumnState, RowNode } from 'ag-grid-community';
+import _ from 'lodash';
+import { ref, watch } from 'vue';
+import DateHelper from 'src/utils/helpers/DateHelper';
 
 class FilterModelValue {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   filterType?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   filter?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   operator?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dateFrom?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dateTo?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type?: any;
 }
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export function useTableApi(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   emit: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   internalGridOptions: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): any {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let filterModel: any = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let sortState: any = null;
 
   watch(
@@ -145,7 +157,7 @@ export function useTableApi(
 
   function filterChanged() {
     if (internalGridOptions.value.api) {
-      emit("filterChanged", internalGridOptions.value.api.getFilterModel());
+      emit('filterChanged', internalGridOptions.value.api.getFilterModel());
       saveFilterModel();
       resizeHeader();
     }
@@ -175,7 +187,9 @@ export function useTableApi(
     ) {
       const columnDefCopy = _.cloneDeep(internalGridOptions.value.columnDefs);
       const columnsWithMultiselectFilter = columnDefCopy
-        .filter((x: any) => x.filter === "multiSelectFilter")
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .filter((x: any) => x.filter === 'multiSelectFilter')
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ?.map((y: any) => y.field);
 
       const filterModelCopy =
@@ -187,7 +201,9 @@ export function useTableApi(
         );
 
       if (multiselectColumnIsBeingFiltered) {
-        const multiselectInputs = Array.from(document.getElementsByClassName("multiselect-input"));
+        const multiselectInputs = Array.from(
+          document.getElementsByClassName('multiselect-input')
+        );
         const maxValue = _.max(
           multiselectInputs.map((element) => element.clientHeight)
         );
@@ -222,11 +238,11 @@ export function useTableApi(
   }
 
   function selectionChanged() {
-    emit("selectionChanged");
+    emit('selectionChanged');
   }
 
   function sortChanged() {
-    emit("sortChanged");
+    emit('sortChanged');
     saveSortState();
   }
 
@@ -340,7 +356,7 @@ export function useTableApi(
   }
 
   function getExportFilterString(reportHeaderMap: any) {
-    let str = "";
+    let str = '';
 
     // Set the latest version of filter model from the current state of the grid
     saveFilterModel();
@@ -349,7 +365,7 @@ export function useTableApi(
     if (filterModel && colDefs) {
       const filteredStrArr: string[] = colDefs
         .map((c) => {
-          let colDefFilterString = "";
+          let colDefFilterString = '';
           if (c.headerName && c.colId && filterModel[c.colId]) {
             let colDefHeaderName: string = c.headerName;
 
@@ -366,21 +382,21 @@ export function useTableApi(
           }
           return colDefFilterString;
         })
-        .filter((m) => m !== "" && m !== "[]");
+        .filter((m) => m !== '' && m !== '[]');
       if (filteredStrArr && filteredStrArr.length > 0) {
         str = filteredStrArr.reduce(
-          (accumulator, currentValue) => accumulator + ", " + currentValue
+          (accumulator, currentValue) => accumulator + ', ' + currentValue
         );
       }
     }
-    return str === "" ? "None" : str;
+    return str === '' ? 'None' : str;
   }
 
   function generateColDefFilterString(
     colDefHeaderName: string | null,
     filterModelValue: FilterModelValue
   ) {
-    let str = "";
+    let str = '';
 
     if (colDefHeaderName && filterModelValue) {
       str = `${colDefHeaderName}: `;
@@ -391,10 +407,10 @@ export function useTableApi(
           .sort()
           .map(
             (o) =>
-              `contains "${!_.isNull(o) && !_.isEqual(o, "null") ? o : ""}"`
+              `contains "${!_.isNull(o) && !_.isEqual(o, 'null') ? o : ''}"`
           )
           .reduce(
-            (accumulator, currentValue) => accumulator + " OR " + currentValue
+            (accumulator, currentValue) => accumulator + ' OR ' + currentValue
           );
       }
       // AG-Grid Filter (i.e. typing in build-in header or additional filters from clicking on Filter Icon)
@@ -403,13 +419,13 @@ export function useTableApi(
         if (filterModelValue.operator) {
           str += Object.entries(filterModelValue)
             .map(([key, value]) => {
-              let filterStr = "";
-              if (key.includes("condition")) {
+              let filterStr = '';
+              if (key.includes('condition')) {
                 const val: any = value;
 
-                if (val.type !== "inRange" && !val.dateFrom) {
+                if (val.type !== 'inRange' && !val.dateFrom) {
                   filterStr = `${val.type} "${val.filter}"`;
-                } else if (val.type === "inRange" && !val.dateFrom) {
+                } else if (val.type === 'inRange' && !val.dateFrom) {
                   filterStr = `${val.type} "${val.filter}" - "${val.filterTo}"`;
                 } else if (val.dateFrom && !val.dateTo) {
                   filterStr = `${
@@ -429,11 +445,11 @@ export function useTableApi(
                       ? DateHelper.formatISOStringToShortDateString(
                           val.dateFrom
                         )
-                      : ""
+                      : ''
                   }" - "${
                     val.dateTo
                       ? DateHelper.formatISOStringToShortDateString(val.dateTo)
-                      : ""
+                      : ''
                   }"`;
                 } else {
                   filterStr = `${val.type} "${val.filter}"`;
@@ -441,22 +457,22 @@ export function useTableApi(
               }
               return filterStr;
             })
-            .filter((m) => m !== "")
+            .filter((m) => m !== '')
             .reduce(
               (accumulator, currentValue) =>
                 accumulator + ` ${filterModelValue.operator} ` + currentValue
             );
         } else if (
           filterModelValue.filterType &&
-          filterModelValue.filterType === "date"
+          filterModelValue.filterType === 'date'
         ) {
-          if (filterModelValue.type !== "inRange") {
+          if (filterModelValue.type !== 'inRange') {
             str += `${filterModelValue.type} "${
               filterModelValue.dateFrom
                 ? DateHelper.formatISOStringToShortDateString(
                     filterModelValue.dateFrom
                   )
-                : ""
+                : ''
             }"`;
           } else {
             str += `${filterModelValue.type} "${
@@ -464,31 +480,31 @@ export function useTableApi(
                 ? DateHelper.formatISOStringToShortDateString(
                     filterModelValue.dateFrom
                   )
-                : ""
+                : ''
             }" - "${
               filterModelValue.dateTo
                 ? DateHelper.formatISOStringToShortDateString(
                     filterModelValue.dateTo
                   )
-                : ""
+                : ''
             }"`;
           }
         } else {
           const val: any = filterModelValue;
           str +=
-            val.type !== "inRange"
+            val.type !== 'inRange'
               ? `${val.type} "${val.filter}"`
               : `${val.type} "${val.filter}" - "${val.filterTo}"`;
         }
       } else {
-        str = "";
+        str = '';
       }
     }
     return str;
   }
 
   function getExportSortString(reportHeaderMap: any) {
-    let str = "";
+    let str = '';
     // Set the latest version of sort state from the current state of the grid
     saveSortState();
 
@@ -496,7 +512,7 @@ export function useTableApi(
       str = sortState
         .sort((a: any, b: any) => (a.sortIndex > b.sortIndex ? 1 : -1))
         .map((s: any) => {
-          let colDefSortString = "";
+          let colDefSortString = '';
           if (s.colId) {
             let colDefHeaderName = getColumnHeaderName(s.colId);
 
@@ -508,18 +524,18 @@ export function useTableApi(
           }
           return colDefSortString;
         })
-        .filter((m: any) => m !== "" && m !== "[]")
+        .filter((m: any) => m !== '' && m !== '[]')
         .reduce(
           (accumulator: any, currentValue: any) =>
-            accumulator + ", " + currentValue
+            accumulator + ', ' + currentValue
         );
     }
-    return str === "" ? "None" : str;
+    return str === '' ? 'None' : str;
   }
 
   function ensureIndexVisible(index: number) {
     if (internalGridOptions.value.api) {
-      internalGridOptions.value.api.ensureIndexVisible(index, "middle");
+      internalGridOptions.value.api.ensureIndexVisible(index, 'middle');
     }
   }
 

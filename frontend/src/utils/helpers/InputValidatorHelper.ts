@@ -9,7 +9,7 @@ function requiredSelectValidator(val: ISelectOption | null): boolean {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-function requiredInputSelectValidator(val: any): boolean {
+function requiredInputSelectValidator(val: unknown): boolean {
   return !!val;
 }
 

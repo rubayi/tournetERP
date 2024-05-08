@@ -46,6 +46,8 @@ public class ComCodeDTO {
 
     private String searchCodeKr;
 
+    private String searchCodeEn;
+
     private long searchUprCodeUuid;
 
     private int searchCodeLvl;

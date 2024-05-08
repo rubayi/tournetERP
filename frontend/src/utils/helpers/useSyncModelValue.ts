@@ -1,13 +1,18 @@
-import { watch } from "vue";
+import { watch } from 'vue';
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export function useSyncModelValue(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props: any,
   propertyName: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   emit: any,
   emitName: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   editableValue: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   modelValueFormatFunction?: (any: any) => any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   emitValueFormatFunction?: (any: any) => any,
   emitOnBlur?: boolean
 ): void {
@@ -17,6 +22,7 @@ export function useSyncModelValue(
     { deep: true }
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function emitNewValue(newVal: any) {
     if (!emitOnBlur) {
       if (emitValueFormatFunction) {
@@ -35,6 +41,7 @@ export function useSyncModelValue(
     { deep: true, immediate: true }
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function setEditableValue(newVal: any) {
     if (modelValueFormatFunction) {
       editableValue.value = modelValueFormatFunction(newVal);

@@ -23,20 +23,20 @@
 </template>
 
 <script lang="ts">
-import { AgGridVue } from "ag-grid-vue3";
-import { ColDef, GridOptions } from "ag-grid-community";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
-import { useTableApi } from "src/utils/helpers/useTableApi";
-import { defineComponent, ref, watch} from "vue";
+import { AgGridVue } from 'ag-grid-vue3';
+import { ColDef, GridOptions } from 'ag-grid-community';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import { useTableApi } from 'src/utils/helpers/useTableApi';
+import { defineComponent, ref, watch } from 'vue';
 interface InternalGridOptions {
   api?: {
-    setRowData: (rowData: any[]) => void;
+    setRowData: (rowData: unknown[]) => void;
   };
 }
 export default defineComponent({
-  name: "TableComp",
-  components: { AgGridVue},
+  name: 'TableComp',
+  components: { AgGridVue },
   props: {
     openAction: {
       type: Function,
@@ -94,7 +94,7 @@ export default defineComponent({
     },
     paginationPageSize: {
       type: Number,
-      default: 18,
+      default: 20,
     },
     rowData: {
       type: Array,
@@ -102,12 +102,11 @@ export default defineComponent({
     },
     rowSelection: {
       type: String,
-      default: "none",
+      default: 'none',
     },
   },
-  emits: ["grid-ready", "filterChanged", "selectionChanged", "sortChanged"],
+  emits: ['grid-ready', 'filterChanged', 'selectionChanged', 'sortChanged'],
   setup(props, { emit }) {
-
     const getRowHeight = () => {
       return 45;
     };
@@ -125,7 +124,6 @@ export default defineComponent({
       },
       { immediate: true, deep: true }
     );
-
 
     const {
       filterChanged,
@@ -222,7 +220,7 @@ export default defineComponent({
 
 <style lang="scss">
 .ag-header-cell {
-  background-image: url("src/assets/top_main.png");
+  background-image: url('src/assets/top_main.png');
   color: #fff;
   color: var(--ag-background-color, #fff);
 }

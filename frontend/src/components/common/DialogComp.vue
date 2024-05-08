@@ -40,6 +40,7 @@
           <q-btn
             v-show="showCancelButton"
             color="white"
+            icon="close"
             :label="cancelButtonLabel"
             text-color="primary"
             @click="cancelClicked"

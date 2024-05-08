@@ -6,9 +6,18 @@
           <div class="col-4 col-xs-12">
             <select-comp
               v-model="editcodesearchData.searchUprCodeUuid"
-              class="full-width"
-              label="Code Group"
+              class="full-width select-comp-padding"
+              label="Filter by Code Group"
               :options="code1group"
+              outlined
+            />
+          </div>
+          <div class="col-5 col-xs-12">
+            <input-comp
+              v-model="editcodesearchData.searchCodeEn"
+              class="full-width"
+              clearable
+              label="Filter By English Code Name"
               outlined
             />
           </div>
@@ -17,9 +26,8 @@
               v-model="editcodesearchData.searchCodeKr"
               class="full-width"
               clearable
-              label="Code Name"
+              label="Filter By Korean Code Name"
               outlined
-              required
             />
           </div>
         </div>
@@ -57,7 +65,7 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const editcodesearchData = ref<CodeSearchForm>();
+    const editcodesearchData = ref<CodeSearchForm>(new CodeSearchForm());
     useSyncModelValue(
       props,
       'modelValue',
@@ -72,7 +80,7 @@ export default defineComponent({
     function loadcode1groupOptions() {
       CodeService.getGroupCodeForm(0).then((response) => {
         code1group.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeLvl)
+          (x) => new SelectOption(x.codeEn, x.codeUuid)
         );
       });
     }
@@ -84,4 +92,8 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.select-comp-padding {
+  padding-bottom: 20px;
+}
+</style>

@@ -6,15 +6,15 @@
       center-title
       confirm-button-color="secondary"
       confirm-button-label="Search"
-      confirm-icon="fas fa-search"
-      icon-title="far fa-compass"
+      confirm-icon="search"
+      icon-title="compass"
       :show-confirm-button="showconfirmbutton"
       :show-delete-button="false"
       :show-print-button="false"
       :show-reset-button="true"
       side="left"
       :title="title"
-      :width="50"
+      :width="40"
       @cancel-clicked="closesearchDrawer"
       @confirm-clicked="searchUpdatedCodeData"
       @reset-clicked="searchResetData"
@@ -31,19 +31,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, ref, watch } from 'vue';
 // Components
-import DrawerComp from "src/components/drawers/DrawerComp.vue";
+import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 // View Layout
-import CodeSearchDrawerContent from "src/views/code/CodeSearchDrawerContent.vue";
+import CodeSearchDrawerContent from 'src/views/code/CodeSearchDrawerContent.vue';
 // Types
-import { CodeSearchForm } from "src/types/CodeSearchForm";
+import { CodeSearchForm } from 'src/types/CodeSearchForm';
 // Store
 //import store from "src/store";
 // Helpers
-import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 export default defineComponent({
-  name: "CodeSearchDrawer",
+  name: 'CodeSearchDrawer',
   components: {
     DrawerComp,
     CodeSearchDrawerContent,
@@ -59,26 +59,26 @@ export default defineComponent({
     },
   },
   emits: [
-    "update:modelValue",
-    "update:rowsearchdata",
-    "codesearch-reset",
-    "codesearch-saved",
+    'update:modelValue',
+    'update:rowsearchdata',
+    'codesearch-reset',
+    'codesearch-saved',
   ],
   setup(props, { emit }) {
-    const title = "This is a filter for detailed seach for data search.";
+    const title = 'This is a filter for detailed seach for data search.';
     const loading = ref<boolean>(false);
     const opensearchDrawer = ref<boolean>(false);
     const showconfirmbutton = ref<boolean>(false);
     showconfirmbutton.value = true;
-      //store.getters.currentUserHasApplicationPermission("COD_R");
+    //store.getters.currentUserHasApplicationPermission("COD_R");
     const codesearchformDrawerContent = ref();
     const codesearchData = ref<CodeSearchForm>();
 
     useSyncModelValue(
       props,
-      "rowsearchdata",
+      'rowsearchdata',
       emit,
-      "update:rowsearchdata",
+      'update:rowsearchdata',
       codesearchData
     );
 
@@ -92,18 +92,18 @@ export default defineComponent({
     watch(
       () => opensearchDrawer.value,
       (newValue) => {
-        emit("update:modelValue", newValue);
+        emit('update:modelValue', newValue);
       }
     );
 
     //Search Data
     function searchUpdatedCodeData() {
-      emit("codesearch-saved");
+      emit('codesearch-saved');
       closesearchDrawer();
     }
 
     function searchResetData() {
-      emit("codesearch-reset");
+      emit('codesearch-reset');
     }
 
     function closesearchDrawer() {

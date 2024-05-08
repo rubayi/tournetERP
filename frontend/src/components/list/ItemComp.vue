@@ -107,8 +107,6 @@ export default defineComponent({
     let listMouseOver = ref(false);
     let timeout = 0;
     let leftDrawerOpen = ref(true);
-
-    console.log(props.menuOptions);
     const showMenuOptions = computed(() => {
       if (props.menuOptions) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
