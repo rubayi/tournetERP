@@ -14,7 +14,7 @@
       :show-print-button="false"
       side="right"
       :title="title"
-      :width="60"
+      :width="70"
       @cancel-clicked="closeDrawer"
       @confirm-clicked="saveUpdatedEmpData"
       @delete-clicked="openDeleteConfirm = true"

@@ -8,7 +8,7 @@
       :confirm-button-color="confirmbuttoncolor"
       :confirm-button-label="confirmbuttonlabel"
       :confirm-icon="confirmicon"
-      icon-title="fas fa-cogs"
+      icon-title="setting"
       :show-confirm-button="showconfirmbutton"
       :show-delete-button="showdeletebutton"
       :show-print-button="false"
@@ -43,17 +43,13 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
-
 // Components
 import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 import DialogComp from 'src/components/common/DialogComp.vue';
-
 // View Layout
 import CodeFormDrawerContent from 'src/views/code/CodeFormDrawerContent.vue';
-
 // Services
 import { CodeService } from 'src/services/CodeService';
-
 // Types
 import { CodeForm } from 'src/types/CodeForm';
 // Store

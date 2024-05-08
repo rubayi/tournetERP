@@ -14,7 +14,7 @@
       :show-reset-button="true"
       side="left"
       :title="title"
-      :width="50"
+      :width="40"
       @cancel-clicked="closesearchDrawer"
       @confirm-clicked="searchUpdatedEmpData"
       @reset-clicked="searchResetData"

@@ -6,8 +6,8 @@
           <div class="col-4 col-xs-12">
             <select-comp
               v-model="editempsearchData.searchEmpDiv"
-              class="full-width"
-              label="Employer Division"
+              class="full-width select-comp-padding"
+              label="Filter By Employer Division"
               :options="code1group"
               outlined
             />
@@ -17,7 +17,7 @@
               v-model="editempsearchData.searchEmpKor"
               class="full-width"
               clearable
-              label="Employer Korean Name"
+              label="Filter By Employer Korean Name"
               outlined
               required
             />
@@ -27,7 +27,7 @@
               v-model="editempsearchData.searchEmpEng"
               class="full-width"
               clearable
-              label="Employer Name"
+              label="Filter By Employer English Name"
               outlined
               required
             />
@@ -80,7 +80,7 @@ export default defineComponent({
     function loadDivision() {
       CodeService.getGroupCodeForm(19).then((response) => {
         code1group.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeUuid)
+          (x) => new SelectOption(x.codeEn, x.codeUuid)
         );
       });
     }
@@ -92,4 +92,8 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.select-comp-padding {
+  padding-bottom: 20px;
+}
+</style>

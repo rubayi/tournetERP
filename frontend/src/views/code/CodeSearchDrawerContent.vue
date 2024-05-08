@@ -42,14 +42,13 @@ import { defineComponent, ref } from 'vue';
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 import InputComp from 'src/components/common/InputComp.vue';
 import SelectComp from 'src/components/common/SelectComp.vue';
-
 //Service
 import { CodeService } from 'src/services/CodeService';
-import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
-
 //Type
 import { SelectOption } from 'src/types/SelectOption';
 import { CodeSearchForm } from 'src/types/CodeSearchForm';
+// Helper
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
 export default defineComponent({
   name: 'CodeSearchFormDrawerContent',
