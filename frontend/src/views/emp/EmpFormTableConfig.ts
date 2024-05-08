@@ -1,6 +1,6 @@
 import { ColDef } from 'ag-grid-community';
 import OpenButtonCellRenderer from 'src/components/table/OpenButtonCellRenderer.vue';
-import i18n from 'src/i18n';
+import {i18n} from 'src/i18n';
 
 export class EmpFormTableConfig {
   static overlay =

@@ -17,6 +17,9 @@ const messages = {
     divname: 'Department',
     empstatus: 'Employee Status',
     workphone: 'Phone(Work)',
+    compgroup: 'Group',
+    compsector: 'Company Sector',
+    krcomp: 'Name(Kor)',
   },
   ko: {
     manageEmployees: '직원 관리',
@@ -31,6 +34,8 @@ const messages = {
     divname: '부서명',
     empstatus: '상태',
     workphone: '전화번호',
+    compgroup: '그룹',
+    compsector: '업체형태',
   },
 };
 
@@ -51,7 +56,8 @@ store.watch(
     if (newValue !== oldValue) {
       const newLocale = newValue ? 'en' : 'ko';
       changeLocale(newLocale);
+
     }
   }
 );
-export default i18n;
+export { i18n, changeLocale };

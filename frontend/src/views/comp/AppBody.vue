@@ -101,7 +101,7 @@
 import _ from "lodash";
 import { defineComponent, ref, watch } from "vue";
 //Lang
-import i18n from "src/i18n";
+import {i18n} from "src/i18n";
 // Table
 import { GridOptions } from "ag-grid-community";
 import { CompFormTableConfig } from "src/views/comp/CompFormTableConfig";

@@ -4,7 +4,7 @@ import App from './App.vue';
 import store from './store';
 import { Quasar } from 'quasar';
 import quasarUserOptions from './quasar-user-options';
-import i18n from './i18n';
+import {i18n} from './i18n';
 import './constants';
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
