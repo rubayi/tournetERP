@@ -1,6 +1,6 @@
 import { ColDef } from 'ag-grid-community';
 import OpenButtonCellRenderer from 'src/components/table/OpenButtonCellRenderer.vue';
-import {i18n} from 'src/i18n';
+import { i18n } from 'src/i18n';
 
 export class EmpFormTableConfig {
   static overlay =
@@ -13,23 +13,26 @@ export class EmpFormTableConfig {
       cellClass: 'no-border',
       floatingFilter: false,
       cellRenderer: OpenButtonCellRenderer,
+      minWidth: 70,
       maxWidth: 80,
-      minWidth: 80,
       sortable: false,
       suppressMovable: true,
       suppressNavigable: true,
+      cellStyle: { 'text-align': 'center' },
     },
     {
       field: 'empUuid',
       headerName: i18n.global.t('num'),
-      width: 100,
+      minWidth: 70,
+      maxWidth: 80,
       sortable: true,
       filter: true,
-      // checkboxSelection: true,
+      cellStyle: { 'text-align': 'center' },
     },
     {
       field: 'username',
       headerName: i18n.global.t('username'),
+      minWidth: 100,
       width: 130,
       sortable: true,
       filter: true,
@@ -37,53 +40,71 @@ export class EmpFormTableConfig {
     {
       field: 'empKor',
       headerName: i18n.global.t('krname'),
-      width: 140,
       sortable: true,
       filter: true,
+      flex: 1,
     },
     {
       field: 'empEng',
       headerName: i18n.global.t('enname'),
-      width: 150,
       sortable: true,
       filter: true,
+      flex: 1,
     },
     {
-      field: 'empEmail',
+      field: 'empEmailBook',
       headerName: i18n.global.t('email'),
-      width: 230,
+      minWidth: 220,
+      maxWidth: 250,
       sortable: true,
       filter: true,
+      cellStyle: { 'text-align': 'center' },
     },
-
     {
       field: 'empPhone',
       headerName: i18n.global.t('phone'),
-      width: 140,
+      minWidth: 110,
+      maxWidth: 140,
       sortable: true,
       filter: true,
+      cellStyle: { 'text-align': 'center' },
+    },
+    {
+      field: 'empComp',
+      headerName: i18n.global.t('empcompname'),
+      minWidth: 110,
+      maxWidth: 140,
+      sortable: true,
+      filter: true,
+      cellStyle: { 'text-align': 'center' },
     },
     {
       field: 'empDivName',
       headerName: i18n.global.t('divname'),
-      width: 180,
+      minWidth: 110,
+      maxWidth: 140,
       sortable: true,
       filter: true,
+      cellStyle: { 'text-align': 'center' },
     },
     {
       field: 'empStatusName',
       headerName: i18n.global.t('empstatus'),
-      width: 120,
+      minWidth: 70,
+      maxWidth: 100,
       sortable: true,
       filter: true,
+      cellStyle: { 'text-align': 'center' },
     },
     {
       field: 'empWorkPhone',
       headerName: i18n.global.t('workphone'),
+      minWidth: 110,
+      maxWidth: 140,
       sortable: true,
       filter: true,
+      cellStyle: { 'text-align': 'center' },
     },
-
   ];
 
   static frameworkComponents = {
@@ -98,4 +119,3 @@ export class EmpFormTableConfig {
     },
   ];
 }
-

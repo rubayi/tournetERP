@@ -4,8 +4,8 @@
       <div class="row q-mb-none">
         <div class="col q-pr-md">
           <span class="part_title text-primary">
-            <q-icon name="settings" class="q-ml-xs q-mr-sm"></q-icon>
-            Manage Code
+            <q-icon name="settings" class="q-ml-xs q-mr-sm" size="sm"></q-icon>
+            {{ t(`manageCodes`) }}
           </span>
         </div>
         <div class="col-2 text-right q-pr-md">
@@ -69,13 +69,13 @@
 <script lang="ts">
 import _ from 'lodash';
 import { defineComponent, ref } from 'vue';
-
+//Lang
+import { i18n } from 'src/i18n';
 // Table
 import { GridOptions } from 'ag-grid-community';
 import { CodeFormTableConfig } from 'src/views/code/CodeFormTableConfig';
 import TableComp from 'src/components/table/TableComp.vue';
 import { TableHelper } from 'src/components/table/TableHelper';
-
 // Service
 import { CodeService } from 'src/services/CodeService';
 //Type
@@ -199,6 +199,7 @@ export default defineComponent({
     }
 
     return {
+      t: i18n.global.t,
       gridOptions,
       data,
       loadData,
