@@ -53,7 +53,7 @@
                 class="q-mt-lg changes-indicator"
                 color="secondary"
                 icon="report"
-                label="Changes Detected"
+                :label="changeButtonLabel"
                 outline
                 rounded
                 text-color="white"
@@ -62,7 +62,7 @@
                 v-if="showPrintButton"
                 color="secondary"
                 icon="print"
-                label="PRINT"
+                :label="printButtonLabel"
                 @click="confirmPrinted"
               />
               <q-btn
@@ -94,7 +94,7 @@
                 v-if="showResetButton"
                 color="white"
                 icon="autorenew"
-                label="Reset"
+                :label="resetButtonLabel"
                 outline
                 text-color="primary"
                 @click="resetClicked"
@@ -133,6 +133,14 @@ export default defineComponent({
       type: String,
       default: i18n.global.t('cancel'),
     },
+    changeButtonLabel: {
+      type: String,
+      default: i18n.global.t('change'),
+    },
+    printButtonLabel: {
+      type: String,
+      default: i18n.global.t('print'),
+    },
     cancelButtonicon: {
       type: String,
       default: 'fa fa-chevron-left',
@@ -148,6 +156,10 @@ export default defineComponent({
     deleteButtonLabel: {
       type: String,
       default: i18n.global.t('delete'),
+    },
+    resetButtonLabel: {
+      type: String,
+      default: i18n.global.t('reset'),
     },
     showDeleteButton: {
       type: Boolean,

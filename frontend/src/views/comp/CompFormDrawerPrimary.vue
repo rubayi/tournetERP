@@ -1,5 +1,5 @@
 <template>
-  <card-comp-design :title="t('manageCompany')">
+  <card-comp-design :title="t('primaryiformation')">
     <template #content>
       <div class="q-pt-md q-pb-xs q-pl-md q-pr-md">
         <div v-if="compFormData != null">
@@ -153,7 +153,7 @@
                 </div>
                 <div class="col-5">
                   <label for="file-upload" class="custom-file-upload">
-                    로고파일
+                   {{t('logofile')}}
                   </label>
                   <input-comp
                     type="file"

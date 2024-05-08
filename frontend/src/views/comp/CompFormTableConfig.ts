@@ -43,7 +43,7 @@ export class CompFormTableConfig {
       resizable: true,
     },
     {
-      headerName: "Company",
+      headerName: i18n.global.t('krcomp'),
       field: "compKor",
       filter: true,
       minWidth: 150,
@@ -52,7 +52,7 @@ export class CompFormTableConfig {
       resizable: true,
     },
     {
-      headerName: "Company(En)",
+      headerName: i18n.global.t('encomp'),
       field: "compEng",
       filter: true,
       minWidth: 100,
@@ -61,7 +61,7 @@ export class CompFormTableConfig {
       resizable: true,
     },
     {
-      headerName: "Establish Date",
+      headerName: i18n.global.t('estdt'),
       field: "estDate",
       filter: true,
       minWidth: 110,
