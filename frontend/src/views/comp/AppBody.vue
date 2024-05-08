@@ -5,7 +5,7 @@
         <div class="col q-pr-md">
           <span class="part_title text-primary">
             <i class="far fa-folder-open q-ml-xs q-mr-md"></i>
-            MANAGE COMPANY
+            {{ t('manageCompany')}}
           </span>
         </div>
         <div class="col-auto text-right q-pr-md">
@@ -100,7 +100,8 @@
 <script lang="ts">
 import _ from "lodash";
 import { defineComponent, ref, watch } from "vue";
-
+//Lang
+import i18n from "src/i18n";
 // Table
 import { GridOptions } from "ag-grid-community";
 import { CompFormTableConfig } from "src/views/comp/CompFormTableConfig";
@@ -134,6 +135,7 @@ export default defineComponent({
     // CompSearchDrawer,
   },
   setup() {
+
     const openDrawer = ref<boolean>(false);
     const openSearchDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
@@ -454,6 +456,7 @@ export default defineComponent({
     }
 
     return {
+      t: i18n.global.t,
       gridOptions,
       data,
       loadData,

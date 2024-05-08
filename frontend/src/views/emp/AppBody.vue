@@ -5,7 +5,8 @@
         <div class="col q-pr-md">
           <span class="part_title text-primary">
             <q-icon name="person" class="q-ml-xs q-mb-xs" size="md"></q-icon
-          ></span>
+          >{{ t('manageEmployees')}}</span>
+
         </div>
         <div class="col-2 text-right q-pr-md">
           <q-btn
@@ -68,7 +69,8 @@
 <script lang="ts">
 import _ from 'lodash';
 import { ref, defineComponent } from 'vue';
-
+//Lang
+import i18n from "src/i18n";
 // Table
 import { GridOptions } from 'ag-grid-community';
 import { TableHelper } from 'src/components/table/TableHelper';
@@ -82,8 +84,6 @@ import { EmpForm } from 'src/types/EmpForm';
 import { EmpSearchForm } from 'src/types/EmpSearchForm';
 // Store
 import store from 'src/store';
-// Store
-import i18n from 'src/i18n';
 // Drawer
 import EmpFormDrawer from 'src/views/emp/EmpFormDrawer.vue';
 import EmpSearchDrawer from 'src/views/emp/EmpSearchDrawer.vue';
@@ -175,9 +175,9 @@ export default defineComponent({
       openSearchDrawer.value = true;
     }
 
-    console.log(i18n.global.t('manageEmployees'));
 
     return {
+      t: i18n.global.t,
       gridOptions,
       data,
       loadData,
@@ -196,6 +196,7 @@ export default defineComponent({
       filterNumber,
       showinsertbutton,
       frameworkComponents,
+
     };
   },
   data() {

@@ -1,6 +1,6 @@
 <template>
   <q-scroll-area style="height: calc(100%); border-right: 1px solid #ddd">
-    <list-comp id="navigation-menu" padding>
+    <list-comp  id="navigation-menu" padding>
       <div v-for="item in menuOptionsWithPathHighlighted" :key="item.menuUuid">
         <q-item-label v-if="item.headerLabel" header>
           {{ item.headerLabel }}
@@ -50,11 +50,14 @@ import ListComp from "src/components/list/ListComp.vue";
 import ExpansionItemComp from "src/components/list/ExpansionItemComp.vue";
 import {MenuService} from "src/services/MenuService";
 import {MenuForm} from "src/types/MenuForm";
+import i18n from "src/i18n";
+
 export default defineComponent({
   name: "NavigationMenu",
   components: { ExpansionItemComp, ListComp, ItemComp },
   setup() {
     const route = useRoute();
+    const t  = i18n;
     interface MenuOption {
       menuUuid: number;
       label: string;
@@ -67,24 +70,31 @@ export default defineComponent({
       caption: string;
     }
 
+    let langFlag: "ko" | "en"  = "en";
+    if (store.getters.currentUserHasApplicationPermission("ENG")) {
+      langFlag = "en"
+    } else {
+      langFlag = "ko"
+    }
+
+    changeLocale(langFlag);
+    function changeLocale(langFlag: "ko" | "en"){
+      t.global.locale.value = langFlag;
+    }
+
     const menuOptions: Ref<MenuForm[]> = ref([]);
 
     function buildComMenuTree(menuItems: MenuForm[], parentUuid: number): any[] {
       const filteredComMenus = menuItems.filter(
         (menu) => menu.upperMenuUuid === parentUuid
       );
-      let  langFlag = "KOR";
-      if (store.getters.currentUserHasApplicationPermission("ENG")) {
-        langFlag = "ENG";
-      } else if (store.getters.currentUserHasApplicationPermission("JPN")) {
-        langFlag = "JPN";
-      }
+
       return filteredComMenus.map((menu) => ({
         menuUuid: menu.menuUuid,
         expandChildren: true,
         upperMenuUuid: menu.upperMenuUuid,
         icon: menu.menuIcon ? menu.menuIcon : "label",
-        label: langFlag == "KOR" ? menu.menuKor : menu.menuEng,
+        label: langFlag == "ko" ? menu.menuKor : menu.menuEng,
         link: menu.menuUrl,
         caption: menu.menuDesc,
         children: buildComMenuTree(menuItems, menu.menuUuid),

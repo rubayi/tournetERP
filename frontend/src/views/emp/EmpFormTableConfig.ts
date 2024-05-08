@@ -1,5 +1,6 @@
 import { ColDef } from 'ag-grid-community';
 import OpenButtonCellRenderer from 'src/components/table/OpenButtonCellRenderer.vue';
+import i18n from 'src/i18n';
 
 export class EmpFormTableConfig {
   static overlay =
@@ -20,7 +21,7 @@ export class EmpFormTableConfig {
     },
     {
       field: 'empUuid',
-      headerName: 'ID Num',
+      headerName: i18n.global.t('empNum'),
       width: 100,
       sortable: true,
       filter: true,
@@ -28,28 +29,28 @@ export class EmpFormTableConfig {
     },
     {
       field: 'username',
-      headerName: 'User Name',
+      headerName: i18n.global.t('username'),
       width: 130,
       sortable: true,
       filter: true,
     },
     {
       field: 'empKor',
-      headerName: 'Korean Name',
+      headerName: i18n.global.t('krname'),
       width: 140,
       sortable: true,
       filter: true,
     },
     {
       field: 'empEng',
-      headerName: 'Name',
+      headerName: i18n.global.t('enname'),
       width: 150,
       sortable: true,
       filter: true,
     },
     {
       field: 'empEmail',
-      headerName: 'Email',
+      headerName: i18n.global.t('email'),
       width: 230,
       sortable: true,
       filter: true,
@@ -57,66 +58,32 @@ export class EmpFormTableConfig {
 
     {
       field: 'empPhone',
-      headerName: 'Phone',
+      headerName: i18n.global.t('phone'),
       width: 140,
       sortable: true,
       filter: true,
     },
     {
       field: 'empDivName',
-      headerName: 'Department',
+      headerName: i18n.global.t('divname'),
       width: 180,
       sortable: true,
       filter: true,
     },
     {
       field: 'empStatusName',
-      headerName: 'Employed Status',
+      headerName: i18n.global.t('empstatus'),
       width: 120,
       sortable: true,
       filter: true,
     },
     {
       field: 'empWorkPhone',
-      headerName: 'Extension Num',
+      headerName: i18n.global.t('workphone'),
       sortable: true,
       filter: true,
     },
-    {
-      field: 'empEmailBook',
-      headerName: 'Work Email',
-      hide: true,
-    },
-    {
-      field: 'empAddress',
-      headerName: 'Address',
-      hide: true,
-    },
-    {
-      field: 'empComp',
-      headerName: 'Company',
-      hide: true,
-    },
-    {
-      field: 'empOffice',
-      headerName: 'Office',
-      hide: true,
-    },
-    {
-      field: 'empDob',
-      headerName: 'DOB',
-      hide: true,
-    },
-    {
-      field: 'empMemo',
-      headerName: '주소',
-      hide: true,
-    },
-    {
-      field: 'empStatus',
-      headerName: '주소',
-      hide: true,
-    },
+
   ];
 
   static frameworkComponents = {

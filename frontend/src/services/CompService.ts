@@ -38,7 +38,7 @@ export class CompService {
   }
 
   static deleteCompForm(compUuid: number): Promise<void> {
-    return api.delete(API_URL + `delete/${compUuid}`, {
+    return api.get(API_URL + `deleteComp/${compUuid}`, {
       headers: authHeader(),
     })
       .then((response) => response.data);
