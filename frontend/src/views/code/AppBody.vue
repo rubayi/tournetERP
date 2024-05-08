@@ -95,10 +95,12 @@ export default defineComponent({
     CodeSearchDrawer,
   },
   setup() {
+    const locale = i18n.global.locale.value;
+
     const openDrawer = ref<boolean>(false);
     const openSearchDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
-    const columns = CodeFormTableConfig.columns;
+    const columns = CodeFormTableConfig.getColumns(locale);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const frameworkComponents: { [key: string]: any } =
       CodeFormTableConfig.frameworkComponents;

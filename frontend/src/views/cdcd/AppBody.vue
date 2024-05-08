@@ -69,7 +69,8 @@
 <script lang="ts">
 import _ from 'lodash';
 import { defineComponent, ref } from 'vue';
-
+//Lang
+import i18n from 'src/i18n';
 // Table
 import { GridOptions } from 'ag-grid-community';
 import { CdcdFormTableConfig } from 'src/views/cdcd/CdcdFormTableConfig';
@@ -95,10 +96,12 @@ export default defineComponent({
     CdcdSearchDrawer,
   },
   setup() {
+    const locale = i18n.global.locale.value;
+
     const openDrawer = ref<boolean>(false);
     const openSearchDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
-    const columns = CdcdFormTableConfig.columns;
+    const columns = CdcdFormTableConfig.getColumns(locale);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const frameworkComponents: { [key: string]: any } =
       CdcdFormTableConfig.frameworkComponents;
@@ -185,6 +188,7 @@ export default defineComponent({
     }
 
     return {
+      t: i18n.global.t,
       gridOptions,
       data,
       loadData,
