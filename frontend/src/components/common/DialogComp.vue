@@ -54,14 +54,15 @@
 <script lang="ts">
 import InnerLoadingComp from 'src/components/common/InnerLoadingComp.vue';
 import { computed, defineComponent, ref, watch } from 'vue';
-
+//Lang
+import i18n from 'src/i18n';
 export default defineComponent({
   name: 'DialogComp',
   components: { InnerLoadingComp },
   props: {
     actionButtonLabel: {
       type: String,
-      default: 'Confirm',
+      default: i18n.global.t('confirm'),
     },
     actionButtonDisabled: {
       type: Boolean,
@@ -69,7 +70,7 @@ export default defineComponent({
     },
     actionButtonIcon: {
       type: String,
-      default: 'delete',
+      default: i18n.global.t('delete'),
     },
     actionButtonLoading: {
       type: Boolean,
@@ -77,7 +78,7 @@ export default defineComponent({
     },
     cancelButtonLabel: {
       type: String,
-      default: 'Cancel',
+      default: i18n.global.t('cancel'),
     },
     contentIsLoading: {
       type: Boolean,

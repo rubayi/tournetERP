@@ -56,14 +56,15 @@
     @confirm-clicked="deleteCompForm"
   >
     <template #htmlContent>
-      <div>Are you sure you want to <b>PERMANENTLY DELETE</b> this Data?</div>
+      <div>{{t('deleteconfirmmsg')}}</div>
     </template>
   </dialog-comp>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
-
+//Lang
+import i18n from 'src/i18n';
 // Components
 import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 import DialogComp from 'src/components/common/DialogComp.vue';
@@ -165,14 +166,14 @@ export default defineComponent({
     'compform-drawer-closed',
   ],
   setup(props, { emit }) {
-    const title = 'Manage Company';
+    const title = i18n.global.t('manageCompany');
     const compFormData = ref<CompForm | undefined>(new CompForm());
 
     const printdata = ref<CompForm[]>([]);
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
-    const confirmbuttonlabel = ref<string>('ADD');
+    const confirmbuttonlabel = ref<string>(i18n.global.t('add'));
     const confirmicon = ref<string>('fas fa-plus');
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
@@ -207,7 +208,7 @@ export default defineComponent({
       previewImage.value = '';
       if (props.compSeq != 0) {
         confirmbuttoncolor.value = 'warning';
-        confirmbuttonlabel.value = 'CHANGE';
+        confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = 'edit';
         if (store.getters.currentUserHasApplicationPermission('COMP_W')) {
           showconfirmbutton.value = true;
@@ -220,7 +221,7 @@ export default defineComponent({
           store.getters.currentUserHasApplicationPermission('COMP_R');
       } else {
         confirmbuttoncolor.value = 'primary';
-        confirmbuttonlabel.value = 'ADD';
+        confirmbuttonlabel.value = i18n.global.t('add');
         confirmicon.value = 'add';
         showconfirmbutton.value =
           store.getters.currentUserHasApplicationPermission('COMP_R');
@@ -257,13 +258,13 @@ export default defineComponent({
     //Add & Edit
     function saveUpdatedCompData() {
       notificationHelper.dismiss();
-      notificationHelper.createOngoingNotification('Saving...');
+      notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
       if (compFormData.value) {
         const fileToUpload = attfile.value; // Get the first file
         CompService.saveCompForm(fileToUpload, compFormData.value)
           .then((response) => {
-            notificationHelper.createSuccessNotification(`Company Info saved.`);
+            notificationHelper.createSuccessNotification(i18n.global.t('saved'));
             emit('compform-saved', response);
             closeDrawer();
           })
@@ -329,6 +330,7 @@ export default defineComponent({
       emit('compform-drawer-closed');
     }
     return {
+      t: i18n.global.t,
       title,
       compFormData,
       loading,

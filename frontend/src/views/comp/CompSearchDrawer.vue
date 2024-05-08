@@ -43,6 +43,7 @@ import { SelectOption } from "src/types/SelectOption";
 import store from "src/store";
 // Helpers
 import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
+import i18n from "@/i18n";
 export default defineComponent({
   name: "CompSearchDrawer",
   components: {
@@ -66,7 +67,7 @@ export default defineComponent({
     "tournetsearch-saved",
   ],
   setup(props, { emit }) {
-    const title = "This is a filter for detailed seach for data search.";
+    const title = i18n.global.t('searchtitle');
     const loading = ref<boolean>(false);
     const opensearchDrawer = ref<boolean>(false);
     const showconfirmbutton = ref<boolean>(false);

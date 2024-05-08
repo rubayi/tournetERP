@@ -1,5 +1,5 @@
 <template>
-  <card-comp-design title="Primary Information">
+  <card-comp-design :title="t('manageCompany')">
     <template #content>
       <div class="q-pt-md q-pb-xs q-pl-md q-pr-md">
         <div v-if="compFormData != null">
@@ -10,14 +10,14 @@
                   <select-comp
                     v-model="compFormData.compSector"
                     class="full-width"
-                    label="Sector"
+                    :label="t('compsector')"
                     :options="compSectorList"
                   />
                 </div>
                 <div class="col-3">
                   <select-comp
                     v-model="compFormData.compGroup"
-                    label="Group"
+                    :label="t('compgroup')"
                     class="full-width"
                     :options="compGroupList"
                   />
@@ -27,7 +27,7 @@
                     v-model="compFormData.estDate"
                     class="full-width"
                     clearable
-                    label="Establishment Date"
+                    :label="t('estdt')"
                   />
                 </div>
                 <div class="col-3">
@@ -43,7 +43,7 @@
                     v-model="compFormData.compKor"
                     class="full-width"
                     clearable
-                    label="Company Name"
+                    :label="t('krcomp')"
                   />
                 </div>
                 <div class="col-3">
@@ -51,7 +51,7 @@
                     v-model="compFormData.compEng"
                     class="full-width"
                     clearable
-                    label="Company Name(En)"
+                    :label="t('encomp')"
                   />
                 </div>
 
@@ -60,13 +60,13 @@
                     v-model="compFormData.compAbb"
                     class="full-width"
                     clearable
-                    label="Abbreviation"
+                    :label="t('abbreviation')"
                   />
                 </div>
                 <div class="col-3">
                   <select-comp
                     v-model="compFormData.compRate"
-                    label="Company Level"
+                    :label="t('complvl')"
                     class="full-width"
                     :options="compRateList"
                   />
@@ -74,7 +74,7 @@
                 <div class="col-3">
                   <select-comp
                     v-model="compFormData.prepaidHow"
-                    label="Assign Prepaid"
+                    :label="t('assgnprepaid')"
                     class="full-width"
                     :options="prepaidHowList"
                   />
@@ -82,7 +82,7 @@
                 <div class="col-3">
                   <select-comp
                     v-model="compFormData.couponYn"
-                    label="Coupon Can Use"
+                    :label="t('couponuseyn')"
                     class="full-width"
                     :options="couponYnList"
                   />
@@ -90,7 +90,7 @@
                 <div class="col-3">
                   <select-comp
                     v-model="compFormData.hotelRate"
-                    label="Hotel Rate"
+                    :label="t('hotelrate')"
                     class="full-width"
                     :options="hotelRateList"
                   />
@@ -202,6 +202,9 @@ import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
 //Fileinfo
 import { fileInfo } from 'src/utils/helpers/Fileinfo';
+//Lang
+import i18n from "src/i18n";
+
 export default defineComponent({
   name: 'CompFormDrawerPrimary',
   components: {
@@ -321,6 +324,7 @@ export default defineComponent({
     };
 
     return {
+      t: i18n.global.t,
       compFormData,
       //addCompany,
       readonlybtn,

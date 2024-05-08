@@ -12,7 +12,7 @@
           <q-btn
             color="secondary"
             icon="search"
-            label="Filters"
+            :label="t('search')"
             @click="filterAction"
           >
             <q-badge v-if="filterNumber > 0" color="red" floating>{{
@@ -26,7 +26,7 @@
             class="q-ml-md"
             color="secondary"
             icon="download"
-            label="EXPORT"
+            :label="t('export')"
             outline
             @click="exportAction"
           />
@@ -34,7 +34,7 @@
             class="q-ml-md"
             color="secondary"
             icon="print"
-            label="PRINT"
+            :label="t('print')"
             outline
             @click="printAction"
           />
@@ -44,7 +44,7 @@
             v-if="showinsertbutton"
             color="primary"
             icon="add"
-            label="ADD NEW COMPANY"
+            :label="t('addnew')"
             outline
             @click="createAction"
           />
@@ -64,7 +64,7 @@
             row-selection="single"
             @grid-ready="loadData"
             ref="compformGrid"
-          />
+           />
         </div>
       </div>
       <comp-form-drawer

@@ -123,14 +123,15 @@ import TabsComp from 'src/components/tabs/TabsComp.vue';
 import InnerLoadingComp from 'src/components/common/InnerLoadingComp.vue';
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 import { TabOptions } from 'src/types/TabOptions';
-
+//Lang
+import i18n from 'src/i18n';
 export default defineComponent({
   name: 'DrawerComp',
   components: { InnerLoadingComp, TabsComp },
   props: {
     cancelButtonLabel: {
       type: String,
-      default: 'Close',
+      default: i18n.global.t('cancel'),
     },
     cancelButtonicon: {
       type: String,
@@ -146,7 +147,7 @@ export default defineComponent({
     },
     deleteButtonLabel: {
       type: String,
-      default: 'Delete',
+      default: i18n.global.t('delete'),
     },
     showDeleteButton: {
       type: Boolean,
@@ -158,7 +159,7 @@ export default defineComponent({
     },
     confirmButtonLabel: {
       type: String,
-      default: 'Confirm',
+      default: i18n.global.t('confirm'),
     },
     confirmButtonColor: {
       type: String,
