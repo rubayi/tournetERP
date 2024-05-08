@@ -1,12 +1,13 @@
 import { ColDef } from 'ag-grid-community';
 import OpenButtonCellRenderer from 'src/components/table/OpenButtonCellRenderer.vue';
-import { i18n } from 'src/i18n';
+import i18n from 'src/i18n';
 
 export class EmpFormTableConfig {
   static overlay =
     '<span class="ag-overlay-loading-center">Please wait while your Data are loading</span>';
 
-  static columns: ColDef[] = [
+  static getColumns(locale: string): ColDef[] {
+    return [
     {
       field: 'empUuid',
       headerName: '',
@@ -105,7 +106,8 @@ export class EmpFormTableConfig {
       filter: true,
       cellStyle: { 'text-align': 'center' },
     },
-  ];
+    ];
+  }
 
   static frameworkComponents = {
     openButtonCellRenderer: OpenButtonCellRenderer,

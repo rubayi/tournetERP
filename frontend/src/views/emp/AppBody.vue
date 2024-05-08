@@ -70,7 +70,7 @@
 import _ from 'lodash';
 import { ref, defineComponent } from 'vue';
 //Lang
-import { i18n } from 'src/i18n';
+import i18n from 'src/i18n';
 // Table
 import { GridOptions } from 'ag-grid-community';
 import { TableHelper } from 'src/components/table/TableHelper';
@@ -96,10 +96,12 @@ export default defineComponent({
     EmpSearchDrawer,
   },
   setup() {
+    const locale = i18n.global.locale.value;
+
     const openDrawer = ref<boolean>(false);
     const openSearchDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
-    const columns = EmpFormTableConfig.columns;
+    const columns = EmpFormTableConfig.getColumns(locale);
     const frameworkComponents: { [key: string]: any } =
       EmpFormTableConfig.frameworkComponents;
     const overlayLoadingTemplate = TableHelper.loadingOverlay;

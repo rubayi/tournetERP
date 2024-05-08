@@ -48,7 +48,7 @@ import { defineComponent, ref } from 'vue';
 import store from 'src/store';
 import NavigationDrawer from 'src/components/navigation/NavigationDrawer.vue';
 import router from "src/router";
-import {i18n} from "src/i18n";
+import i18n from "src/i18n";
 export default defineComponent({
   name: 'App',
   components: { NavigationDrawer },

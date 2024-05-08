@@ -101,7 +101,7 @@
 import _ from "lodash";
 import { defineComponent, ref, watch } from "vue";
 //Lang
-import {i18n} from "src/i18n";
+import i18n from "src/i18n";
 // Table
 import { GridOptions } from "ag-grid-community";
 import { CompFormTableConfig } from "src/views/comp/CompFormTableConfig";
@@ -135,12 +135,13 @@ export default defineComponent({
     // CompSearchDrawer,
   },
   setup() {
+    const locale = i18n.global.locale.value;
 
     const openDrawer = ref<boolean>(false);
     const openSearchDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
     const frameworkComponents = CompFormTableConfig.frameworkComponents;
-    const columns = CompFormTableConfig.columns;
+    const columns = CompFormTableConfig.getColumns(locale);
     const overlayLoadingTemplate = TableHelper.loadingOverlay;
     const reportHeaderMap = CompFormTableConfig.reportHeaderMap;
     const data = ref<CompForm[]>([]);
@@ -157,6 +158,7 @@ export default defineComponent({
 
     /* List */
     function loadData() {
+
       loading.value = true;
       filterNumber.value = 0;
       if (

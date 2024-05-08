@@ -205,7 +205,6 @@ export default defineComponent({
       compFormData.value = new CompForm();
       attfile.value = null;
       previewImage.value = '';
-      console.log(previewImage.value);
       if (props.compSeq != 0) {
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = 'CHANGE';

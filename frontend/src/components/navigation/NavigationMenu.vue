@@ -50,7 +50,7 @@ import ListComp from "src/components/list/ListComp.vue";
 import ExpansionItemComp from "src/components/list/ExpansionItemComp.vue";
 import {MenuService} from "src/services/MenuService";
 import {MenuForm} from "src/types/MenuForm";
-import {i18n} from "src/i18n";
+import i18n from "src/i18n";
 
 export default defineComponent({
   name: "NavigationMenu",

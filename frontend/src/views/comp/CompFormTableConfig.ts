@@ -2,18 +2,17 @@ import { ColDef, ValueFormatterParams } from "ag-grid-community";
 import OpenButtonCellRenderer from "src/components/table/OpenButtonCellRenderer.vue";
 import DateHelper from "src/utils/helpers/DateHelper";
 import TooltipComponent from "src/components/table/TooltipComponent.vue";
-import {i18n} from 'src/i18n';
+import i18n from 'src/i18n';
 
 export class CompFormTableConfig {
   static reportHeaderMap = {
     callid: "NO",
   };
 
-  static locale = i18n.global.locale.value;
-
   static overlay =
     '<span class="ag-overlay-loading-center">Please wait while your Data are loading</span>';
-  static columns: ColDef[] = [
+  static getColumns(locale: string): ColDef[] {
+    return [
     {
       headerName: "",
       field: "compUuid",
@@ -143,7 +142,7 @@ export class CompFormTableConfig {
       resizable: true,
     },
   ];
-
+  }
   static frameworkComponents = {
     openButtonCellRenderer: OpenButtonCellRenderer,
     customTooltip: TooltipComponent,

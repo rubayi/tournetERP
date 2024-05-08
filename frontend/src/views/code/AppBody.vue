@@ -70,7 +70,7 @@
 import _ from 'lodash';
 import { defineComponent, ref } from 'vue';
 //Lang
-import { i18n } from 'src/i18n';
+import i18n from 'src/i18n';
 // Table
 import { GridOptions } from 'ag-grid-community';
 import { CodeFormTableConfig } from 'src/views/code/CodeFormTableConfig';

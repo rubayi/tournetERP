@@ -63,4 +63,4 @@ store.watch(
     }
   }
 );
-export { i18n, changeLocale };
+export default i18n;
