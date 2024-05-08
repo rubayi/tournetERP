@@ -1,11 +1,11 @@
 <template>
   <div class="row">
-    <div class="col-6">
-      <card-comp-design title="Employer Information">
+    <div class="col-6 q-pr-sm">
+      <card-comp-design title="Employee Information">
         <template #content>
           <q-card-section>
             <div class="row q-col-gutter-md">
-              <div class="col-8">
+              <div class="col-6">
                 <input-comp
                   v-model="editEmpFormData.empEng"
                   class="full-width"
@@ -15,7 +15,7 @@
                   required
                 />
               </div>
-              <div class="col-4">
+              <div class="col-6">
                 <input-comp
                   v-model="editEmpFormData.empKor"
                   class="full-width"
@@ -45,189 +45,189 @@
                   required
                 />
               </div>
-              <div class="col-3">
+              <div class="col-3 q-pt-lg">
                 <input type="checkbox" v-model="pwChangeYN" />
-                <label for="guide-checkbox">Change PW?</label>
+                <label for="guide-checkbox" class="q-pa-sm">Change PW</label>
+              </div>
+              <div class="col-6">
+                <input-comp
+                  v-model="editEmpFormData.empEmail"
+                  class="full-width"
+                  clearable
+                  label="Personal Email"
+                  outlined
+                />
+              </div>
+              <div class="col-6">
+                <input-comp
+                  v-model="editEmpFormData.empPhone"
+                  class="full-width"
+                  clearable
+                  label="Phone Number"
+                  outlined
+                />
+              </div>
+              <div class="col-8">
+                <input-comp
+                  v-model="editEmpFormData.empAddress"
+                  class="full-width"
+                  clearable
+                  label="Address"
+                  outlined
+                />
+              </div>
+              <div class="col-4">
+                <date-picker-comp
+                  v-model="editEmpFormData.empDob"
+                  class="full-width"
+                  clearable
+                  label="Date of Birth"
+                  outlined
+                />
+              </div>
+              <div class="col-12">
+                <input-comp
+                  v-model="editEmpFormData.empMemo"
+                  class="full-width"
+                  clearable
+                  label="Memo"
+                  outlined
+                />
               </div>
             </div>
           </q-card-section>
         </template>
       </card-comp-design>
     </div>
-    <div class="col-6"></div>
-    <card-comp-design title="Employer Information">
-      <template #content>
-        <q-card-section>
-          <div class="row q-col-gutter-md">
-            <!-- <div class="col-12 noMarginPadd" /> -->
-            <div class="col-2">
-              <select-comp
-                v-model="editEmpFormData.empComp"
-                class="full-width select-comp-padding"
-                label="Company"
-                :options="CompList"
-                outlined
-                required
-              />
-            </div>
-            <div class="col-2">
-              <select-comp
-                v-model="editEmpFormData.empOffice"
-                class="full-width select-comp-padding"
-                label="Office"
-                :options="OfficeList"
-                outlined
-                required
-              />
-            </div>
-            <div class="col-2">
-              <select-comp
-                v-model="editEmpFormData.empDiv"
-                class="full-width select-comp-padding"
-                label="Division (Department)"
-                :options="DivisionList"
-                outlined
-                required
-              />
-            </div>
-            <div class="col-2">
-              <select-comp
-                v-model="editEmpFormData.empTitle"
-                class="full-width select-comp-padding"
-                label="Job Title"
-                :options="JobTitleList"
-                outlined
-              />
-            </div>
-            <div class="col-2">
-              <select-comp
-                v-model="editEmpFormData.empRole"
-                class="full-width select-comp-padding"
-                label="Job Role"
-                :options="JobRoleList"
-                outlined
-              />
-            </div>
-            <div class="col-2">
-              <select-comp
-                v-model="editEmpFormData.empStatus"
-                class="full-width select-comp-padding"
-                label="Work Status"
-                :options="WorkStatusList"
-                outlined
-                required
-              />
-            </div>
-            <div class="col-3">
-              <input-comp
-                v-model="editEmpFormData.empEmail"
-                class="full-width"
-                clearable
-                label="Personal Email"
-                outlined
-              />
-            </div>
-            <div class="col-3">
-              <input-comp
-                v-model="editEmpFormData.empEmailBook"
-                class="full-width"
-                clearable
-                label="Booking(Work) Email"
-                outlined
-                required
-              />
-            </div>
-            <div class="col-2">
-              <input-comp
-                v-model="editEmpFormData.empPhone"
-                class="full-width"
-                clearable
-                label="Phone Number"
-                outlined
-              />
-            </div>
-            <div class="col-2">
-              <input-comp
-                v-model="editEmpFormData.empWorkPhone"
-                class="full-width"
-                clearable
-                label="Work(Extention) Number"
-                outlined
-              />
-            </div>
-            <div class="col-6">
-              <input-comp
-                v-model="editEmpFormData.empAddress"
-                class="full-width"
-                clearable
-                label="Address"
-                outlined
-              />
-            </div>
-            <div class="col-3">
-              <date-picker-comp
-                v-model="editEmpFormData.empDob"
-                class="full-width"
-                clearable
-                label="Date of Birth"
-                outlined
-              />
-            </div>
 
-            <div class="col-3">
-              <date-picker-comp
-                v-model="editEmpFormData.empBeginDt"
-                class="full-width"
-                clearable
-                label="Hire Date"
-                outlined
-                required
-              />
+    <div class="col-6 q-pl-sm">
+      <card-comp-design title="Work Information">
+        <template #content>
+          <q-card-section>
+            <div class="row q-col-gutter-md">
+              <!-- <div class="col-12 noMarginPadd" /> -->
+              <div class="col-4">
+                <select-comp
+                  v-model="editEmpFormData.empComp"
+                  class="full-width select-comp-padding"
+                  label="Company"
+                  :options="CompList"
+                  outlined
+                  required
+                />
+              </div>
+              <div class="col-4">
+                <select-comp
+                  v-model="editEmpFormData.empOffice"
+                  class="full-width select-comp-padding"
+                  label="Office"
+                  :options="OfficeList"
+                  outlined
+                  required
+                />
+              </div>
+              <div class="col-4">
+                <select-comp
+                  v-model="editEmpFormData.empDiv"
+                  class="full-width select-comp-padding"
+                  label="Division (Department)"
+                  :options="DivisionList"
+                  outlined
+                  required
+                />
+              </div>
+              <div class="col-4">
+                <select-comp
+                  v-model="editEmpFormData.empTitle"
+                  class="full-width select-comp-padding"
+                  label="Job Title"
+                  :options="JobTitleList"
+                  outlined
+                />
+              </div>
+              <div class="col-4">
+                <select-comp
+                  v-model="editEmpFormData.empRole"
+                  class="full-width select-comp-padding"
+                  label="Job Role"
+                  :options="JobRoleList"
+                  outlined
+                />
+              </div>
+              <div class="col-4">
+                <select-comp
+                  v-model="editEmpFormData.empStatus"
+                  class="full-width select-comp-padding"
+                  label="Work Status"
+                  :options="WorkStatusList"
+                  outlined
+                  required
+                />
+              </div>
+              <div class="col-6">
+                <input-comp
+                  v-model="editEmpFormData.empEmailBook"
+                  class="full-width"
+                  clearable
+                  label="Booking(Work) Email"
+                  outlined
+                  required
+                />
+              </div>
+              <div class="col-6">
+                <input-comp
+                  v-model="editEmpFormData.empWorkPhone"
+                  class="full-width"
+                  clearable
+                  label="Work(Extention) Number"
+                  outlined
+                />
+              </div>
+              <div class="col-4">
+                <date-picker-comp
+                  v-model="editEmpFormData.empBeginDt"
+                  class="full-width"
+                  clearable
+                  label="Hire Date"
+                  outlined
+                />
+              </div>
+              <div class="col-4">
+                <date-picker-comp
+                  v-model="editEmpFormData.empEndDt"
+                  class="full-width"
+                  clearable
+                  label="Resign Date"
+                  outlined
+                />
+              </div>
+              <div class="col-4 q-pt-lg">
+                <input type="checkbox" v-model="guideYN" />
+                <label for="guide-checkbox" class="q-pa-sm"
+                  >Adding Guide?</label
+                >
+              </div>
+              <div v-if="guideYN" class="col-4">
+                <input-color-comp
+                  v-model="editEmpFormData.backColor"
+                  class="full-width"
+                  clearable
+                  label="Emp Background Colo"
+                />
+              </div>
+              <div v-if="guideYN" class="col-4">
+                <input-color-comp
+                  v-model="editEmpFormData.fontColor"
+                  class="full-width"
+                  clearable
+                  label="Emp Font(Name) Colo"
+                />
+              </div>
             </div>
-            <div class="col-3">
-              <date-picker-comp
-                v-model="editEmpFormData.empEndDt"
-                class="full-width"
-                clearable
-                label="Resign Date"
-                outlined
-                required
-              />
-            </div>
-
-            <div class="col-3">
-              <input-comp
-                v-model="editEmpFormData.empMemo"
-                class="full-width"
-                clearable
-                label="Memo"
-                outlined
-              />
-            </div>
-            <div class="col-3">
-              <input type="checkbox" v-model="guideYN" />
-              <label for="guide-checkbox">Adding Guide?</label>
-            </div>
-            <div v-if="guideYN" class="col-3">
-              <input-color-comp
-                v-model="editEmpFormData.backColor"
-                class="full-width"
-                clearable
-                label="Emp Background Colo"
-              />
-            </div>
-            <div v-if="guideYN" class="col-3">
-              <input-color-comp
-                v-model="editEmpFormData.fontColor"
-                class="full-width"
-                clearable
-                label="Emp Font(Name) Colo"
-              />
-            </div>
-          </div>
-        </q-card-section>
-      </template>
-    </card-comp-design>
+          </q-card-section>
+        </template>
+      </card-comp-design>
+    </div>
 
     <!-- <emp-emergency-dawer-content
       v-model="openDrawer"
