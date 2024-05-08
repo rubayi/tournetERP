@@ -96,6 +96,7 @@ export default defineComponent({
     EmpSearchDrawer,
   },
   setup() {
+    const t  = i18n;
     const openDrawer = ref<boolean>(false);
     const openSearchDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);

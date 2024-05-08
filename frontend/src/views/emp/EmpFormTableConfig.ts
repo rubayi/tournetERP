@@ -21,7 +21,7 @@ export class EmpFormTableConfig {
     },
     {
       field: 'empUuid',
-      headerName: i18n.global.t('empNum'),
+      headerName: i18n.global.t('num'),
       width: 100,
       sortable: true,
       filter: true,
@@ -98,3 +98,4 @@ export class EmpFormTableConfig {
     },
   ];
 }
+

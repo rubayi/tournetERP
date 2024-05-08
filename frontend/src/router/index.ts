@@ -11,6 +11,7 @@ import Code from 'src/views/code/AppBody.vue';
 import Comp from 'src/views/comp/AppBody.vue';
 import Cdcd from 'src/views/cdcd/AppBody.vue';
 import Emp from 'src/views/emp/AppBody.vue';
+import i18n from 'src/i18n';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -68,6 +69,7 @@ router.beforeEach((to, from, next) => {
   loginGuard(to, from, next);
 });
 
+
 function loginGuard(
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
@@ -77,6 +79,7 @@ function loginGuard(
     LoginService.getCurrentUser()
       .then((result) => {
         store.commit('updateCurrentUser', result);
+
         next();
       })
       .catch(() => {

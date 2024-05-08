@@ -1,17 +1,13 @@
 // i18n.ts
 import { createI18n } from 'vue-i18n';
 import store from "src/store";
-let initialLocale = 'ko'; // Default locale
 
-// Check user's permission and set the initial locale
-if (store.getters.currentUserHasApplicationPermission("ENG")) {
-  initialLocale = 'en';
-}
-
+const initialLocale = store.getters.currentUserHasApplicationPermission("ENG") ? 'en' : 'ko';
 const messages = {
   en: {
     manageEmployees: 'Manage Employees',
     manageCompany: 'Manage Company',
+    num: 'No',
     empNum: 'No',
     username: 'User Name',
     krname: 'Name(Kor)',
@@ -25,6 +21,7 @@ const messages = {
   ko: {
     manageEmployees: '직원 관리',
     manageCompany: '업체 관리',
+    num: '번호',
     empNum: '번호',
     username: '사용자명',
     krname: '이름(한글)',
@@ -52,7 +49,6 @@ store.watch(
   () => store.getters.currentUserHasApplicationPermission("ENG"),
   (newValue, oldValue) => {
     if (newValue !== oldValue) {
-      // Change the locale based on the new permission
       const newLocale = newValue ? 'en' : 'ko';
       changeLocale(newLocale);
     }
