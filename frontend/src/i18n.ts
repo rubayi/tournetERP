@@ -1,5 +1,12 @@
 // i18n.ts
 import { createI18n } from 'vue-i18n';
+import store from "src/store";
+let initialLocale = 'ko'; // Default locale
+
+// Check user's permission and set the initial locale
+if (store.getters.currentUserHasApplicationPermission("ENG")) {
+  initialLocale = 'en';
+}
 
 const messages = {
   en: {
@@ -31,10 +38,24 @@ const messages = {
 };
 
 const i18n = createI18n({
-  locale: 'ko',
+  locale: initialLocale,
   legacy: false,
   globalInjection: true,
   messages,
 });
 
+function changeLocale(langFlag: "ko" | "en") {
+  i18n.global.locale.value = langFlag;
+}
+
+store.watch(
+  () => store.getters.currentUserHasApplicationPermission("ENG"),
+  (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+      // Change the locale based on the new permission
+      const newLocale = newValue ? 'en' : 'ko';
+      changeLocale(newLocale);
+    }
+  }
+);
 export default i18n;

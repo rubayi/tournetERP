@@ -48,11 +48,13 @@ import { defineComponent, ref } from 'vue';
 import store from 'src/store';
 import NavigationDrawer from 'src/components/navigation/NavigationDrawer.vue';
 import router from "src/router";
-
+import i18n from "src/i18n";
 export default defineComponent({
   name: 'App',
   components: { NavigationDrawer },
   setup() {
+    const t  = i18n;
+
     let openNavigationDrawer = ref(false);
     const version = ref<string>('');
     const currentUserIsLoggedIn = ref(false);

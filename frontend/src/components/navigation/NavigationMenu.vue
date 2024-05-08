@@ -70,18 +70,6 @@ export default defineComponent({
       caption: string;
     }
 
-    let langFlag: "ko" | "en"  = "en";
-    if (store.getters.currentUserHasApplicationPermission("ENG")) {
-      langFlag = "en"
-    } else {
-      langFlag = "ko"
-    }
-
-    changeLocale(langFlag);
-    function changeLocale(langFlag: "ko" | "en"){
-      t.global.locale.value = langFlag;
-    }
-
     const menuOptions: Ref<MenuForm[]> = ref([]);
 
     function buildComMenuTree(menuItems: MenuForm[], parentUuid: number): any[] {
@@ -94,7 +82,7 @@ export default defineComponent({
         expandChildren: true,
         upperMenuUuid: menu.upperMenuUuid,
         icon: menu.menuIcon ? menu.menuIcon : "label",
-        label: langFlag == "ko" ? menu.menuKor : menu.menuEng,
+        label: getMenuLabel(menu),
         link: menu.menuUrl,
         caption: menu.menuDesc,
         children: buildComMenuTree(menuItems, menu.menuUuid),
@@ -124,6 +112,18 @@ export default defineComponent({
         // }
       });
 
+    }
+
+    function getMenuLabel(menu: MenuForm): string {
+      const locale = i18n.global.locale.value; 
+      if (locale === "ko" && menu.menuKor !== null) {
+        return menu.menuKor;
+      } else if (menu.menuEng !== null) {
+        return menu.menuEng;
+      } else {
+        // Handle the case when both menuKor and menuEng are null
+        return "";
+      }
     }
 
     watch(
