@@ -19,7 +19,8 @@ const messages = {
     export: 'Export',
     search: 'Search',
     searchtitle: 'This is a filter for detailed search for data search.',
-    deleteconfirmmsg: 'Are you sure you want to PERMANENTLY DELETE this Data?',
+    deleteconfirmmsg: 'Are you sure you want to "PERMANENTLY DELETE" this Data?',
+    deletesucess: 'Delete completed.',
     manageCodes: 'Manage Codes',
     manageEmployees: 'Manage Employees',
     manageCompany: 'Manage Company',
@@ -48,6 +49,7 @@ const messages = {
     assgnprepaid: 'Assign Prepaid',
     couponuseyn: 'Coupon Can Use',
     hotelrate: 'Hotel Rate',
+    compreport: 'Company List',
   },
   ko: {
     addnew: '등록',
@@ -63,6 +65,7 @@ const messages = {
     search: '검색',
     searchtitle: '검색',
     deleteconfirmmsg: '정말 삭제 하시겠습니까?',
+    deletesucess: '데이터가 삭제 되었습니다.',
     manageCodes: '코드 관리',
     manageEmployees: '직원 관리',
     manageCompany: '업체 관리',
@@ -91,6 +94,7 @@ const messages = {
     assgnprepaid: '결제카드지정',
     couponuseyn: '쿠폰 사용 유무',
     hotelrate: '호텔등급',
+    compreport: '업체목록',
   },
 };
 

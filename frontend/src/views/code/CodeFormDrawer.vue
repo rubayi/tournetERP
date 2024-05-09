@@ -56,6 +56,8 @@ import { CodeForm } from 'src/types/CodeForm';
 import store from 'src/store';
 //helper
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
+//Lang
+import i18n from "src/i18n";
 export default defineComponent({
   name: 'CodeFormDrawer',
   components: {
@@ -86,7 +88,10 @@ export default defineComponent({
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
-    const confirmbuttonlabel = ref<string>('ADD');
+    const confirmbuttonlabel = ref<string>(i18n.global.t('change'));
+    const deletebuttonlabel = ref<string>(i18n.global.t('delete'));
+    const resetbuttonlabel = ref<string>(i18n.global.t('reset'));
+    const cancelbuttonlabel = ref<string>(i18n.global.t('cancel'));
     const confirmicon = ref<string>('fas fa-plus');
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
@@ -147,14 +152,12 @@ export default defineComponent({
     //Add & Edit
     function saveUpdatedCodeData() {
       notificationHelper.dismiss();
-      notificationHelper.createOngoingNotification('Saving...');
+      notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
       if (codeformData.value) {
         CodeService.saveCodeForm(codeformData.value)
           .then((response) => {
-            notificationHelper.createSuccessNotification(
-              `Code  " ${response.codeKr} " saved.`
-            );
+            notificationHelper.createSuccessNotification(i18n.global.t('saved'));
             if (props.codeSeq != 0) {
               emit('codeform-saved', response);
               codeformData.value = new CodeForm(response);
@@ -183,11 +186,7 @@ export default defineComponent({
       loading.value = true;
       CodeService.deleteCodeForm(props.codeSeq)
         .then((response) => {
-          notificationHelper.createSuccessNotification(
-            `Code ${
-              codeformData.value ? codeformData.value.codeKr : ''
-            } deleted`
-          );
+          notificationHelper.createSuccessNotification(i18n.global.t('deletesucess'));
           emit('codeform-deleted', response);
           closeDrawer();
         })
@@ -217,6 +216,9 @@ export default defineComponent({
       codeformDrawerContent,
       confirmbuttoncolor,
       confirmbuttonlabel,
+      deletebuttonlabel,
+      resetbuttonlabel,
+      cancelbuttonlabel,
       confirmicon,
       showconfirmbutton,
       showdeletebutton,

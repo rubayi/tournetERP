@@ -295,11 +295,7 @@ export default defineComponent({
       loading.value = true;
       CompService.deleteCompForm(props.compSeq)
         .then((response) => {
-          notificationHelper.createSuccessNotification(
-            `Defendant ${
-              compFormData.value ? compFormData.value.compUuid : 0
-            } deleted`
-          );
+          notificationHelper.createSuccessNotification(i18n.global.t('deletesucess'));
           emit('compform-deleted', response);
           closeDrawer();
         })
@@ -316,7 +312,7 @@ export default defineComponent({
 
     /* Detail Export PDF */
     function printedonecompData() {
-      const exportFilename = 'HWY Traffic Work Order Report';
+      const exportFilename = i18n.global.t('compreport');
       const listReportVO: CompListReportVO = {
         title: '',
         sort: '',

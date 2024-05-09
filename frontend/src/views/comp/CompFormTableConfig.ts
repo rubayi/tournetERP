@@ -136,11 +136,13 @@ export class CompFormTableConfig {
       headerName: "Modified Date",
       field: "modifiedDt",
       filter: true,
-      suppressMenu: true,
       minWidth: 180,
       maxWidth: 180,
       sortable: true,
       resizable: true,
+      valueFormatter: (params: ValueFormatterParams): string => {
+        return DateHelper.formatISOStringToShortDateString(params.value);
+      },
     },
   ];
   }

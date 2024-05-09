@@ -233,7 +233,6 @@ export default defineComponent({
           (response) => {
             loading.value = false;
             compUuid.value = 0;
-            console.log(response);
             data.value = response;
 
           }
@@ -275,7 +274,7 @@ export default defineComponent({
 
     /* Detail Export PDF */
     function exportAction() {
-      const exportFilename = "TOURNET ERP";
+      const exportFilename = i18n.global.t('compreport');
       const listReportVO: CompListReportVO = {
         title: "",
         sort: compformGrid.value.getExportSortString(reportHeaderMap),
@@ -291,7 +290,7 @@ export default defineComponent({
     }
     /* Detail Export PDF */
     function printAction() {
-      const exportFilename = "TOURNET ERP";
+      const exportFilename = i18n.global.t('compreport');
       const listReportVO: CompListReportVO = {
         title: "",
         sort: compformGrid.value.getExportSortString(reportHeaderMap),
