@@ -116,10 +116,10 @@ export default defineComponent({
 
     function getMenuLabel(menu: MenuForm): string {
       const locale = i18n.global.locale.value;
-      if (locale === "ko" && menu.menuKor !== null) {
-        return menu.menuKor;
-      } else if (menu.menuEng !== null) {
+      if (locale === "en" && menu.menuEng !== null) {
         return menu.menuEng;
+      } else if (menu.menuKor !== null) {
+        return menu.menuKor;
       } else {
         // Handle the case when both menuKor and menuEng are null
         return "";

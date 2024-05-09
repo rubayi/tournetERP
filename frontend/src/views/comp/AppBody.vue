@@ -110,7 +110,7 @@ import TableComp from "src/components/table/TableComp.vue";
 import { TableHelper } from "src/components/table/TableHelper";
 // Service
 import { CompService } from "src/services/CompService";
-import { CodeService } from "src/services/CodeService";
+
 import { CdcdService } from "src/services/CdcdService";
 import { ReportService } from "src/services/CompReportService";
 //Type
@@ -128,12 +128,12 @@ import CompFormDrawer from "src/views/comp/CompFormDrawer.vue";
 import {CdcdSearchForm} from "src/types/CdcdSearchForm";
 // import CompSearchDrawer from "src/views/comp/CompSearchDrawer.vue";
 
+import { loadOptionsList } from 'src/utils/commoncode/commonCode'
 export default defineComponent({
   name: "CompForm",
   components: {
     TableComp,
-    CompFormDrawer
-    // CompSearchDrawer,
+    CompFormDrawer,
   },
   setup() {
     const locale = i18n.global.locale.value;
@@ -237,7 +237,7 @@ export default defineComponent({
 
           }
         );
-        printcodeValue();
+        //printcodeValue();
       }
     }
 
@@ -305,142 +305,34 @@ export default defineComponent({
       );
     }
 
-    function printcodeValue() {
-      loadCompRateListOptions();
-      loadCouponYnListOptions();
-      loadCompGroupListOptions();
-      loadCompSectorOptions();
-      loadOptionRateListOptions();
-      loadRentcarRateListOptions();
-      loadRestaurantRateListOptions();
-      loadHoneymoonOnlyRateListOptions();
-      loadHoneymoonRateListOptions();
-      loadPkgOnlyListOptions();
-      loadPkgRateListOptions();
-      loadPrepaidHowListOptions();
-      loadHotelRateListOptions();
-    }
-    /*Comp Sector List*/
     const compSectorList = ref<SelectOption[]>([]);
-    function loadCompSectorOptions() {
-      CodeService.getGroupCodeForm(22).then((response) => {
-        compSectorList.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeUuid)
-        );
-      });
-
-    }
-    /*Comp Rate List*/
     const compRateList = ref<SelectOption[]>([]);
-    function loadCompRateListOptions() {
-
-      CodeService.getGroupCodeForm(652).then((response) => {
-        compRateList.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeUuid)
-        );
-      });
-    }
-
-    /*Hotel Rate List*/
     const hotelRateList = ref<SelectOption[]>([]);
-    function loadHotelRateListOptions() {
-
-      CodeService.getGroupCodeForm(239).then((response) => {
-        hotelRateList.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeUuid)
-        );
-      });
-    }
-    /* Coupon Yn List*/
     const couponYnList = ref<SelectOption[]>([]);
-    function loadCouponYnListOptions() {
-      CodeService.getGroupCodeForm(515).then((response) => {
-        couponYnList.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeUuid)
-        );
-      });
-    }
-
-    /*Comp Group List*/
     const compGroupList = ref<SelectOption[]>([]);
-    function loadCompGroupListOptions() {
-      CodeService.getGroupCodeForm(518).then((response) => {
-        compGroupList.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeUuid)
-        );
-      });
-    }
-
-    /*Option Tour Rate List*/
     const compOptionRateList = ref<SelectOption[]>([]);
-    function loadOptionRateListOptions() {
-      CodeService.getGroupCodeForm(240).then((response) => {
-        compOptionRateList.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeUuid)
-        );
-      });
-    }
-
-    /*Pacakage Rate List*/
-    const  pkgRateList = ref<SelectOption[]>([]);
-    function loadPkgRateListOptions() {
-      CodeService.getGroupCodeForm(353).then((response) => {
-        pkgRateList.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeUuid)
-        );
-      });
-    }
-
-    /*Pacakage Only Rate List*/
+    const pkgRateList = ref<SelectOption[]>([]);
     const pkgOnlyRateList = ref<SelectOption[]>([]);
-    function loadPkgOnlyListOptions() {
-      CodeService.getGroupCodeForm(354).then((response) => {
-        pkgOnlyRateList.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeUuid)
-        );
-      });
-    }
-
-    /*Honeymoon Rate List*/
     const honeymoonRateList = ref<SelectOption[]>([]);
-    function loadHoneymoonRateListOptions() {
-      CodeService.getGroupCodeForm(355).then((response) => {
-        honeymoonRateList.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeUuid)
-        );
-      });
-    }
-
-    /*Honeymoon Only Rate List*/
     const honeymoonOnlyRateList = ref<SelectOption[]>([]);
-    function loadHoneymoonOnlyRateListOptions() {
-      CodeService.getGroupCodeForm(356).then((response) => {
-        honeymoonOnlyRateList.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeUuid)
-        );
-      });
-    }
-
-    /*Restaurant Tour Rate List*/
     const restaurantRateList = ref<SelectOption[]>([]);
-    function loadRestaurantRateListOptions() {
-      CodeService.getGroupCodeForm(242).then((response) => {
-        restaurantRateList.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeUuid)
-        );
-      });
-    }
-
-    /*Rentcar Rate List*/
     const rentcarRateList = ref<SelectOption[]>([]);
-    function loadRentcarRateListOptions() {
-      CodeService.getGroupCodeForm(241).then((response) => {
-        rentcarRateList.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeUuid)
-        );
-      });
-    }
 
+    // Loading options lists
+    loadOptionsList(22, compSectorList, locale);
+    loadOptionsList(652, compRateList, locale);
+    loadOptionsList(239, hotelRateList, locale);
+    loadOptionsList(515, couponYnList, locale);
+    loadOptionsList(518, compGroupList, locale);
+    loadOptionsList(240, compOptionRateList, locale);
+    loadOptionsList(353, pkgRateList, locale);
+    loadOptionsList(354, pkgOnlyRateList, locale);
+    loadOptionsList(355, honeymoonRateList, locale);
+    loadOptionsList(356, honeymoonOnlyRateList, locale);
+    loadOptionsList(242, restaurantRateList, locale);
+    loadOptionsList(241, rentcarRateList, locale);
+
+    loadPrepaidHowListOptions();
 
     /*Prepaid How List*/
     const prepaidHowList = ref<SelectOption[]>([]);
@@ -453,7 +345,7 @@ export default defineComponent({
       }
       CdcdService.getAll(searchReq).then((response) => {
         prepaidHowList.value = response.map(
-          (x) => new SelectOption(x.mngNameKor, x.cdCdUuid)
+          (x) => new SelectOption(locale === "en" ? x.mngNameEng : x.mngNameKor, x.cdCdUuid)
         );
       });
     }
