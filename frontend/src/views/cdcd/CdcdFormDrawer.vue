@@ -7,6 +7,9 @@
       center-title
       :confirm-button-color="confirmbuttoncolor"
       :confirm-button-label="confirmbuttonlabel"
+      :delete-button-label="deletebuttonlabel"
+      :cancel-button-label="cancelbuttonlabel"
+      :reset-button-label="resetbuttonlabel"
       :confirm-icon="confirmicon"
       icon-title="fas fa-cogs"
       :show-confirm-button="showconfirmbutton"
@@ -43,7 +46,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from "vue";
-
+//Lang
+import i18n from "src/i18n";
 // Components
 import DrawerComp from "src/components/drawers/DrawerComp.vue";
 import DialogComp from "src/components/common/DialogComp.vue";
@@ -60,6 +64,7 @@ import { CdcdForm } from "src/types/CdcdForm";
 import store from "src/store";
 //helper
 import { notificationHelper } from "src/utils/helpers/NotificationHelper";
+
 export default defineComponent({
   name: "CdcdFormDrawer",
   components: {
@@ -85,12 +90,17 @@ export default defineComponent({
     "cdcdform-drawer-closed",
   ],
   setup(props, { emit }) {
-    const title = "Manage Code";
+    const locale = i18n.global.locale.value;
+
+    const title = i18n.global.t('manageCode');
     const cdcdformData = ref<CdcdForm | null>(new CdcdForm());
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>("primary");
-    const confirmbuttonlabel = ref<string>("ADD");
+    const confirmbuttonlabel = ref<string>(i18n.global.t('change'));
+    const deletebuttonlabel = ref<string>(i18n.global.t('delete'));
+    const resetbuttonlabel = ref<string>(i18n.global.t('reset'));
+    const cancelbuttonlabel = ref<string>(i18n.global.t('cancel'));
     const confirmicon = ref<string>("fas fa-plus");
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
@@ -117,13 +127,13 @@ export default defineComponent({
       cdcdformData.value = new CdcdForm();
       if (props.codeSeq != 0) {
         confirmbuttoncolor.value = "warning";
-        confirmbuttonlabel.value = "CHANGE";
+        confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = "fas fa-edit";
         showconfirmbutton.value = store.getters.currentUserHasApplicationPermission("CODE_W");
         showdeletebutton.value = store.getters.currentUserHasApplicationPermission("CODE_D");
       } else {
         confirmbuttoncolor.value = "primary";
-        confirmbuttonlabel.value = "ADD";
+        confirmbuttonlabel.value = i18n.global.t('add');
         confirmicon.value = "fas fa-plus";
         showconfirmbutton.value = store.getters.currentUserHasApplicationPermission("CODE_W");
         showdeletebutton.value = false;
@@ -149,13 +159,14 @@ export default defineComponent({
     //Add & Edit
     function saveUpdatedCodeData() {
       notificationHelper.dismiss();
-      notificationHelper.createOngoingNotification("Saving...");
+      notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
       if (cdcdformData.value) {
         CdcdService.saveCdcdForm(cdcdformData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
-              `Code  " ${response.mngNameKor} " saved.`
+              `Code  " ${
+                locale == 'en'? response.mngNameEng: response.mngNameKor} " saved.`
             );
             if (props.codeSeq != 0) {
               emit("cdcdform-saved", response);
@@ -187,7 +198,8 @@ export default defineComponent({
         .then((response) => {
           notificationHelper.createSuccessNotification(
             `Code ${
-              cdcdformData.value ? cdcdformData.value.mngNameKor : ""
+              cdcdformData.value ?
+                locale == 'en'? cdcdformData.value.mngNameEng :cdcdformData.value.mngNameKor : ""
             } deleted`
           );
           emit("cdcdform-deleted", response);
@@ -219,6 +231,9 @@ export default defineComponent({
       codeformDrawerContent,
       confirmbuttoncolor,
       confirmbuttonlabel,
+      deletebuttonlabel,
+      resetbuttonlabel,
+      cancelbuttonlabel,
       confirmicon,
       showconfirmbutton,
       showdeletebutton,

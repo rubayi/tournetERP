@@ -233,6 +233,7 @@ export default defineComponent({
           (response) => {
             loading.value = false;
             compUuid.value = 0;
+            console.log(response);
             data.value = response;
 
           }

@@ -69,11 +69,17 @@ public class CompanyDTO {
 
     private String compSectorName;
 
+    private String compSectorNameEn;
+
     private String compGroupName;
+
+    private String compGroupNameEn;
 
     private String compRateName; //등급
 
     private String hotelRateName;
+
+    private String hotelRateNameEn;
 
     private String optionRateName;
 

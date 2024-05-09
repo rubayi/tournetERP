@@ -100,8 +100,11 @@ public class CompanyService {
                     compResponse.setLogoFile(comp.getLogoFile());
 
                     compResponse.setCompGroupName(fetchCodeUtil.fetchCodeKr(comp.getCompGroup()));
+                    compResponse.setCompGroupNameEn(fetchCodeUtil.fetchCodeEn(comp.getCompGroup()));
                     compResponse.setCompSectorName(fetchCodeUtil.fetchCodeKr(comp.getCompSector()));
+                    compResponse.setCompSectorNameEn(fetchCodeUtil.fetchCodeEn(comp.getCompSector()));
                     compResponse.setHotelRateName(fetchCodeUtil.fetchCodeKr(comp.getHotelRate()));
+                    compResponse.setHotelRateNameEn(fetchCodeUtil.fetchCodeEn(comp.getHotelRate()));
                     compResponse.setOptionRateName(fetchCodeUtil.fetchCodeKr(comp.getOptionRate()));
                     compResponse.setRentcarRateName(fetchCodeUtil.fetchCodeKr(comp.getRentcarRate()));
                     compResponse.setRestaurantRateName(fetchCodeUtil.fetchCodeKr(comp.getRestaurantRate()));
@@ -133,6 +136,7 @@ public class CompanyService {
                     compResponse.setBeginDt(comp.getBeginDt());
                     compResponse.setEndDt(comp.getEndDt());
                     compResponse.setCreatedDt(comp.getCreatedDt());
+                    compResponse.setModifiedDt(comp.getModifiedDt());
                     compResponse.setEstDate(comp.getEstDate());
                     compResponse.setModifiedByName(comp.getModifyUser().getUsername());
                     compResponse.setCreatedByName(comp.getCreateUser().getUsername());
