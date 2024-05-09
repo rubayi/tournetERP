@@ -1,126 +1,155 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
   <div id="officeform">
-    <q-page class="q-pa-md">
-      <div class="row justify-end q-pb-sm q-mr-sm">
+    <q-page class="q-pt-md">
+      <div class="row justify-end q-pb-sm">
+        <div class="col q-pr-md q-mt-sm">
+          <span class="emer-title">
+            <q-icon name="phone" class="q-mr-sm"></q-icon
+            >{{ t('emerContact') }}</span
+          >
+        </div>
         <q-btn
+          v-if="showinsertbutton"
           icon="add"
-          label="연락처"
+          label="New Emergency Contact"
           style="color: darkgreen"
           @click="createAction"
         />
       </div>
       <div id="officeform-grid-container" class="row">
         <table-comp
-          id="memberform-grid"
-          class="ag-theme-alpine grid"
-          :column-defs="colDefs"
-          :row-data="emergency"
-          :on-cell-clicked="openAction"
+          id="emp-emergency-form-grid"
+          :column-defs="columns"
+          :context="context"
+          :framework-components="frameworkComponents"
+          :loading="loading"
+          :overlay-loading-template="overlayLoadingTemplate"
+          :pagination="false"
+          :gridHeight="'300'"
+          :row-data="data"
+          :open-action="openAction"
+          row-selection="single"
+          @grid-ready="loadData"
+          ref="EmpEmergencyFormGrid"
         />
       </div>
-      <emp-emergency-edit-drawer
-        :open-drawer="eOpenDrawer"
-        :drawer-width="1000"
-        :dataVal="edited"
-        :on-close-click="closeAction"
-        @dataSaved="handlePageChange"
+      <emp-emergency-drawer
+        v-model="openDrawer"
+        :emp-seq="emergencyUuid"
+        @empform-deleted="loadData"
+        @empform-drawer-closed="emergencyUuid = 0"
+        @empform-saved="loadData"
       />
     </q-page>
   </div>
 </template>
 
-<script>
-import { watch } from 'vue';
-import { EmpEmergencyFormTableConfig } from 'src/views/emp/EmpEmergencyFormTableConfig';
-import { initialData } from 'src/views/emp/EmpEmergencyData';
+<script lang="ts">
+import { ref, defineComponent } from 'vue';
+//Lang
+import i18n from 'src/i18n';
+// Table
+import { GridOptions } from 'ag-grid-community';
+import { TableHelper } from 'src/components/table/TableHelper';
 import TableComp from 'src/components/table/TableComp.vue';
-import EmpEmergencyEditDrawer from 'src/components/emp/EmpEmergencyEditDrawer.vue';
+import { EmpEmergencyFormTableConfig } from 'src/views/emp/EmpEmergencyFormTableConfig';
+// Service
+import { EmergencyService } from 'src/services/EmergencyService';
+// Type
+import { EmergencyForm } from 'src/types/EmergencyForm';
+import { EmergencySearchForm } from 'src/types/EmergencySearchForm';
+// Store
+import store from 'src/store';
+// Drawer
+import EmpEmergencyDrawer from 'src/views/emp/EmpEmergencyDrawer.vue';
 
-export default {
+export default defineComponent({
   name: 'EmpEmergencyTnList',
   components: {
     TableComp,
-    EmpEmergencyEditDrawer,
+    EmpEmergencyDrawer,
   },
-  props: {
-    dataVal: Number,
-    onCloseClick: Function,
-  },
-  setup(props) {
-    let empUuid = props.dataVal;
+  setup() {
+    const locale = i18n.global.locale.value;
+    const openDrawer = ref<boolean>(false);
+    const loading = ref<boolean>(false);
+    const columns = EmpEmergencyFormTableConfig.getColumns(locale);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const frameworkComponents: { [key: string]: any } =
+      EmpEmergencyFormTableConfig.frameworkComponents;
+    const overlayLoadingTemplate = TableHelper.loadingOverlay;
+    const data = ref<EmergencyForm[]>([]);
+    const searchdata = ref<EmergencySearchForm>(new EmergencySearchForm());
+    const empformGrid = ref();
+    const emergencyUuid = ref<number>(0);
+    const gridOptions = ref<GridOptions>({});
+    const showinsertbutton = ref<boolean>(false);
 
-    watch(
-      () => props.dataVal,
-      (newVal) => {
-        empUuid = { ...newVal };
-      },
-      { deep: true }
-    );
+    function loadData() {
+      loading.value = true;
+      showinsertbutton.value =
+        store.getters.currentUserHasApplicationPermission('CODE_W');
+      if (store.getters.currentUserHasApplicationPermission('CODE_R')) {
+        EmergencyService.getEmergencyList(searchdata.value).then((response) => {
+          loading.value = false;
+          emergencyUuid.value = 0;
+          if (response) {
+            data.value = response;
+          }
+        });
+      }
+    }
+    function createAction() {
+      emergencyUuid.value = 0;
+      openDrawer.value = true;
+    }
+    function openAction(value: number) {
+      emergencyUuid.value = value;
+      openDrawer.value = true;
+    }
 
     return {
-      empUuid,
+      t: i18n.global.t,
+      gridOptions,
+      data,
+      loadData,
+      loading,
+      columns,
+      emergencyUuid,
+      openDrawer,
+      createAction,
+      openAction,
+      empformGrid,
+      overlayLoadingTemplate,
+      showinsertbutton,
+      frameworkComponents,
     };
   },
   data() {
     return {
-      colDefs: EmpEmergencyFormTableConfig.columns(),
-      emergency: [],
-      edited: initialData,
-      initEdited: initialData,
-      eOpenDrawer: false,
+      context: {
+        componentParent: this,
+      },
     };
   },
-  methods: {
-    createAction() {
-      this.edited = initialData;
-      this.edited.empUuid = this.empUuid;
-      this.eOpenDrawer = true;
-    },
-
-    closeAction() {
-      this.edited = initialData;
-      this.eOpenDrawer = !this.eOpenDrawer;
-    },
-
-    openAction(params) {
-      this.edited = params.data;
-      this.eOpenDrawer = true;
-    },
-
-    handlePageChange() {
-      this.onReset();
-    },
-
-    searchEmergency() {
-      this.$store
-        .dispatch(
-          `empEmergencyTn/selectEmployeeEmergencyByEmpUuid`,
-          this.empUuid
-        )
-        .then((resMap) => {
-          this.emergency = resMap.employeeEmergency;
-        });
-    },
-    onReset() {
-      this.emergency = [];
-      this.searchEmergency();
-    },
-  },
-  created() {
-    this.searchEmergency();
-  },
-};
+});
 </script>
 
 <style lang="scss">
 #officeform {
+  width: 100%;
   #officeform-grid-container {
-    flex-grow: 1;
+    height: 300px;
 
     #officeform-grid {
-      height: 100%;
+      height: 300px;
     }
   }
+}
+.emer-title {
+  font-weight: bold;
+  font-size: 18px;
+  color: darkgreen;
 }
 </style>

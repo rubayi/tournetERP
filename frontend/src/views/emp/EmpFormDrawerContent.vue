@@ -228,14 +228,6 @@
         </template>
       </card-comp-design>
     </div>
-
-    <!-- <emp-emergency-dawer-content
-      v-model="openDrawer"
-      :emp-seq="empUuid"
-          @empform-deleted="loadData"
-          @empform-drawer-closed="empUuid = 0"
-          @empform-saved="loadData"
-        /> -->
   </div>
 </template>
 

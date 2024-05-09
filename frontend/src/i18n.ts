@@ -27,6 +27,9 @@ const messages = {
     logofile: 'Logo File',
     num: 'No',
     empNum: 'No',
+    emergencyName: 'Name',
+    relation: 'Relation',
+    emerContact: 'Emergency Contact',
     username: 'User Name',
     krname: 'Name(Kor)',
     enname: 'Name(Eng)',
@@ -44,7 +47,7 @@ const messages = {
     complvl: 'Company Level',
     assgnprepaid: 'Assign Prepaid',
     couponuseyn: 'Coupon Can Use',
-    hotelrate: 'Hotel Rate'
+    hotelrate: 'Hotel Rate',
   },
   ko: {
     addnew: '등록',
@@ -67,6 +70,9 @@ const messages = {
     logofile: '로고 파일',
     num: '번호',
     empNum: '번호',
+    emergencyName: '비상연락인 이름',
+    relation: '관계',
+    emerContact: '비상연락처',
     username: '사용자명',
     krname: '이름(한글)',
     enname: '이름(영문)',
@@ -84,7 +90,7 @@ const messages = {
     complvl: '업체등급',
     assgnprepaid: '결제카드지정',
     couponuseyn: '쿠폰 사용 유무',
-    hotelrate: '호텔등급'
+    hotelrate: '호텔등급',
   },
 };
 

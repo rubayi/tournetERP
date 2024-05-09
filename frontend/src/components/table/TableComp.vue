@@ -3,7 +3,7 @@
     class="ag-theme-alpine grid"
     :column-defs="columnDefs"
     :context="context"
-    style="width: 100%; height: 800px; overflow: auto"
+    :style="{ width: '100%', height: gridHeight, overflow: 'auto' }"
     :overlay-loading-template="overlayLoadingTemplate"
     :pagination="pagination"
     pagination-auto-page-size="auto"
@@ -103,6 +103,10 @@ export default defineComponent({
     rowSelection: {
       type: String,
       default: 'none',
+    },
+    gridHeight: {
+      type: String,
+      default: '800px',
     },
   },
   emits: ['grid-ready', 'filterChanged', 'selectionChanged', 'sortChanged'],

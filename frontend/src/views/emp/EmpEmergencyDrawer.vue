@@ -1,5 +1,5 @@
 <template>
-  <div id="emp-form-drawer">
+  <div id="emp-emergency-drawer">
     <drawer-comp
       v-model="openDrawer"
       v-model:loading="loading"
@@ -21,18 +21,9 @@
       ref="drawerComp"
     >
       <div class="flex flex-grow-1 q-pa-md">
-        <emp-form-drawer-content
+        <!-- <emp-emergency-drawer-content
           v-model="empformData"
           ref="empFormDrawerContent"
-        />
-        <emp-emergency-tn-list
-          v-if="empformData.empUuid"
-          ref="empEmergencyTnList"
-        />
-        <!-- <emp-form-drawer-menu-auth
-          v-model="menuAuthList"
-          ref="empFormDrawerMenuAuth"
-          :data-val="empAuthFormDatas"
         /> -->
       </div>
     </drawer-comp>
@@ -56,28 +47,22 @@ import { defineComponent, ref, watch } from 'vue';
 import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 import DialogComp from 'src/components/common/DialogComp.vue';
 // View Layout
-import EmpFormDrawerContent from 'src/views/emp/EmpFormDrawerContent.vue';
-import EmpEmergencyTnList from 'src/views/emp/EmpEmergencyTnList.vue';
-import EmpFormDrawerMenuAuth from 'src/views/emp/EmpFormDrawerMenuAuth.vue';
-// Services
-import { EmpService } from 'src/services/EmpService';
-import { EmpAuthService, EmpAuthResponse } from 'src/services/EmpAuthService';
-// Types
-import { EmpForm } from 'src/types/EmpForm';
-import { EmpAuthForm } from 'src/types/EmpAuthForm';
-import { EmpAuthSearchForm } from 'src/types/EmpAuthSearchForm';
+import EmpEmergencyDrawerContent from 'src/views/emp/EmpFormDrawerContent.vue';
+// Service
+import { EmergencyService } from 'src/services/EmergencyService';
+// Type
+import { EmergencyForm } from 'src/types/EmergencyForm';
 // Store
 import store from 'src/store';
 //helper
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
+
 export default defineComponent({
-  name: 'EmpFormDrawer',
+  name: 'EmpEmergencyDrawer',
   components: {
     DrawerComp,
     DialogComp,
-    EmpFormDrawerContent,
-    EmpEmergencyTnList,
-    // EmpFormDrawerMenuAuth,
+    // EmpEmergencyDrawerContent,
   },
   props: {
     empSeq: {
@@ -97,12 +82,8 @@ export default defineComponent({
     'empform-drawer-closed',
   ],
   setup(props, { emit }) {
-    const title = 'Manage Employees';
-    const empformData = ref<EmpForm>(new EmpForm());
-    const empAuthFormDatas = ref<EmpAuthForm[]>([]);
-    const menuAuthList = ref<EmpAuthForm[]>([]);
-    const checkedAuthUuids = ref<number[]>([]);
-    const menuMax = ref<number>(0);
+    const title = 'Manage Emergency Contancts';
+    const empformData = ref<EmergencyForm>(new EmergencyForm());
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
@@ -125,15 +106,13 @@ export default defineComponent({
       () => openDrawer.value,
       (newValue) => {
         emit('update:modelValue', newValue);
-        getEmpformData();
-        getAuthList();
-        getEmpAuthFormDatas();
+        getEmerformData();
       }
     );
 
     // Reset Drawer
     function resetDrawer() {
-      empformData.value = new EmpForm();
+      empformData.value = new EmergencyForm();
       if (props.empSeq != 0) {
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = 'CHANGE';
@@ -153,11 +132,11 @@ export default defineComponent({
     }
 
     // Loading One Data
-    function getEmpformData() {
+    function getEmerformData() {
       resetDrawer();
       if (props.empSeq != 0) {
         loading.value = true;
-        EmpService.getEmpForm(props.empSeq)
+        EmergencyService.getEmerForm(props.empSeq)
           .then((response) => {
             empformData.value = response;
           })
@@ -166,46 +145,19 @@ export default defineComponent({
           });
       }
     }
-
-    function getAuthList() {
-      EmpAuthService.selectMenuAuths().then((response) => {
-        menuAuthList.value = response.menuAuths;
-        menuMax.value = response.maxNumber;
-      });
-    }
-
-    // Loading Auth Datas
-    function getEmpAuthFormDatas() {
-      if (props.empSeq != 0) {
-        loading.value = true;
-        const form: EmpAuthSearchForm = {
-          empUuid: props.empSeq,
-          empAuthUuid: 0,
-          menuAuthUuid: 0,
-        };
-        EmpAuthService.searchAuthListByEmpId(form)
-          .then((response: EmpAuthResponse) => {
-            empAuthFormDatas.value = response.menuAuths;
-          })
-          .finally(() => {
-            loading.value = false;
-          });
-      }
-    }
-
     function saveUpdatedEmpData() {
       notificationHelper.dismiss();
       notificationHelper.createOngoingNotification('Saving...');
       loading.value = true;
       if (empformData.value) {
-        EmpService.saveEmpForm(empformData.value)
+        EmergencyService.saveEmerForm(empformData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
-              `Employer  " ${response.empKor} " saved.`
+              `Employer  " ${response.emerName} " saved.`
             );
             if (props.empSeq != 0) {
               emit('empform-saved', response);
-              empformData.value = new EmpForm(response);
+              empformData.value = new EmergencyForm(response);
             } else {
               emit('empform-saved', response);
               resetDrawer();
@@ -229,11 +181,11 @@ export default defineComponent({
     }
     function deleteEmpForm() {
       loading.value = true;
-      EmpService.deleteEmpForm(props.empSeq)
+      EmergencyService.deleteEmerForm(props.empSeq)
         .then((response) => {
           notificationHelper.createSuccessNotification(
             `Employer  ${
-              empformData.value ? empformData.value.empKor : ''
+              empformData.value ? empformData.value.emerName : ''
             } deleted`
           );
           emit('empform-deleted', response);
@@ -259,8 +211,6 @@ export default defineComponent({
     return {
       title,
       empformData,
-      empAuthFormDatas,
-      menuAuthList,
       loading,
       openDrawer,
       confirmbuttoncolor,
@@ -273,7 +223,7 @@ export default defineComponent({
       drawerComp,
       openDeleteConfirm,
       resetDrawer,
-      getEmpformData,
+      getEmerformData,
       saveUpdatedEmpData,
       deleteAction,
       deleteEmpForm,
@@ -282,9 +232,8 @@ export default defineComponent({
   },
 });
 </script>
-
 <style lang="scss">
-#officeform-drawer {
+#Emergencyform-drawer {
   .q-page {
     display: flex;
     flex-direction: column;
