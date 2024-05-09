@@ -21,10 +21,10 @@
       ref="drawerComp"
     >
       <div class="flex flex-grow-1 q-pa-md">
-        <!-- <emp-emergency-drawer-content
-          v-model="empformData"
-          ref="empFormDrawerContent"
-        /> -->
+        <emp-emergency-drawer-content
+          v-model="emergencyForm"
+          ref="empEmergencyDrawerContent"
+        />
       </div>
     </drawer-comp>
   </div>
@@ -47,7 +47,7 @@ import { defineComponent, ref, watch } from 'vue';
 import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 import DialogComp from 'src/components/common/DialogComp.vue';
 // View Layout
-import EmpEmergencyDrawerContent from 'src/views/emp/EmpFormDrawerContent.vue';
+import EmpEmergencyDrawerContent from 'src/views/emp/EmpEmergencyDrawerContent.vue';
 // Service
 import { EmergencyService } from 'src/services/EmergencyService';
 // Type
@@ -62,7 +62,7 @@ export default defineComponent({
   components: {
     DrawerComp,
     DialogComp,
-    // EmpEmergencyDrawerContent,
+    EmpEmergencyDrawerContent,
   },
   props: {
     empSeq: {
@@ -76,14 +76,14 @@ export default defineComponent({
   },
   emits: [
     'update:modelValue',
-    'update:drawerData',
-    'empform-saved',
-    'empform-deleted',
-    'empform-drawer-closed',
+    'update:EmerDrawerData',
+    'emerform-saved',
+    'emerform-deleted',
+    'emerform-drawer-closed',
   ],
   setup(props, { emit }) {
     const title = 'Manage Emergency Contancts';
-    const empformData = ref<EmergencyForm>(new EmergencyForm());
+    const emergencyForm = ref<EmergencyForm>(new EmergencyForm());
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
@@ -112,7 +112,7 @@ export default defineComponent({
 
     // Reset Drawer
     function resetDrawer() {
-      empformData.value = new EmergencyForm();
+      emergencyForm.value = new EmergencyForm();
       if (props.empSeq != 0) {
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = 'CHANGE';
@@ -138,7 +138,7 @@ export default defineComponent({
         loading.value = true;
         EmergencyService.getEmerForm(props.empSeq)
           .then((response) => {
-            empformData.value = response;
+            emergencyForm.value = response;
           })
           .finally(() => {
             loading.value = false;
@@ -149,17 +149,17 @@ export default defineComponent({
       notificationHelper.dismiss();
       notificationHelper.createOngoingNotification('Saving...');
       loading.value = true;
-      if (empformData.value) {
-        EmergencyService.saveEmerForm(empformData.value)
+      if (emergencyForm.value) {
+        EmergencyService.saveEmerForm(emergencyForm.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
               `Employer  " ${response.emerName} " saved.`
             );
             if (props.empSeq != 0) {
-              emit('empform-saved', response);
-              empformData.value = new EmergencyForm(response);
+              emit('emerform-saved', response);
+              emergencyForm.value = new EmergencyForm(response);
             } else {
-              emit('empform-saved', response);
+              emit('emerform-saved', response);
               resetDrawer();
             }
           })
@@ -185,10 +185,10 @@ export default defineComponent({
         .then((response) => {
           notificationHelper.createSuccessNotification(
             `Employer  ${
-              empformData.value ? empformData.value.emerName : ''
+              emergencyForm.value ? emergencyForm.value.emerName : ''
             } deleted`
           );
-          emit('empform-deleted', response);
+          emit('emerform-deleted', response);
           closeDrawer();
         })
         .catch((error) => {
@@ -205,12 +205,12 @@ export default defineComponent({
     function closeDrawer() {
       openDrawer.value = false;
       resetDrawer();
-      emit('empform-drawer-closed');
+      emit('emerform-drawer-closed');
     }
 
     return {
       title,
-      empformData,
+      emergencyForm,
       loading,
       openDrawer,
       confirmbuttoncolor,

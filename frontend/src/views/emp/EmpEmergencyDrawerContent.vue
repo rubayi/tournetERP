@@ -1,5 +1,60 @@
-<!-- <template>
-  <div></div>
+<template>
+  <card-comp-design title="Emergency Contact Information">
+    <template #content>
+      <q-card-section>
+        <div class="row q-col-gutter-md">
+          <div class="col-12">
+            <input-comp
+              v-model="emergencyFormData.emerName"
+              class="full-width"
+              clearable
+              label="Name"
+              outlined
+              required
+            />
+          </div>
+          <div class="col-12">
+            <input-comp
+              v-model="emergencyFormData.emerRelation"
+              class="full-width"
+              clearable
+              label="Relation"
+              outlined
+              required
+            />
+          </div>
+          <div class="col-12">
+            <input-comp
+              v-model="emergencyFormData.emerPhone1"
+              class="full-width"
+              clearable
+              label="Phone"
+              outlined
+              required
+            />
+          </div>
+          <div class="col-12">
+            <input-comp
+              v-model="emergencyFormData.emerWorkPhone"
+              class="full-width"
+              label="Phone (Work)"
+              clearable
+              outlined
+            />
+          </div>
+          <div class="col-12">
+            <input-comp
+              v-model="emergencyFormData.emerAddress"
+              class="full-width"
+              clearable
+              label="Address"
+              outlined
+            />
+          </div>
+        </div>
+      </q-card-section>
+    </template>
+  </card-comp-design>
 </template>
 <script lang="ts">
 import { ref, defineComponent } from 'vue';
@@ -24,19 +79,19 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const emergencyForm = ref<EmergencyForm>(new EmergencyForm());
+    const emergencyFormData = ref<EmergencyForm>(new EmergencyForm());
     useSyncModelValue(
       props,
       'modelValue',
       emit,
       'update:modelValue',
-      emergencyForm
+      emergencyFormData
     );
 
     return {
-      emergencyForm,
+      emergencyFormData,
     };
   },
 });
 </script>
-<style lang="scss"></style> -->
+<style lang="scss"></style>

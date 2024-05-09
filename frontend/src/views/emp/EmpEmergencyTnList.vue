@@ -37,9 +37,9 @@
       <emp-emergency-drawer
         v-model="openDrawer"
         :emp-seq="emergencyUuid"
-        @empform-deleted="loadData"
-        @empform-drawer-closed="emergencyUuid = 0"
-        @empform-saved="loadData"
+        @emerform-deleted="loadData"
+        @emerform-drawer-closed="emergencyUuid = 0"
+        @emerform-saved="loadData"
       />
     </q-page>
   </div>
@@ -81,7 +81,7 @@ export default defineComponent({
     const overlayLoadingTemplate = TableHelper.loadingOverlay;
     const data = ref<EmergencyForm[]>([]);
     const searchdata = ref<EmergencySearchForm>(new EmergencySearchForm());
-    const empformGrid = ref();
+    const empEmergencyFormGrid = ref();
     const emergencyUuid = ref<number>(0);
     const gridOptions = ref<GridOptions>({});
     const showinsertbutton = ref<boolean>(false);
@@ -120,7 +120,7 @@ export default defineComponent({
       openDrawer,
       createAction,
       openAction,
-      empformGrid,
+      empEmergencyFormGrid,
       overlayLoadingTemplate,
       showinsertbutton,
       frameworkComponents,
