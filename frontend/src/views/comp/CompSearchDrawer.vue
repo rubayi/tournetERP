@@ -38,7 +38,6 @@ import DrawerComp from "src/components/drawers/DrawerComp.vue";
 import CompSearchDrawerContent from "src/views/comp/CompSearchDrawerContent.vue";
 // Types
 import { CompSearchForm } from "src/types/CompSearchForm";
-import { SelectOption } from "src/types/SelectOption";
 // Store
 import store from "src/store";
 // Helpers
@@ -67,6 +66,7 @@ export default defineComponent({
     "tournetsearch-saved",
   ],
   setup(props, { emit }) {
+
     const title = i18n.global.t('searchtitle');
     const loading = ref<boolean>(false);
     const opensearchDrawer = ref<boolean>(false);

@@ -7,6 +7,10 @@
       center-title
       :confirm-button-color="confirmbuttoncolor"
       :confirm-button-label="confirmbuttonlabel"
+      :delete-button-label="deletebuttonlabel"
+      :cancel-button-label="cancelbuttonlabel"
+      :print-button-label="printbuttonlabel"
+      :reset-button-label="resetbuttonlabel"
       :confirm-icon="confirmicon"
       icon-title="far fa-folder-open"
       :show-confirm-button="showconfirmbutton"
@@ -20,7 +24,7 @@
       @confirm-printeded="printedonecompData"
       @delete-clicked="openDeleteConfirm = true"
       ref="drawerComp"
-    >
+      >
       <div class="q-pa-lg">
         <div class="row q-col-gutter-md">
           <div class="col-12 col-md-12 col-xs-12">
@@ -168,12 +172,15 @@ export default defineComponent({
   setup(props, { emit }) {
     const title = i18n.global.t('manageCompany');
     const compFormData = ref<CompForm | undefined>(new CompForm());
-
     const printdata = ref<CompForm[]>([]);
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
-    const confirmbuttonlabel = ref<string>(i18n.global.t('add'));
+    const confirmbuttonlabel = ref<string>(i18n.global.t('change'));
+    const printbuttonlabel = ref<string>(i18n.global.t('print'));
+    const deletebuttonlabel = ref<string>(i18n.global.t('delete'));
+    const resetbuttonlabel = ref<string>(i18n.global.t('reset'));
+    const cancelbuttonlabel = ref<string>(i18n.global.t('cancel'));
     const confirmicon = ref<string>('fas fa-plus');
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
@@ -329,6 +336,7 @@ export default defineComponent({
       resetDrawer();
       emit('compform-drawer-closed');
     }
+
     return {
       t: i18n.global.t,
       title,
@@ -340,6 +348,10 @@ export default defineComponent({
       compFormDrawerPrimary,
       confirmbuttoncolor,
       confirmbuttonlabel,
+      printbuttonlabel,
+      deletebuttonlabel,
+      resetbuttonlabel,
+      cancelbuttonlabel,
       confirmicon,
       showconfirmbutton,
       showdeletebutton,

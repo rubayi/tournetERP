@@ -58,6 +58,7 @@
             :column-defs="columns"
             :context="context"
             :loading="loading"
+            :open-action="openAction"
             :overlay-loading-template="overlayLoadingTemplate"
             :pagination="true"
             :row-data="data"

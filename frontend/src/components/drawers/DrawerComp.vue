@@ -48,16 +48,16 @@
           <q-toolbar>
             <q-space v-if="drawerWidth > 50" />
             <div class="q-gutter-md">
-              <q-chip
-                v-if="changesIndicator"
-                class="q-mt-lg changes-indicator"
-                color="secondary"
-                icon="report"
-                :label="changeButtonLabel"
-                outline
-                rounded
-                text-color="white"
-              />
+<!--              <q-chip-->
+<!--                v-if="changesIndicator"-->
+<!--                class="q-mt-lg changes-indicator"-->
+<!--                color="secondary"-->
+<!--                icon="report"-->
+<!--                :label="changeButtonLabel"-->
+<!--                outline-->
+<!--                rounded-->
+<!--                text-color="white"-->
+<!--              />-->
               <q-btn
                 v-if="showPrintButton"
                 color="secondary"
@@ -73,6 +73,7 @@
                 :label="confirmButtonLabel"
                 @click="confirmClicked"
               />
+
               <q-btn
                 v-if="isAddMode && showConfirmButton"
                 color="secondary"
@@ -133,13 +134,21 @@ export default defineComponent({
       type: String,
       default: i18n.global.t('cancel'),
     },
-    changeButtonLabel: {
+    confirmButtonLabel: {
       type: String,
       default: i18n.global.t('change'),
     },
     printButtonLabel: {
       type: String,
       default: i18n.global.t('print'),
+    },
+    deleteButtonLabel: {
+      type: String,
+      default: i18n.global.t('delete'),
+    },
+    resetButtonLabel: {
+      type: String,
+      default: i18n.global.t('reset'),
     },
     cancelButtonicon: {
       type: String,
@@ -153,14 +162,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    deleteButtonLabel: {
-      type: String,
-      default: i18n.global.t('delete'),
-    },
-    resetButtonLabel: {
-      type: String,
-      default: i18n.global.t('reset'),
-    },
     showDeleteButton: {
       type: Boolean,
       default: false,
@@ -168,10 +169,6 @@ export default defineComponent({
     showResetButton: {
       type: Boolean,
       default: false,
-    },
-    confirmButtonLabel: {
-      type: String,
-      default: i18n.global.t('confirm'),
     },
     confirmButtonColor: {
       type: String,
@@ -335,6 +332,7 @@ export default defineComponent({
     }
 
     return {
+      t: i18n.global.t,
       cancelClicked,
       resetClicked,
       confirmClicked,
