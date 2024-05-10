@@ -38,9 +38,6 @@ public class EmpMenuAuthController {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        if(storUser != null) {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
         List<EmpMenuAuth> currentEmpMenuAuths = null;
 
         currentEmpMenuAuths = menuAuthRepository.findAllByEmpUuid(menuAuthReq.getEmpUuid());
