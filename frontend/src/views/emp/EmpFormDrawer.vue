@@ -25,19 +25,19 @@
           v-model="empformData"
           ref="empFormDrawerContent"
         />
-        <emp-form-drawer-menu-auth
+        <!-- <emp-form-drawer-menu-auth
           v-if="empformData.empUuid"
           v-model="menuAuthList"
           ref="empFormDrawerMenuAuth"
           :data-val="checkedAuthUuids"
           :emp-auth-data="empAuthFormDatas"
           :menu-max="munuMax"
-        />
-        <!-- <emp-emergency-tn-list
+        /> -->
+        <emp-emergency-tn-list
           v-if="empformData.empUuid"
           :emp-uuid="empformData.empUuid"
           ref="empEmergencyTnList"
-        /> -->
+        />
       </div>
     </drawer-comp>
   </div>
@@ -62,7 +62,7 @@ import DialogComp from 'src/components/common/DialogComp.vue';
 // View Layout
 import EmpFormDrawerContent from 'src/views/emp/EmpFormDrawerContent.vue';
 import EmpEmergencyTnList from 'src/views/emp/EmpEmergencyTnList.vue';
-import EmpFormDrawerMenuAuth from 'src/views/emp/EmpFormDrawerMenuAuth.vue';
+// import EmpFormDrawerMenuAuth from 'src/views/emp/EmpFormDrawerMenuAuth.vue';
 // Services
 import { EmpService } from 'src/services/EmpService';
 import { EmpAuthService, EmpAuthResponse } from 'src/services/EmpAuthService';
@@ -81,8 +81,8 @@ export default defineComponent({
     DrawerComp,
     DialogComp,
     EmpFormDrawerContent,
-    // EmpEmergencyTnList,
-    EmpFormDrawerMenuAuth,
+    EmpEmergencyTnList,
+    // EmpFormDrawerMenuAuth,
   },
   props: {
     empSeq: {
