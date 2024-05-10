@@ -18,17 +18,13 @@
             />
           </div>
           <div class="grid-container">
-            <!-- Loop through each group -->
-            <template v-for="(groupIndex, maxIdx) in menuMax" :key="maxIdx">
+            <template v-for="groupIndex in menuMax" :key="groupIndex">
               <!-- Filter menu items for the current group -->
               <template
                 v-if="
-                  authList.filter(
-                    (item) => item.groupCode === groupIndex.toString()
-                  ).length
+                  authList.filter((item) => item.groupCode == groupIndex).length
                 "
               >
-                <!-- Show a card-section for each group -->
                 <q-card-section :key="'group_' + groupIndex">
                   <q-form>
                     <q-card-section class="q-pa-none">
@@ -48,15 +44,17 @@
                           <!-- Render menu items for the current group -->
                           <template
                             v-for="(authItem, index) in authList.filter(
-                              (item) => item.groupCode === groupIndex.toString()
+                              (item) => item.groupCode == groupIndex
                             )"
                             :key="index"
                           >
                             <div style="display: flex; align-items: center">
                               <q-checkbox
-                                v-model="authItem.authYn"
+                                :model-value="isChecked(authItem)"
                                 value="authItem.menuAuthUuid"
-                                @click="handleCheckboxChange(authItem)"
+                                @click="
+                                  handleCheckboxChange(authItem.menuAuthUuid)
+                                "
                               />
                               <q-item-label>{{
                                 authItem.menuAuthName
@@ -80,15 +78,8 @@
 import { defineComponent, ref, watch } from 'vue';
 // Component
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
-// Service
-import { EmpAuthService } from 'src/services/EmpAuthService';
 // Type
-import { EmpAuthForm } from 'src/types/EmpAuthForm';
 import { MenuAuthForm } from 'src/types/MenuAuthForm';
-// Store
-import store from 'src/store';
-// Helper
-import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 
 export default defineComponent({
   name: 'EmpFormDrawerMenuAuth',
@@ -97,25 +88,24 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Object as () => MenuAuthForm,
-      default: () => new MenuAuthForm(),
+      type: Array as () => MenuAuthForm[],
+      default: () => [] as MenuAuthForm[],
     },
     dataVal: {
       type: Array as () => number[],
       default: () => [],
     },
     menuMax: {
-      type: Array as () => number[],
-      default: () => [],
+      type: Number,
+      default: 0,
     },
   },
   setup(props, { emit }) {
     const authList = ref(props.modelValue);
     const authListEmpId = ref(props.dataVal);
-    const lcReqList = ref(props.reqList);
 
     watch(
-      () => props.optionList,
+      () => props.modelValue,
       (newVal) => {
         authList.value = newVal;
       },
@@ -130,55 +120,42 @@ export default defineComponent({
       { deep: true }
     );
 
+    const isChecked = (authItem: MenuAuthForm) => {
+      return (
+        authListEmpId.value.find((item) => item === authItem.menuAuthUuid) !==
+        undefined
+      );
+    };
+
     const selectAll = () => {
       authList.value.forEach((item) => {
-        item.authYn = true;
-        handleCheckboxChange(item);
+        if (!authListEmpId.value.includes(item.menuAuthUuid)) {
+          authListEmpId.value.push(item.menuAuthUuid);
+        }
       });
+      emit('update:authListEmpId', authListEmpId.value);
     };
 
     const unselectAll = () => {
-      authList.value.forEach((item) => {
-        item.authYn = false;
-        handleCheckboxChange(item);
-      });
+      authListEmpId.value = [];
+      emit('update:authListEmpId', authListEmpId.value);
     };
 
-    const handleCheckboxChange = (authItem) => {
-      authItem.authYn = !!authItem.authYn; // Toggle the authYn property
-      const existingIndex = lcReqList.value.findIndex(
-        (item) => item.menuAuthUuid === authItem.menuAuthUuid
-      );
-      if (existingIndex !== -1) {
-        // Update the existing object
-        if (!authItem.authYn) {
-          // If the checkbox is unchecked, mark it for deletion
-          lcReqList.value[existingIndex].deleteFlag = 'Y';
-        } else {
-          // If the checkbox is checked, remove the deleteFlag
-          delete lcReqList.value[existingIndex].deleteFlag;
-        }
+    const handleCheckboxChange = (id: number) => {
+      const index = authListEmpId.value.indexOf(id);
+      if (index !== -1) {
+        authListEmpId.value.splice(index, 1);
       } else {
-        // Push a new object
-        lcReqList.value.push({
-          menuAuthUuid: authItem.menuAuthUuid,
-          deleteFlag: authItem.authYn ? undefined : 'Y',
-        });
+        authListEmpId.value.push(id);
       }
+      emit('update:authListEmpId', authListEmpId.value);
     };
-
-    watch(
-      lcReqList,
-      (newVal) => {
-        emit('update:reqList', newVal);
-      },
-      { deep: true, immediate: true }
-    );
 
     return {
       authList,
       handleCheckboxChange,
       selectAll,
+      isChecked,
       unselectAll,
     };
   },
@@ -188,10 +165,8 @@ export default defineComponent({
 <style lang="scss">
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(6, 1fr); /* Three columns with equal width */
+  grid-template-columns: repeat(6, 1fr);
 }
-
-/* CSS to ensure items fill the available width within the grid */
 .item {
   width: 100%;
 }

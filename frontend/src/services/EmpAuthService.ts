@@ -38,15 +38,15 @@ export class EmpAuthService {
 
   static deleteEmpAuth(comreq: EmpAuthSearchForm): Promise<EmpAuthForm[]> {
     return api
-      .post<EmpAuthForm[]>(API_URL + 'deleteEmpAuth', comreq, {
+      .post<EmpAuthForm[]>(API_URL + 'deleteEmpMenuAuth', comreq, {
         headers: authHeader(),
       })
       .then((response) => response.data);
   }
 
-  static updateEmpAuth(comreq: EmpAuthSearchForm): Promise<EmpAuthForm> {
+  static updateEmpAuth(comreq: EmpAuthSearchForm): Promise<EmpAuthForm[]> {
     return api
-      .post<EmpAuthForm>(API_URL + 'updateEmpAuth', comreq, {
+      .post<EmpAuthForm[]>(API_URL + 'updateEmpMenuAuth', comreq, {
         headers: authHeader(),
       })
       .then((response) => response.data);

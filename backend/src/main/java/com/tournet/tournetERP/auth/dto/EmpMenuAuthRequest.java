@@ -13,4 +13,6 @@ public class EmpMenuAuthRequest {
 
     private String deleteFlag;
 
+    private long menuAuthUuid;
+
 }

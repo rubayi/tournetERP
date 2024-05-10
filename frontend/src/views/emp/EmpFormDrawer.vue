@@ -25,14 +25,14 @@
           v-model="empformData"
           ref="empFormDrawerContent"
         />
-        <!-- <emp-form-drawer-menu-auth
+        <emp-form-drawer-menu-auth
           v-if="empformData.empUuid"
           v-model="menuAuthList"
           ref="empFormDrawerMenuAuth"
           :data-val="checkedAuthUuids"
-          :emp-auth-data="empAuthFormDatas"
-          :menu-max="munuMax"
-        /> -->
+          :menu-max="menuMax"
+          @update:authListEmpId="(newVal) => (checkedAuthUuids = newVal)"
+        />
         <emp-emergency-tn-list
           v-if="empformData.empUuid"
           :emp-uuid="empformData.empUuid"
@@ -62,7 +62,7 @@ import DialogComp from 'src/components/common/DialogComp.vue';
 // View Layout
 import EmpFormDrawerContent from 'src/views/emp/EmpFormDrawerContent.vue';
 import EmpEmergencyTnList from 'src/views/emp/EmpEmergencyTnList.vue';
-// import EmpFormDrawerMenuAuth from 'src/views/emp/EmpFormDrawerMenuAuth.vue';
+import EmpFormDrawerMenuAuth from 'src/views/emp/EmpFormDrawerMenuAuth.vue';
 // Services
 import { EmpService } from 'src/services/EmpService';
 import { EmpAuthService, EmpAuthResponse } from 'src/services/EmpAuthService';
@@ -82,7 +82,7 @@ export default defineComponent({
     DialogComp,
     EmpFormDrawerContent,
     EmpEmergencyTnList,
-    // EmpFormDrawerMenuAuth,
+    EmpFormDrawerMenuAuth,
   },
   props: {
     empSeq: {
@@ -107,6 +107,7 @@ export default defineComponent({
     const empAuthFormDatas = ref<EmpAuthForm[]>([]);
     const menuAuthList = ref<MenuAuthForm[]>([]);
     const checkedAuthUuids = ref<number[]>([]);
+    const prevCheckedIds = ref<number[]>([]);
     const menuMax = ref<number>(0);
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
@@ -175,10 +176,13 @@ export default defineComponent({
     function getEmpAuthFormDatas() {
       if (props.empSeq != 0) {
         loading.value = true;
+        checkedAuthUuids.value = [];
+        prevCheckedIds.value = [];
         const form: EmpAuthSearchForm = {
           empUuid: props.empSeq,
           empAuthUuid: 0,
           menuAuthUuid: 0,
+          menuAuthUuids: [],
         };
         EmpAuthService.searchAuthListByEmpId(form)
           .then((response: EmpAuthResponse) => {
@@ -189,9 +193,9 @@ export default defineComponent({
               );
               if (empAuth) {
                 checkedAuthUuids.value.push(menuAuth.menuAuthUuid);
+                prevCheckedIds.value.push(menuAuth.menuAuthUuid);
               }
             }
-            console.log('empAuthFormDatas', checkedAuthUuids.value);
           })
           .finally(() => {
             loading.value = false;
@@ -211,7 +215,38 @@ export default defineComponent({
       notificationHelper.dismiss();
       notificationHelper.createOngoingNotification('Saving...');
       loading.value = true;
+      const idsToDelete = prevCheckedIds.value.filter(
+        (id) => !checkedAuthUuids.value.includes(id)
+      );
+      const idsToAdd = checkedAuthUuids.value.filter(
+        (id) => !prevCheckedIds.value.includes(id)
+      );
+
       if (empformData.value) {
+        if (idsToDelete) {
+          EmpAuthService.deleteEmpAuth({
+            menuAuthUuids: idsToDelete,
+            empUuid: empformData.value.empUuid,
+            empAuthUuid: 0,
+            menuAuthUuid: 0,
+          }).catch((error) => {
+            notificationHelper.createErrorNotification(
+              notificationHelper.formatResponseToErrorMessage(error.response)
+            );
+          });
+        }
+        if (idsToAdd) {
+          EmpAuthService.updateEmpAuth({
+            menuAuthUuids: idsToAdd,
+            empUuid: empformData.value.empUuid,
+            empAuthUuid: 0,
+            menuAuthUuid: 0,
+          }).catch((error) => {
+            notificationHelper.createErrorNotification(
+              notificationHelper.formatResponseToErrorMessage(error.response)
+            );
+          });
+        }
         EmpService.saveEmpForm(empformData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
@@ -276,6 +311,7 @@ export default defineComponent({
       empAuthFormDatas,
       menuAuthList,
       checkedAuthUuids,
+      menuMax,
       loading,
       openDrawer,
       confirmbuttoncolor,

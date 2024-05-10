@@ -9,10 +9,7 @@ package com.tournet.tournetERP.auth.controller;
  */
 
 import com.tournet.tournetERP.auth.dto.EmpMenuAuthRequest;
-import com.tournet.tournetERP.auth.dto.MessageResponse;
 import com.tournet.tournetERP.auth.entity.EmpMenuAuth;
-import com.tournet.tournetERP.auth.entity.EmpMenuAuth;
-import com.tournet.tournetERP.auth.repository.EmpMenuAuthRepository;
 import com.tournet.tournetERP.auth.repository.EmpMenuAuthRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +34,13 @@ public class EmpMenuAuthController {
     EmpMenuAuthRepository menuAuthRepository;
 
     @PostMapping("/selectEmpMenuAuths")
-    public ResponseEntity<Map<String, Object>> selectEmpMenuAuths (@RequestBody EmpMenuAuth menuAuthReq) {
+    public ResponseEntity<Map<String, Object>> selectEmpMenuAuths(@RequestBody EmpMenuAuth menuAuthReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
+        if(storUser != null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
         List<EmpMenuAuth> currentEmpMenuAuths = null;
 
         currentEmpMenuAuths = menuAuthRepository.findAllByEmpUuid(menuAuthReq.getEmpUuid());
@@ -50,7 +50,6 @@ public class EmpMenuAuthController {
         return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
-
     @Transactional
     @PostMapping("/updateEmpMenuAuth")
     public ResponseEntity<Map<String, Object>> createEmpMenuAuth(@RequestBody EmpMenuAuthRequest menuAuthReq) {
@@ -58,7 +57,6 @@ public class EmpMenuAuthController {
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
         String message = "변경 내용 저장이 실패 했습니다.";
-        String enMessage = "Fail to Save!";
 
        if (storUser != null) {
            long[] menuAuthUuids = menuAuthReq.getMenuAuthUuids();
@@ -88,7 +86,7 @@ public class EmpMenuAuthController {
 
         Optional<EmpMenuAuth> currentEmpMenuAuth = menuAuthRepository.findByEmpAuthUuid(id);
 
-        String message = message = "수정이 완료 되지 않았습니다.";
+        String message = "수정이 완료 되지 않았습니다.";
 
         if (storUser != null) {
             if (currentEmpMenuAuth.isPresent()) {
