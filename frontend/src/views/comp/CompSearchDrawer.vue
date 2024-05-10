@@ -6,6 +6,8 @@
       center-title
       confirm-button-color="secondary"
       :confirm-button-label="comfirmbuttonlabel"
+      :cancel-button-label="cancelbuttonlabel"
+      :reset-button-label="resetbuttonlabel"
       confirm-icon="fas fa-search"
       icon-title="far fa-compass"
       :show-confirm-button="showconfirmbutton"
@@ -93,6 +95,8 @@ export default defineComponent({
     const opensearchDrawer = ref<boolean>(false);
     const showconfirmbutton = ref<boolean>(false);
     const comfirmbuttonlabel = ref<string>(i18n.global.t('search'));
+    const resetbuttonlabel = ref<string>(i18n.global.t('reset'));
+    const cancelbuttonlabel = ref<string>(i18n.global.t('cancel'));
     showconfirmbutton.value =
       store.getters.currentUserHasApplicationPermission("COMP_R");
     const compsearchDrawerContent = ref();
@@ -143,7 +147,9 @@ export default defineComponent({
       showconfirmbutton,
       searchUpdatedCompData,
       searchResetData,
-      comfirmbuttonlabel
+      comfirmbuttonlabel,
+      resetbuttonlabel,
+      cancelbuttonlabel,
     };
   },
 });

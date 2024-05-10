@@ -95,7 +95,7 @@
         :comp-group-list="compGroupList"
         :comp-sector-list="compSectorList"
         :rowsearchdata="searchdata"
-        @compformsearch-reset="resetLoadData"
+        @compsearch-reset="resetLoadData"
         @compsearch-saved="loadData"
       />
     </q-page>
