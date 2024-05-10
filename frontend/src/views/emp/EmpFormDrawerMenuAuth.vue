@@ -76,25 +76,29 @@
     </template>
   </card-comp-design>
 </template>
-
-<script>
+<script lang="ts">
 import { defineComponent, ref } from 'vue';
 // Component
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
+// Service
+import { EmpAuthService } from 'src/services/EmpAuthService';
 // Type
 import { EmpAuthForm } from 'src/types/EmpAuthForm';
+import { MenuAuthForm } from 'src/types/MenuAuthForm';
+// Store
+import store from 'src/store';
 // Helper
-import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
+import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 
 export default defineComponent({
-  name: 'EmpFormDrawerMenuContent',
+  name: 'EmpFormDrawerMenuAuth',
   components: {
     CardCompDesign,
   },
   props: {
     modelValue: {
-      type: Object as () => EmpAuthForm,
-      default: () => new EmpAuthForm(),
+      type: Object as () => MenuAuthForm,
+      default: () => new MenuAuthForm(),
     },
   },
   setup(props, { emit }) {

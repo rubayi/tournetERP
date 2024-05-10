@@ -17,10 +17,10 @@ export interface IUserDetails {
   username: string;
   empKor: string;
   empEng: string;
-  enabled: boolean | null;
-  accountNonExpired: boolean | null;
-  accountNonLocked: boolean | null;
-  credentialsNonExpired: boolean | null;
+  enabled: boolean | '';
+  accountNonExpired: boolean | '';
+  accountNonLocked: boolean | '';
+  credentialsNonExpired: boolean | '';
   authorities: any[];
 
   ipAddress: string;

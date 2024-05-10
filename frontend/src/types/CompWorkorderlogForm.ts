@@ -1,5 +1,5 @@
-import { CodeForm } from "src/types/CodeForm";
-import { getDateMemberValue } from "src/utils/helpers/ConstructorHelper";
+import { CodeForm } from 'src/types/CodeForm';
+import { getDateMemberValue } from 'src/utils/helpers/ConstructorHelper';
 
 export interface ICompWorkorderlogForm {
   worknum: number | null;
@@ -33,15 +33,15 @@ export class CompWorkorderlogForm implements ICompWorkorderlogForm {
   constructor(obj?: ICompWorkorderlogForm) {
     this.worknum = (obj && obj.worknum) || 0;
     this.receiveddate = getDateMemberValue(obj?.receiveddate);
-    this.receivedby = (obj && obj.receivedby) || "";
+    this.receivedby = (obj && obj.receivedby) || '';
     this.datecrewassigned = getDateMemberValue(obj?.datecrewassigned);
     this.datecompleted = getDateMemberValue(obj?.datecompleted);
     this.crewassignedname = (obj && obj.crewassignedname) || new CodeForm();
-    this.comments = (obj && obj.comments) || "";
+    this.comments = (obj && obj.comments) || '';
     this.posteddate = getDateMemberValue(obj?.posteddate);
-    this.postedby = (obj && obj.postedby) || "";
+    this.postedby = (obj && obj.postedby) || '';
     this.datesentbacktotraffic = getDateMemberValue(obj?.datesentbacktotraffic);
-    this.userNameID = (obj && obj.userNameID) || "";
-    this.lastUpdated = (obj && obj.lastUpdated) || "";
+    this.userNameID = (obj && obj.userNameID) || '';
+    this.lastUpdated = (obj && obj.lastUpdated) || '';
   }
 }

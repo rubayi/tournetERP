@@ -1,11 +1,11 @@
 export interface IMenuSearchForm {
-  role: string | null;
+  role: string | '';
 }
 
 export class MenuSearchForm implements IMenuSearchForm {
-  public role: string | null;
+  public role: string | '';
 
   constructor(obj?: IMenuSearchForm) {
-    this.role = (obj && obj.role) || "";
+    this.role = (obj && obj.role) || '';
   }
 }

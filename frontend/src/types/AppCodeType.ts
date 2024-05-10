@@ -1,23 +1,23 @@
 import {
   getNumberMemberValue,
   getStringMemberValue,
-} from "src/utils/helpers/ConstructorHelper";
+} from 'src/utils/helpers/ConstructorHelper';
 
 export interface IAppCodeType {
   id: number;
-  namekr: string | null;
-  nameen: string | null;
-  namejp: string | null;
+  namekr: string | '';
+  nameen: string | '';
+  namejp: string | '';
 }
 
 export class AppCodeType implements IAppCodeType {
   public id: number;
-  public namekr: string | null;
-  public nameen: string | null;
-  public namejp: string | null;
+  public namekr: string | '';
+  public nameen: string | '';
+  public namejp: string | '';
 
   constructor(obj?: IAppCodeType) {
-    this.id = (obj && obj.id) || 0;
+    this.id = getNumberMemberValue(obj && obj.id) || 0;
     this.namekr = getStringMemberValue(obj?.namekr);
     this.nameen = getStringMemberValue(obj?.nameen);
     this.namejp = getStringMemberValue(obj?.namejp);
