@@ -20,21 +20,24 @@
       @delete-clicked="openDeleteConfirm = true"
       ref="drawerComp"
     >
-      <div class="flex flex-grow-1 q-pa-md">
+      <div class="q-pa-md">
         <emp-form-drawer-content
           v-model="empformData"
           ref="empFormDrawerContent"
+        />
+        <emp-form-drawer-menu-auth
+          v-if="empformData.empUuid"
+          v-model="menuAuthList"
+          ref="empFormDrawerMenuAuth"
+          :data-val="checkedAuthUuids"
+          :emp-auth-data="empAuthFormDatas"
+          :menu-max="munuMax"
         />
         <emp-emergency-tn-list
           v-if="empformData.empUuid"
           :emp-uuid="empformData.empUuid"
           ref="empEmergencyTnList"
         />
-        <!-- <emp-form-drawer-menu-auth
-          v-model="menuAuthList"
-          ref="empFormDrawerMenuAuth"
-          :data-val="empAuthFormDatas"
-        /> -->
       </div>
     </drawer-comp>
   </div>
@@ -67,6 +70,7 @@ import { EmpAuthService, EmpAuthResponse } from 'src/services/EmpAuthService';
 import { EmpForm } from 'src/types/EmpForm';
 import { EmpAuthForm } from 'src/types/EmpAuthForm';
 import { EmpAuthSearchForm } from 'src/types/EmpAuthSearchForm';
+import { MenuAuthForm } from 'src/types/MenuAuthForm';
 // Store
 import store from 'src/store';
 //helper
@@ -78,7 +82,7 @@ export default defineComponent({
     DialogComp,
     EmpFormDrawerContent,
     EmpEmergencyTnList,
-    // EmpFormDrawerMenuAuth,
+    EmpFormDrawerMenuAuth,
   },
   props: {
     empSeq: {
@@ -101,7 +105,7 @@ export default defineComponent({
     const title = 'Manage Employees';
     const empformData = ref<EmpForm>(new EmpForm());
     const empAuthFormDatas = ref<EmpAuthForm[]>([]);
-    const menuAuthList = ref<EmpAuthForm[]>([]);
+    const menuAuthList = ref<MenuAuthForm[]>([]);
     const checkedAuthUuids = ref<number[]>([]);
     const menuMax = ref<number>(0);
     const loading = ref<boolean>(false);
@@ -128,7 +132,6 @@ export default defineComponent({
         emit('update:modelValue', newValue);
         getEmpformData();
         getAuthList();
-        getEmpAuthFormDatas();
       }
     );
 
@@ -168,15 +171,6 @@ export default defineComponent({
       }
     }
 
-    function getAuthList() {
-      EmpAuthService.selectMenuAuths().then((response) => {
-        menuAuthList.value = response.menuAuths;
-        menuMax.value = response.maxNumber;
-        console.log('menuAuthList', menuAuthList.value);
-        console.log('menuMax', menuMax.value);
-      });
-    }
-
     // Loading Auth Datas
     function getEmpAuthFormDatas() {
       if (props.empSeq != 0) {
@@ -189,12 +183,28 @@ export default defineComponent({
         EmpAuthService.searchAuthListByEmpId(form)
           .then((response: EmpAuthResponse) => {
             empAuthFormDatas.value = response.menuAuths;
-            console.log('empAuthFormDatas', empAuthFormDatas.value);
+            for (let menuAuth of menuAuthList.value) {
+              const empAuth = response.menuAuths.find(
+                (empAuth) => empAuth.menuAuthUuid === menuAuth.menuAuthUuid
+              );
+              if (empAuth) {
+                checkedAuthUuids.value.push(menuAuth.menuAuthUuid);
+              }
+            }
+            console.log('empAuthFormDatas', checkedAuthUuids.value);
           })
           .finally(() => {
             loading.value = false;
           });
       }
+    }
+
+    function getAuthList() {
+      EmpAuthService.selectMenuAuths().then((response) => {
+        menuAuthList.value = response.menuAuths;
+        menuMax.value = response.maxNumber;
+        getEmpAuthFormDatas();
+      });
     }
 
     function saveUpdatedEmpData() {
@@ -265,6 +275,7 @@ export default defineComponent({
       empformData,
       empAuthFormDatas,
       menuAuthList,
+      checkedAuthUuids,
       loading,
       openDrawer,
       confirmbuttoncolor,

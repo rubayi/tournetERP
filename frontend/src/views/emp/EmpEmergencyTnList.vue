@@ -146,6 +146,8 @@ export default defineComponent({
 <style lang="scss">
 #officeform {
   width: 100%;
+  height: 420px;
+  overflow: hidden;
   #officeform-grid-container {
     height: 300px;
 

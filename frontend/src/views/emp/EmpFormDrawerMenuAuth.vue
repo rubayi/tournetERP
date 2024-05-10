@@ -1,5 +1,5 @@
 <template>
-  <card-comp-design title="Employer Authoroties">
+  <card-comp-design title="Employer Authoroties" class="q-pt-md">
     <template #content>
       <div id="emp-form-drawer-menu-content">
         <q-scroll-area style="height: 600px; min-width: 75%">
@@ -77,7 +77,7 @@
   </card-comp-design>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 // Component
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 // Service
@@ -100,43 +100,51 @@ export default defineComponent({
       type: Object as () => MenuAuthForm,
       default: () => new MenuAuthForm(),
     },
+    dataVal: {
+      type: Array as () => number[],
+      default: () => [],
+    },
+    menuMax: {
+      type: Array as () => number[],
+      default: () => [],
+    },
   },
   setup(props, { emit }) {
-    const authList = ref(props.optionList);
+    const authList = ref(props.modelValue);
     const authListEmpId = ref(props.dataVal);
     const lcReqList = ref(props.reqList);
 
-    // watch(
-    //   () => props.optionList,
-    //   (newVal) => {
-    //     authList.value = newVal;
-    //   },
-    //   { deep: true }
-    // );
+    watch(
+      () => props.optionList,
+      (newVal) => {
+        authList.value = newVal;
+      },
+      { deep: true }
+    );
 
-    // watch(
-    //   () => props.dataVal,
-    //   (newVal) => {
-    //     authListEmpId.value = newVal;
-    //   },
-    //   { deep: true }
-    // );
+    watch(
+      () => props.dataVal,
+      (newVal) => {
+        authListEmpId.value = newVal;
+      },
+      { deep: true }
+    );
 
-    function selectAll() {
+    const selectAll = () => {
       authList.value.forEach((item) => {
         item.authYn = true;
         handleCheckboxChange(item);
       });
-    }
+    };
 
-    function unselectAll() {
+    const unselectAll = () => {
       authList.value.forEach((item) => {
         item.authYn = false;
         handleCheckboxChange(item);
       });
-    }
+    };
 
-    function handleCheckboxChange(authItem) {
+    const handleCheckboxChange = (authItem) => {
       authItem.authYn = !!authItem.authYn; // Toggle the authYn property
       const existingIndex = lcReqList.value.findIndex(
         (item) => item.menuAuthUuid === authItem.menuAuthUuid
@@ -157,24 +165,15 @@ export default defineComponent({
           deleteFlag: authItem.authYn ? undefined : 'Y',
         });
       }
-    }
+    };
 
-    // watch(
-    //   lcReqList,
-    //   (newVal) => {
-    //     emit('update:reqList', newVal);
-    //   },
-    //   { deep: true, immediate: true }
-    // );
-
-    // function isCheckboxChecked(authItem) {
-    //   const match = authListEmpId.value.find(item => item.menuAuthUuid === authItem.menuAuthUuid);
-    //
-    //   // If a match is found, set authItem.authYn to true, otherwise set it to false
-    //   authItem.authYn = !!match; // !! converts match to a boolean
-    //   // Return the result of the match
-    //   return !!match;
-    // }
+    watch(
+      lcReqList,
+      (newVal) => {
+        emit('update:reqList', newVal);
+      },
+      { deep: true, immediate: true }
+    );
 
     return {
       authList,

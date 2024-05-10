@@ -1,5 +1,6 @@
 import api from './api';
 import { EmpAuthForm } from 'src/types/EmpAuthForm';
+import { MenuAuthForm } from 'src/types/MenuAuthForm';
 import { EmpAuthSearchForm } from 'src/types/EmpAuthSearchForm';
 
 import authHeader from 'src/services/auth-header';
@@ -11,10 +12,15 @@ export interface EmpAuthResponse {
   maxNumber: number;
 }
 
+export interface MenuAuthResponse {
+  menuAuths: MenuAuthForm[];
+  maxNumber: number;
+}
+
 export class EmpAuthService {
-  static selectMenuAuths(): Promise<EmpAuthResponse> {
+  static selectMenuAuths(): Promise<MenuAuthResponse> {
     return api
-      .post<EmpAuthResponse>('/menuAuth/' + 'selectMenuAuths', {
+      .post<MenuAuthResponse>('/menuAuth/' + 'selectMenuAuths', {
         headers: authHeader(),
       })
       .then((response) => response.data);
