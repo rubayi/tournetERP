@@ -50,6 +50,9 @@ const messages = {
     couponuseyn: 'Coupon Can Use',
     hotelrate: 'Hotel Rate',
     compreport: 'Company List',
+    date: 'Date',
+    beginDt: 'Start Date',
+    endDt: 'End Date',
   },
   ko: {
     addnew: '등록',
@@ -95,6 +98,9 @@ const messages = {
     couponuseyn: '쿠폰 사용 유무',
     hotelrate: '호텔등급',
     compreport: '업체목록',
+    date: '날짜',
+    beginDt: '적용시작일',
+    endDt: '적용종료일',
   },
 };
 

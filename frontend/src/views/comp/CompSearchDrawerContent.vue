@@ -1,112 +1,96 @@
 <template>
-  <card-comp-design title="Hawaii Foody Order Filters">
+  <card-comp-design :title="t('searchtitle')">
     <template #content>
-      <div class="q-pa-lg">
+      <div class="q-pa-lg" v-if="editcompsearchData != null">
         <div class="row q-col-gutter-md">
-          <div class="col-2 q-pt-md q-pl-md">Date</div>
-          <div class="col-2 col-xs-2">
-            <date-picker-comp
-              v-model="edittournetsearchData.searchBeginDt"
+            <div class="col-2 q-pt-md q-pl-md">{{t('compgroup') }}</div>
+            <div class="col-4">
+              <select-comp
+                v-model="editcompsearchData.searchCompGroup"
+                class="full-width"
+                :options="compGroupList"
+                outlined
+              />
+            </div>
+
+            <div class="col-2 q-pt-md q-pl-md">{{ t('compsector') }}</div>
+            <div class="col-4">
+              <select-comp
+                v-model="editcompsearchData.searchCompSector"
+                class="full-width"
+                :options="compSectorList"
+                outlined
+              />
+            </div>
+
+
+          <div class="col-2 q-pt-md q-pl-md">{{ t('krcomp') }}</div>
+          <div class="col-4 col-xs-3">
+            <input-comp
+              v-model="editcompsearchData.searchCompKor"
               class="full-width"
               clearable
-              label="Search Begin"
+              :label="t('krcomp')"
+              outlined
+              stack-label
+            />
+          </div>
+          <div class="col-2 q-pt-md q-pl-md">{{ t('encomp') }}</div>
+          <div class="col-4 col-xs-3">
+            <input-comp
+              v-model="editcompsearchData.searchCompEng"
+              class="full-width"
+              clearable
+              :label="t('encomp')"
+              outlined
+              stack-label
+            />
+          </div>
+          <div class="row q-col-gutter-md">
+            <div class="col-2"> {{t('complvl') }}</div>
+            <div class="col-2">
+              <select-comp
+                v-model="editcompsearchData.searchCompRate"
+                class="full-width"
+                :options="compRateList"
+                outlined
+              />
+            </div>
+
+            <div class="col-2">{{t('couponuseyn') }}</div>
+            <div class="col-2">
+              <select-comp
+                v-model="editcompsearchData.searchCouponYn"
+                class="full-width"
+                :options="couponYnList"
+                outlined
+              />
+            </div>
+
+          <div class="col-2">{{ t('date') }}</div>
+          <div class="col-2 col-xs-2">
+            <date-picker-comp
+              v-model="editcompsearchData.searchBeginDt"
+              class="full-width"
+              clearable
+              :label="t('beginDt')"
               outlined
             >
             </date-picker-comp>
           </div>
-          <div class="col-2 col-xs-2">
+
+          <div class="col-2">
             <date-picker-comp
-              v-model="edittournetsearchData.searchEndDt"
+              v-model="editcompsearchData.searchEndDt"
               class="full-width"
               clearable
-              label="Search End"
+              :label="t('endDt')"
               outlined
             >
             </date-picker-comp>
           </div>
-          <div class="col-3 col-xs-3">
-            <input-comp
-              v-model="edittournetsearchData.searchCompKor"
-              class="full-width"
-              clearable
-              label="From"
-              outlined
-              stack-label
-            />
-          </div>
-          <div class="col-3 col-xs-3">
-            <input-comp
-              v-model="edittournetsearchData.searchCompEng"
-              class="full-width"
-              clearable
-              label="To"
-              outlined
-              stack-label
-            />
-          </div>
         </div>
-
-        <div class="row q-col-gutter-md">
-          <div class="col-2 q-pt-md q-pl-md">Work Order Office</div>
-          <div class="col-4">
-            <select-comp
-              v-model="edittournetsearchData.searchCompSector"
-              class="full-width"
-              :options="compSectorlistgroup"
-              outlined
-            />
-          </div>
-        </div>
-
-        <div class="row q-col-gutter-md">
-          <div class="col-2 q-pt-md q-pl-md">Remarks</div>
-          <div class="col-10">
-            <input-comp
-              v-model="edittournetsearchData.searchCompMemo"
-              class="full-width"
-              clearable
-              label=""
-              outlined
-              stack-label
-            />
-          </div>
-        </div>
-        <div class="row q-col-gutter-md">
-          <div class="col-2 q-pt-md q-pl-md">Company Rate</div>
-          <div class="col-10">
-            <select-comp
-              v-model="edittournetsearchData.searchCompRate"
-              class="full-width"
-              :options="compRateList"
-              outlined
-            />
-          </div>
-        </div>
-
-
-        <div class="row q-col-gutter-md">
-          <div class="col-2 q-pt-md q-pl-md">Coupon</div>
-          <div class="col-10">
-            <select-comp
-              v-model="edittournetsearchData.searchCouponYn"
-              class="full-width"
-              :options="couponYnList"
-              outlined
-            />
-          </div>
-        </div>
-
-        <div class="row q-col-gutter-md">
-          <div class="col-2 q-pt-md q-pl-md">Comment</div>
-          <div class="col-10">
-            <select-comp
-              v-model="edittournetsearchData.searchCompGroup"
-              class="full-width"
-              :options="compGroupList"
-              outlined
-            />
-          </div>
-        </div>
+      </div>
       </div>
     </template>
   </card-comp-design>
@@ -114,6 +98,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+//Lang
+import i18n from "src/i18n";
 //Component
 import CardCompDesign from "src/components/common/CardCompDesign.vue";
 import DatePickerComp from "src/components/common/DatePickerComp.vue";
@@ -125,6 +111,7 @@ import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
 
 //Type
 import { CompSearchForm } from "src/types/CompSearchForm";
+import {SelectOption} from "@/types/SelectOption";
 
 export default defineComponent({
   name: "CompSearchFormDrawerContent",
@@ -139,20 +126,36 @@ export default defineComponent({
       type: Object as () => CompSearchForm,
       default: () => new CompSearchForm(),
     },
-
+    compSectorList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    compRateList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    compGroupList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    couponYnList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
   },
   setup(props, { emit }) {
-    const edittournetsearchData = ref<CompSearchForm>();
+    const editcompsearchData = ref<CompSearchForm>();
     useSyncModelValue(
       props,
       "modelValue",
       emit,
       "update:modelValue",
-      edittournetsearchData
+      editcompsearchData
     );
 
     return {
-      edittournetsearchData,
+      t: i18n.global.t,
+      editcompsearchData,
     };
   },
 });

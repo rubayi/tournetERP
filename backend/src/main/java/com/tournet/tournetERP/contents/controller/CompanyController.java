@@ -67,12 +67,12 @@ public class CompanyController {
 
     @Transactional
     @RequestMapping(value = "/updateComp", method = RequestMethod.POST, consumes = { "multipart/form-data" })
-    public ResponseEntity<Map<String, Object>> updateCompany(@RequestParam(value = "file", required = false) MultipartFile file,
+    public ResponseEntity<?> updateCompany(@RequestParam(value = "file", required = false) MultipartFile file,
                                                              @RequestParam(value = "companyReq") String companyReqJson) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
         String message = "";
-
+        Company _company = new Company();
         if (storUser.isAuthenticated()) {
             try {
                 UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
@@ -102,7 +102,7 @@ public class CompanyController {
                 companyReq.setRestaurantRate(companyJsonNode.get("restaurantRate").asLong());
                 companyReq.setPackRate(companyJsonNode.get("packRate").asLong());
                 companyReq.setPackRegRate(companyJsonNode.get("packRegRate").asLong());
-                companyReq.setCouponYn(companyJsonNode.get("couponYn").asText());
+                companyReq.setCouponYn(companyJsonNode.get("couponYn").asLong());
 
                 companyReq.setPrepaidHow(companyJsonNode.get("prepaidHow").asLong());
                 companyReq.setMinAge(companyJsonNode.get("minAge").asText());
@@ -130,9 +130,11 @@ public class CompanyController {
                 if (file != null) {
                     fileName = storageService.newSave(file);
                     companyReq.setLogoFile(fileName);
+                } else{
+                    companyReq.setLogoFile(currentCompany.get().getLogoFile());
                 }
 
-                compRepository.save(companyReq);
+                _company = compRepository.save(companyReq);
             } catch (Exception e) {
                 if (e instanceof FileAlreadyExistsException) {
                     message = "파일이 이미 존재합니다.";
@@ -143,7 +145,7 @@ public class CompanyController {
 
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("message", message);
-        return new ResponseEntity<>(resMap, HttpStatus.OK);
+        return new ResponseEntity<>(_company, HttpStatus.OK);
     }
 
     //@PostMapping("/upload")

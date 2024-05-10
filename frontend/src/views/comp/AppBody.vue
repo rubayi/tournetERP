@@ -88,15 +88,16 @@
         @compform-drawer-closed="compUuid = 0;"
         @compform-saved="loadData"
         />
-<!--      <comp-search-drawer-->
-<!--        v-model="openSearchDrawer"-->
-<!--        :compRateList="compRateList"-->
-<!--        :compGroupList="compGroupList"-->
-<!--        :couponYnList="couponYnList"-->
-<!--        :rowsearchdata="searchdata"-->
-<!--        @tournetsearch-reset="resetLoadData"-->
-<!--        @tournetsearch-saved="loadData"-->
-<!--      />-->
+      <comp-search-drawer
+        v-model="openSearchDrawer"
+        :comp-rate-list="compRateList"
+        :coupon-yn-list="couponYnList"
+        :comp-group-list="compGroupList"
+        :comp-sector-list="compSectorList"
+        :rowsearchdata="searchdata"
+        @compformsearch-reset="resetLoadData"
+        @compformsearch-saved="loadData"
+      />
     </q-page>
   </div>
 </template>
@@ -129,7 +130,7 @@ import ReportHelper from "src/utils/helpers/ReportHelper";
 import CompFormDrawer from "src/views/comp/CompFormDrawer.vue";
 //import {CdcdForm} from "src/types/CdcdForm";
 import {CdcdSearchForm} from "src/types/CdcdSearchForm";
-// import CompSearchDrawer from "src/views/comp/CompSearchDrawer.vue";
+import CompSearchDrawer from "src/views/comp/CompSearchDrawer.vue";
 
 import { loadOptionsList } from 'src/utils/commoncode/commonCode'
 export default defineComponent({
@@ -137,6 +138,7 @@ export default defineComponent({
   components: {
     TableComp,
     CompFormDrawer,
+    CompSearchDrawer
   },
   setup() {
     const locale = i18n.global.locale.value;
