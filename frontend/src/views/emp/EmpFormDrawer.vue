@@ -27,6 +27,7 @@
         />
         <emp-emergency-tn-list
           v-if="empformData.empUuid"
+          :emp-uuid="empformData.empUuid"
           ref="empEmergencyTnList"
         />
         <!-- <emp-form-drawer-menu-auth
@@ -171,6 +172,8 @@ export default defineComponent({
       EmpAuthService.selectMenuAuths().then((response) => {
         menuAuthList.value = response.menuAuths;
         menuMax.value = response.maxNumber;
+        console.log('menuAuthList', menuAuthList.value);
+        console.log('menuMax', menuMax.value);
       });
     }
 
@@ -186,6 +189,7 @@ export default defineComponent({
         EmpAuthService.searchAuthListByEmpId(form)
           .then((response: EmpAuthResponse) => {
             empAuthFormDatas.value = response.menuAuths;
+            console.log('empAuthFormDatas', empAuthFormDatas.value);
           })
           .finally(() => {
             loading.value = false;

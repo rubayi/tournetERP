@@ -82,4 +82,7 @@ public class UserRequest {
 
     private Long searchEmpDiv;
 
+    private Long searchEmpStatus;
+
+    private String searchUsername;
 }

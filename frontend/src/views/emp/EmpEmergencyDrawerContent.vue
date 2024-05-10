@@ -77,9 +77,18 @@ export default defineComponent({
       type: Object as () => EmergencyForm,
       default: () => new EmergencyForm(),
     },
+    empUuid: {
+      type: Number,
+      default: 0,
+    },
   },
   setup(props, { emit }) {
     const emergencyFormData = ref<EmergencyForm>(new EmergencyForm());
+    const setEmpUuid = () => {
+      emergencyFormData.value.empUuid = props.empUuid;
+    };
+
+    setEmpUuid();
     useSyncModelValue(
       props,
       'modelValue',

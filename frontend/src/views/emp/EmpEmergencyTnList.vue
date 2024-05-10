@@ -37,6 +37,7 @@
       <emp-emergency-drawer
         v-model="openDrawer"
         :emp-seq="emergencyUuid"
+        :emp-uuid="empUuid"
         @emerform-deleted="loadData"
         @emerform-drawer-closed="emergencyUuid = 0"
         @emerform-saved="loadData"
@@ -70,7 +71,13 @@ export default defineComponent({
     TableComp,
     EmpEmergencyDrawer,
   },
-  setup() {
+  props: {
+    empUuid: {
+      type: Number,
+      default: 0,
+    },
+  },
+  setup(props) {
     const locale = i18n.global.locale.value;
     const openDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
@@ -91,9 +98,8 @@ export default defineComponent({
       showinsertbutton.value =
         store.getters.currentUserHasApplicationPermission('CODE_W');
       if (store.getters.currentUserHasApplicationPermission('CODE_R')) {
-        EmergencyService.getEmergencyList(searchdata.value).then((response) => {
+        EmergencyService.getEmerForm(props.empUuid).then((response) => {
           loading.value = false;
-          emergencyUuid.value = 0;
           if (response) {
             data.value = response;
           }
@@ -122,6 +128,7 @@ export default defineComponent({
       openAction,
       empEmergencyFormGrid,
       overlayLoadingTemplate,
+      searchdata,
       showinsertbutton,
       frameworkComponents,
     };

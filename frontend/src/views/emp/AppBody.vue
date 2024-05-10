@@ -76,10 +76,8 @@ import { GridOptions } from 'ag-grid-community';
 import { TableHelper } from 'src/components/table/TableHelper';
 import TableComp from 'src/components/table/TableComp.vue';
 import { EmpFormTableConfig } from 'src/views/emp/EmpFormTableConfig';
-
 // Service
 import { EmpService } from 'src/services/EmpService';
-import { CodeService } from 'src/services/CodeService';
 // Type
 import { EmpForm } from 'src/types/EmpForm';
 import { EmpSearchForm } from 'src/types/EmpSearchForm';
@@ -107,17 +105,6 @@ export default defineComponent({
       EmpFormTableConfig.frameworkComponents;
     const overlayLoadingTemplate = TableHelper.loadingOverlay;
     const data = ref<EmpForm[]>([]);
-    const codeName = ref<
-      {
-        empUuid: number;
-        codeDiv: number;
-        divName: string;
-        codeComp: number;
-        compName: string;
-        stat: number;
-        statName: string;
-      }[]
-    >([]);
     const searchdefaultdata = ref<EmpSearchForm>(new EmpSearchForm());
     const searchdata = ref<EmpSearchForm>(new EmpSearchForm());
     const empformGrid = ref();
@@ -161,6 +148,22 @@ export default defineComponent({
       ) {
         filterNumber.value++;
       }
+      if (
+        !_.isEqual(
+          searchdata.value.searchEmpStatus,
+          searchdefaultdata.value.searchEmpStatus
+        )
+      ) {
+        filterNumber.value++;
+      }
+      if (
+        !_.isEqual(
+          searchdata.value.searchUsername,
+          searchdefaultdata.value.searchUsername
+        )
+      ) {
+        filterNumber.value++;
+      }
       showinsertbutton.value =
         store.getters.currentUserHasApplicationPermission('CODE_W');
       if (store.getters.currentUserHasApplicationPermission('CODE_R')) {
@@ -169,16 +172,6 @@ export default defineComponent({
 
           if (response) {
             data.value = response;
-            codeName.value = response.map((item) => ({
-              empUuid: item.empUuid,
-              codeDiv: item.empDiv,
-              divName: '',
-              codeComp: item.empComp,
-              compName: '',
-              stat: item.empStatus,
-              statName: '',
-            }));
-            // updateCodeNames(codeName.value);
           }
         });
       }
@@ -198,39 +191,10 @@ export default defineComponent({
       openSearchDrawer.value = true;
     }
 
-    async function updateCodeNames(
-      newCodeName: {
-        empUuid: number;
-        codeDiv: number;
-        divName: string;
-        codeComp: number;
-        compName: string;
-        stat: number;
-        statName: string;
-      }[]
-    ) {
-      for (let item of newCodeName) {
-        if (item.divName === '') {
-          let code = await CodeService.getOneCodeForm(item.codeDiv);
-          item.divName = code.codeEn;
-        }
-        if (item.compName === '') {
-          let code = await CodeService.getOneCodeForm(item.codeComp);
-          item.compName = code.codeEn;
-        }
-        if (item.statName === '') {
-          let code = await CodeService.getOneCodeForm(item.stat);
-          item.statName = code.codeEn;
-        }
-      }
-      EmpFormTableConfig.setCodeName(newCodeName);
-    }
-
     return {
       t: i18n.global.t,
       gridOptions,
       data,
-      codeName,
       loadData,
       loading,
       columns,

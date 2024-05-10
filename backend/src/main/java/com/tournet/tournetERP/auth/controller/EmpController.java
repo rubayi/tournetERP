@@ -91,39 +91,40 @@ public class EmpController {
  * @return
  */
 @PostMapping("/selectEmpsByCondition")
-public ResponseEntity<List<User>> selectEmpsByCondition(@RequestBody UserRequest empReq) {
+public ResponseEntity<List<UserResponse>> selectEmpsByCondition(@RequestBody UserRequest empReq) {
 
-    Long empDiv = empReq.getSearchEmpDiv();
-    String empKor = empReq.getSearchEmpKor();
-    String empEng = empReq.getSearchEmpEng();
+    // Long empDiv = empReq.getSearchEmpDiv();
+    // String empKor = empReq.getSearchEmpKor();
+    // String empEng = empReq.getSearchEmpEng();
 
     Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
     if (storUser.isAuthenticated()) {
-        List<User> emps = new ArrayList<User>();
+        List<UserResponse> emps = new ArrayList<UserResponse>();
 
-        if (empDiv != 0) {
-            if (empKor != "" ) {
-                if (empEng != "" ) {
-                    emps.addAll(empRepository.findByEmpDivAndEmpKorContainingAndEmpEngContaining(empDiv, empKor, empEng));
-                } else {
-                    emps.addAll(empRepository.findByEmpDivAndEmpKorContaining(empDiv, empKor));
-                }
-            } else if (empEng != "" ) {
-                emps.addAll(empRepository.findByEmpDivAndEmpEngContaining(empDiv, empEng));
-            } else {
-                emps.addAll(empRepository.findByEmpDiv(empDiv));
-            }
-        } else if (empKor != "" ) {
-            if (empEng != "") {
-                emps.addAll(empRepository.findByEmpKorContainingAndEmpEngContaining(empKor, empEng));
-            } else {
-                emps.addAll(empRepository.findByEmpKorContaining(empKor));
-            }
-        } else if (empEng != "") {
-            emps.addAll(empRepository.findByEmpEngContaining(empEng));
-        } else {
-            emps.addAll(empRepository.findAllByOrderByEmpBeginDtDesc());
-        }
+        emps = userService.findEmpsList(empReq);
+        // if (empDiv != 0) {
+        //     if (empKor != "" ) {
+        //         if (empEng != "" ) {
+        //             emps.addAll(empRepository.findByEmpDivAndEmpKorContainingAndEmpEngContaining(empDiv, empKor, empEng));
+        //         } else {
+        //             emps.addAll(empRepository.findByEmpDivAndEmpKorContaining(empDiv, empKor));
+        //         }
+        //     } else if (empEng != "" ) {
+        //         emps.addAll(empRepository.findByEmpDivAndEmpEngContaining(empDiv, empEng));
+        //     } else {
+        //         emps.addAll(empRepository.findByEmpDiv(empDiv));
+        //     }
+        // } else if (empKor != "" ) {
+        //     if (empEng != "") {
+        //         emps.addAll(empRepository.findByEmpKorContainingAndEmpEngContaining(empKor, empEng));
+        //     } else {
+        //         emps.addAll(empRepository.findByEmpKorContaining(empKor));
+        //     }
+        // } else if (empEng != "") {
+        //     emps.addAll(empRepository.findByEmpEngContaining(empEng));
+        // } else {
+        //     emps.addAll(empRepository.findAllByOrderByEmpBeginDtDesc());
+        // }
 
         return new ResponseEntity<>(emps, HttpStatus.OK);
     }

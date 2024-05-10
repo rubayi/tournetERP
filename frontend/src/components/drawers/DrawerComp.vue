@@ -48,16 +48,16 @@
           <q-toolbar>
             <q-space v-if="drawerWidth > 50" />
             <div class="q-gutter-md">
-<!--              <q-chip-->
-<!--                v-if="changesIndicator"-->
-<!--                class="q-mt-lg changes-indicator"-->
-<!--                color="secondary"-->
-<!--                icon="report"-->
-<!--                :label="changeButtonLabel"-->
-<!--                outline-->
-<!--                rounded-->
-<!--                text-color="white"-->
-<!--              />-->
+              <!--              <q-chip-->
+              <!--                v-if="changesIndicator"-->
+              <!--                class="q-mt-lg changes-indicator"-->
+              <!--                color="secondary"-->
+              <!--                icon="report"-->
+              <!--                :label="changeButtonLabel"-->
+              <!--                outline-->
+              <!--                rounded-->
+              <!--                text-color="white"-->
+              <!--              />-->
               <q-btn
                 v-if="showPrintButton"
                 color="secondary"
@@ -355,6 +355,7 @@ export default defineComponent({
 #drawer-comp {
   .q-drawer-container > .q-drawer {
     top: 0 !important;
+    bottom: 0 !important;
   }
 }
 

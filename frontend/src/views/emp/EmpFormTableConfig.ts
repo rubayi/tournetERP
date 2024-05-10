@@ -6,30 +6,6 @@ export class EmpFormTableConfig {
   static overlay =
     '<span class="ag-overlay-loading-center">Please wait while your Data are loading</span>';
 
-  static codeName: {
-    empUuid: number;
-    codeDiv: number;
-    divName: string;
-    codeComp: number;
-    compName: string;
-    stat: number;
-    statName: string;
-  }[] = [];
-  static setCodeName(
-    codeName: {
-      empUuid: number;
-      codeDiv: number;
-      divName: string;
-      codeComp: number;
-      compName: string;
-      stat: number;
-      statName: string;
-    }[]
-  ) {
-    EmpFormTableConfig.codeName = codeName;
-    console.log('data', EmpFormTableConfig.codeName);
-  }
-
   static getColumns(locale: string): ColDef[] {
     return [
       {
@@ -102,42 +78,24 @@ export class EmpFormTableConfig {
         sortable: true,
         filter: true,
         cellStyle: { 'text-align': 'center' },
-        valueGetter: (params) => {
-          const codeNameItem = EmpFormTableConfig.codeName.find(
-            (item) => item.empUuid == params.data.empUuid
-          );
-          return codeNameItem ? codeNameItem.compName : params.data.empComp;
-        },
       },
       {
-        field: 'empDiv',
+        field: 'empDivName',
         headerName: i18n.global.t('divname'),
         minWidth: 110,
         maxWidth: 140,
         sortable: true,
         filter: true,
         cellStyle: { 'text-align': 'center' },
-        valueGetter: (params) => {
-          const codeNameItem = EmpFormTableConfig.codeName.find(
-            (item) => item.empUuid == params.data.empUuid
-          );
-          return codeNameItem ? codeNameItem.divName : params.data.empDiv;
-        },
       },
       {
-        field: 'empStatus',
+        field: 'empStatusName',
         headerName: i18n.global.t('empstatus'),
         minWidth: 70,
         maxWidth: 100,
         sortable: true,
         filter: true,
         cellStyle: { 'text-align': 'center' },
-        valueGetter: (params) => {
-          const codeNameItem = EmpFormTableConfig.codeName.find(
-            (item) => item.empUuid == params.data.empUuid
-          );
-          return codeNameItem ? codeNameItem.statName : params.data.empStatus;
-        },
       },
       {
         field: 'empWorkPhone',

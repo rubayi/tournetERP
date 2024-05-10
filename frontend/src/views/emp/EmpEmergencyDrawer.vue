@@ -18,11 +18,12 @@
       @cancel-clicked="closeDrawer"
       @confirm-clicked="saveUpdatedEmpData"
       @delete-clicked="openDeleteConfirm = true"
-      ref="drawerComp"
+      ref="emerDrawerComp"
     >
       <div class="flex flex-grow-1 q-pa-md">
         <emp-emergency-drawer-content
           v-model="emergencyForm"
+          :empUuid="empUuid"
           ref="empEmergencyDrawerContent"
         />
       </div>
@@ -73,10 +74,14 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    empUuid: {
+      type: Number,
+      default: 0,
+    },
   },
   emits: [
     'update:modelValue',
-    'update:EmerDrawerData',
+    'update:drawerData',
     'emerform-saved',
     'emerform-deleted',
     'emerform-drawer-closed',
@@ -136,7 +141,7 @@ export default defineComponent({
       resetDrawer();
       if (props.empSeq != 0) {
         loading.value = true;
-        EmergencyService.getEmerForm(props.empSeq)
+        EmergencyService.getByEmerid(props.empSeq)
           .then((response) => {
             emergencyForm.value = response;
           })
@@ -150,6 +155,7 @@ export default defineComponent({
       notificationHelper.createOngoingNotification('Saving...');
       loading.value = true;
       if (emergencyForm.value) {
+        emergencyForm.value.empUuid = props.empUuid;
         EmergencyService.saveEmerForm(emergencyForm.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
@@ -157,10 +163,10 @@ export default defineComponent({
             );
             if (props.empSeq != 0) {
               emit('emerform-saved', response);
-              emergencyForm.value = new EmergencyForm(response);
+              closeDrawer();
             } else {
               emit('emerform-saved', response);
-              resetDrawer();
+              closeDrawer();
             }
           })
           .catch((error) => {

@@ -8,6 +8,8 @@ import com.tournet.tournetERP.auth.repository.EmpMenuAuthRepository;
 import com.tournet.tournetERP.auth.repository.EmpRepository;
 import com.tournet.tournetERP.common.entity.ComCode;
 import com.tournet.tournetERP.common.repository.ComCodeRepository;
+import com.tournet.tournetERP.common.util.FetchCodeUtil;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,12 +36,15 @@ public class UserService {
     @Autowired
     ComCodeRepository comcodeRepository;
 
+    @Autowired
+    FetchCodeUtil fetchCodeUtil;
+
     public List<UserResponse> findEmpsList(UserRequest empReq) {
 
-        long empStatus = empReq.getEmpStatus();
-        String empKor = empReq.getEmpKor();
-        String empEng = empReq.getEmpEng();
-        String username = empReq.getUsername();
+        long empStatus = empReq.getSearchEmpStatus();
+        String empKor = empReq.getSearchEmpKor();
+        String empEng = empReq.getSearchEmpEng();
+        String username = empReq.getSearchUsername();
 
         List<User> selectedUsers = empRepository.findByEmpStatusOrEmpKorOrEmpEngOrUsernameOrderByModifiedDtDesc(
                 empStatus == 0 ? null : empStatus,
@@ -55,12 +60,12 @@ public class UserService {
                     userResponse.setEmpKor(user.getEmpKor());
                     userResponse.setEmpEng(user.getEmpEng());
                     userResponse.setEmpImg(user.getEmpImg());
-                    userResponse.setEmpDivName(fetchCodeKr(user.getEmpDiv()));
-                    userResponse.setEmpTitleName(fetchCodeKr(user.getEmpTitle()));
-                    userResponse.setEmpRoleName(fetchCodeKr(user.getEmpRole()));
-                    userResponse.setEmpStatusName(fetchCodeKr(user.getEmpStatus()));
-                    userResponse.setEmpCountryName(fetchCodeKr(user.getEmpOffice()));
-                    userResponse.setEmpCountryName(fetchCodeKr(user.getEmpComp()));
+                    userResponse.setEmpDivName(fetchCodeUtil.fetchCodeKr(user.getEmpDiv()));
+                    userResponse.setEmpTitleName(fetchCodeUtil.fetchCodeKr(user.getEmpTitle()));
+                    userResponse.setEmpRoleName(fetchCodeUtil.fetchCodeKr(user.getEmpRole()));
+                    userResponse.setEmpStatusName(fetchCodeUtil.fetchCodeKr(user.getEmpStatus()));
+                    userResponse.setEmpCountryName(fetchCodeUtil.fetchCodeKr(user.getEmpOffice()));
+                    userResponse.setEmpCountryName(fetchCodeUtil.fetchCodeKr(user.getEmpComp()));
                     userResponse.setEmpDiv(user.getEmpDiv());
                     userResponse.setEmpTitle(user.getEmpTitle());
                     userResponse.setEmpRole(user.getEmpRole());
@@ -92,12 +97,4 @@ public class UserService {
         return findUser;
     }
 
-    private String fetchCodeKr(long codeUuid) {
-        ComCode comcode = comcodeRepository.findFirstByCodeUuid(codeUuid);
-        if (comcode != null) {
-            return comcode.getCodeKr();
-        } else {
-            return null;
-        }
-    }
 }

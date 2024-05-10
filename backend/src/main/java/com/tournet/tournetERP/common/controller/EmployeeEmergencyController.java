@@ -37,25 +37,29 @@ public class EmployeeEmergencyController {
     EmployeeEmergencyRepository employeeEmergencyRepository;
 
     @PostMapping("/selectEmployeeEmergencys")
-    public ResponseEntity<Map<String, Object>> selectEmployeeEmergencys(
+    public ResponseEntity<List<EmployeeEmergency>> selectEmployeeEmergencys(
             @RequestBody EmployeeEmergency employeeEmergencyReq) {
+    
+        List<EmployeeEmergency> currentEmployeeEmergencys = employeeEmergencyRepository
+                .findAllByOrderByEmergencyUuidDesc();
+    
+        return new ResponseEntity<>(currentEmployeeEmergencys, HttpStatus.OK);
+    }
 
+    @GetMapping("/selectByEmergencyUuid/{id}")
+    public ResponseEntity<Optional<EmployeeEmergency>> selectByEmergencyUuid(@PathVariable int id) {
 
-        List<EmployeeEmergency> currentEmployeeEmergencys = employeeEmergencyRepository.findAllByOrderByEmergencyUuidDesc();
+        Optional<EmployeeEmergency> currentEmployeeEmergency = employeeEmergencyRepository.findByEmergencyUuid(id);
 
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("employeeEmergencys", currentEmployeeEmergencys);
-        return new ResponseEntity<>(resMap, HttpStatus.OK);
+        return new ResponseEntity<>(currentEmployeeEmergency, HttpStatus.OK);
     }
 
     @GetMapping("/selectEmployeeEmergencyByEmpUuid/{id}")
-    public ResponseEntity<Map<String, Object>> selectEmployeeEmergencyByEmpUuid(@PathVariable int id) {
+    public ResponseEntity<List<EmployeeEmergency>> selectEmployeeEmergencyByEmpUuid(@PathVariable int id) {
 
         List<EmployeeEmergency> currentEmployeeEmergency = employeeEmergencyRepository.findByEmpUuid(id);
 
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("employeeEmergency", currentEmployeeEmergency);
-        return new ResponseEntity<>(resMap, HttpStatus.OK);
+        return new ResponseEntity<>(currentEmployeeEmergency, HttpStatus.OK);
     }
 
     @SuppressWarnings("null")

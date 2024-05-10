@@ -21,9 +21,20 @@ export class EmergencyService {
       .then((response) => response.data);
   }
 
-  static getEmerForm(id: number): Promise<EmergencyForm> {
+  static getEmerForm(id: number): Promise<EmergencyForm[]> {
     return api
-      .get<EmergencyForm>(API_URL + `selectEmployeeEmergencyByEmpUuid/${id}`, {
+      .get<EmergencyForm[]>(
+        API_URL + `selectEmployeeEmergencyByEmpUuid/${id}`,
+        {
+          headers: authHeader(),
+        }
+      )
+      .then((response) => response.data);
+  }
+
+  static getByEmerid(id: number): Promise<EmergencyForm> {
+    return api
+      .get<EmergencyForm>(API_URL + `selectByEmergencyUuid/${id}`, {
         headers: authHeader(),
       })
       .then((response) => response.data);
