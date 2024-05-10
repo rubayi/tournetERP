@@ -33,11 +33,11 @@
           :emp-auth-data="empAuthFormDatas"
           :menu-max="munuMax"
         />
-        <emp-emergency-tn-list
+        <!-- <emp-emergency-tn-list
           v-if="empformData.empUuid"
           :emp-uuid="empformData.empUuid"
           ref="empEmergencyTnList"
-        />
+        /> -->
       </div>
     </drawer-comp>
   </div>
@@ -81,7 +81,7 @@ export default defineComponent({
     DrawerComp,
     DialogComp,
     EmpFormDrawerContent,
-    EmpEmergencyTnList,
+    // EmpEmergencyTnList,
     EmpFormDrawerMenuAuth,
   },
   props: {
