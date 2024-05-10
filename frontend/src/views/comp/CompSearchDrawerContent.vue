@@ -23,7 +23,6 @@
               />
             </div>
 
-
           <div class="col-2 q-pt-md q-pl-md">{{ t('krcomp') }}</div>
           <div class="col-4 col-xs-3">
             <input-comp
@@ -46,9 +45,11 @@
               stack-label
             />
           </div>
-          <div class="row q-col-gutter-md">
-            <div class="col-2"> {{t('complvl') }}</div>
-            <div class="col-2">
+       </div>
+
+       <div class="row q-col-gutter-md">
+            <div class="col-2 q-pt-ms q-px-sm"> {{t('complvl') }}</div>
+            <div class="col-2 col-xs-2">
               <select-comp
                 v-model="editcompsearchData.searchCompRate"
                 class="full-width"
@@ -57,8 +58,8 @@
               />
             </div>
 
-            <div class="col-2">{{t('couponuseyn') }}</div>
-            <div class="col-2">
+            <div class="col-1 q-pt-md q-px-sm">{{t('couponuseyn') }}</div>
+            <div class="col-2 col-xs-2">
               <select-comp
                 v-model="editcompsearchData.searchCouponYn"
                 class="full-width"
@@ -67,8 +68,8 @@
               />
             </div>
 
-          <div class="col-2">{{ t('date') }}</div>
-          <div class="col-2 col-xs-2">
+          <div class="col-1 q-pt-md q-px-sm">{{ t('date') }}</div>
+          <div class="col-2 q-px-sm">
             <date-picker-comp
               v-model="editcompsearchData.searchBeginDt"
               class="full-width"
@@ -79,7 +80,7 @@
             </date-picker-comp>
           </div>
 
-          <div class="col-2">
+          <div class="col-2 q-px-sm">
             <date-picker-comp
               v-model="editcompsearchData.searchEndDt"
               class="full-width"
@@ -89,7 +90,6 @@
             >
             </date-picker-comp>
           </div>
-        </div>
       </div>
       </div>
     </template>
