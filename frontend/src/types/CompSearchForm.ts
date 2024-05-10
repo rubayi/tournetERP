@@ -7,7 +7,7 @@ export interface ICompSearchForm {
   searchCompMemo: string | null;
   searchCompUuid: string | null;
   searchCompRate: string | null;
-  searchCouponYn: string | null;
+  searchCouponYn: number | 0;
   searchCompGroup: string | null;
 
 }
@@ -21,7 +21,7 @@ export class CompSearchForm implements ICompSearchForm {
   public searchCompMemo: string | null;
   public searchCompUuid: string | null;
   public searchCompRate: string | null;
-  public searchCouponYn: string | null;
+  public searchCouponYn: number | 0;
   public searchCompGroup: string | null;
 
 
@@ -34,7 +34,7 @@ export class CompSearchForm implements ICompSearchForm {
     this.searchCompMemo = (obj && obj.searchCompMemo) || "";
     this.searchCompUuid = (obj && obj.searchCompUuid) || "";
     this.searchCompRate = (obj && obj.searchCompRate) || "";
-    this.searchCouponYn = (obj && obj.searchCouponYn) || "";
+    this.searchCouponYn = (obj && obj.searchCouponYn) || 0;
     this.searchCompGroup = (obj && obj.searchCompGroup) || "";
 
   }

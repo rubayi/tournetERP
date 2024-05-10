@@ -27,16 +27,6 @@ export class CodeService {
       .post<CodeForm[]>(API_URL + `searchComCodesByGrp`, searchReq,{ headers: authHeader() })
       .then((response) => response.data);
   }
-  static getpartGroupCodeForm(
-    uprCodeUuid: number,
-    certduration: string
-  ): Promise<CodeForm[]> {
-    return api
-      .get<CodeForm[]>(API_URL + `getComCodeByGrp/${uprCodeUuid}/${certduration}`, {
-        headers: authHeader(),
-      })
-      .then((response) => response.data);
-  }
 
   static getOneCodeForm(codeUuid: number): Promise<CodeForm> {
     return api

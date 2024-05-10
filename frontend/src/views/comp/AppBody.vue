@@ -84,6 +84,9 @@
         :honeymoon-rate-list="honeymoonRateList"
         :prepaid-how-list="prepaidHowList"
         :comp-seq="compUuid"
+        @compform-deleted="loadData"
+        @compform-drawer-closed="compUuid = 0;"
+        @compform-saved="loadData"
         />
 <!--      <comp-search-drawer-->
 <!--        v-model="openSearchDrawer"-->
@@ -264,7 +267,6 @@ export default defineComponent({
     function openAction(value: number) {
       compUuid.value = value;
       openDrawer.value = true;
-
     }
 
     /* Detail Filter */
@@ -385,7 +387,7 @@ export default defineComponent({
       honeymoonOnlyRateList,
       honeymoonRateList,
       prepaidHowList,
-      hotelRateList
+      hotelRateList,
     };
   },
   data() {

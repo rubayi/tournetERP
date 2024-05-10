@@ -77,7 +77,7 @@ public class Company {
     private String youthAge; //쥬니어나이
 
     @Column(name = "COUPON_USE_YN", nullable = true)
-    private String couponYn; //쿠폰사용가능유무
+    private long couponYn; //쿠폰사용가능유무
 
     @Column(name = "PREPAID_HOW", nullable = true)
     private long prepaidHow; //프리페이드지정

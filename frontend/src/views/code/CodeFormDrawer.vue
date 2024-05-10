@@ -83,7 +83,7 @@ export default defineComponent({
     'codeform-drawer-closed',
   ],
   setup(props, { emit }) {
-    const title = 'Manage Code';
+    const title = i18n.global.t('manageCodes');
     const codeformData = ref<CodeForm>(new CodeForm());
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
@@ -118,7 +118,7 @@ export default defineComponent({
       codeformData.value = new CodeForm();
       if (props.codeSeq != 0) {
         confirmbuttoncolor.value = 'warning';
-        confirmbuttonlabel.value = 'CHANGE';
+        confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = 'edit';
         showconfirmbutton.value =
           store.getters.currentUserHasApplicationPermission('CODE_W');
@@ -126,7 +126,7 @@ export default defineComponent({
           store.getters.currentUserHasApplicationPermission('CODE_D');
       } else {
         confirmbuttoncolor.value = 'primary';
-        confirmbuttonlabel.value = 'ADD';
+        confirmbuttonlabel.value = i18n.global.t('add');
         confirmicon.value = 'add';
         showconfirmbutton.value =
           store.getters.currentUserHasApplicationPermission('CODE_W');

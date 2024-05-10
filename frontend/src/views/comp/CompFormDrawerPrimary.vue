@@ -14,7 +14,8 @@
                     :options="compSectorList"
                   />
                 </div>
-                <div class="col-3">
+                <div class="col-3"
+                     v-if="compFormData.compSector == 337">
                   <select-comp
                     v-model="compFormData.compGroup"
                     :label="t('compgroup')"
@@ -166,9 +167,9 @@
                     v-if="compFormData.logoFile"
                     :src="fileUrl + compFormData.logoFile"
                   />
-                  <div v-if="lcPreviewImage">
+                  <div v-if="compFormData.previewImage">
                     <q-img
-                      :src="lcPreviewImage"
+                      :src="compFormData.previewImage"
                       class="image-max-width"
                       alt="Preview Image"
                     />
@@ -184,7 +185,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref} from 'vue';
 // Component
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 import InputComp from 'src/components/common/InputComp.vue';
@@ -272,17 +273,14 @@ export default defineComponent({
       default: () => [],
     },
     uploadFile: Function,
-    previewImage: {
-      type: String,
-      default: '',
-    },
+
   },
   setup(props, { emit }) {
     const compFormData = ref<CompForm>(new CompForm());
     const readonlybtn = ref<boolean>(true);
 
     const fileUrl = ref(fileInfo);
-    const lcPreviewImage = ref<string | null>(props.previewImage);
+    const showflag = ref<number | 0>(0);
 
     useSyncModelValue(
       props,
@@ -292,19 +290,6 @@ export default defineComponent({
       compFormData
     );
 
-    watch(
-      () => props.primaryData,
-      (newValue) => {
-        compFormData.value = newValue;
-      }
-    );
-    watch(
-      () => props.previewImage,
-      (newValue) => {
-        lcPreviewImage.value = newValue;
-      }
-    );
-
     const handleFileChange = (event: Event) => {
       const target = event.target as HTMLInputElement;
       const file: File | null = (target.files && target.files[0]) || null;
@@ -312,25 +297,26 @@ export default defineComponent({
         const reader = new FileReader();
         reader.onload = (e) => {
           const result: string | null = e.target?.result as string;
-          lcPreviewImage.value = result;
+          compFormData.value.previewImage = result;
+
           if (props.uploadFile) {
             props.uploadFile(file);
+            showflag.value = 1;
           }
         };
         reader.readAsDataURL(file);
       } else {
-        lcPreviewImage.value = null;
+        compFormData.value.previewImage =  "";
       }
     };
 
     return {
       t: i18n.global.t,
       compFormData,
-      //addCompany,
       readonlybtn,
       fileUrl,
       handleFileChange,
-      lcPreviewImage,
+      showflag
     };
   },
 });
@@ -376,5 +362,6 @@ input[type='file'] {
 }
 .image-max-width {
   max-width: 100px;
+  margin: 20px;
 }
 </style>

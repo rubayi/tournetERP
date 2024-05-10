@@ -24,6 +24,7 @@ export function useSyncModelValue(
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function emitNewValue(newVal: any) {
+
     if (!emitOnBlur) {
       if (emitValueFormatFunction) {
         emit(emitName, emitValueFormatFunction(newVal));

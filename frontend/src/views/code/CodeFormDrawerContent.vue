@@ -78,18 +78,20 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+//Lang
+import i18n from "src/i18n";
 // Component
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 import InputComp from 'src/components/common/InputComp.vue';
 import SelectComp from 'src/components/common/SelectComp.vue';
 import NumberComp from 'src/components/common/NumberComp.vue';
-// Service
-import { CodeService } from 'src/services/CodeService';
 // Type
 import { CodeForm } from 'src/types/CodeForm';
 import { SelectOption } from 'src/types/SelectOption';
 // Helper
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
+// CommonCode
+import {loadOptionsList} from "src/utils/commoncode/commonCode";
 
 export default defineComponent({
   name: 'CodeFormDrawerContent',
@@ -106,6 +108,7 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
+    const locale = i18n.global.locale.value;
     const editcodeformData = ref<CodeForm>();
     useSyncModelValue(
       props,
@@ -116,26 +119,11 @@ export default defineComponent({
     );
 
     // Loading Group Code Options
-
     const uprCodeUuidgroup = ref<SelectOption[]>([]);
-    loaduprCodeUuidgroupOptions();
-    function loaduprCodeUuidgroupOptions() {
-      CodeService.getGroupCodeForm(0).then((response) => {
-        uprCodeUuidgroup.value = response.map(
-          (x) => new SelectOption(x.codeEn, x.codeUuid)
-        );
-      });
-    }
-
     const useYnOptions = ref<SelectOption[]>([]);
-    loadUseYnOptions();
-    function loadUseYnOptions() {
-      CodeService.getGroupCodeForm(343).then((response) => {
-        useYnOptions.value = response.map(
-          (x) => new SelectOption(x.codeEn, x.codeUuid)
-        );
-      });
-    }
+
+    loadOptionsList(0, uprCodeUuidgroup, locale);
+    loadOptionsList(343, useYnOptions, locale);
 
     return {
       editcodeformData,
