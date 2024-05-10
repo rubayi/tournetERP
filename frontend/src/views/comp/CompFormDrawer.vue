@@ -1,5 +1,5 @@
 <template>
-  <div id="comp-form-drawer">
+  <div id="compform-drawer">
     <drawer-comp
       v-model="openDrawer"
       v-model:loading="loading"
@@ -44,7 +44,6 @@
               :honeymoon-rate-list="honeymoonRateList"
               :prepaid-how-list="prepaidHowList"
               :upload-file="uploadFile"
-              :preview-image="previewImage"
               ref="compFormDrawerPrimary"
             />
           </div>
@@ -161,6 +160,7 @@ export default defineComponent({
       type: Array as () => SelectOption[],
       default: () => [],
     },
+
   },
   emits: [
     'update:modelValue',
@@ -190,7 +190,6 @@ export default defineComponent({
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
     const attfile = ref<AnyData | null>(null);
-    const previewImage = ref<string>('');
 
     watch(
       () => props.modelValue,
@@ -212,7 +211,7 @@ export default defineComponent({
     function resetDrawer() {
       compFormData.value = new CompForm();
       attfile.value = null;
-      previewImage.value = '';
+
       if (props.compSeq != 0) {
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = i18n.global.t('change');
@@ -241,7 +240,6 @@ export default defineComponent({
       if (files) {
         attfile.value = files;
       }
-      //attfile.value = files[0];
     }
 
     // Loading One Data
@@ -268,7 +266,7 @@ export default defineComponent({
       notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
       if (compFormData.value) {
-        const fileToUpload = attfile.value; // Get the first file
+        const fileToUpload = attfile.value;
         CompService.saveCompForm(fileToUpload, compFormData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(i18n.global.t('saved'));
@@ -333,6 +331,7 @@ export default defineComponent({
       emit('compform-drawer-closed');
     }
 
+
     return {
       t: i18n.global.t,
       title,
@@ -360,7 +359,6 @@ export default defineComponent({
       printedonecompData,
       printdata,
       uploadFile,
-      previewImage,
     };
   },
 });

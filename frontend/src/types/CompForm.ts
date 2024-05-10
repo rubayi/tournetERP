@@ -29,6 +29,8 @@ export interface ICompForm {
   compMemo: string | '';
 
   modifiedDt: string | '';
+  previewImage: string | '';
+
 }
 
 export class CompForm implements ICompForm {
@@ -58,6 +60,7 @@ export class CompForm implements ICompForm {
   public couponYn: number | 0;
   public prepaidHow: number | 0;
   public compMemo: string | '';
+  public previewImage: string | '';
 
   public modifiedDt: string | '';
 
@@ -88,6 +91,7 @@ export class CompForm implements ICompForm {
     this.couponYn = (obj && obj.couponYn) || 0;
     this.prepaidHow = obj?.prepaidHow || 0;
     this.compMemo = (obj && obj.compMemo) || '';
+    this.previewImage = (obj && obj.previewImage) || '';
 
     this.modifiedDt = (obj && obj.modifiedDt) || '';
   }

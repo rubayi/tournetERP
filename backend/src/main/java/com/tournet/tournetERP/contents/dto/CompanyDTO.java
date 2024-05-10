@@ -49,7 +49,7 @@ public class CompanyDTO {
 
     private String youthAge; //쥬니어나이
 
-    private String couponYn; //쿠폰사용가능유무
+    private long couponYn; //쿠폰사용가능유무
 
     private long prepaidHow; //프리페이드지정
 
