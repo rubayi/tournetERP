@@ -1,5 +1,5 @@
 <template>
-  <card-comp-design title="Employer Filters">
+  <card-comp-design :title="t('subSearchTitle')">
     <template #content>
       <q-card-section>
         <div class="row q-col-gutter-md">
@@ -7,8 +7,8 @@
             <select-comp
               v-model="editempsearchData.searchEmpDiv"
               class="full-width select-comp-padding"
-              label="Filter By Employer Division"
-              :options="code1group"
+              :label="t('byGroup')"
+              :options="groupNames"
               outlined
             />
           </div>
@@ -17,7 +17,7 @@
               v-model="editempsearchData.searchEmpKor"
               class="full-width"
               clearable
-              label="Filter By Employer Korean Name"
+              :label="t('byNameKr')"
               outlined
               required
             />
@@ -27,7 +27,7 @@
               v-model="editempsearchData.searchEmpEng"
               class="full-width"
               clearable
-              label="Filter By Employer English Name"
+              :label="t('byNameEn')"
               outlined
               required
             />
@@ -40,12 +40,12 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+//Lang
+import i18n from 'src/i18n';
 //Component
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 import InputComp from 'src/components/common/InputComp.vue';
 import SelectComp from 'src/components/common/SelectComp.vue';
-//Service
-import { CodeService } from 'src/services/CodeService';
 //Type
 import { SelectOption } from 'src/types/SelectOption';
 import { EmpSearchForm } from 'src/types/EmpSearchForm';
@@ -64,6 +64,10 @@ export default defineComponent({
       type: Object as () => EmpSearchForm,
       default: () => new EmpSearchForm(),
     },
+    groupNames: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
   },
   setup(props, { emit }) {
     const editempsearchData = ref<EmpSearchForm>(new EmpSearchForm());
@@ -75,18 +79,9 @@ export default defineComponent({
       editempsearchData
     );
 
-    const code1group = ref<SelectOption[]>([]);
-    loadDivision();
-    function loadDivision() {
-      CodeService.getGroupCodeForm(19).then((response) => {
-        code1group.value = response.map(
-          (x) => new SelectOption(x.codeEn, x.codeUuid)
-        );
-      });
-    }
     return {
+      t: i18n.global.t,
       editempsearchData,
-      code1group,
     };
   },
 });

@@ -1,5 +1,5 @@
 <template>
-  <card-comp-design title="Code Filters">
+  <card-comp-design :title="t('subSearchTitle')">
     <template #content>
       <q-card-section>
         <div class="row q-col-gutter-md">
@@ -7,8 +7,8 @@
             <select-comp
               v-model="editcodesearchData.searchUprCodeUuid"
               class="full-width select-comp-padding"
-              label="Filter by Code Group"
-              :options="code1group"
+              :label="t('byGroup')"
+              :options="groupNames"
               outlined
             />
           </div>
@@ -17,7 +17,7 @@
               v-model="editcodesearchData.searchCodeEn"
               class="full-width"
               clearable
-              label="Filter By English Code Name"
+              :label="t('byCodeEn')"
               outlined
             />
           </div>
@@ -26,7 +26,7 @@
               v-model="editcodesearchData.searchCodeKr"
               class="full-width"
               clearable
-              label="Filter By Korean Code Name"
+              :label="t('byCodeKr')"
               outlined
             />
           </div>
@@ -38,12 +38,12 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+//Lang
+import i18n from 'src/i18n';
 //Component
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 import InputComp from 'src/components/common/InputComp.vue';
 import SelectComp from 'src/components/common/SelectComp.vue';
-//Service
-import { CodeService } from 'src/services/CodeService';
 //Type
 import { SelectOption } from 'src/types/SelectOption';
 import { CodeSearchForm } from 'src/types/CodeSearchForm';
@@ -62,6 +62,10 @@ export default defineComponent({
       type: Object as () => CodeSearchForm,
       default: () => new CodeSearchForm(),
     },
+    groupNames: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
   },
   setup(props, { emit }) {
     const editcodesearchData = ref<CodeSearchForm>(new CodeSearchForm());
@@ -73,19 +77,9 @@ export default defineComponent({
       editcodesearchData
     );
 
-    // Loading Group Code Options
-    const code1group = ref<SelectOption[]>([]);
-    loadcode1groupOptions();
-    function loadcode1groupOptions() {
-      CodeService.getGroupCodeForm(0).then((response) => {
-        code1group.value = response.map(
-          (x) => new SelectOption(x.codeEn, x.codeUuid)
-        );
-      });
-    }
     return {
+      t: i18n.global.t,
       editcodesearchData,
-      code1group,
     };
   },
 });

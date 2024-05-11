@@ -7,6 +7,9 @@
       center-title
       :confirm-button-color="confirmbuttoncolor"
       :confirm-button-label="confirmbuttonlabel"
+      :delete-button-label="deletebuttonlabel"
+      :cancel-button-label="cancelbuttonlabel"
+      :reset-button-label="resetbuttonlabel"
       :confirm-icon="confirmicon"
       icon-title="setting"
       :show-confirm-button="showconfirmbutton"
@@ -30,13 +33,13 @@
   </div>
   <dialog-comp
     v-model="openDeleteConfirm"
-    action-button-label="Delete"
+    :action-button-label="deletebuttonlabel"
     max-width="500px"
-    modal-title="Delete Code"
+    :modal-title="deleteTitle"
     @confirm-clicked="deleteCodeForm"
   >
     <template #htmlContent>
-      <div>Are you sure you want to <b>PERMANENTLY DELETE</b> this Data?</div>
+      <div>{{ t('deleteconfirmmsg') }}</div>
     </template>
   </dialog-comp>
 </template>
@@ -57,7 +60,7 @@ import store from 'src/store';
 //helper
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 //Lang
-import i18n from "src/i18n";
+import i18n from 'src/i18n';
 export default defineComponent({
   name: 'CodeFormDrawer',
   components: {
@@ -90,6 +93,7 @@ export default defineComponent({
     const confirmbuttoncolor = ref<string>('primary');
     const confirmbuttonlabel = ref<string>(i18n.global.t('change'));
     const deletebuttonlabel = ref<string>(i18n.global.t('delete'));
+    const deleteTitle = ref<string>(i18n.global.t('deleteTitle'));
     const resetbuttonlabel = ref<string>(i18n.global.t('reset'));
     const cancelbuttonlabel = ref<string>(i18n.global.t('cancel'));
     const confirmicon = ref<string>('fas fa-plus');
@@ -157,7 +161,9 @@ export default defineComponent({
       if (codeformData.value) {
         CodeService.saveCodeForm(codeformData.value)
           .then((response) => {
-            notificationHelper.createSuccessNotification(i18n.global.t('saved'));
+            notificationHelper.createSuccessNotification(
+              i18n.global.t('saved')
+            );
             if (props.codeSeq != 0) {
               emit('codeform-saved', response);
               codeformData.value = new CodeForm(response);
@@ -186,7 +192,9 @@ export default defineComponent({
       loading.value = true;
       CodeService.deleteCodeForm(props.codeSeq)
         .then((response) => {
-          notificationHelper.createSuccessNotification(i18n.global.t('deletesucess'));
+          notificationHelper.createSuccessNotification(
+            i18n.global.t('deletesucess')
+          );
           emit('codeform-deleted', response);
           closeDrawer();
         })
@@ -207,6 +215,7 @@ export default defineComponent({
       emit('codeform-drawer-closed');
     }
     return {
+      t: i18n.global.t,
       title,
       codeformData,
       loading,
@@ -217,6 +226,7 @@ export default defineComponent({
       confirmbuttoncolor,
       confirmbuttonlabel,
       deletebuttonlabel,
+      deleteTitle,
       resetbuttonlabel,
       cancelbuttonlabel,
       confirmicon,

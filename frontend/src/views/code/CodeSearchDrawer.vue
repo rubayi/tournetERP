@@ -5,7 +5,9 @@
       v-model:loading="loading"
       center-title
       confirm-button-color="secondary"
-      confirm-button-label="Search"
+      :confirm-button-label="comfirmbuttonlabel"
+      :cancel-button-label="cancelbuttonlabel"
+      :reset-button-label="resetbuttonlabel"
       confirm-icon="search"
       icon-title="compass"
       :show-confirm-button="showconfirmbutton"
@@ -24,6 +26,7 @@
         <code-search-drawer-content
           v-model="codesearchData"
           ref="codesearchDrawerContent"
+          :group-names="groupNames"
         />
       </div>
     </drawer-comp>
@@ -37,11 +40,13 @@ import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 // View Layout
 import CodeSearchDrawerContent from 'src/views/code/CodeSearchDrawerContent.vue';
 // Types
+import { SelectOption } from 'src/types/SelectOption';
 import { CodeSearchForm } from 'src/types/CodeSearchForm';
 // Store
 //import store from "src/store";
 // Helpers
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
+import i18n from 'src/i18n';
 export default defineComponent({
   name: 'CodeSearchDrawer',
   components: {
@@ -57,6 +62,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    groupNames: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
   },
   emits: [
     'update:modelValue',
@@ -65,10 +74,13 @@ export default defineComponent({
     'codesearch-saved',
   ],
   setup(props, { emit }) {
-    const title = 'This is a filter for detailed seach for data search.';
+    const title = i18n.global.t('searchtitle');
     const loading = ref<boolean>(false);
     const opensearchDrawer = ref<boolean>(false);
     const showconfirmbutton = ref<boolean>(false);
+    const comfirmbuttonlabel = ref<string>(i18n.global.t('search'));
+    const resetbuttonlabel = ref<string>(i18n.global.t('reset'));
+    const cancelbuttonlabel = ref<string>(i18n.global.t('cancel'));
     showconfirmbutton.value = true;
     //store.getters.currentUserHasApplicationPermission("COD_R");
     const codesearchformDrawerContent = ref();
@@ -119,6 +131,9 @@ export default defineComponent({
       showconfirmbutton,
       searchUpdatedCodeData,
       searchResetData,
+      comfirmbuttonlabel,
+      resetbuttonlabel,
+      cancelbuttonlabel,
     };
   },
 });

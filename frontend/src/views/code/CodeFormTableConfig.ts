@@ -7,11 +7,6 @@ export class CodeFormTableConfig {
   static overlay =
     '<span class="ag-overlay-loading-center">Please wait while your Data are loading</span>';
 
-  // static uprName: { codeUuid: number; codeEn: string }[] = [];
-  // static setUprName(uprName: { codeUuid: number; codeEn: string }[]) {
-  //   CodeFormTableConfig.uprName = uprName;
-  // }
-
   static getColumns(locale: string): ColDef[] {
     return [
       {
@@ -35,13 +30,6 @@ export class CodeFormTableConfig {
         sortable: true,
         resizable: true,
         cellStyle: { 'text-align': 'center' },
-        // valueGetter: (params) => {
-        //   const uprNameObj = CodeFormTableConfig.uprName.find(
-        //     (uprName: { codeUuid: number }) =>
-        //       uprName.codeUuid == params.data.uprCodeUuid
-        //   );
-        //   return uprNameObj ? uprNameObj.codeEn : 'Root';
-        // },
       },
       {
         headerName: i18n.global.t('codeNameKr'),

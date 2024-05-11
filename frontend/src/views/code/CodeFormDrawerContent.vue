@@ -7,7 +7,7 @@
             <select-comp
               v-model="editcodeformData.uprCodeUuid"
               class="full-width select-comp-padding"
-              label="Code Group"
+              :label="t('compgroup')"
               :options="uprCodeUuidgroup"
               outlined
             />
@@ -17,7 +17,7 @@
               v-model="editcodeformData.codeKr"
               class="full-width"
               clearable
-              label="Code Name (Kr)"
+              :label="t('codeNameKr')"
               outlined
               required
             />
@@ -27,7 +27,7 @@
               v-model="editcodeformData.codeEn"
               class="full-width"
               clearable
-              label="Code Name(En)"
+              :label="t('codeNameEn')"
               outlined
               required
             />
@@ -37,7 +37,7 @@
               v-model="editcodeformData.codeAbb"
               class="full-width"
               clearable
-              label="Code Abbreviation"
+              :label="t('Abbreviation')"
               outlined
             />
           </div>
@@ -46,7 +46,7 @@
               v-model="editcodeformData.codeLvl"
               class="full-width"
               clearable
-              label="Code Level"
+              :label="t('codeLvl')"
               outlined
             />
           </div>
@@ -54,7 +54,7 @@
             <number-comp
               v-model="editcodeformData.codeOrd"
               class="full-width"
-              label="Code Display Order"
+              :label="t('order')"
               :max-number="100"
               :min-number="0"
               outlined
@@ -62,11 +62,11 @@
             />
           </div>
           <div class="col-6">
-            <input-comp
-              v-model="editcodeformData.useYn"
-              class="full-width"
-              clearable
-              label="Conde In Use (ex. Y/N)"
+            <select-comp
+              v-model="editcodeformData.uprCodeUuid"
+              class="full-width select-comp-padding"
+              :label="t('usage')"
+              :options="useYnOptions"
               outlined
             />
           </div>
@@ -79,7 +79,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 //Lang
-import i18n from "src/i18n";
+import i18n from 'src/i18n';
 // Component
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 import InputComp from 'src/components/common/InputComp.vue';
@@ -91,7 +91,7 @@ import { SelectOption } from 'src/types/SelectOption';
 // Helper
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 // CommonCode
-import {loadOptionsList} from "src/utils/commoncode/commonCode";
+import { loadOptionsList } from 'src/utils/commoncode/commonCode';
 
 export default defineComponent({
   name: 'CodeFormDrawerContent',
@@ -126,6 +126,7 @@ export default defineComponent({
     loadOptionsList(343, useYnOptions, locale);
 
     return {
+      t: i18n.global.t,
       editcodeformData,
       uprCodeUuidgroup,
       useYnOptions,

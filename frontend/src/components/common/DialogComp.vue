@@ -31,7 +31,7 @@
             v-show="showActionButton"
             color="primary"
             :disable="actionButtonDisabled"
-            :icon="actionButtonIcon"
+            icon="delete"
             :label="actionButtonLabel"
             :loading="actionButtonLoading"
             @click="confirmClicked"

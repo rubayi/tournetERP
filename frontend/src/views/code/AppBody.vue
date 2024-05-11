@@ -59,6 +59,7 @@
       <code-search-drawer
         v-model="openSearchDrawer"
         :rowsearchdata="searchdata"
+        :group-names="GroupList"
         @codesearch-reset="resetloadData"
         @codesearch-saved="loadData"
       />
@@ -81,11 +82,13 @@ import { CodeService } from 'src/services/CodeService';
 //Type
 import { CodeForm } from 'src/types/CodeForm';
 import { CodeSearchForm } from 'src/types/CodeSearchForm';
+import { SelectOption } from 'src/types/SelectOption';
 // Store
 import store from 'src/store';
 // Drawer
 import CodeFormDrawer from 'src/views/code/CodeFormDrawer.vue';
 import CodeSearchDrawer from 'src/views/code/CodeSearchDrawer.vue';
+import { loadOptionsList } from 'src/utils/commoncode/commonCode';
 
 export default defineComponent({
   name: 'CodeForm',
@@ -184,6 +187,9 @@ export default defineComponent({
       openSearchDrawer.value = true;
     }
 
+    const GroupList = ref<SelectOption[]>([]);
+    loadOptionsList(0, GroupList, locale);
+
     return {
       t: i18n.global.t,
       gridOptions,
@@ -204,6 +210,7 @@ export default defineComponent({
       filterNumber,
       showinsertbutton,
       frameworkComponents,
+      GroupList,
     };
   },
   data() {
