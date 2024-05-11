@@ -51,4 +51,8 @@ public class ComCodeDTO {
     private long searchUprCodeUuid;
 
     private int searchCodeLvl;
+
+    private String groupName;
+
+    private String groupNameEn;
 }

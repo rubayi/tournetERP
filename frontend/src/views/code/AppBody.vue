@@ -12,7 +12,7 @@
           <q-btn
             color="secondary"
             icon="search"
-            label="Filters"
+            :label="t('search')"
             @click="filterAction"
           >
             <q-badge v-if="filterNumber > 0" color="red" floating>{{
@@ -25,7 +25,7 @@
             v-if="showinsertbutton"
             color="primary"
             icon="add"
-            label="NEW CODE"
+            :label="t('addnew')"
             outline
             @click="createAction"
           />
@@ -106,7 +106,7 @@ export default defineComponent({
       CodeFormTableConfig.frameworkComponents;
     const overlayLoadingTemplate = TableHelper.loadingOverlay;
     const data = ref<CodeForm[]>([]);
-    const uprName = ref<{ codeUuid: number; codeEn: string }[]>([]);
+    // const uprName = ref<{ codeUuid: number; codeEn: string }[]>([]);
     const searchdefaultdata = ref<CodeSearchForm>(new CodeSearchForm());
     const searchdata = ref<CodeSearchForm>(new CodeSearchForm());
     const codeformGrid = ref();
@@ -152,38 +152,22 @@ export default defineComponent({
           if (response) {
             data.value = response;
           }
-          // if (gridOptions.value.columnApi) {
-          //   gridOptions.value.columnApi.applyColumnState({
-          //     state: CodeFormTableConfig.defaultSortModel,
-          //   });
-          // }
         });
-        CodeService.getGroupCodeForm(0).then((response) => {
-          if (response) {
-            uprName.value = response.map((item) => ({
-              codeUuid: item.codeUuid,
-              codeEn: item.codeEn,
-            }));
-            CodeFormTableConfig.setUprName(uprName.value);
-          }
-        });
+        // CodeService.getGroupCodeForm(0).then((response) => {
+        //   if (response) {
+        //     uprName.value = response.map((item) => ({
+        //       codeUuid: item.codeUuid,
+        //       codeEn: item.codeEn,
+        //     }));
+        //     CodeFormTableConfig.setUprName(uprName.value);
+        //   }
+        // });
       }
     }
     function resetloadData() {
       searchdata.value = new CodeSearchForm();
     }
 
-    // watch(loading, (loading) => {
-    //   if (gridOptions.value.api) {
-    //     if (loading) {
-    //        gridOptions.value.api.showLoadingOverlay();
-    //     } else {
-    //        gridOptions.value.api.hideOverlay();
-    //     }
-    //   }
-    // });
-
-    /* New */
     function createAction() {
       codeUuid.value = 0;
       openDrawer.value = true;

@@ -47,21 +47,15 @@
 import { defineComponent, ref } from 'vue';
 import store from 'src/store';
 import NavigationDrawer from 'src/components/navigation/NavigationDrawer.vue';
-import router from "src/router";
-import i18n from "src/i18n";
+import router from 'src/router';
+
 export default defineComponent({
   name: 'App',
   components: { NavigationDrawer },
   setup() {
-    const t  = i18n;
-
     let openNavigationDrawer = ref(false);
     const version = ref<string>('');
     const currentUserIsLoggedIn = ref(false);
-
-    // const currentUserIsLoggedIn = computed(() => {
-    //   return store.getters.currentUserIsLoggedIn;
-    // });
 
     if (store.state.currentUser) {
       currentUserIsLoggedIn.value = true;
@@ -69,7 +63,7 @@ export default defineComponent({
       //   return store.getters.currentUserIsLoggedIn;
       // });
     } else {
-      router.push({ path: "/Login" });
+      router.push({ path: '/Login' });
     }
     return {
       openNavigationDrawer,

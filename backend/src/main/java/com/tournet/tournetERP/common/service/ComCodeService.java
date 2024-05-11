@@ -54,15 +54,17 @@ public class ComCodeService {
         );
 
 
-        List<ComCodeDTO> comCodeResList = new ArrayList<>();
-        for (ComCode comCode : selectedComCodes) {
+        List<ComCodeDTO> comCodeResList = selectedComCodes.stream()
+        .map(comp -> {
             ComCodeDTO comCodeResponse = new ComCodeDTO();
-            comCodeResponse.setCodeUuid(comCode.getCodeUuid());
-            comCodeResponse.setCodeKr(comCode.getCodeKr());
-            comCodeResponse.setCodeEn(comCode.getCodeEn());
-            comCodeResponse.setUseYn(comCode.getUseYn());
-            comCodeResponse.setCodeOrd(comCode.getCodeOrd());
-            comCodeResponse.setUprCodeUuid(comCode.getUprCodeUuid());
+            comCodeResponse.setCodeUuid(comp.getCodeUuid());
+            comCodeResponse.setCodeKr(comp.getCodeKr());
+            comCodeResponse.setCodeEn(comp.getCodeEn());
+            comCodeResponse.setUseYn(comp.getUseYn());
+            comCodeResponse.setCodeOrd(comp.getCodeOrd());
+            comCodeResponse.setGroupName(fetchCodeUtil.fetchCodeKr(comp.getUprCodeUuid()));
+            comCodeResponse.setGroupNameEn(fetchCodeUtil.fetchCodeEn(comp.getUprCodeUuid()));
+            comCodeResponse.setUprCodeUuid(comp.getUprCodeUuid());
 
 //            if(comCode.getUprCodeUuid() != 0 && comCode.getCodeLvl() != 0){
 //                comCodeResponse.setUprNameKr(fetchCodeUtil.uprFetchCodeKr(comCode.getUprCodeUuid()));
@@ -70,11 +72,11 @@ public class ComCodeService {
 //            if(comCode.getUprCodeUuid() != 0 && comCode.getCodeLvl() != 0){
 //                comCodeResponse.setUprNameEn(fetchCodeUtil.uprFetchCodeEn(comCode.getUprCodeUuid()));
 //            }
-            comCodeResponse.setModifiedByName(comCode.getModifyUser().getUsername());
-            comCodeResponse.setCreatedByName(comCode.getCreateUser().getUsername());
+            comCodeResponse.setModifiedByName(comp.getModifyUser().getUsername());
+            comCodeResponse.setCreatedByName(comp.getCreateUser().getUsername());
 
-            comCodeResList.add(comCodeResponse);
-        }
+            return comCodeResponse;
+        }).collect(Collectors.toList());
 //        List<ComCodeResponse> comCodeResList = null;
         return comCodeResList;
     }

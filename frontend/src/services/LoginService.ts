@@ -1,9 +1,9 @@
-import api from "./api";
+import api from './api';
 import { Login } from 'src/types/Login';
 import { UserDetails } from 'src/types/UserDetails';
 import authHeader from 'src/services/auth-header';
-import TokenService from "src/services/TokenService";
-import router from "src/router";
+import TokenService from 'src/services/TokenService';
+import router from 'src/router';
 const API_URL = '/auth/';
 
 export class LoginService {
@@ -19,11 +19,11 @@ export class LoginService {
   }
 
   static getCurrentUser(): Promise<UserDetails | null> {
-    if(TokenService.getUser()){
+    if (TokenService.getUser()) {
       const userInfo: UserDetails | null = JSON.parse(TokenService.getUser());
       if (userInfo) {
         return api
-          .get<UserDetails>(API_URL + "getCurrentUser", {
+          .get<UserDetails>(API_URL + 'getCurrentUser', {
             headers: authHeader(),
           })
           .then((response) => response.data);
@@ -33,8 +33,7 @@ export class LoginService {
           .then((response) => response.data);
       }
     } else {
-
-      router.push({ path: "/login" });
+      router.push({ path: '/login' });
       return Promise.resolve(null);
     }
   }

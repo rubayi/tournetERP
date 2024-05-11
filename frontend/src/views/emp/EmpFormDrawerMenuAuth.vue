@@ -129,7 +129,10 @@ export default defineComponent({
 
     const selectAll = () => {
       authList.value.forEach((item) => {
-        if (!authListEmpId.value.includes(item.menuAuthUuid)) {
+        if (
+          authListEmpId.value &&
+          !authListEmpId.value.includes(item.menuAuthUuid)
+        ) {
           authListEmpId.value.push(item.menuAuthUuid);
         }
       });

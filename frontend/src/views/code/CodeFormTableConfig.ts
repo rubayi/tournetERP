@@ -7,12 +7,10 @@ export class CodeFormTableConfig {
   static overlay =
     '<span class="ag-overlay-loading-center">Please wait while your Data are loading</span>';
 
-  // Add a new property to store uprName
-  static uprName: { codeUuid: number; codeEn: string }[] = [];
-  // Add a new method to set uprName
-  static setUprName(uprName: { codeUuid: number; codeEn: string }[]) {
-    CodeFormTableConfig.uprName = uprName;
-  }
+  // static uprName: { codeUuid: number; codeEn: string }[] = [];
+  // static setUprName(uprName: { codeUuid: number; codeEn: string }[]) {
+  //   CodeFormTableConfig.uprName = uprName;
+  // }
 
   static getColumns(locale: string): ColDef[] {
     return [
@@ -27,28 +25,26 @@ export class CodeFormTableConfig {
         sortable: false,
         suppressMovable: true,
         suppressNavigable: true,
-        cellStyle: {'text-align': 'center'},
+        cellStyle: { 'text-align': 'center' },
       },
       {
-        headerName: 'Group',
-        field: 'uprCodeUuid',
+        headerName: i18n.global.t('compgroup'),
+        field: locale === 'en' ? 'groupNameEn' : 'groupName',
         floatingFilter: false,
         maxWidth: 120,
         sortable: true,
         resizable: true,
-        cellStyle: {'text-align': 'center'},
-        valueGetter: (params) => {
-          // Find the uprName object where codeUuid equals uprCodeUuid
-          const uprNameObj = CodeFormTableConfig.uprName.find(
-            (uprName: { codeUuid: number }) =>
-              uprName.codeUuid == params.data.uprCodeUuid
-          );
-          // If found, return the codeEn value, otherwise return an empty string
-          return uprNameObj ? uprNameObj.codeEn : 'Root';
-        },
+        cellStyle: { 'text-align': 'center' },
+        // valueGetter: (params) => {
+        //   const uprNameObj = CodeFormTableConfig.uprName.find(
+        //     (uprName: { codeUuid: number }) =>
+        //       uprName.codeUuid == params.data.uprCodeUuid
+        //   );
+        //   return uprNameObj ? uprNameObj.codeEn : 'Root';
+        // },
       },
       {
-        headerName: 'Code Name(Kr)',
+        headerName: i18n.global.t('codeNameKr'),
         field: 'codeKr',
         filter: true,
         sortable: true,
@@ -56,7 +52,7 @@ export class CodeFormTableConfig {
         flex: 1,
       },
       {
-        headerName: 'Code Name(Eng)',
+        headerName: i18n.global.t('codeNameEn'),
         field: 'codeEn',
         filter: true,
         sortable: true,
@@ -64,47 +60,47 @@ export class CodeFormTableConfig {
         flex: 1,
       },
       {
-        headerName: 'Abbreviation',
+        headerName: i18n.global.t('abbrevi'),
         field: 'codeAbb',
         filter: true,
         minWidth: 110,
         maxWidth: 140,
         sortable: true,
         resizable: true,
-        cellStyle: {'text-align': 'center'},
+        cellStyle: { 'text-align': 'center' },
       },
       {
-        headerName: 'Order',
+        headerName: i18n.global.t('order'),
         field: 'codeOrd',
         floatingFilter: false,
         minWidth: 70,
         maxWidth: 100,
         sortable: true,
         resizable: true,
-        cellStyle: {'text-align': 'center'},
+        cellStyle: { 'text-align': 'center' },
       },
       {
-        headerName: 'Code Lvl',
+        headerName: i18n.global.t('codeLvl'),
         field: 'codeLvl',
         filter: true,
         minWidth: 70,
         maxWidth: 110,
         sortable: true,
         resizable: true,
-        cellStyle: {'text-align': 'center'},
+        cellStyle: { 'text-align': 'center' },
       },
       {
-        headerName: 'Use Y/N',
+        headerName: i18n.global.t('usage'),
         field: 'useYn',
         floatingFilter: false,
         minWidth: 70,
         maxWidth: 100,
         sortable: true,
         resizable: true,
-        cellStyle: {'text-align': 'center'},
+        cellStyle: { 'text-align': 'center' },
       },
       {
-        headerName: 'ModifiedByName',
+        headerName: i18n.global.t('modifiedBy'),
         field: 'modifiedByName',
         floatingFilter: false,
         minWidth: 170,
@@ -112,10 +108,10 @@ export class CodeFormTableConfig {
         flex: 1,
         sortable: true,
         resizable: true,
-        cellStyle: {'text-align': 'center'},
+        cellStyle: { 'text-align': 'center' },
       },
       {
-        headerName: 'LastUpdated',
+        headerName: i18n.global.t('modifiedDt'),
         field: 'modifiedDt',
         floatingFilter: false,
         minWidth: 220,
@@ -123,7 +119,7 @@ export class CodeFormTableConfig {
         flex: 1,
         sortable: true,
         resizable: true,
-        cellStyle: {'text-align': 'center'},
+        cellStyle: { 'text-align': 'center' },
         valueFormatter: (params: ValueFormatterParams): string => {
           return params.value
             ? DateHelper.formatISOStringToDateTimeString(params.value)
