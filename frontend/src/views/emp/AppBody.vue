@@ -1,14 +1,14 @@
 <template>
   <div id="empform">
     <q-page class="q-pa-md column">
-      <div class="row q-mb-none">
+      <div class="row q-mb-sm">
         <div class="col q-pr-md">
           <span class="part_title text-primary">
             <q-icon name="person" class="q-ml-xs q-mr-sm" size="sm"></q-icon
             >{{ t('manageEmployees') }}</span
           >
         </div>
-        <div class="col-2 text-right q-pr-md">
+        <div class="col-auto text-right q-pr-md">
           <q-btn
             color="secondary"
             icon="search"

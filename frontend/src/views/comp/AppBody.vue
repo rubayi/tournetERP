@@ -1,11 +1,11 @@
 <template>
   <div id="compform">
     <q-page class="q-pa-md column">
-      <div class="row q-mb-none">
+      <div class="row q-mb-sm">
         <div class="col q-pr-md">
           <span class="part_title text-primary">
             <i class="far fa-folder-open q-ml-xs q-mr-md"></i>
-            {{ t('manageCompany')}}
+            {{ t('manageCompany') }}
           </span>
         </div>
         <div class="col-auto text-right q-pr-md">
@@ -16,8 +16,8 @@
             @click="filterAction"
           >
             <q-badge v-if="filterNumber > 0" color="red" floating>{{
-                filterNumber
-              }}</q-badge>
+              filterNumber
+            }}</q-badge>
           </q-btn>
         </div>
         <div class="col-auto text-right q-pr-md">
@@ -65,7 +65,7 @@
             row-selection="single"
             @grid-ready="loadData"
             ref="compformGrid"
-           />
+          />
         </div>
       </div>
       <comp-form-drawer
@@ -85,9 +85,9 @@
         :prepaid-how-list="prepaidHowList"
         :comp-seq="compUuid"
         @compform-deleted="loadData"
-        @compform-drawer-closed="compUuid = 0;"
+        @compform-drawer-closed="compUuid = 0"
         @compform-saved="loadData"
-        />
+      />
       <comp-search-drawer
         v-model="openSearchDrawer"
         :comp-rate-list="compRateList"
@@ -103,42 +103,42 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
-import { defineComponent, ref, watch } from "vue";
+import _ from 'lodash';
+import { defineComponent, ref, watch } from 'vue';
 //Lang
-import i18n from "src/i18n";
+import i18n from 'src/i18n';
 // Table
-import { GridOptions } from "ag-grid-community";
-import { CompFormTableConfig } from "src/views/comp/CompFormTableConfig";
-import TableComp from "src/components/table/TableComp.vue";
-import { TableHelper } from "src/components/table/TableHelper";
+import { GridOptions } from 'ag-grid-community';
+import { CompFormTableConfig } from 'src/views/comp/CompFormTableConfig';
+import TableComp from 'src/components/table/TableComp.vue';
+import { TableHelper } from 'src/components/table/TableHelper';
 // Service
-import { CompService } from "src/services/CompService";
+import { CompService } from 'src/services/CompService';
 
-import { CdcdService } from "src/services/CdcdService";
-import { ReportService } from "src/services/CompReportService";
+import { CdcdService } from 'src/services/CdcdService';
+import { ReportService } from 'src/services/CompReportService';
 //Type
-import { CompForm } from "src/types/CompForm";
-import { CompSearchForm } from "src/types/CompSearchForm";
-import { CompListReportVO } from "src/types/CompReportVO";
-import { SelectOption } from "src/types/SelectOption";
+import { CompForm } from 'src/types/CompForm';
+import { CompSearchForm } from 'src/types/CompSearchForm';
+import { CompListReportVO } from 'src/types/CompReportVO';
+import { SelectOption } from 'src/types/SelectOption';
 // Store
-import store from "src/store";
+import store from 'src/store';
 // Helpers
-import ReportHelper from "src/utils/helpers/ReportHelper";
+import ReportHelper from 'src/utils/helpers/ReportHelper';
 // Drawer
-import CompFormDrawer from "src/views/comp/CompFormDrawer.vue";
+import CompFormDrawer from 'src/views/comp/CompFormDrawer.vue';
 //import {CdcdForm} from "src/types/CdcdForm";
-import {CdcdSearchForm} from "src/types/CdcdSearchForm";
-import CompSearchDrawer from "src/views/comp/CompSearchDrawer.vue";
+import { CdcdSearchForm } from 'src/types/CdcdSearchForm';
+import CompSearchDrawer from 'src/views/comp/CompSearchDrawer.vue';
 
-import { loadOptionsList } from 'src/utils/commoncode/commonCode'
+import { loadOptionsList } from 'src/utils/commoncode/commonCode';
 export default defineComponent({
-  name: "CompForm",
+  name: 'CompForm',
   components: {
     TableComp,
     CompFormDrawer,
-    CompSearchDrawer
+    CompSearchDrawer,
   },
   setup() {
     const locale = i18n.global.locale.value;
@@ -151,9 +151,7 @@ export default defineComponent({
     const overlayLoadingTemplate = TableHelper.loadingOverlay;
     const reportHeaderMap = CompFormTableConfig.reportHeaderMap;
     const data = ref<CompForm[]>([]);
-    const searchdefaultdata = ref<CompSearchForm>(
-      new CompSearchForm()
-    );
+    const searchdefaultdata = ref<CompSearchForm>(new CompSearchForm());
     const searchdata = ref<CompSearchForm>(new CompSearchForm());
     const compformGrid = ref();
     const compUuid = ref<number>(0);
@@ -164,7 +162,6 @@ export default defineComponent({
 
     /* List */
     function loadData() {
-
       loading.value = true;
       filterNumber.value = 0;
       if (
@@ -232,16 +229,14 @@ export default defineComponent({
         filterNumber.value++;
       }
 
-      showinsertbutton.value = store.getters.currentUserHasApplicationPermission("COMP_W");
-      if (store.getters.currentUserHasApplicationPermission("COMP_R")) {
-        CompService.getAllComp(searchdata.value).then(
-          (response) => {
-            loading.value = false;
-            compUuid.value = 0;
-            data.value = response;
-
-          }
-        );
+      showinsertbutton.value =
+        store.getters.currentUserHasApplicationPermission('COMP_W');
+      if (store.getters.currentUserHasApplicationPermission('COMP_R')) {
+        CompService.getAllComp(searchdata.value).then((response) => {
+          loading.value = false;
+          compUuid.value = 0;
+          data.value = response;
+        });
         //printcodeValue();
       }
     }
@@ -280,10 +275,9 @@ export default defineComponent({
     function exportAction() {
       const exportFilename = i18n.global.t('compreport');
       const listReportVO: CompListReportVO = {
-        title: "",
+        title: '',
         sort: compformGrid.value.getExportSortString(reportHeaderMap),
-        filter:
-          compformGrid.value.getExportFilterString(reportHeaderMap),
+        filter: compformGrid.value.getExportFilterString(reportHeaderMap),
         data: compformGrid.value.getFilteredRows(),
       };
       ReportHelper.exportEXCELData(
@@ -296,10 +290,9 @@ export default defineComponent({
     function printAction() {
       const exportFilename = i18n.global.t('compreport');
       const listReportVO: CompListReportVO = {
-        title: "",
+        title: '',
         sort: compformGrid.value.getExportSortString(reportHeaderMap),
-        filter:
-          compformGrid.value.getExportFilterString(reportHeaderMap),
+        filter: compformGrid.value.getExportFilterString(reportHeaderMap),
         data: compformGrid.value.getFilteredRows(),
       };
       ReportHelper.exportPDFData(
@@ -343,13 +336,17 @@ export default defineComponent({
     function loadPrepaidHowListOptions() {
       let searchReq: CdcdSearchForm = {
         searchCdCdUuid: 0,
-        searchMngNameKor: "",
-        searchMngNameEng: "",
-        searchCardNumber:  ""
-      }
+        searchMngNameKor: '',
+        searchMngNameEng: '',
+        searchCardNumber: '',
+      };
       CdcdService.getAll(searchReq).then((response) => {
         prepaidHowList.value = response.map(
-          (x) => new SelectOption(locale === "en" ? x.mngNameEng : x.mngNameKor, x.cdCdUuid)
+          (x) =>
+            new SelectOption(
+              locale === 'en' ? x.mngNameEng : x.mngNameKor,
+              x.cdCdUuid
+            )
         );
       });
     }
