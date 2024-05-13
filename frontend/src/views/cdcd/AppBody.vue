@@ -100,12 +100,10 @@ export default defineComponent({
     CdcdSearchDrawer,
   },
   setup() {
-    const locale = i18n.global.locale.value;
-
     const openDrawer = ref<boolean>(false);
     const openSearchDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
-    const columns = CdcdFormTableConfig.getColumns(locale);
+    const columns = CdcdFormTableConfig.getColumns();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const frameworkComponents: { [key: string]: any } =
       CdcdFormTableConfig.frameworkComponents;
@@ -124,8 +122,8 @@ export default defineComponent({
       filterNumber.value = 0;
       if (
         !_.isEqual(
-          searchdata.value.searchCdCdUuid,
-          searchdefaultdata.value.searchCdCdUuid
+          searchdata.value.searchMngNameEng,
+          searchdefaultdata.value.searchMngNameEng
         )
       ) {
         filterNumber.value++;

@@ -16,7 +16,7 @@
       :show-reset-button="true"
       side="left"
       :title="title"
-      :width="50"
+      :width="30"
       @cancel-clicked="closesearchDrawer"
       @confirm-clicked="searchUpdatedCodeData"
       @reset-clicked="searchResetData"
@@ -76,7 +76,7 @@ export default defineComponent({
     showconfirmbutton.value = true;
     //store.getters.currentUserHasApplicationPermission("COD_R");
     const codesearchformDrawerContent = ref();
-    const codesearchData = ref<CdcdSearchForm>();
+    const codesearchData = ref<CdcdSearchForm>(new CdcdSearchForm());
 
     useSyncModelValue(
       props,

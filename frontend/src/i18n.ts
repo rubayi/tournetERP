@@ -91,6 +91,13 @@ const messages = {
     authGroup: 'Authority',
     empcompname: 'Company',
     manageCreditcard: 'Manage Credit Card',
+    mngNameKor: 'Manage Name',
+    mngNameEng: 'Manage Name(En)',
+    carNum: 'Card Number',
+    expyear: 'Expiry Year',
+    expmonth: 'Expiry Month',
+    nameOnCard: 'Name On Card',
+    manageCreditCard: 'Manage Credit Card',
   },
   ko: {
     addnew: '등록',
@@ -177,6 +184,13 @@ const messages = {
     authGroup: '권한',
     empcompname: '회사명',
     manageCreditcard: '크레닷 카드 관리',
+    mngNameKor: '카드관리명',
+    mngNameEng: '카드관리명(영문)',
+    carNum: '카드번호',
+    nameOnCard: '카드명의자',
+    expyear: '만료년월',
+    expmonth: '만료월',
+    manageCreditCard: '크레딧카드 관리',
   },
 };
 

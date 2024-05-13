@@ -17,7 +17,7 @@
       :show-print-button="false"
       side="right"
       :title="title"
-      :width="60"
+      :width="40"
       @cancel-clicked="closeDrawer"
       @confirm-clicked="saveUpdatedCodeData"
       @delete-clicked="openDeleteConfirm = true"
@@ -33,40 +33,37 @@
   </div>
   <dialog-comp
     v-model="openDeleteConfirm"
-    action-button-label="Delete"
+    :action-button-label="deletebuttonlabel"
     max-width="500px"
-    modal-title="Delete Code"
+    :modal-title="deleteTitle"
     @confirm-clicked="deleteCdcdForm"
   >
     <template #htmlContent>
-      <div>Are you sure you want to <b>PERMANENTLY DELETE</b> this Data?</div>
+      <div>{{ t('deleteconfirmmsg') }}</div>
     </template>
   </dialog-comp>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, ref, watch } from 'vue';
 //Lang
-import i18n from "src/i18n";
+import i18n from 'src/i18n';
 // Components
-import DrawerComp from "src/components/drawers/DrawerComp.vue";
-import DialogComp from "src/components/common/DialogComp.vue";
-
+import DrawerComp from 'src/components/drawers/DrawerComp.vue';
+import DialogComp from 'src/components/common/DialogComp.vue';
 // View Layout
-import CdcdFormDrawerContent from "src/views/cdcd/CdcdFormDrawerContent.vue";
-
+import CdcdFormDrawerContent from 'src/views/cdcd/CdcdFormDrawerContent.vue';
 // Services
-import { CdcdService } from "src/services/CdcdService";
-
+import { CdcdService } from 'src/services/CdcdService';
 // Types
-import { CdcdForm } from "src/types/CdcdForm";
+import { CdcdForm } from 'src/types/CdcdForm';
 // Store
-import store from "src/store";
+import store from 'src/store';
 //helper
-import { notificationHelper } from "src/utils/helpers/NotificationHelper";
+import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 
 export default defineComponent({
-  name: "CdcdFormDrawer",
+  name: 'CdcdFormDrawer',
   components: {
     DrawerComp,
     DialogComp,
@@ -83,25 +80,24 @@ export default defineComponent({
     },
   },
   emits: [
-    "update:modelValue",
-    "update:drawerData",
-    "cdcdform-saved",
-    "cdcdform-deleted",
-    "cdcdform-drawer-closed",
+    'update:modelValue',
+    'update:drawerData',
+    'cdcdform-saved',
+    'cdcdform-deleted',
+    'cdcdform-drawer-closed',
   ],
   setup(props, { emit }) {
-    const locale = i18n.global.locale.value;
-
-    const title = i18n.global.t('manageCode');
-    const cdcdformData = ref<CdcdForm | null>(new CdcdForm());
+    const title = i18n.global.t('manageCreditCard');
+    const cdcdformData = ref<CdcdForm>(new CdcdForm());
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
-    const confirmbuttoncolor = ref<string>("primary");
+    const confirmbuttoncolor = ref<string>('primary');
     const confirmbuttonlabel = ref<string>(i18n.global.t('change'));
     const deletebuttonlabel = ref<string>(i18n.global.t('delete'));
+    const deleteTitle = ref<string>(i18n.global.t('deleteTitle'));
     const resetbuttonlabel = ref<string>(i18n.global.t('reset'));
     const cancelbuttonlabel = ref<string>(i18n.global.t('cancel'));
-    const confirmicon = ref<string>("fas fa-plus");
+    const confirmicon = ref<string>('plus');
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
     const codeformDrawerContent = ref();
@@ -117,7 +113,7 @@ export default defineComponent({
     watch(
       () => openDrawer.value,
       (newValue) => {
-        emit("update:modelValue", newValue);
+        emit('update:modelValue', newValue);
         getCodeformData();
       }
     );
@@ -126,16 +122,19 @@ export default defineComponent({
     function resetDrawer() {
       cdcdformData.value = new CdcdForm();
       if (props.codeSeq != 0) {
-        confirmbuttoncolor.value = "warning";
+        confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = i18n.global.t('change');
-        confirmicon.value = "fas fa-edit";
-        showconfirmbutton.value = store.getters.currentUserHasApplicationPermission("CODE_W");
-        showdeletebutton.value = store.getters.currentUserHasApplicationPermission("CODE_D");
+        confirmicon.value = 'edit';
+        showconfirmbutton.value =
+          store.getters.currentUserHasApplicationPermission('CODE_W');
+        showdeletebutton.value =
+          store.getters.currentUserHasApplicationPermission('CODE_D');
       } else {
-        confirmbuttoncolor.value = "primary";
+        confirmbuttoncolor.value = 'primary';
         confirmbuttonlabel.value = i18n.global.t('add');
-        confirmicon.value = "fas fa-plus";
-        showconfirmbutton.value = store.getters.currentUserHasApplicationPermission("CODE_W");
+        confirmicon.value = 'add';
+        showconfirmbutton.value =
+          store.getters.currentUserHasApplicationPermission('CODE_W');
         showdeletebutton.value = false;
       }
     }
@@ -165,14 +164,13 @@ export default defineComponent({
         CdcdService.saveCdcdForm(cdcdformData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
-              `Code  " ${
-                locale == 'en'? response.mngNameEng: response.mngNameKor} " saved.`
+              i18n.global.t('saved')
             );
             if (props.codeSeq != 0) {
-              emit("cdcdform-saved", response);
+              emit('cdcdform-saved', response);
               cdcdformData.value = new CdcdForm(response);
             } else {
-              emit("cdcdform-saved", response);
+              emit('cdcdform-saved', response);
               closeDrawer();
             }
           })
@@ -197,12 +195,9 @@ export default defineComponent({
       CdcdService.deleteCdcdForm(props.codeSeq)
         .then((response) => {
           notificationHelper.createSuccessNotification(
-            `Code ${
-              cdcdformData.value ?
-                locale == 'en'? cdcdformData.value.mngNameEng :cdcdformData.value.mngNameKor : ""
-            } deleted`
+            i18n.global.t('deletesucess')
           );
-          emit("cdcdform-deleted", response);
+          emit('cdcdform-deleted', response);
           closeDrawer();
         })
         .catch((error) => {
@@ -219,9 +214,10 @@ export default defineComponent({
     function closeDrawer() {
       openDrawer.value = false;
       resetDrawer();
-      emit("cdcdform-drawer-closed");
+      emit('cdcdform-drawer-closed');
     }
     return {
+      t: i18n.global.t,
       title,
       cdcdformData,
       loading,
@@ -232,6 +228,7 @@ export default defineComponent({
       confirmbuttoncolor,
       confirmbuttonlabel,
       deletebuttonlabel,
+      deleteTitle,
       resetbuttonlabel,
       cancelbuttonlabel,
       confirmicon,

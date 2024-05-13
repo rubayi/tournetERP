@@ -96,7 +96,7 @@ export default defineComponent({
     const deleteTitle = ref<string>(i18n.global.t('deleteTitle'));
     const resetbuttonlabel = ref<string>(i18n.global.t('reset'));
     const cancelbuttonlabel = ref<string>(i18n.global.t('cancel'));
-    const confirmicon = ref<string>('fas fa-plus');
+    const confirmicon = ref<string>('add');
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
     const codeformDrawerContent = ref();

@@ -4,22 +4,29 @@
       <q-card-section>
         <div class="row q-col-gutter-md">
           <div class="col-4 col-xs-12">
-            <select-comp
-              v-model="editcodesearchData.searchUprCodeUuid"
+            <input-comp
+              v-model="editcodesearchData.searchMngNameKor"
               class="full-width"
-              :label="t('byGroup')"
-              :options="code1group"
+              :label="t('mngNameKor')"
               outlined
             />
           </div>
           <div class="col-5 col-xs-12">
             <input-comp
-              v-model="editcodesearchData.searchCodeKr"
+              v-model="editcodesearchData.searchMngNameEng"
               class="full-width"
               clearable
-              :label="t('byCodeEn')"
+              :label="t('mngNameEng')"
               outlined
-              required
+            />
+          </div>
+          <div class="col-5 col-xs-12">
+            <input-comp
+              v-model="editcodesearchData.searchCardNumber"
+              class="full-width"
+              clearable
+              :label="t('carNum')"
+              outlined
             />
           </div>
         </div>
@@ -33,33 +40,26 @@ import { defineComponent, ref } from 'vue';
 //Component
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 import InputComp from 'src/components/common/InputComp.vue';
-import SelectComp from 'src/components/common/SelectComp.vue';
-
 //Service
-import { CodeService } from 'src/services/CodeService';
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
-
 //Type
-import { SelectOption } from 'src/types/SelectOption';
-import { CodeSearchForm } from 'src/types/CodeSearchForm';
-
+import { CdcdSearchForm } from 'src/types/CdcdSearchForm';
 import i18n from 'src/i18n';
 
 export default defineComponent({
-  name: 'CodeSearchFormDrawerContent',
+  name: 'CdcdSearchFormDrawerContent',
   components: {
     InputComp,
-    SelectComp,
     CardCompDesign,
   },
   props: {
     modelValue: {
-      type: Object as () => CodeSearchForm,
-      default: () => new CodeSearchForm(),
+      type: Object as () => CdcdSearchForm,
+      default: () => new CdcdSearchForm(),
     },
   },
   setup(props, { emit }) {
-    const editcodesearchData = ref<CodeSearchForm>();
+    const editcodesearchData = ref<CdcdSearchForm>(new CdcdSearchForm());
     useSyncModelValue(
       props,
       'modelValue',
@@ -68,20 +68,9 @@ export default defineComponent({
       editcodesearchData
     );
 
-    // Loading Group Code Options
-    const code1group = ref<SelectOption[]>([]);
-    loadcode1groupOptions();
-    function loadcode1groupOptions() {
-      CodeService.getGroupCodeForm(0).then((response) => {
-        code1group.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeLvl)
-        );
-      });
-    }
     return {
       t: i18n.global.t,
       editcodesearchData,
-      code1group,
     };
   },
 });

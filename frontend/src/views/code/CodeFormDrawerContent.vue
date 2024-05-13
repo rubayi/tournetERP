@@ -1,5 +1,5 @@
 <template>
-  <card-comp-design title="Code Information">
+  <card-comp-design :title="t('manageCodes')">
     <template #content>
       <q-card-section>
         <div v-if="editcodeformData != null" class="row q-col-gutter-md">
