@@ -6,7 +6,7 @@ export class EmpEmergencyFormTableConfig {
   static overlay =
     '<span class="ag-overlay-loading-center">Please wait while your Data are loading</span>';
 
-  static getColumns(locale: string): ColDef[] {
+  static getColumns(): ColDef[] {
     return [
       {
         field: 'emergencyUuid',

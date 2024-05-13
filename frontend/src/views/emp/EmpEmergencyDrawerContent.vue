@@ -1,5 +1,5 @@
 <template>
-  <card-comp-design title="Emergency Contact Information">
+  <card-comp-design :title="t('emerContact')">
     <template #content>
       <q-card-section>
         <div class="row q-col-gutter-md">
@@ -8,7 +8,7 @@
               v-model="emergencyFormData.emerName"
               class="full-width"
               clearable
-              label="Name"
+              :label="t('emergencyName')"
               outlined
               required
             />
@@ -18,7 +18,7 @@
               v-model="emergencyFormData.emerRelation"
               class="full-width"
               clearable
-              label="Relation"
+              :label="t('relation')"
               outlined
               required
             />
@@ -28,7 +28,7 @@
               v-model="emergencyFormData.emerPhone1"
               class="full-width"
               clearable
-              label="Phone"
+              :label="t('phone')"
               outlined
               required
             />
@@ -37,7 +37,7 @@
             <input-comp
               v-model="emergencyFormData.emerWorkPhone"
               class="full-width"
-              label="Phone (Work)"
+              :label="t('workphone')"
               clearable
               outlined
             />
@@ -47,7 +47,7 @@
               v-model="emergencyFormData.emerAddress"
               class="full-width"
               clearable
-              label="Address"
+              :label="t('address')"
               outlined
             />
           </div>
@@ -65,6 +65,7 @@ import InputComp from 'src/components/common/InputComp.vue';
 import { EmergencyForm } from 'src/types/EmergencyForm';
 // Helper
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
+import i18n from 'src/i18n';
 
 export default defineComponent({
   name: 'EmpEmergencyDrawerContent',
@@ -98,6 +99,7 @@ export default defineComponent({
     );
 
     return {
+      t: i18n.global.t,
       emergencyFormData,
     };
   },

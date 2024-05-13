@@ -7,6 +7,9 @@
       center-title
       :confirm-button-color="confirmbuttoncolor"
       :confirm-button-label="confirmbuttonlabel"
+      :delete-button-label="deletebuttonlabel"
+      :cancel-button-label="cancelbuttonlabel"
+      :reset-button-label="resetbuttonlabel"
       :confirm-icon="confirmicon"
       icon-title="person"
       :show-confirm-button="showconfirmbutton"
@@ -43,13 +46,13 @@
   </div>
   <dialog-comp
     v-model="openDeleteConfirm"
-    action-button-label="Delete"
+    :action-button-label="deletebuttonlabel"
     max-width="500px"
-    modal-title="Delete Employee"
+    :modal-title="deleteTitle"
     @confirm-clicked="deleteEmpForm"
   >
     <template #htmlContent>
-      <div>Are you sure you want to <b>PERMANENTLY DELETE</b> this Data?</div>
+      <div>{{ t('deleteconfirmmsg') }}</div>
     </template>
   </dialog-comp>
 </template>
@@ -74,6 +77,7 @@ import { MenuAuthForm } from 'src/types/MenuAuthForm';
 // Store
 import store from 'src/store';
 //helper
+import i18n from 'src/i18n';
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 export default defineComponent({
   name: 'EmpFormDrawer',
@@ -102,7 +106,7 @@ export default defineComponent({
     'empform-drawer-closed',
   ],
   setup(props, { emit }) {
-    const title = 'Manage Employees';
+    const title = i18n.global.t('manageEmployees');
     const empformData = ref<EmpForm>(new EmpForm());
     const empAuthFormDatas = ref<EmpAuthForm[]>([]);
     const menuAuthList = ref<MenuAuthForm[]>([]);
@@ -112,7 +116,11 @@ export default defineComponent({
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
-    const confirmbuttonlabel = ref<string>('ADD');
+    const confirmbuttonlabel = ref<string>(i18n.global.t('change'));
+    const deletebuttonlabel = ref<string>(i18n.global.t('delete'));
+    const deleteTitle = ref<string>(i18n.global.t('deleteTitle'));
+    const resetbuttonlabel = ref<string>(i18n.global.t('reset'));
+    const cancelbuttonlabel = ref<string>(i18n.global.t('cancel'));
     const confirmicon = ref<string>('fas fa-plus');
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
@@ -141,7 +149,7 @@ export default defineComponent({
       empformData.value = new EmpForm();
       if (props.empSeq != 0) {
         confirmbuttoncolor.value = 'warning';
-        confirmbuttonlabel.value = 'CHANGE';
+        confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = 'edit';
         showconfirmbutton.value =
           store.getters.currentUserHasApplicationPermission('CODE_W');
@@ -149,7 +157,7 @@ export default defineComponent({
           store.getters.currentUserHasApplicationPermission('CODE_D');
       } else {
         confirmbuttoncolor.value = 'primary';
-        confirmbuttonlabel.value = 'ADD';
+        confirmbuttonlabel.value = i18n.global.t('add');
         confirmicon.value = 'add';
         showconfirmbutton.value =
           store.getters.currentUserHasApplicationPermission('CODE_W');
@@ -250,7 +258,7 @@ export default defineComponent({
         EmpService.saveEmpForm(empformData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
-              `Employer  " ${response.empKor} " saved.`
+              i18n.global.t('saved')
             );
             if (props.empSeq != 0) {
               emit('empform-saved', response);
@@ -281,9 +289,7 @@ export default defineComponent({
       EmpService.deleteEmpForm(props.empSeq)
         .then((response) => {
           notificationHelper.createSuccessNotification(
-            `Employer  ${
-              empformData.value ? empformData.value.empKor : ''
-            } deleted`
+            i18n.global.t('deletesucess')
           );
           emit('empform-deleted', response);
           closeDrawer();
@@ -306,6 +312,7 @@ export default defineComponent({
     }
 
     return {
+      t: i18n.global.t,
       title,
       empformData,
       empAuthFormDatas,
@@ -316,6 +323,10 @@ export default defineComponent({
       openDrawer,
       confirmbuttoncolor,
       confirmbuttonlabel,
+      deletebuttonlabel,
+      deleteTitle,
+      resetbuttonlabel,
+      cancelbuttonlabel,
       confirmicon,
       showconfirmbutton,
       showdeletebutton,

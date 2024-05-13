@@ -42,8 +42,6 @@ import CodeSearchDrawerContent from 'src/views/code/CodeSearchDrawerContent.vue'
 // Types
 import { SelectOption } from 'src/types/SelectOption';
 import { CodeSearchForm } from 'src/types/CodeSearchForm';
-// Store
-//import store from "src/store";
 // Helpers
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 import i18n from 'src/i18n';

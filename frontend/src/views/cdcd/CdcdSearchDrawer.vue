@@ -5,9 +5,11 @@
       v-model:loading="loading"
       center-title
       confirm-button-color="secondary"
-      confirm-button-label="Search"
-      confirm-icon="fas fa-search"
-      icon-title="far fa-compass"
+      :confirm-button-label="comfirmbuttonlabel"
+      :cancel-button-label="cancelbuttonlabel"
+      :reset-button-label="resetbuttonlabel"
+      confirm-icon="search"
+      icon-title="compass"
       :show-confirm-button="showconfirmbutton"
       :show-delete-button="false"
       :show-print-button="false"
@@ -31,19 +33,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, ref, watch } from 'vue';
 // Components
-import DrawerComp from "src/components/drawers/DrawerComp.vue";
+import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 // View Layout
-import CdcdSearchDrawerContent from "src/views/cdcd/CdcdSearchDrawerContent.vue";
+import CdcdSearchDrawerContent from 'src/views/cdcd/CdcdSearchDrawerContent.vue';
 // Types
-import { CdcdSearchForm } from "src/types/CdcdSearchForm";
-// Store
-//import store from "src/store";
+import { CdcdSearchForm } from 'src/types/CdcdSearchForm';
 // Helpers
-import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
+import i18n from 'src/i18n';
 export default defineComponent({
-  name: "CodeSearchDrawer",
+  name: 'CodeSearchDrawer',
   components: {
     DrawerComp,
     CdcdSearchDrawerContent,
@@ -59,26 +60,29 @@ export default defineComponent({
     },
   },
   emits: [
-    "update:modelValue",
-    "update:rowsearchdata",
-    "codesearch-reset",
-    "codesearch-saved",
+    'update:modelValue',
+    'update:rowsearchdata',
+    'codesearch-reset',
+    'codesearch-saved',
   ],
   setup(props, { emit }) {
-    const title = "This is a filter for detailed seach for data search.";
+    const title = i18n.global.t('searchtitle');
     const loading = ref<boolean>(false);
     const opensearchDrawer = ref<boolean>(false);
     const showconfirmbutton = ref<boolean>(false);
+    const comfirmbuttonlabel = ref<string>(i18n.global.t('search'));
+    const resetbuttonlabel = ref<string>(i18n.global.t('reset'));
+    const cancelbuttonlabel = ref<string>(i18n.global.t('cancel'));
     showconfirmbutton.value = true;
-      //store.getters.currentUserHasApplicationPermission("COD_R");
+    //store.getters.currentUserHasApplicationPermission("COD_R");
     const codesearchformDrawerContent = ref();
     const codesearchData = ref<CdcdSearchForm>();
 
     useSyncModelValue(
       props,
-      "rowsearchdata",
+      'rowsearchdata',
       emit,
-      "update:rowsearchdata",
+      'update:rowsearchdata',
       codesearchData
     );
 
@@ -92,18 +96,18 @@ export default defineComponent({
     watch(
       () => opensearchDrawer.value,
       (newValue) => {
-        emit("update:modelValue", newValue);
+        emit('update:modelValue', newValue);
       }
     );
 
     //Search Data
     function searchUpdatedCodeData() {
-      emit("codesearch-saved");
+      emit('codesearch-saved');
       closesearchDrawer();
     }
 
     function searchResetData() {
-      emit("codesearch-reset");
+      emit('codesearch-reset');
     }
 
     function closesearchDrawer() {
@@ -119,6 +123,9 @@ export default defineComponent({
       showconfirmbutton,
       searchUpdatedCodeData,
       searchResetData,
+      comfirmbuttonlabel,
+      resetbuttonlabel,
+      cancelbuttonlabel,
     };
   },
 });

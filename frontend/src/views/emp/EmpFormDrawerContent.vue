@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-6 q-pr-sm">
-      <card-comp-design title="Employee Information">
+      <card-comp-design :title="t('empInfo')">
         <template #content>
           <q-card-section>
             <div class="row q-col-gutter-md">
@@ -10,7 +10,7 @@
                   v-model="editEmpFormData.empEng"
                   class="full-width"
                   clearable
-                  label="English Name"
+                  :label="t('enname')"
                   outlined
                   required
                 />
@@ -20,7 +20,7 @@
                   v-model="editEmpFormData.empKor"
                   class="full-width"
                   clearable
-                  label="Korean Name"
+                  :label="t('krname')"
                   outlined
                   required
                 />
@@ -30,7 +30,7 @@
                   v-model="editEmpFormData.username"
                   class="full-width"
                   clearable
-                  label="Username"
+                  :label="t('username')"
                   outlined
                   required
                 />
@@ -40,21 +40,25 @@
                   v-model="editEmpFormData.password"
                   class="full-width"
                   clearable
-                  label="Password"
+                  :displayValue="false"
+                  :label="t('pw')"
                   outlined
                   required
+                  type="password"
                 />
               </div>
               <div class="col-3 q-pt-lg">
                 <input type="checkbox" v-model="pwChangeYN" />
-                <label for="guide-checkbox" class="q-pa-sm">Change PW</label>
+                <label for="guide-checkbox" class="q-pa-sm">
+                  {{ t(`changePW`) }}</label
+                >
               </div>
               <div class="col-6">
                 <input-comp
                   v-model="editEmpFormData.empEmail"
                   class="full-width"
                   clearable
-                  label="Personal Email"
+                  :label="t('Pemail')"
                   outlined
                 />
               </div>
@@ -63,7 +67,7 @@
                   v-model="editEmpFormData.empPhone"
                   class="full-width"
                   clearable
-                  label="Phone Number"
+                  :label="t('phone')"
                   outlined
                 />
               </div>
@@ -72,7 +76,7 @@
                   v-model="editEmpFormData.empAddress"
                   class="full-width"
                   clearable
-                  label="Address"
+                  :label="t('address')"
                   outlined
                 />
               </div>
@@ -81,7 +85,7 @@
                   v-model="editEmpFormData.empDob"
                   class="full-width"
                   clearable
-                  label="Date of Birth"
+                  :label="t('dob')"
                   outlined
                 />
               </div>
@@ -90,7 +94,7 @@
                   v-model="editEmpFormData.empMemo"
                   class="full-width"
                   clearable
-                  label="Memo"
+                  :label="t('memo')"
                   outlined
                 />
               </div>
@@ -101,7 +105,7 @@
     </div>
 
     <div class="col-6 q-pl-sm">
-      <card-comp-design title="Work Information">
+      <card-comp-design :title="t('workInfo')">
         <template #content>
           <q-card-section>
             <div class="row q-col-gutter-md">
@@ -110,7 +114,7 @@
                 <select-comp
                   v-model="editEmpFormData.empComp"
                   class="full-width select-comp-padding"
-                  label="Company"
+                  :label="t('compreport')"
                   :options="CompList"
                   outlined
                   required
@@ -120,7 +124,7 @@
                 <select-comp
                   v-model="editEmpFormData.empOffice"
                   class="full-width select-comp-padding"
-                  label="Office"
+                  :label="t('office')"
                   :options="OfficeList"
                   outlined
                   required
@@ -130,7 +134,7 @@
                 <select-comp
                   v-model="editEmpFormData.empDiv"
                   class="full-width select-comp-padding"
-                  label="Division (Department)"
+                  :label="t('divname')"
                   :options="DivisionList"
                   outlined
                   required
@@ -140,7 +144,7 @@
                 <select-comp
                   v-model="editEmpFormData.empTitle"
                   class="full-width select-comp-padding"
-                  label="Job Title"
+                  :label="t('jobTitle')"
                   :options="JobTitleList"
                   outlined
                 />
@@ -149,7 +153,7 @@
                 <select-comp
                   v-model="editEmpFormData.empRole"
                   class="full-width select-comp-padding"
-                  label="Job Role"
+                  :label="t('jobRole')"
                   :options="JobRoleList"
                   outlined
                 />
@@ -158,7 +162,7 @@
                 <select-comp
                   v-model="editEmpFormData.empStatus"
                   class="full-width select-comp-padding"
-                  label="Work Status"
+                  :label="t('empstatus')"
                   :options="WorkStatusList"
                   outlined
                   required
@@ -169,7 +173,7 @@
                   v-model="editEmpFormData.empEmailBook"
                   class="full-width"
                   clearable
-                  label="Booking(Work) Email"
+                  :label="t('email')"
                   outlined
                   required
                 />
@@ -179,7 +183,7 @@
                   v-model="editEmpFormData.empWorkPhone"
                   class="full-width"
                   clearable
-                  label="Work(Extention) Number"
+                  :label="t('workphone')"
                   outlined
                 />
               </div>
@@ -188,7 +192,7 @@
                   v-model="editEmpFormData.empBeginDt"
                   class="full-width"
                   clearable
-                  label="Hire Date"
+                  :label="t('WSD')"
                   outlined
                 />
               </div>
@@ -197,22 +201,22 @@
                   v-model="editEmpFormData.empEndDt"
                   class="full-width"
                   clearable
-                  label="Resign Date"
+                  :label="t('WED')"
                   outlined
                 />
               </div>
               <div class="col-4 q-pt-lg">
                 <input type="checkbox" v-model="guideYN" />
-                <label for="guide-checkbox" class="q-pa-sm"
-                  >Adding Guide?</label
-                >
+                <label for="guide-checkbox" class="q-pa-sm">{{
+                  t(`guideColor`)
+                }}</label>
               </div>
               <div v-if="guideYN" class="col-4">
                 <input-color-comp
                   v-model="editEmpFormData.backColor"
                   class="full-width"
                   clearable
-                  label="Emp Background Colo"
+                  :label="t('bgColor')"
                 />
               </div>
               <div v-if="guideYN" class="col-4">
@@ -220,7 +224,7 @@
                   v-model="editEmpFormData.fontColor"
                   class="full-width"
                   clearable
-                  label="Emp Font(Name) Colo"
+                  :label="t('fontColor')"
                 />
               </div>
             </div>
@@ -233,19 +237,20 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+//Lang
+import i18n from 'src/i18n';
 // Component
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 import InputComp from 'src/components/common/InputComp.vue';
 import SelectComp from 'src/components/common/SelectComp.vue';
 import DatePickerComp from 'src/components/common/DatePickerComp.vue';
 import InputColorComp from 'src/components/common/InputColorComp.vue';
-// Service
-import { CodeService } from 'src/services/CodeService';
 // Type
 import { SelectOption } from 'src/types/SelectOption';
 import { EmpForm } from 'src/types/EmpForm';
 // Helper
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
+import { loadOptionsList } from 'src/utils/commoncode/commonCode';
 
 export default defineComponent({
   name: 'EmpFormDrawerContent',
@@ -263,6 +268,7 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
+    const locale = i18n.global.locale.value;
     const guideYN = ref<boolean>(false);
     const pwChangeYN = ref<boolean>(false);
     const editEmpFormData = ref<EmpForm>(new EmpForm());
@@ -275,66 +281,25 @@ export default defineComponent({
     );
 
     const DivisionList = ref<SelectOption[]>([]);
-    loadDivision();
-    function loadDivision() {
-      CodeService.getGroupCodeForm(19).then((response) => {
-        DivisionList.value = response.map(
-          (x) => new SelectOption(x.codeEn, x.codeUuid)
-        );
-      });
-    }
+    loadOptionsList(19, DivisionList, locale);
 
     const CompList = ref<SelectOption[]>([]);
-    loadCopmany();
-    function loadCopmany() {
-      CodeService.getGroupCodeForm(21).then((response) => {
-        CompList.value = response.map(
-          (x) => new SelectOption(x.codeEn, x.codeUuid)
-        );
-      });
-    }
+    loadOptionsList(21, CompList, locale);
 
     const OfficeList = ref<SelectOption[]>([]);
-    loadOffice();
-    function loadOffice() {
-      CodeService.getGroupCodeForm(2).then((response) => {
-        CompList.value = response.map(
-          (x) => new SelectOption(x.codeEn, x.codeUuid)
-        );
-      });
-    }
+    loadOptionsList(2, OfficeList, locale);
 
     const JobTitleList = ref<SelectOption[]>([]);
-    loadJobTitle();
-    function loadJobTitle() {
-      CodeService.getGroupCodeForm(17).then((response) => {
-        CompList.value = response.map(
-          (x) => new SelectOption(x.codeEn, x.codeUuid)
-        );
-      });
-    }
+    loadOptionsList(17, JobTitleList, locale);
 
     const JobRoleList = ref<SelectOption[]>([]);
-    loadJobRole();
-    function loadJobRole() {
-      CodeService.getGroupCodeForm(18).then((response) => {
-        CompList.value = response.map(
-          (x) => new SelectOption(x.codeEn, x.codeUuid)
-        );
-      });
-    }
+    loadOptionsList(18, JobRoleList, locale);
 
     const WorkStatusList = ref<SelectOption[]>([]);
-    loadWorkStatus();
-    function loadWorkStatus() {
-      CodeService.getGroupCodeForm(15).then((response) => {
-        CompList.value = response.map(
-          (x) => new SelectOption(x.codeEn, x.codeUuid)
-        );
-      });
-    }
+    loadOptionsList(15, WorkStatusList, locale);
 
     return {
+      t: i18n.global.t,
       guideYN,
       pwChangeYN,
       editEmpFormData,

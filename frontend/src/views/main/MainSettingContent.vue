@@ -64,14 +64,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref } from 'vue';
 // Store
-import store from "src/store";
-import router from "src/router";
+import store from 'src/store';
+import router from 'src/router';
 //Component
-import CardCompDesign from "components/common/CardCompDesign.vue";
+import CardCompDesign from 'components/common/CardCompDesign.vue';
 export default defineComponent({
-  name: "MainsettingComp",
+  name: 'MainsettingComp',
   components: {
     CardCompDesign,
   },
@@ -82,12 +82,12 @@ export default defineComponent({
     const showcode = ref<boolean>(false);
 
     showuser.value =
-      store.getters.currentUserHasApplicationPermission("USER_R");
+      store.getters.currentUserHasApplicationPermission('USER_R');
     showoffice.value =
-      store.getters.currentUserHasApplicationPermission("OFFICE_R");
+      store.getters.currentUserHasApplicationPermission('OFFICE_R');
     showreport.value =
-      store.getters.currentUserHasApplicationPermission("REP_R");
-    showcode.value = store.getters.currentUserHasApplicationPermission("COD_R");
+      store.getters.currentUserHasApplicationPermission('REP_R');
+    showcode.value = store.getters.currentUserHasApplicationPermission('COD_R');
     function movetorouter(routername: string) {
       router.push({ path: routername });
     }

@@ -12,7 +12,7 @@
           <q-btn
             color="secondary"
             icon="search"
-            label="Filters"
+            :label="t('search')"
             @click="filterAction"
           >
             <q-badge v-if="filterNumber > 0" color="red" floating>{{
@@ -25,7 +25,7 @@
             v-if="showinsertbutton"
             color="primary"
             icon="add"
-            label="NEW WORKER"
+            :label="t('addnew')"
             outline
             @click="createAction"
           />
@@ -59,6 +59,7 @@
       <emp-search-drawer
         v-model="openSearchDrawer"
         :rowsearchdata="searchdata"
+        :group-names="GroupList"
         @empsearch-reset="resetloadData"
         @empsearch-saved="loadData"
       />
@@ -81,11 +82,13 @@ import { EmpService } from 'src/services/EmpService';
 // Type
 import { EmpForm } from 'src/types/EmpForm';
 import { EmpSearchForm } from 'src/types/EmpSearchForm';
+import { SelectOption } from 'src/types/SelectOption';
 // Store
 import store from 'src/store';
 // Drawer
 import EmpFormDrawer from 'src/views/emp/EmpFormDrawer.vue';
 import EmpSearchDrawer from 'src/views/emp/EmpSearchDrawer.vue';
+import { loadOptionsList } from 'src/utils/commoncode/commonCode';
 
 export default defineComponent({
   name: 'EmpForm',
@@ -191,6 +194,9 @@ export default defineComponent({
       openSearchDrawer.value = true;
     }
 
+    const GroupList = ref<SelectOption[]>([]);
+    loadOptionsList(19, GroupList, locale);
+
     return {
       t: i18n.global.t,
       gridOptions,
@@ -211,6 +217,7 @@ export default defineComponent({
       filterNumber,
       showinsertbutton,
       frameworkComponents,
+      GroupList,
     };
   },
   data() {

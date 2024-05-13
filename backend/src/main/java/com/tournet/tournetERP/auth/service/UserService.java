@@ -61,11 +61,17 @@ public class UserService {
                     userResponse.setEmpEng(user.getEmpEng());
                     userResponse.setEmpImg(user.getEmpImg());
                     userResponse.setEmpDivName(fetchCodeUtil.fetchCodeKr(user.getEmpDiv()));
+                    userResponse.setEmpDivNameEn(fetchCodeUtil.fetchCodeEn(user.getEmpDiv()));
                     userResponse.setEmpTitleName(fetchCodeUtil.fetchCodeKr(user.getEmpTitle()));
+                    userResponse.setEmpTitleNameEn(fetchCodeUtil.fetchCodeEn(user.getEmpTitle()));
                     userResponse.setEmpRoleName(fetchCodeUtil.fetchCodeKr(user.getEmpRole()));
+                    userResponse.setEmpRoleNameEn(fetchCodeUtil.fetchCodeEn(user.getEmpRole()));
                     userResponse.setEmpStatusName(fetchCodeUtil.fetchCodeKr(user.getEmpStatus()));
+                    userResponse.setEmpStatusNameEn(fetchCodeUtil.fetchCodeEn(user.getEmpStatus()));
                     userResponse.setEmpCountryName(fetchCodeUtil.fetchCodeKr(user.getEmpOffice()));
-                    userResponse.setEmpCountryName(fetchCodeUtil.fetchCodeKr(user.getEmpComp()));
+                    userResponse.setEmpCountryNameEn(fetchCodeUtil.fetchCodeEn(user.getEmpOffice()));
+                    userResponse.setEmpCompName(fetchCodeUtil.fetchCodeKr(user.getEmpComp()));
+                    userResponse.setEmpCompNameEn(fetchCodeUtil.fetchCodeEn(user.getEmpComp()));
                     userResponse.setEmpDiv(user.getEmpDiv());
                     userResponse.setEmpTitle(user.getEmpTitle());
                     userResponse.setEmpRole(user.getEmpRole());

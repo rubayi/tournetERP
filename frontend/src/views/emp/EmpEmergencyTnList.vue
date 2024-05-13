@@ -12,7 +12,7 @@
         <q-btn
           v-if="showinsertbutton"
           icon="add"
-          label="New Emergency Contact"
+          :label="t('addnew')"
           style="color: darkgreen"
           @click="createAction"
         />
@@ -78,10 +78,9 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const locale = i18n.global.locale.value;
     const openDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
-    const columns = EmpEmergencyFormTableConfig.getColumns(locale);
+    const columns = EmpEmergencyFormTableConfig.getColumns();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const frameworkComponents: { [key: string]: any } =
       EmpEmergencyFormTableConfig.frameworkComponents;

@@ -4,15 +4,19 @@
       <div class="row q-mb-none">
         <div class="col q-pr-md">
           <span class="part_title text-primary">
-            <i class="fas fa-cogs q-ml-xs q-mr-md"></i>
-            Manage Credit Card
+            <q-icon
+              name="credit_card"
+              class="q-ml-xs q-mr-sm"
+              size="sm"
+            ></q-icon>
+            {{ t(`manageCreditcard`) }}
           </span>
         </div>
         <div class="col-2 text-right q-pr-md">
           <q-btn
             color="secondary"
             icon="search"
-            label="Filters"
+            :label="t('search')"
             @click="filterAction"
           >
             <q-badge v-if="filterNumber > 0" color="red" floating>{{
@@ -25,7 +29,7 @@
             v-if="showinsertbutton"
             color="primary"
             icon="add"
-            label="NEW CARD"
+            :label="t('addnew')"
             outline
             @click="createAction"
           />
@@ -152,7 +156,6 @@ export default defineComponent({
           if (response) {
             data.value = response;
           }
-
         });
       }
     }

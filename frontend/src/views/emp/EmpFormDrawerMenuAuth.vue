@@ -1,18 +1,18 @@
 <template>
-  <card-comp-design title="Employer Authoroties" class="q-pt-md">
+  <card-comp-design :title="t('userAuth')" class="q-pt-md">
     <template #content>
       <div id="emp-form-drawer-menu-content">
         <q-scroll-area style="height: 600px; min-width: 75%">
           <div class="row justify-end">
             <q-btn
               class="q-mr-md"
-              label="Select All"
+              :label="t('selectAll')"
               @click="selectAll"
               style="color: darkgreen"
             />
             <q-btn
               class="q-mr-md"
-              label="Clear All"
+              :label="t('clearAll')"
               @click="unselectAll"
               style="color: darkred"
             />
@@ -39,7 +39,9 @@
                               padding-bottom: 5px;
                             "
                           >
-                            {{ '권한 ' + groupIndex }}</q-item-label
+                            {{
+                              t(`authGroup`) + ' ' + groupIndex
+                            }}</q-item-label
                           >
                           <!-- Render menu items for the current group -->
                           <template
@@ -57,7 +59,7 @@
                                 "
                               />
                               <q-item-label>{{
-                                authItem.menuAuthName
+                                menuAuthName(authItem)
                               }}</q-item-label>
                             </div>
                           </template>
@@ -80,6 +82,8 @@ import { defineComponent, ref, watch } from 'vue';
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 // Type
 import { MenuAuthForm } from 'src/types/MenuAuthForm';
+//Lang
+import i18n from 'src/i18n';
 
 export default defineComponent({
   name: 'EmpFormDrawerMenuAuth',
@@ -103,6 +107,12 @@ export default defineComponent({
   setup(props, { emit }) {
     const authList = ref(props.modelValue);
     const authListEmpId = ref(props.dataVal);
+
+    const menuAuthName = (authItem: MenuAuthForm) => {
+      return i18n.global.locale.value === 'en'
+        ? authItem.menuAuthNameEng
+        : authItem.menuAuthName;
+    };
 
     watch(
       () => props.modelValue,
@@ -155,11 +165,13 @@ export default defineComponent({
     };
 
     return {
+      t: i18n.global.t,
       authList,
       handleCheckboxChange,
       selectAll,
       isChecked,
       unselectAll,
+      menuAuthName,
     };
   },
 });

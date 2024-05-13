@@ -71,7 +71,7 @@ export class EmpFormTableConfig {
         cellStyle: { 'text-align': 'center' },
       },
       {
-        field: 'empComp',
+        field: locale === 'en' ? 'empCompEn' : 'empComp',
         headerName: i18n.global.t('empcompname'),
         minWidth: 110,
         maxWidth: 140,
@@ -80,7 +80,7 @@ export class EmpFormTableConfig {
         cellStyle: { 'text-align': 'center' },
       },
       {
-        field: 'empDivName',
+        field: locale === 'en' ? 'empDivNameEn' : 'empDivName',
         headerName: i18n.global.t('divname'),
         minWidth: 110,
         maxWidth: 140,
@@ -89,10 +89,10 @@ export class EmpFormTableConfig {
         cellStyle: { 'text-align': 'center' },
       },
       {
-        field: 'empStatusName',
+        field: locale === 'en' ? 'empStatusNameEn' : 'empStatusName',
         headerName: i18n.global.t('empstatus'),
         minWidth: 70,
-        maxWidth: 100,
+        maxWidth: 120,
         sortable: true,
         filter: true,
         cellStyle: { 'text-align': 'center' },

@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <div class="home-text">
+    <!-- <div class="home-text">
       <div class="q-my-none text-center">
         TOURNET ERP
       </div>
@@ -8,7 +8,7 @@
       <div class="q-my-none text-center home-subtext">
         Tournet Hawaii, Department of IT
       </div>
-    </div>
+    </div> -->
     <div class="logo-container">
       <img alt="Tournet Hawaii" src="img/mainlogo.png" />
     </div>
@@ -16,13 +16,13 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import router from "src/router";
+import { defineComponent } from 'vue';
+import router from 'src/router';
 
 export default defineComponent({
-  name: "LandingPage",
+  name: 'LandingPage',
   setup() {
-    setTimeout(() => router.push({ path: "/comcode" }), 3000);
+    setTimeout(() => router.push({ path: '/comcode' }), 3000);
   },
 });
 </script>

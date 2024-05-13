@@ -1,5 +1,5 @@
 <template>
-  <card-comp-design title="Code Filters">
+  <card-comp-design :title="t('subSearchTitle')">
     <template #content>
       <q-card-section>
         <div class="row q-col-gutter-md">
@@ -7,7 +7,7 @@
             <select-comp
               v-model="editcodesearchData.searchUprCodeUuid"
               class="full-width"
-              label="Code Group"
+              :label="t('byGroup')"
               :options="code1group"
               outlined
             />
@@ -17,7 +17,7 @@
               v-model="editcodesearchData.searchCodeKr"
               class="full-width"
               clearable
-              label="Code Name"
+              :label="t('byCodeEn')"
               outlined
               required
             />
@@ -29,22 +29,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref } from 'vue';
 //Component
-import CardCompDesign from "src/components/common/CardCompDesign.vue";
-import InputComp from "src/components/common/InputComp.vue";
-import SelectComp from "src/components/common/SelectComp.vue";
+import CardCompDesign from 'src/components/common/CardCompDesign.vue';
+import InputComp from 'src/components/common/InputComp.vue';
+import SelectComp from 'src/components/common/SelectComp.vue';
 
 //Service
-import { CodeService } from "src/services/CodeService";
-import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
+import { CodeService } from 'src/services/CodeService';
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
 //Type
-import { SelectOption } from "src/types/SelectOption";
-import { CodeSearchForm } from "src/types/CodeSearchForm";
+import { SelectOption } from 'src/types/SelectOption';
+import { CodeSearchForm } from 'src/types/CodeSearchForm';
+
+import i18n from 'src/i18n';
 
 export default defineComponent({
-  name: "CodeSearchFormDrawerContent",
+  name: 'CodeSearchFormDrawerContent',
   components: {
     InputComp,
     SelectComp,
@@ -60,9 +62,9 @@ export default defineComponent({
     const editcodesearchData = ref<CodeSearchForm>();
     useSyncModelValue(
       props,
-      "modelValue",
+      'modelValue',
       emit,
-      "update:modelValue",
+      'update:modelValue',
       editcodesearchData
     );
 
@@ -77,6 +79,7 @@ export default defineComponent({
       });
     }
     return {
+      t: i18n.global.t,
       editcodesearchData,
       code1group,
     };

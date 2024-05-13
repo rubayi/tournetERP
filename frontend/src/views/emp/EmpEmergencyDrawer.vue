@@ -7,6 +7,9 @@
       center-title
       :confirm-button-color="confirmbuttoncolor"
       :confirm-button-label="confirmbuttonlabel"
+      :delete-button-label="deletebuttonlabel"
+      :cancel-button-label="cancelbuttonlabel"
+      :reset-button-label="resetbuttonlabel"
       :confirm-icon="confirmicon"
       icon-title="person"
       :show-confirm-button="showconfirmbutton"
@@ -14,7 +17,7 @@
       :show-print-button="false"
       side="right"
       :title="title"
-      :width="70"
+      :width="30"
       @cancel-clicked="closeDrawer"
       @confirm-clicked="saveUpdatedEmpData"
       @delete-clicked="openDeleteConfirm = true"
@@ -31,13 +34,13 @@
   </div>
   <dialog-comp
     v-model="openDeleteConfirm"
-    action-button-label="Delete"
+    :action-button-label="deletebuttonlabel"
     max-width="500px"
-    modal-title="Delete Employee"
+    :modal-title="deleteTitle"
     @confirm-clicked="deleteEmpForm"
   >
     <template #htmlContent>
-      <div>Are you sure you want to <b>PERMANENTLY DELETE</b> this Data?</div>
+      <div>{{ t('deleteconfirmmsg') }}</div>
     </template>
   </dialog-comp>
 </template>
@@ -56,6 +59,7 @@ import { EmergencyForm } from 'src/types/EmergencyForm';
 // Store
 import store from 'src/store';
 //helper
+import i18n from 'src/i18n';
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 
 export default defineComponent({
@@ -87,12 +91,16 @@ export default defineComponent({
     'emerform-drawer-closed',
   ],
   setup(props, { emit }) {
-    const title = 'Manage Emergency Contancts';
+    const title = i18n.global.t('emerContact');
     const emergencyForm = ref<EmergencyForm>(new EmergencyForm());
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
-    const confirmbuttonlabel = ref<string>('ADD');
+    const confirmbuttonlabel = ref<string>(i18n.global.t('change'));
+    const deletebuttonlabel = ref<string>(i18n.global.t('delete'));
+    const deleteTitle = ref<string>(i18n.global.t('deleteTitle'));
+    const resetbuttonlabel = ref<string>(i18n.global.t('reset'));
+    const cancelbuttonlabel = ref<string>(i18n.global.t('cancel'));
     const confirmicon = ref<string>('fas fa-plus');
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
@@ -120,7 +128,7 @@ export default defineComponent({
       emergencyForm.value = new EmergencyForm();
       if (props.empSeq != 0) {
         confirmbuttoncolor.value = 'warning';
-        confirmbuttonlabel.value = 'CHANGE';
+        confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = 'edit';
         showconfirmbutton.value =
           store.getters.currentUserHasApplicationPermission('CODE_W');
@@ -128,7 +136,7 @@ export default defineComponent({
           store.getters.currentUserHasApplicationPermission('CODE_D');
       } else {
         confirmbuttoncolor.value = 'primary';
-        confirmbuttonlabel.value = 'ADD';
+        confirmbuttonlabel.value = i18n.global.t('add');
         confirmicon.value = 'add';
         showconfirmbutton.value =
           store.getters.currentUserHasApplicationPermission('CODE_W');
@@ -159,7 +167,7 @@ export default defineComponent({
         EmergencyService.saveEmerForm(emergencyForm.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
-              `Employer  " ${response.emerName} " saved.`
+              i18n.global.t('saved')
             );
             if (props.empSeq != 0) {
               emit('emerform-saved', response);
@@ -190,9 +198,7 @@ export default defineComponent({
       EmergencyService.deleteEmerForm(props.empSeq)
         .then((response) => {
           notificationHelper.createSuccessNotification(
-            `Employer  ${
-              emergencyForm.value ? emergencyForm.value.emerName : ''
-            } deleted`
+            i18n.global.t('deletesucess')
           );
           emit('emerform-deleted', response);
           closeDrawer();
@@ -215,12 +221,17 @@ export default defineComponent({
     }
 
     return {
+      t: i18n.global.t,
       title,
       emergencyForm,
       loading,
       openDrawer,
       confirmbuttoncolor,
       confirmbuttonlabel,
+      deletebuttonlabel,
+      deleteTitle,
+      resetbuttonlabel,
+      cancelbuttonlabel,
       confirmicon,
       showconfirmbutton,
       showdeletebutton,

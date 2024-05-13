@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import store from 'src/store';
 import NavigationDrawer from 'src/components/navigation/NavigationDrawer.vue';
 import router from 'src/router';
@@ -58,10 +58,19 @@ export default defineComponent({
     const currentUserIsLoggedIn = ref(false);
 
     if (store.state.currentUser) {
-      currentUserIsLoggedIn.value = true;
-      // const currentUserIsLoggedIn = computed(() => {
-      //   return store.getters.currentUserIsLoggedIn;
-      // });
+      watch(
+        () => store.state.currentUser,
+        (newVal) => {
+          if (newVal) {
+            if (newVal.username != '') {
+              currentUserIsLoggedIn.value = true;
+            }
+          } else {
+            currentUserIsLoggedIn.value = false;
+          }
+        },
+        { immediate: true }
+      );
     } else {
       router.push({ path: '/Login' });
     }

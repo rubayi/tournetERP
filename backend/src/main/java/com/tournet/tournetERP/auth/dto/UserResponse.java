@@ -80,16 +80,34 @@ public class UserResponse {
 
     private String empWorkTypeName = "";
 
+    private String empWorkTypeNameEn = "";
+
     private String empDivName = "";
+
+    private String empDivNameEn = "";
 
     private String empTitleName = "";
 
+    private String empTitleNameEn = "";
+
     private String empRoleName = "";
+
+    private String empRoleNameEn = "";
 
     private List<EmpMenuAuth> menuAuths;
 
     private String empCountryName = "";
+
+    private String empCountryNameEn = "";
+
     private String empDobTypeName = "";
+
+    private String empCompName = "";
+
+    private String empCompNameEn = "";
+
     private String empStatusName = "";
+    
+    private String empStatusNameEn = "";
 
 }
