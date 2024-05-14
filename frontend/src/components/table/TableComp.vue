@@ -3,6 +3,7 @@
     class="ag-theme-alpine grid"
     :column-defs="columnDefs"
     :context="context"
+    :grid-options="internalGridOptions"
     :style="{ width: '100%', height: gridHeight, overflow: 'auto' }"
     :overlay-loading-template="overlayLoadingTemplate"
     :pagination="pagination"
@@ -20,6 +21,7 @@
     @sort-changed="sortChanged"
     ref="agGrid"
   />
+
 </template>
 
 <script lang="ts">
@@ -29,10 +31,12 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useTableApi } from 'src/utils/helpers/useTableApi';
 import { defineComponent, ref, watch } from 'vue';
-interface InternalGridOptions {
-  api?: {
-    setRowData: (rowData: unknown[]) => void;
-  };
+import i18n from "src/i18n";
+import {GridOptions as AgGridOptions} from "ag-grid-community/dist/types/core/entities/gridOptions";
+
+interface CustomGridOptions extends AgGridOptions {
+    gridApi?: any; // Update this with the correct type of gridApi if available
+
 }
 export default defineComponent({
   name: 'TableComp',
@@ -111,19 +115,18 @@ export default defineComponent({
   },
   emits: ['grid-ready', 'filterChanged', 'selectionChanged', 'sortChanged'],
   setup(props, { emit }) {
+
     const getRowHeight = () => {
       return 45;
     };
-    // const defaultColDef = {
-    //   flex: 1,
-    // };
-    const internalGridOptions = ref<InternalGridOptions>({});
+
+    const internalGridOptions = ref<CustomGridOptions | null>(null);
 
     watch(
-      () => props.rowData,
-      (newVal) => {
-        if (internalGridOptions.value.api && newVal) {
-          internalGridOptions.value.api.setRowData(newVal);
+      () => props.rowData as AgGridOptions<any>,
+      (newVal: AgGridOptions) => {
+        if (internalGridOptions.value && newVal) {
+          internalGridOptions.value.gridApi.setRowData(newVal);
         }
       },
       { immediate: true, deep: true }
@@ -174,6 +177,7 @@ export default defineComponent({
     } = useTableApi(props, emit, internalGridOptions);
 
     return {
+      t: i18n.global.t,
       getRowHeight,
       internalGridOptions,
       filterChanged,

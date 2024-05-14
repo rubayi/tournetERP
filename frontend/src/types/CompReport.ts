@@ -1,21 +1,21 @@
 import { CompForm } from "src/types/CompForm";
 
-export interface IReportVO {
+export interface IReport {
   title: string;
 }
 
-export interface IListReportVO {
+export interface IListReport {
   sort: string;
   filter: string;
 }
 
-export class CompListReportVO implements IReportVO, IListReportVO {
+export class CompListReport implements IReport, IListReport {
   public title: string;
   public sort: string;
   public filter: string;
   public data: CompForm[];
 
-  constructor(obj?: CompListReportVO) {
+  constructor(obj?: CompListReport) {
     this.title = (obj && obj.title) || "";
     this.sort = (obj && obj.sort) || "";
     this.filter = (obj && obj.filter) || "";

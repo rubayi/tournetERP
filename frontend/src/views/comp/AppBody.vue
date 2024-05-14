@@ -108,7 +108,7 @@ import { defineComponent, ref, watch } from 'vue';
 //Lang
 import i18n from 'src/i18n';
 // Table
-import { GridOptions } from 'ag-grid-community';
+import { GridOptions  as AgGridOptions } from 'ag-grid-community';
 import { CompFormTableConfig } from 'src/views/comp/CompFormTableConfig';
 import TableComp from 'src/components/table/TableComp.vue';
 import { TableHelper } from 'src/components/table/TableHelper';
@@ -120,7 +120,7 @@ import { ReportService } from 'src/services/CompReportService';
 //Type
 import { CompForm } from 'src/types/CompForm';
 import { CompSearchForm } from 'src/types/CompSearchForm';
-import { CompListReportVO } from 'src/types/CompReportVO';
+import { CompListReport } from 'src/types/CompReport';
 import { SelectOption } from 'src/types/SelectOption';
 // Store
 import store from 'src/store';
@@ -133,6 +133,11 @@ import { CdcdSearchForm } from 'src/types/CdcdSearchForm';
 import CompSearchDrawer from 'src/views/comp/CompSearchDrawer.vue';
 
 import { loadOptionsList } from 'src/utils/commoncode/commonCode';
+
+interface CustomGridOptions extends AgGridOptions {
+  gridApi?: any; // Update this with the correct type of gridApi if available
+
+}
 export default defineComponent({
   name: 'CompForm',
   components: {
@@ -155,7 +160,7 @@ export default defineComponent({
     const searchdata = ref<CompSearchForm>(new CompSearchForm());
     const compformGrid = ref();
     const compUuid = ref<number>(0);
-    const gridOptions = ref<GridOptions>({});
+    const gridOptions = ref<CustomGridOptions | null>(null);
     var filterNumber = ref<number>(0);
     const showinsertbutton = ref<boolean>(false);
     const showexportbutton = ref<boolean>(false);
@@ -236,6 +241,12 @@ export default defineComponent({
           loading.value = false;
           compUuid.value = 0;
           data.value = response;
+          if (compformGrid.value && compformGrid.value.api) {
+            if (!gridOptions.value) {
+              gridOptions.value = {};
+            }
+            gridOptions.value.gridApi = compformGrid.value.api;
+          }
         });
         //printcodeValue();
       }
@@ -244,15 +255,7 @@ export default defineComponent({
     function resetLoadData() {
       searchdata.value = new CompSearchForm();
     }
-    watch(loading, (loading) => {
-      if (gridOptions.value.api) {
-        if (loading) {
-          // gridOptions.value.api.showLoadingOverlay();
-        } else {
-          // gridOptions.value.api.hideOverlay();
-        }
-      }
-    });
+
 
     /* New */
     function createAction() {
@@ -274,7 +277,7 @@ export default defineComponent({
     /* Detail Export PDF */
     function exportAction() {
       const exportFilename = i18n.global.t('compreport');
-      const listReportVO: CompListReportVO = {
+      const listReport: CompListReport = {
         title: '',
         sort: compformGrid.value.getExportSortString(reportHeaderMap),
         filter: compformGrid.value.getExportFilterString(reportHeaderMap),
@@ -282,14 +285,14 @@ export default defineComponent({
       };
       ReportHelper.exportEXCELData(
         exportFilename,
-        listReportVO,
+        listReport,
         ReportService.getCompListReport
       );
     }
     /* Detail Export PDF */
     function printAction() {
       const exportFilename = i18n.global.t('compreport');
-      const listReportVO: CompListReportVO = {
+      const listReport: CompListReport = {
         title: '',
         sort: compformGrid.value.getExportSortString(reportHeaderMap),
         filter: compformGrid.value.getExportFilterString(reportHeaderMap),
@@ -297,7 +300,7 @@ export default defineComponent({
       };
       ReportHelper.exportPDFData(
         exportFilename,
-        listReportVO,
+        listReport,
         ReportService.getCompListPdfReport
       );
     }

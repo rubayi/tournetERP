@@ -1,12 +1,12 @@
 import { ReportService, ReportURL } from 'src/services/CompReportService';
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 import FileHelper from 'src/utils/helpers/FileHelper';
-import { IReportVO } from 'src/types/CompReportVO';
+import { IReport } from 'src/types/CompReport';
 
 function exportEXCELData(
   exportFilename: string,
-  reportVO: IReportVO,
-  reportService: (reportVO: IReportVO) => Promise<ArrayBuffer>
+  reportVO: IReport,
+  reportService: (reportVO: IReport) => Promise<ArrayBuffer>
 ): void {
   notificationHelper.dismiss();
 
@@ -34,8 +34,8 @@ function exportEXCELData(
 
 function exportPDFData(
   exportFilename: string,
-  reportVO: IReportVO,
-  reportService: (reportVO: IReportVO) => Promise<ArrayBuffer>
+  reportVO: IReport,
+  reportService: (reportVO: IReport) => Promise<ArrayBuffer>
 ): void {
   notificationHelper.dismiss();
 

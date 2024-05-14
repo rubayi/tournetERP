@@ -81,7 +81,7 @@ import { ReportService } from 'src/services/CompReportService';
 
 // Types
 import { CompForm } from 'src/types/CompForm';
-import { CompListReportVO } from 'src/types/CompReportVO';
+import { CompListReport } from 'src/types/CompReport';
 import { SelectOption } from 'src/types/SelectOption';
 
 // Store
@@ -311,8 +311,8 @@ export default defineComponent({
     /* Detail Export PDF */
     function printedonecompData() {
       const exportFilename = i18n.global.t('compreport');
-      const listReportVO: CompListReportVO = {
-        title: '',
+      const listReportVO: CompListReport = {
+        title: 'aaa',
         sort: '',
         filter: '',
         data: printdata.value,
