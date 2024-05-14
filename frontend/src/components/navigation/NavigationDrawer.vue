@@ -10,12 +10,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import NavigationMenu from "src/components/navigation/NavigationMenu.vue";
-import UserInfo from "src/components/navigation/UserInfo.vue";
+import { defineComponent } from 'vue';
+import NavigationMenu from 'src/components/navigation/NavigationMenu.vue';
+import UserInfo from 'src/components/navigation/UserInfo.vue';
 
 export default defineComponent({
-  name: "NavigationDrawer",
+  name: 'NavigationDrawer',
   components: { NavigationMenu, UserInfo },
 });
 </script>
@@ -23,8 +23,9 @@ export default defineComponent({
 <style type="text/scss" lang="scss">
 #navigation-drawer {
   overflow: hidden;
+  color: rgb(25, 25, 25);
   .navigation-menu-container {
-    overflow: "hidden";
+    overflow: 'hidden';
     height: calc(100% - 70px);
   }
 }

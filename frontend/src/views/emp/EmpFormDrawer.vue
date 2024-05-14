@@ -23,24 +23,42 @@
       @delete-clicked="openDeleteConfirm = true"
       ref="drawerComp"
     >
-      <div class="q-pa-md">
-        <emp-form-drawer-content
-          v-model="empformData"
-          ref="empFormDrawerContent"
-        />
-        <emp-form-drawer-menu-auth
-          v-if="empformData.empUuid"
-          v-model="menuAuthList"
-          ref="empFormDrawerMenuAuth"
-          :data-val="checkedAuthUuids"
-          :menu-max="menuMax"
-          @update:authListEmpId="(newVal) => (checkedAuthUuids = newVal)"
-        />
-        <emp-emergency-tn-list
-          v-if="empformData.empUuid"
-          :emp-uuid="empformData.empUuid"
-          ref="empEmergencyTnList"
-        />
+      <div>
+        <q-tabs v-model="tab">
+          <q-tab name="content" label="Content" />
+          <q-tab name="menuAuth" label="Menu Auth" v-if="empformData.empUuid" />
+          <q-tab
+            name="emergencyTn"
+            label="Emergency TN"
+            v-if="empformData.empUuid"
+          />
+        </q-tabs>
+
+        <q-tab-panels v-model="tab">
+          <q-tab-panel name="content">
+            <emp-form-drawer-content
+              v-model="empformData"
+              ref="empFormDrawerContent"
+            />
+          </q-tab-panel>
+
+          <q-tab-panel name="menuAuth">
+            <emp-form-drawer-menu-auth
+              v-model="menuAuthList"
+              ref="empFormDrawerMenuAuth"
+              :data-val="checkedAuthUuids"
+              :menu-max="menuMax"
+              @update:authListEmpId="(newVal) => (checkedAuthUuids = newVal)"
+            />
+          </q-tab-panel>
+
+          <q-tab-panel name="emergencyTn">
+            <emp-emergency-tn-list
+              :emp-uuid="empformData.empUuid"
+              ref="empEmergencyTnList"
+            />
+          </q-tab-panel>
+        </q-tab-panels>
       </div>
     </drawer-comp>
   </div>
@@ -128,6 +146,7 @@ export default defineComponent({
     const empformDrawerMenuAuth = ref();
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
+    const tab = ref<string>('content');
 
     watch(
       () => props.modelValue,
@@ -313,6 +332,7 @@ export default defineComponent({
 
     return {
       t: i18n.global.t,
+      tab,
       title,
       empformData,
       empAuthFormDatas,

@@ -10,6 +10,7 @@
       @click="goToExternalLink"
       @mouseout="setListMouseOver(false)"
       @mouseover="setListMouseOver(true)"
+      style="padding-left: 30px"
     >
       <q-item-section v-if="icon" avatar>
         <q-icon :name="icon" size="xs" />
@@ -59,6 +60,7 @@ import { defineComponent, computed, ref, watch } from 'vue';
 import ListComp from 'src/components/list/ListComp.vue';
 import MenuComp from 'src/components/list/MenuComp.vue';
 import router from 'src/router';
+import { MenuForm } from 'src/types/MenuForm';
 
 export default defineComponent({
   name: 'ItemComp',
@@ -81,7 +83,7 @@ export default defineComponent({
       default: '',
     },
     menuOptions: {
-      type: Array,
+      type: Array as () => MenuForm[],
       default: () => [],
     },
     openMenuOnHover: {

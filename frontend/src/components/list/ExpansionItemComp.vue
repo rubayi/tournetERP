@@ -25,7 +25,7 @@ export default defineComponent({
     },
     expandIcon: {
       type: String,
-      default: "expand_more",
+      default: 'expand_more',
     },
     focused: {
       type: Boolean,
@@ -33,17 +33,34 @@ export default defineComponent({
     },
     icon: {
       type: String,
-      default: "",
+      default: '',
     },
     label: {
       type: String,
-      default: "",
+      default: '',
     },
   },
 });
 </script>
 
 <style type="text/scss" lang="scss">
+// #expansion-item-comp {
+//   .focused.q-expansion-item
+//     .q-expansion-item__container
+//     > .q-item:first-of-type {
+//     font-weight: bold;
+//     font-size: 110%;
+//     color: black;
+//   }
+
+//   .expanded.q-expansion-item
+//     .q-expansion-item__container
+//     > .q-item:first-of-type
+//     > .q-focus-helper {
+//     background: currentColor !important;
+//     opacity: 0.15 !important;
+//   }
+// }
 #expansion-item-comp {
   .focused.q-expansion-item
     .q-expansion-item__container

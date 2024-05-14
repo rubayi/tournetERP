@@ -1,6 +1,6 @@
 <template>
   <q-scroll-area style="height: calc(100%); border-right: 1px solid #ddd">
-    <list-comp  id="navigation-menu" padding>
+    <list-comp id="navigation-menu" padding>
       <div v-for="item in menuOptionsWithPathHighlighted" :key="item.menuUuid">
         <q-item-label v-if="item.headerLabel" header>
           {{ item.headerLabel }}
@@ -13,6 +13,7 @@
           :label="item.label"
         >
           <item-comp
+            class="item-comp"
             v-for="child in item.children"
             :external-u-r-l="child.exUrl"
             :focused="child?.focused"
@@ -20,7 +21,7 @@
             :icon="child.icon"
             :label="child.label"
             :menu-options="child.children"
-            :open-menu-on-hover="child.children?.length > 0"
+            :open-menu-on-hover="child.children && child.children.length > 0"
             :to="child.link"
             :key="child.menuUuid"
           />
@@ -32,7 +33,7 @@
           :icon="item.icon"
           :label="item.label"
           :menu-options="item.children"
-          :open-menu-on-hover="item.children?.length > 0"
+          :open-menu-on-hover="item.children && item.children.length > 0"
           :to="item.link"
           :key="item.menuUuid"
         />
@@ -42,37 +43,39 @@
 </template>
 
 <script lang="ts">
-import { ref, Ref, computed, defineComponent, watch } from "vue";
-import { useRoute } from "vue-router";
-import store from "src/store";
-import ItemComp from "src/components/list/ItemComp.vue";
-import ListComp from "src/components/list/ListComp.vue";
-import ExpansionItemComp from "src/components/list/ExpansionItemComp.vue";
-import {MenuService} from "src/services/MenuService";
-import {MenuForm} from "src/types/MenuForm";
-import i18n from "src/i18n";
+import { ref, Ref, computed, ComputedRef, defineComponent, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import store from 'src/store';
+import ItemComp from 'src/components/list/ItemComp.vue';
+import ListComp from 'src/components/list/ListComp.vue';
+import ExpansionItemComp from 'src/components/list/ExpansionItemComp.vue';
+import { MenuService } from 'src/services/MenuService';
+import { MenuForm } from 'src/types/MenuForm';
+import i18n from 'src/i18n';
 
 export default defineComponent({
-  name: "NavigationMenu",
+  name: 'NavigationMenu',
   components: { ExpansionItemComp, ListComp, ItemComp },
   setup() {
     const route = useRoute();
-    const t  = i18n;
-    interface MenuOption {
-      menuUuid: number;
-      label: string;
-      expandChildren: boolean;
-      icon: string;
-      children: Array<MenuOption>;
-      focused: boolean;
-      link: string;
-      upperMenuUuid: number;
-      caption: string;
-    }
+    // interface MenuOption {
+    //   menuUuid: number;
+    //   label: string;
+    //   expandChildren: boolean;
+    //   icon: string;
+    //   children: Array<MenuOption>;
+    //   focused: boolean;
+    //   link: string;
+    //   upperMenuUuid: number;
+    //   caption: string;
+    // }
 
     const menuOptions: Ref<MenuForm[]> = ref([]);
 
-    function buildComMenuTree(menuItems: MenuForm[], parentUuid: number): any[] {
+    function buildComMenuTree(
+      menuItems: MenuForm[],
+      parentUuid: number
+    ): any[] {
       const filteredComMenus = menuItems.filter(
         (menu) => menu.upperMenuUuid === parentUuid
       );
@@ -81,7 +84,7 @@ export default defineComponent({
         menuUuid: menu.menuUuid,
         expandChildren: true,
         upperMenuUuid: menu.upperMenuUuid,
-        icon: menu.menuIcon ? menu.menuIcon : "label",
+        icon: menu.menuIcon ? menu.menuIcon : 'label',
         label: getMenuLabel(menu),
         link: menu.menuUrl,
         caption: menu.menuDesc,
@@ -90,20 +93,17 @@ export default defineComponent({
     }
 
     function setMenuOptions() {
-
       let menuReq = {
-        role: "ROLE_USER",
+        role: 'ROLE_USER',
       };
-      if(store.getters.currentUserHasApplicationRole("ROLE_ADMIN")){
-
-        menuReq.role = "ROLE_ADMIN";
+      if (store.getters.currentUserHasApplicationRole('ROLE_ADMIN')) {
+        menuReq.role = 'ROLE_ADMIN';
       }
       MenuService.getAll(menuReq).then((response: MenuForm[]) => {
-        let rawMenuOption:  MenuForm[];
+        let rawMenuOption: MenuForm[];
         if (response) {
           rawMenuOption = response;
           menuOptions.value = buildComMenuTree(rawMenuOption, 0);
-
         }
         // if (gridOptions.value.columnApi) {
         //   gridOptions.value.columnApi.applyColumnState({
@@ -111,18 +111,17 @@ export default defineComponent({
         //   });
         // }
       });
-
     }
 
     function getMenuLabel(menu: MenuForm): string {
       const locale = i18n.global.locale.value;
-      if (locale === "en" && menu.menuEng !== null) {
+      if (locale === 'en' && menu.menuEng !== null) {
         return menu.menuEng;
       } else if (menu.menuKor !== null) {
         return menu.menuKor;
       } else {
         // Handle the case when both menuKor and menuEng are null
-        return "";
+        return '';
       }
     }
 
@@ -130,21 +129,22 @@ export default defineComponent({
       () => store.state.currentUser,
       () => {
         setMenuOptions();
-
       },
       { deep: true, immediate: true }
     );
 
-    const menuOptionsWithPathHighlighted = computed(() => {
-      const path = route.fullPath;
-      const optionsWithPath = menuOptions.value;
+    const menuOptionsWithPathHighlighted: ComputedRef<MenuForm[]> = computed(
+      () => {
+        const path = route.fullPath;
+        const optionsWithPath = menuOptions.value;
 
-      //setFocusForOptionWithPath(optionsWithPath, path);
-      return path !== "/not-found" ? optionsWithPath : menuOptions;
-    });
+        setFocusForOptionWithPath(optionsWithPath, path);
+        return path !== '/not-found' ? optionsWithPath : menuOptions.value;
+      }
+    );
 
     function setFocusForOptionWithPath(
-      options: Array<MenuOption>,
+      options: Array<MenuForm>,
       path: string
     ): boolean {
       let foundOption = false;
@@ -154,6 +154,7 @@ export default defineComponent({
           option.focused = true;
           break;
         } else if (
+          option.children &&
           option?.children?.length > 0 &&
           setFocusForOptionWithPath(option.children, path)
         ) {
@@ -172,4 +173,8 @@ export default defineComponent({
 });
 </script>
 
-<style type="text/scss" lang="scss"></style>
+<style type="text/scss" lang="scss">
+.item-comp {
+  background-color: rgb(240, 240, 240);
+}
+</style>
