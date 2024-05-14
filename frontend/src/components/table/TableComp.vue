@@ -3,7 +3,6 @@
     class="ag-theme-alpine grid"
     :column-defs="columnDefs"
     :context="context"
-    :grid-options="internalGridOptions"
     :style="{ width: '100%', height: gridHeight, overflow: 'auto' }"
     :overlay-loading-template="overlayLoadingTemplate"
     :pagination="pagination"
@@ -26,18 +25,13 @@
 
 <script lang="ts">
 import { AgGridVue } from 'ag-grid-vue3';
-import { ColDef, GridOptions } from 'ag-grid-community';
+import { ColDef, GridOptions,  GridApi } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useTableApi } from 'src/utils/helpers/useTableApi';
 import { defineComponent, ref, watch } from 'vue';
 import i18n from "src/i18n";
-import {GridOptions as AgGridOptions} from "ag-grid-community/dist/types/core/entities/gridOptions";
 
-interface CustomGridOptions extends AgGridOptions {
-    gridApi?: any; // Update this with the correct type of gridApi if available
-
-}
 export default defineComponent({
   name: 'TableComp',
   components: { AgGridVue },
@@ -119,18 +113,27 @@ export default defineComponent({
     const getRowHeight = () => {
       return 45;
     };
+    const gridColumn = ref(props.columnDefs);
+    const gridData = ref(props.rowData);
 
-    const internalGridOptions = ref<CustomGridOptions | null>(null);
+    const internalGridOptions = ref<GridOptions>({});
 
-    watch(
-      () => props.rowData as AgGridOptions<any>,
-      (newVal: AgGridOptions) => {
-        if (internalGridOptions.value && newVal) {
-          internalGridOptions.value.gridApi.setRowData(newVal);
-        }
-      },
-      { immediate: true, deep: true }
-    );
+    // let gridApi: GridApi<ColDef>;
+
+    // const gridOptions = {
+    //   columnDefs: gridColumn.value,
+    //   rowData: gridData.value,
+    //   rowSelection: "single",
+    // };
+
+    // watch(
+    //   () => props.rowData as ColDef<any, any>[],
+    //   (newVal: ColDef<any, any>[]) => {
+    //     console.log(props.rowData);
+    //     gridApi!.setGridOption("rowData", newVal);
+    //   },
+    //   { immediate: true, deep: true }
+    // );
 
     const {
       filterChanged,

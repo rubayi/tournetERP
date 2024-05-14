@@ -108,7 +108,7 @@ import { defineComponent, ref, watch } from 'vue';
 //Lang
 import i18n from 'src/i18n';
 // Table
-import { GridOptions  as AgGridOptions } from 'ag-grid-community';
+import { GridOptions } from 'ag-grid-community';
 import { CompFormTableConfig } from 'src/views/comp/CompFormTableConfig';
 import TableComp from 'src/components/table/TableComp.vue';
 import { TableHelper } from 'src/components/table/TableHelper';
@@ -134,10 +134,6 @@ import CompSearchDrawer from 'src/views/comp/CompSearchDrawer.vue';
 
 import { loadOptionsList } from 'src/utils/commoncode/commonCode';
 
-interface CustomGridOptions extends AgGridOptions {
-  gridApi?: any; // Update this with the correct type of gridApi if available
-
-}
 export default defineComponent({
   name: 'CompForm',
   components: {
@@ -160,7 +156,7 @@ export default defineComponent({
     const searchdata = ref<CompSearchForm>(new CompSearchForm());
     const compformGrid = ref();
     const compUuid = ref<number>(0);
-    const gridOptions = ref<CustomGridOptions | null>(null);
+    const gridOptions = ref<GridOptions>({ columnApi: undefined });
     var filterNumber = ref<number>(0);
     const showinsertbutton = ref<boolean>(false);
     const showexportbutton = ref<boolean>(false);
@@ -241,12 +237,11 @@ export default defineComponent({
           loading.value = false;
           compUuid.value = 0;
           data.value = response;
-          if (compformGrid.value && compformGrid.value.api) {
-            if (!gridOptions.value) {
-              gridOptions.value = {};
-            }
-            gridOptions.value.gridApi = compformGrid.value.api;
-          }
+          // if (gridOptions.value && gridOptions.value.columnApi) {
+          //   gridOptions.value.columnApi.applyColumnState({
+          //     state: CompFormTableConfig.defaultSortModel,
+          //   });
+          // }
         });
         //printcodeValue();
       }
@@ -397,6 +392,7 @@ export default defineComponent({
       context: {
         componentParent: this,
       },
+
     };
   },
 });

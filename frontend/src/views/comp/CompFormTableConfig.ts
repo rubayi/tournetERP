@@ -6,7 +6,12 @@ import i18n from 'src/i18n';
 
 export class CompFormTableConfig {
   static reportHeaderMap = {
-    compUuid: "NO"
+    compUuid: "NO",
+    compGroupName : "",
+    compKor: "",
+    compEng: "",
+    estDate: "",
+    compRate: "",
   };
 
   static overlay =
