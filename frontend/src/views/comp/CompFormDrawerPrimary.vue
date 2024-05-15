@@ -41,7 +41,7 @@
                   outlined
                 />
               </div>
-              <div class="col-3">
+              <div class="col-2">
                 <select-comp
                   v-model="compFormData.compRate"
                   :label="t('complvl')"
@@ -50,7 +50,16 @@
                   outlined
                 />
               </div>
-              <div class="col-6">
+              <div class="col-2">
+                <select-comp
+                  v-model="compFormData.couponYn"
+                  :label="t('couponuseyn')"
+                  class="full-width select-comp-padding"
+                  :options="couponYnList"
+                  outlined
+                />
+              </div>
+              <div class="col-5">
                 <select-comp
                   v-if="compFormData.compSector == 337"
                   v-model="compFormData.compGroup"
@@ -87,35 +96,26 @@
                   outlined
                 />
               </div>
-              <div class="col-3">
+              <div class="row col-4">
                 <input-color-comp
                   v-model="compFormData.compColor"
                   class="full-width"
                   clearable
-                  label="Company Color"
+                  :label="t('assgnprepaid')"
                   outlined
                 />
-              </div>
-              <div class="col-3">
+
                 <select-comp
                   v-model="compFormData.prepaidHow"
-                  :label="t('assgnprepaid')"
+                  :label="t('compColor')"
                   class="full-width select-comp-padding"
                   :options="prepaidHowList"
                   outlined
                 />
               </div>
-              <div class="col-3">
-                <select-comp
-                  v-model="compFormData.couponYn"
-                  :label="t('couponuseyn')"
-                  class="full-width select-comp-padding"
-                  :options="couponYnList"
-                  outlined
-                />
-              </div>
-              <div class="row col-12">
-                <div class="col-6">
+
+              <div class="row col-8">
+                <div class="col-4">
                   <label for="file-upload" class="custom-file-upload">
                     {{ t('logofile') }}
                   </label>
@@ -126,18 +126,29 @@
                     @change="handleFileChange"
                   />
                 </div>
-                <q-img
-                  class="image-max-width"
-                  v-if="compFormData.logoFile"
-                  :src="fileUrl + compFormData.logoFile"
-                />
-                <div v-if="compFormData.previewImage">
+                <div class="col-auto">
+                  <q-img
+                    class="image-max-width"
+                    v-if="compFormData.logoFile != ''"
+                    :src="fileUrl + compFormData.logoFile"
+                  />
+                </div>
+                <div class="col-auto" v-if="compFormData.previewImage">
                   <q-img
                     :src="compFormData.previewImage"
                     class="image-max-width"
                     alt="Preview Image"
                   />
                 </div>
+              </div>
+              <div class="col-12">
+                <input-comp
+                  v-model="compFormData.compMemo"
+                  class="full-width"
+                  clearable
+                  :label="t('memo')"
+                  outlined
+                />
               </div>
             </div>
           </q-card-section>
@@ -162,7 +173,7 @@
               <div class="col-6">
                 <select-comp
                   v-model="compFormData.optionRate"
-                  label="Option Rate"
+                  :label="t('optionRate')"
                   class="full-width select-comp-padding"
                   :options="compOptionRateList"
                   outlined
@@ -171,7 +182,7 @@
               <div class="col-6">
                 <select-comp
                   v-model="compFormData.rentcarRate"
-                  label="Rent Car Rate"
+                  :label="t('rentcarRate')"
                   class="full-width select-comp-padding"
                   :options="rentcarRateList"
                   outlined
@@ -180,7 +191,7 @@
               <div class="col-6">
                 <select-comp
                   v-model="compFormData.restaurantRate"
-                  label="Restaurant Rate"
+                  :label="t('restaurantRate')"
                   class="full-width select-comp-padding"
                   :options="restaurantRateList"
                   outlined
@@ -189,7 +200,7 @@
               <div class="col-6">
                 <select-comp
                   v-model="compFormData.packRegRate"
-                  label="Package Rate"
+                  :label="t('packRegRate')"
                   class="full-width select-comp-padding"
                   :options="pkgRateList"
                   outlined
@@ -198,7 +209,7 @@
               <div class="col-6">
                 <select-comp
                   v-model="compFormData.packRate"
-                  label="Package Only Rate"
+                  :label="t('packRate')"
                   class="full-width select-comp-padding"
                   :options="pkgOnlyRateList"
                   outlined
@@ -207,7 +218,7 @@
               <div class="col-6">
                 <select-comp
                   v-model="compFormData.honeymoonRegRate"
-                  label="Honeymoon Rate"
+                  :label="t('honeymoonRegRate')"
                   class="full-width select-comp-padding"
                   :options="honeymoonRateList"
                   outlined
@@ -216,7 +227,7 @@
               <div class="col-6">
                 <select-comp
                   v-model="compFormData.honeymoonRate"
-                  label="Honeymoon Only Rate"
+                  :label="t('honeymoonRate')"
                   class="full-width select-comp-padding"
                   :options="honeymoonOnlyRateList"
                   outlined
@@ -376,10 +387,7 @@ export default defineComponent({
 }
 .custom-file-upload {
   align-items: center;
-  background-color: #0276ff;
-  border-radius: 5px;
-  border-style: none;
-  box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
+  background-color: #4482df;
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
@@ -387,30 +395,26 @@ export default defineComponent({
   flex-direction: row;
   flex-shrink: 0;
   font-family: 'RM Neue', sans-serif;
-  font-size: 100%;
-  line-height: 1.15;
-  margin: 0;
+  line-height: 2.1;
   padding: 10px 21px;
   text-align: center;
-  text-transform: none;
-  transition: color 0.13s ease-in-out, background 0.13s ease-in-out,
-    opacity 0.13s ease-in-out, box-shadow 0.13s ease-in-out;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
 }
 .custom-file-upload:active {
-  background-color: #006ae8;
+  background-color: #1c84ff;
 }
 .custom-file-upload:hover {
-  background-color: #1c84ff;
+  background-color: #4e9bfa;
 }
 input[type='file'] {
   display: none;
 }
 .image-max-width {
-  max-width: 200px;
-  margin: 20px;
-  border: 2px solid #000; /* 2px wide black border */
+  width: 100px;
+  height: 100px;
+  border: 1px solid #b4b4b4;
+  border-radius: 4px;
 }
 </style>

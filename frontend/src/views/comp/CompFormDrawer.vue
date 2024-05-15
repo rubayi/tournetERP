@@ -26,28 +26,24 @@
       ref="drawerComp"
     >
       <div class="q-pa-lg">
-        <div class="row q-col-gutter-md">
-          <div class="col-12 col-md-12 col-xs-12">
-            <comp-form-drawer-primary
-              :primary-data="compFormData"
-              :comp-sector-list="compSectorList"
-              :comp-rate-list="compRateList"
-              :hotel-rate-list="hotelRateList"
-              :comp-optionRate-List="compOptionRateList"
-              :coupon-yn-list="couponYnList"
-              :comp-group-list="compGroupList"
-              :pkg-rate-list="pkgRateList"
-              :pkg-only-rate-list="pkgOnlyRateList"
-              :rentcar-rate-list="rentcarRateList"
-              :restaurant-rate-list="restaurantRateList"
-              :honeymoon-only-rate-list="honeymoonOnlyRateList"
-              :honeymoon-rate-list="honeymoonRateList"
-              :prepaid-how-list="prepaidHowList"
-              :upload-file="uploadFile"
-              ref="compFormDrawerPrimary"
-            />
-          </div>
-        </div>
+        <comp-form-drawer-primary
+          :primary-data="compFormData"
+          :comp-sector-list="compSectorList"
+          :comp-rate-list="compRateList"
+          :hotel-rate-list="hotelRateList"
+          :comp-optionRate-List="compOptionRateList"
+          :coupon-yn-list="couponYnList"
+          :comp-group-list="compGroupList"
+          :pkg-rate-list="pkgRateList"
+          :pkg-only-rate-list="pkgOnlyRateList"
+          :rentcar-rate-list="rentcarRateList"
+          :restaurant-rate-list="restaurantRateList"
+          :honeymoon-only-rate-list="honeymoonOnlyRateList"
+          :honeymoon-rate-list="honeymoonRateList"
+          :prepaid-how-list="prepaidHowList"
+          :upload-file="uploadFile"
+          ref="compFormDrawerPrimary"
+        />
       </div>
     </drawer-comp>
   </div>

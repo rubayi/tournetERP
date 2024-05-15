@@ -12,11 +12,8 @@ import java.util.Optional;
 
 import com.tournet.tournetERP.contents.entity.Company;
 import com.tournet.tournetERP.contents.entity.Contact;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -44,7 +44,7 @@
       <input id="file-upload" type="file" class="hidden" @blur="emitBlur" />
       <label for="file-upload" class="custom-file-upload">
         <q-icon class="icon-style" name="cloud_upload" />
-        <span class="span-style">Choose Image</span>
+        <span class="span-style">{{ t('uploadImage') }}</span>
       </label>
     </div>
   </div>
@@ -53,6 +53,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
+import i18n from 'src/i18n';
 
 export default defineComponent({
   name: 'InputComp',
@@ -144,7 +145,7 @@ export default defineComponent({
     const rules = computed(() =>
       props.validationMessage
         ? [(val: string) => props.validator(val) || props.validationMessage]
-        : null
+        : undefined
     );
 
     const inputValue = ref<string>('');
@@ -179,6 +180,7 @@ export default defineComponent({
     }
 
     return {
+      t: i18n.global.t,
       input,
       rules,
       inputValue,
@@ -209,7 +211,7 @@ export default defineComponent({
 .span-style {
   font-weight: bold;
   color: white;
-  font-size: 16px;
+  font-size: 15px;
 }
 .input-style {
   background-color: rgb(187, 187, 187);

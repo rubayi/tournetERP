@@ -91,5 +91,15 @@
     "manageCreditCard": "Manage Credit Card",
     "compRate": "Company Rate",
     "compPriceRates": "Company Price Rate Setting",
-    "hotelRate": "Hotel Rate"
+    "hotelRate": "Hotel Rate",
+    "optionRate": "Option Rate",
+    "rentcarRate": "Rent Car Rate",
+    "restaurantRate": "Restaurant Rate",
+    "packRegRate": "Package Rate",
+    "packRate": "Package Only Rate",
+    "honeymoonRegRate": "Honeymoon Rate",
+    "honeymoonRate": "Honeymoon Only Rate",
+    "compColor": "Company Color",
+    "uploadImage": "Upload Image",
+    "compContacts": "Company Contacts"
 }

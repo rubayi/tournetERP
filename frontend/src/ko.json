@@ -91,5 +91,15 @@
     "manageCreditCard": "크레딧카드 관리",
     "compRate": "업체등급",
     "compPriceRates": "업체 상품 금액요율",
-    "hotelRate": "호텔등급"
+    "hotelRate": "호텔요율",
+    "optionRate": "옵션요율",
+    "rentcarRate": "렌트카요율",
+    "restaurantRate": "식당요율",
+    "packRegRate": "패키지요율",
+    "packRate": "패키전용요율",
+    "honeymoonRegRate": "허니문요율",
+    "honeymoonRate": "허니문전용요율",
+    "compColor": "업체 색상",
+    "uploadImage": "이미지 업로드",
+    "compContacts": "업체 연락처"
 }

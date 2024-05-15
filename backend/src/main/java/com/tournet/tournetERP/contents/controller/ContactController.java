@@ -9,7 +9,7 @@ package com.tournet.tournetERP.contents.controller;
  */
 import java.util.*;
 
-import com.tournet.tournetERP.account.entity.CreditCardMng;
+// import com.tournet.tournetERP.account.entity.CreditCardMng;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
 import com.tournet.tournetERP.contents.dto.ContactDTO;
@@ -19,19 +19,15 @@ import com.tournet.tournetERP.contents.service.ContactService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import com.tournet.tournetERP.auth.dto.MessageResponse;
 import org.springframework.http.HttpStatus;
 import jakarta.transaction.Transactional;
 
@@ -47,15 +43,23 @@ public class ContactController {
     ContactService contactService;
 
     @PostMapping("/searchContactByCondition")
-    public ResponseEntity<Map<String, Object>> selectContacts (@RequestBody Contact contactReq) {
+    public ResponseEntity<Map<String, Object>> selectContacts(@RequestBody Contact contactReq) {
 
-        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+        // Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
         List<ContactDTO> currentContacts = contactService.findContactList(contactReq);
 
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("contactList", currentContacts);
         return new ResponseEntity<>(resMap, HttpStatus.OK);
+    }
+    
+    @GetMapping("/selectByContactUuid/{id}")
+    public ResponseEntity<Optional<Contact>> selectByContactUuid(@PathVariable long id) {
+
+        Optional<Contact> currentContact = contactRepository.findByContactUuid(id);
+
+        return new ResponseEntity<>(currentContact, HttpStatus.OK);
     }
 
     @PostMapping("/updateContact")
