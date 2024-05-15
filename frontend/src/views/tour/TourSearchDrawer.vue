@@ -18,7 +18,7 @@
       :title="title"
       :width="30"
       @cancel-clicked="closesearchDrawer"
-      @confirm-clicked="searchUpdatedCodeData"
+      @confirm-clicked="searchUpdatedTourData"
       @reset-clicked="searchResetData"
       ref="drawersearchComp"
     >
@@ -44,7 +44,7 @@ import { TourSearchForm } from 'src/types/TourSearchForm';
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 import i18n from 'src/i18n';
 export default defineComponent({
-  name: 'CodeSearchDrawer',
+  name: 'TourSearchDrawer',
   components: {
     DrawerComp,
     TourSearchDrawerContent,
@@ -101,7 +101,7 @@ export default defineComponent({
     );
 
     //Search Data
-    function searchUpdatedCodeData() {
+    function searchUpdatedTourData() {
       emit('toursearch-saved');
       closesearchDrawer();
     }
@@ -121,7 +121,7 @@ export default defineComponent({
       closesearchDrawer,
       toursearchformDrawerContent,
       showconfirmbutton,
-      searchUpdatedCodeData,
+      searchUpdatedTourData,
       searchResetData,
       comfirmbuttonlabel,
       resetbuttonlabel,
