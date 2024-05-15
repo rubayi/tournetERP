@@ -86,6 +86,7 @@ public class TourInfoService {
                     tourpResponse.setCreatedByName(tourp.getCreateUser().getUsername());
 
                     tourpResponse.setCreatedDt(tourp.getCreatedDt());
+                    tourpResponse.setModifiedDt(tourp.getModifiedDt());
 
                     return tourpResponse;
                 })

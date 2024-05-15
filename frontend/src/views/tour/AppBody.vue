@@ -35,7 +35,7 @@
           />
         </div>
       </div>
-      <div id="code-form-grid-container" class="row">
+      <div id="tour-form-grid-container" class="row">
         <div class="col-12">
           <table-comp
             id="tour-form-grid"
@@ -55,16 +55,16 @@
       </div>
       <tour-form-drawer
         v-model="openDrawer"
-        :code-seq="tourUuid"
-        @codeform-deleted="loadData"
-        @codeform-drawer-closed="tourUuid = 0"
-        @codeform-saved="loadData"
+        :tour-seq="tourUuid"
+        @tourform-deleted="loadData"
+        @tourform-drawer-closed="tourUuid = 0"
+        @tourform-saved="loadData"
       />
       <tour-search-drawer
         v-model="openSearchDrawer"
         :rowsearchdata="searchdata"
-        @codesearch-reset="resetloadData"
-        @codesearch-saved="loadData"
+        @toursearch-reset="resetloadData"
+        @toursearch-saved="loadData"
       />
     </q-page>
   </div>
@@ -190,6 +190,7 @@ export default defineComponent({
 
           if (response) {
             data.value = response;
+            console.log(data.value);
           }
         });
       }
@@ -227,7 +228,6 @@ export default defineComponent({
 
 
     const setSectorAndTourCategory = () => {
-      console.log(sector.value);
       const tourCategoryOptions = ref<CodeForm[]>([]);
 
       const searchReq:CodeSearchForm = {
