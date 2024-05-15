@@ -1,5 +1,5 @@
 <template>
-  <div id="emp-emergency-drawer">
+  <div id="tour-form-drawer">
     <drawer-comp
       v-model="openDrawer"
       v-model:loading="loading"
@@ -11,23 +11,22 @@
       :cancel-button-label="cancelbuttonlabel"
       :reset-button-label="resetbuttonlabel"
       :confirm-icon="confirmicon"
-      icon-title="person"
+      icon-title="fas fa-cogs"
       :show-confirm-button="showconfirmbutton"
       :show-delete-button="showdeletebutton"
       :show-print-button="false"
       side="right"
       :title="title"
-      :width="30"
+      :width="40"
       @cancel-clicked="closeDrawer"
-      @confirm-clicked="saveUpdatedEmpData"
+      @confirm-clicked="saveUpdatedCodeData"
       @delete-clicked="openDeleteConfirm = true"
-      ref="emerDrawerComp"
+      ref="drawerComp"
     >
       <div class="flex flex-grow-1 q-pa-md">
-        <emp-emergency-drawer-content
-          v-model="emergencyForm"
-          :empUuid="empUuid"
-          ref="empEmergencyDrawerContent"
+        <tour-form-drawer-content
+          v-model="tourformData"
+          ref="tourFormDrawerContent"
         />
       </div>
     </drawer-comp>
@@ -37,7 +36,7 @@
     :action-button-label="deletebuttonlabel"
     max-width="500px"
     :modal-title="deleteTitle"
-    @confirm-clicked="deleteEmpForm"
+    @confirm-clicked="deleteTourForm"
   >
     <template #htmlContent>
       <div>{{ t('deleteconfirmmsg') }}</div>
@@ -47,30 +46,31 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
+//Lang
+import i18n from 'src/i18n';
 // Components
 import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 import DialogComp from 'src/components/common/DialogComp.vue';
 // View Layout
-import EmpEmergencyDrawerContent from 'src/views/emp/EmpEmergencyDrawerContent.vue';
-// Service
-import { EmergencyService } from 'src/services/EmergencyService';
-// Type
-import { EmergencyForm } from 'src/types/EmergencyForm';
+import TourFormDrawerContent from 'src/views/tour/TourFormDrawerContent.vue';
+// Services
+import { TourService } from 'src/services/TourService';
+// Types
+import { TourForm } from 'src/types/TourForm';
 // Store
 import store from 'src/store';
 //helper
-import i18n from 'src/i18n';
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 
 export default defineComponent({
-  name: 'EmpEmergencyDrawer',
+  name: 'TourFormDrawer',
   components: {
     DrawerComp,
     DialogComp,
-    EmpEmergencyDrawerContent,
+    TourFormDrawerContent,
   },
   props: {
-    empSeq: {
+    tourSeq: {
       type: Number,
       default: 0,
     },
@@ -78,21 +78,17 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    empUuid: {
-      type: Number,
-      default: 0,
-    },
   },
   emits: [
     'update:modelValue',
     'update:drawerData',
-    'emerform-saved',
-    'emerform-deleted',
-    'emerform-drawer-closed',
+    'tourform-saved',
+    'tourform-deleted',
+    'tourform-drawer-closed',
   ],
   setup(props, { emit }) {
-    const title = i18n.global.t('emerContact');
-    const emergencyForm = ref<EmergencyForm>(new EmergencyForm());
+    const title = i18n.global.t('manageTour');
+    const tourformData = ref<TourForm>(new TourForm());
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
@@ -101,11 +97,10 @@ export default defineComponent({
     const deleteTitle = ref<string>(i18n.global.t('deleteTitle'));
     const resetbuttonlabel = ref<string>(i18n.global.t('reset'));
     const cancelbuttonlabel = ref<string>(i18n.global.t('cancel'));
-    const confirmicon = ref<string>('fas fa-plus');
+    const confirmicon = ref<string>('plus');
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
-    const empformDrawerContent = ref();
-    const empformDrawerMenuAuth = ref();
+    const tourformDrawerContent = ref();
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
 
@@ -119,14 +114,14 @@ export default defineComponent({
       () => openDrawer.value,
       (newValue) => {
         emit('update:modelValue', newValue);
-        getEmerformData();
+        getCodeformData();
       }
     );
 
     // Reset Drawer
     function resetDrawer() {
-      emergencyForm.value = new EmergencyForm();
-      if (props.empSeq != 0) {
+      tourformData.value = new TourForm();
+      if (props.tourSeq != 0) {
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = 'edit';
@@ -145,35 +140,37 @@ export default defineComponent({
     }
 
     // Loading One Data
-    function getEmerformData() {
+    function getCodeformData() {
       resetDrawer();
-      if (props.empSeq != 0) {
+      if (props.tourSeq != 0) {
         loading.value = true;
-        EmergencyService.getByEmerid(props.empSeq)
+        TourService.getOneTourForm(props.tourSeq)
           .then((response) => {
-            emergencyForm.value = response;
+            console.log(response);
+            tourformData.value = response;
           })
           .finally(() => {
             loading.value = false;
           });
       }
     }
-    function saveUpdatedEmpData() {
+
+    //Add & Edit
+    function saveUpdatedCodeData() {
       notificationHelper.dismiss();
-      notificationHelper.createOngoingNotification(i18n.global.t('saved'));
+      notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
-      if (emergencyForm.value) {
-        emergencyForm.value.empUuid = props.empUuid;
-        EmergencyService.saveEmerForm(emergencyForm.value)
+      if (tourformData.value) {
+        TourService.saveTourForm(tourformData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
               i18n.global.t('saved')
             );
-            if (props.empSeq != 0) {
-              emit('emerform-saved', response);
-              closeDrawer();
+            if (props.tourSeq != 0) {
+              emit('tourform-saved', response);
+              tourformData.value = new TourForm(response);
             } else {
-              emit('emerform-saved', response);
+              emit('tourform-saved', response);
               closeDrawer();
             }
           })
@@ -193,14 +190,14 @@ export default defineComponent({
     function deleteAction() {
       openDeleteConfirm.value = true;
     }
-    function deleteEmpForm() {
+    function deleteTourForm() {
       loading.value = true;
-      EmergencyService.deleteEmerForm(props.empSeq)
+      TourService.deleteTourForm(props.tourSeq)
         .then((response) => {
           notificationHelper.createSuccessNotification(
             i18n.global.t('deletesucess')
           );
-          emit('emerform-deleted', response);
+          emit('tourform-deleted', response);
           closeDrawer();
         })
         .catch((error) => {
@@ -217,15 +214,17 @@ export default defineComponent({
     function closeDrawer() {
       openDrawer.value = false;
       resetDrawer();
-      emit('emerform-drawer-closed');
+      emit('tourform-drawer-closed');
     }
-
     return {
       t: i18n.global.t,
       title,
-      emergencyForm,
+      tourformData,
       loading,
+      drawerComp,
       openDrawer,
+      closeDrawer,
+      tourformDrawerContent,
       confirmbuttoncolor,
       confirmbuttonlabel,
       deletebuttonlabel,
@@ -235,22 +234,17 @@ export default defineComponent({
       confirmicon,
       showconfirmbutton,
       showdeletebutton,
-      empformDrawerContent,
-      empformDrawerMenuAuth,
-      drawerComp,
-      openDeleteConfirm,
-      resetDrawer,
-      getEmerformData,
-      saveUpdatedEmpData,
       deleteAction,
-      deleteEmpForm,
-      closeDrawer,
+      openDeleteConfirm,
+      deleteTourForm,
+      saveUpdatedCodeData,
     };
   },
 });
 </script>
+
 <style lang="scss">
-#Emergencyform-drawer {
+#tourform-drawer {
   .q-page {
     display: flex;
     flex-direction: column;

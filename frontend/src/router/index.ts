@@ -11,6 +11,7 @@ import Code from 'src/views/code/AppBody.vue';
 import Comp from 'src/views/comp/AppBody.vue';
 import Cdcd from 'src/views/cdcd/AppBody.vue';
 import Emp from 'src/views/emp/AppBody.vue';
+import Tour from 'src/views/tour/AppBody.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -52,6 +53,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/emp',
     name: 'emp',
     children: [{ path: '', component: () => Emp }],
+  },
+  {
+    path: '/tour/:sector',
+    name: 'tour',
+    children: [{ path: '', component: () => Tour }],
   },
   // Always leave this as last one,
   // but you can also remove it

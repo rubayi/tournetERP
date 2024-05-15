@@ -10,6 +10,7 @@ package com.tournet.tournetERP.contents.repository;
 import java.util.List;
 import java.util.Optional;
 
+import com.tournet.tournetERP.contents.entity.Company;
 import com.tournet.tournetERP.contents.entity.Tour;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,13 +37,22 @@ public interface TourRepository extends JpaRepository<Tour,Long> {
             "WHERE (:tourCategory IS NULL OR t.tourCategory = :tourCategory) " +
             "AND (:tourKor IS NULL OR t.tourKor LIKE CONCAT('%', :tourKor, '%')) " +
             "AND (:tourEng IS NULL OR t.tourEng LIKE CONCAT('%', :tourEng, '%')) " +
-            "OR (:tourCategory IS NULL AND :tourKor IS NULL AND :tourEng IS NULL) " +
+            "AND (:tourUuid IS NULL OR t.tourUuid = :tourUuid) " +
+            "AND (:prepaidMethod IS NULL OR t.prepaidMethod = :prepaidMethod) " +
+            "AND (:tourArea IS NULL OR t.tourArea = :tourArea) " +
+            "AND (:tourAreaSub IS NULL OR t.tourAreaSub = :tourAreaSub) " +
+            "OR (:tourCategory IS NULL AND :tourKor IS NULL AND :tourEng IS NULL " +
+            " AND :tourUuid IS NULL AND :prepaidMethod IS NULL AND :tourArea IS NULL " +
+            " AND :prepaidMethod IS NULL ) " +
             "ORDER BY t.modifiedDt DESC")
     List<Tour> findTourOrderByModifiedDtDesc(
             @Param("tourCategory") Long tourCategory,
             @Param("tourKor") String tourKor,
-            @Param("tourEng") String tourEng
-
+            @Param("tourEng") String tourEng,
+            @Param("tourUuid") Long tourUuid,
+            @Param("tourArea") Long tourArea,
+            @Param("tourAreaSub") Long tourAreaSub,
+            @Param("prepaidMethod") Long prepaidMethod
     );
 
     List<Tour> findAllByOrderByModifiedDtDesc();
@@ -51,4 +61,5 @@ public interface TourRepository extends JpaRepository<Tour,Long> {
     void deleteByTourUuid(@Param("id") long tourUuid);
 
 
+    Tour findOneByTourUuid(long id);
 }

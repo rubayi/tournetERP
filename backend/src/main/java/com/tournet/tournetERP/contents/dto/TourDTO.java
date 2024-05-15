@@ -46,6 +46,15 @@ public class TourDTO {
     private String createdByName; //생성자
     private String modifiedByName; //최종수정자
 
+    private long searchTourUuid;
+    private long searchTourCategory;
+    private long searchTourArea;
+    private long searchTourAreaSub;
+    private long searchPrepaidMethod;
+
+    private String searchTourKor;
+    private String searchTourEng;
+
     private long tourOrd; //투어명ENG
 
     public TourDTO () {

@@ -166,7 +166,6 @@ public class CompanyController {
         return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
-
     @GetMapping("/getComp/{id}")
     public ResponseEntity<?> searchCompany(@PathVariable long id) {
 
@@ -174,8 +173,6 @@ public class CompanyController {
 
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
-
-
 
     @Transactional
     @GetMapping("/deleteComp/{id}")

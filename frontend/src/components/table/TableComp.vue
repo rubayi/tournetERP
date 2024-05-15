@@ -180,7 +180,6 @@ export default defineComponent({
     } = useTableApi(props, emit, internalGridOptions);
 
     return {
-      t: i18n.global.t,
       getRowHeight,
       internalGridOptions,
       filterChanged,

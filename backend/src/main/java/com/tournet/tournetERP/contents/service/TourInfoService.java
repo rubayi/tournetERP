@@ -35,16 +35,23 @@ public class TourInfoService {
     CompanyService companyService;
     public List<TourDTO> findtoursList(TourDTO tourpReq) {
 
-        ModelMapper modelMapper = new ModelMapper();
+        long tourCategory = tourpReq.getSearchTourCategory();
+        long tourUuid = tourpReq.getSearchTourUuid();
+        long tourArea = tourpReq.getSearchTourArea();
+        long tourAreaSub = tourpReq.getSearchTourAreaSub();
+        long prepaidMethod = tourpReq.getSearchPrepaidMethod();
 
-        long tourCategory = tourpReq.getTourCategory();
-        String tourKor = tourpReq.getTourKor();
-        String tourEng = tourpReq.getTourEng();
+        String tourKor = tourpReq.getSearchTourKor();
+        String tourEng = tourpReq.getSearchTourEng();
 
         List<Tour> selectedTours = tourpRepository.findTourOrderByModifiedDtDesc(
                 tourCategory == 0 ? null : tourCategory,
                 tourKor.isEmpty() ? null : tourKor,
-                tourEng.isEmpty() ? null : tourEng
+                tourEng.isEmpty() ? null : tourEng,
+                tourUuid == 0 ? null : tourUuid,
+                tourArea == 0 ? null : tourArea,
+                tourAreaSub == 0 ? null : tourAreaSub,
+                prepaidMethod == 0 ? null : prepaidMethod
         );
 
         List<TourDTO> tourpResList = selectedTours.stream()
