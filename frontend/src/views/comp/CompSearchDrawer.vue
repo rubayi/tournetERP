@@ -8,15 +8,15 @@
       :confirm-button-label="comfirmbuttonlabel"
       :cancel-button-label="cancelbuttonlabel"
       :reset-button-label="resetbuttonlabel"
-      confirm-icon="fas fa-search"
-      icon-title="far fa-compass"
+      confirm-icon="search"
+      icon-title="compass"
       :show-confirm-button="showconfirmbutton"
       :show-delete-button="false"
       :show-print-button="false"
       :show-reset-button="true"
       side="left"
       :title="title"
-      :width="60"
+      :width="40"
       @cancel-clicked="closesearchDrawer"
       @confirm-clicked="searchUpdatedCompData"
       @reset-clicked="searchResetData"
@@ -37,24 +37,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, ref, watch } from 'vue';
 // Components
-import DrawerComp from "src/components/drawers/DrawerComp.vue";
+import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 // View Layout
-import CompSearchDrawerContent from "src/views/comp/CompSearchDrawerContent.vue";
+import CompSearchDrawerContent from 'src/views/comp/CompSearchDrawerContent.vue';
 // Types
-import { CompSearchForm } from "src/types/CompSearchForm";
+import { CompSearchForm } from 'src/types/CompSearchForm';
 // Store
-import store from "src/store";
+import store from 'src/store';
 // Helpers
-import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
-import i18n from "src/i18n";
-import {SelectOption} from "src/types/SelectOption";
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
+import i18n from 'src/i18n';
+import { SelectOption } from 'src/types/SelectOption';
 export default defineComponent({
-  name: "CompSearchDrawer",
+  name: 'CompSearchDrawer',
   components: {
     DrawerComp,
-    CompSearchDrawerContent
+    CompSearchDrawerContent,
   },
   props: {
     rowsearchdata: {
@@ -83,13 +83,12 @@ export default defineComponent({
     },
   },
   emits: [
-    "update:modelValue",
-    "update:rowsearchdata",
-    "compsearch-reset",
-    "compsearch-saved",
+    'update:modelValue',
+    'update:rowsearchdata',
+    'compsearch-reset',
+    'compsearch-saved',
   ],
   setup(props, { emit }) {
-
     const title = i18n.global.t('searchtitle');
     const loading = ref<boolean>(false);
     const opensearchDrawer = ref<boolean>(false);
@@ -98,15 +97,15 @@ export default defineComponent({
     const resetbuttonlabel = ref<string>(i18n.global.t('reset'));
     const cancelbuttonlabel = ref<string>(i18n.global.t('cancel'));
     showconfirmbutton.value =
-      store.getters.currentUserHasApplicationPermission("COMP_R");
+      store.getters.currentUserHasApplicationPermission('COMP_R');
     const compsearchDrawerContent = ref();
     const compsearchData = ref<CompSearchForm>(props.rowsearchdata);
 
     useSyncModelValue(
       props,
-      "rowsearchdata",
+      'rowsearchdata',
       emit,
-      "update:rowsearchdata",
+      'update:rowsearchdata',
       compsearchData
     );
 
@@ -120,18 +119,18 @@ export default defineComponent({
     watch(
       () => opensearchDrawer.value,
       (newValue) => {
-        emit("update:modelValue", newValue);
+        emit('update:modelValue', newValue);
       }
     );
 
     //Search Data
     function searchUpdatedCompData() {
-      emit("compsearch-saved");
+      emit('compsearch-saved');
       closesearchDrawer();
     }
 
     function searchResetData() {
-      emit("compsearch-reset");
+      emit('compsearch-reset');
     }
 
     function closesearchDrawer() {

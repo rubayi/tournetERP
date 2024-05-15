@@ -12,19 +12,19 @@
       :print-button-label="printbuttonlabel"
       :reset-button-label="resetbuttonlabel"
       :confirm-icon="confirmicon"
-      icon-title="far fa-folder-open"
+      icon-title="business"
       :show-confirm-button="showconfirmbutton"
       :show-delete-button="showdeletebutton"
       :show-print-button="showprintbutton"
       side="right"
       :title="title"
-      :width="80"
+      :width="70"
       @cancel-clicked="closeDrawer"
       @confirm-clicked="saveUpdatedCompData"
       @confirm-printeded="printedonecompData"
       @delete-clicked="openDeleteConfirm = true"
       ref="drawerComp"
-      >
+    >
       <div class="q-pa-lg">
         <div class="row q-col-gutter-md">
           <div class="col-12 col-md-12 col-xs-12">
@@ -59,7 +59,7 @@
     @confirm-clicked="deleteCompForm"
   >
     <template #htmlContent>
-      <div>{{t('deleteconfirmmsg')}}</div>
+      <div>{{ t('deleteconfirmmsg') }}</div>
     </template>
   </dialog-comp>
 </template>
@@ -71,22 +71,17 @@ import i18n from 'src/i18n';
 // Components
 import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 import DialogComp from 'src/components/common/DialogComp.vue';
-
 // View Layout
 import CompFormDrawerPrimary from 'src/views/comp/CompFormDrawerPrimary.vue';
-
 // Services
 import { CompService } from 'src/services/CompService';
 import { ReportService } from 'src/services/CompReportService';
-
 // Types
 import { CompForm } from 'src/types/CompForm';
 import { CompListReport } from 'src/types/CompReport';
 import { SelectOption } from 'src/types/SelectOption';
-
 // Store
 import store from 'src/store';
-
 //helper
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 import ReportHelper from 'src/utils/helpers/ReportHelper';
@@ -160,7 +155,6 @@ export default defineComponent({
       type: Array as () => SelectOption[],
       default: () => [],
     },
-
   },
   emits: [
     'update:modelValue',
@@ -185,7 +179,6 @@ export default defineComponent({
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
     const showprintbutton = ref<boolean>(false);
-
     const compFormDrawerPrimary = ref();
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
@@ -269,7 +262,9 @@ export default defineComponent({
         const fileToUpload = attfile.value;
         CompService.saveCompForm(fileToUpload, compFormData.value)
           .then((response) => {
-            notificationHelper.createSuccessNotification(i18n.global.t('saved'));
+            notificationHelper.createSuccessNotification(
+              i18n.global.t('saved')
+            );
             emit('compform-saved', response);
             closeDrawer();
           })
@@ -293,7 +288,9 @@ export default defineComponent({
       loading.value = true;
       CompService.deleteCompForm(props.compSeq)
         .then((response) => {
-          notificationHelper.createSuccessNotification(i18n.global.t('deletesucess'));
+          notificationHelper.createSuccessNotification(
+            i18n.global.t('deletesucess')
+          );
           emit('compform-deleted', response);
           closeDrawer();
         })
@@ -330,7 +327,6 @@ export default defineComponent({
       resetDrawer();
       emit('compform-drawer-closed');
     }
-
 
     return {
       t: i18n.global.t,

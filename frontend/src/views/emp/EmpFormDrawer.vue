@@ -24,8 +24,8 @@
       ref="drawerComp"
     >
       <div>
-        <q-tabs v-model="tab">
-          <q-tab name="content" label="Content" />
+        <q-tabs v-model="tab" align="left">
+          <q-tab name="content" label="Content" class="q-ml-md" />
           <q-tab name="menuAuth" label="Menu Auth" v-if="empformData.empUuid" />
           <q-tab
             name="emergencyTn"

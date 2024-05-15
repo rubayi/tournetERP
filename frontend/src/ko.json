@@ -88,5 +88,8 @@
     "nameOnCard": "카드명의자",
     "expyear": "만료년월",
     "expmonth": "만료월",
-    "manageCreditCard": "크레딧카드 관리"
+    "manageCreditCard": "크레딧카드 관리",
+    "compRate": "업체등급",
+    "compPriceRates": "업체 상품 금액요율",
+    "hotelRate": "호텔등급"
 }

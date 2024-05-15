@@ -88,5 +88,8 @@
     "expyear": "Expiry Year",
     "expmonth": "Expiry Month",
     "nameOnCard": "Name On Card",
-    "manageCreditCard": "Manage Credit Card"
+    "manageCreditCard": "Manage Credit Card",
+    "compRate": "Company Rate",
+    "compPriceRates": "Company Price Rate Setting",
+    "hotelRate": "Hotel Rate"
 }

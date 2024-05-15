@@ -4,7 +4,7 @@
       <div class="row q-mb-sm">
         <div class="col q-pr-md">
           <span class="part_title text-primary">
-            <i class="far fa-folder-open q-ml-xs q-mr-md"></i>
+            <q-icon name="business" class="q-ml-xs q-mr-sm" size="sm"></q-icon>
             {{ t('manageCompany') }}
           </span>
         </div>
@@ -104,7 +104,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref } from 'vue';
 //Lang
 import i18n from 'src/i18n';
 // Table
@@ -114,7 +114,6 @@ import TableComp from 'src/components/table/TableComp.vue';
 import { TableHelper } from 'src/components/table/TableHelper';
 // Service
 import { CompService } from 'src/services/CompService';
-
 import { CdcdService } from 'src/services/CdcdService';
 import { ReportService } from 'src/services/CompReportService';
 //Type
@@ -131,7 +130,6 @@ import CompFormDrawer from 'src/views/comp/CompFormDrawer.vue';
 //import {CdcdForm} from "src/types/CdcdForm";
 import { CdcdSearchForm } from 'src/types/CdcdSearchForm';
 import CompSearchDrawer from 'src/views/comp/CompSearchDrawer.vue';
-
 import { loadOptionsList } from 'src/utils/commoncode/commonCode';
 
 export default defineComponent({
@@ -143,7 +141,6 @@ export default defineComponent({
   },
   setup() {
     const locale = i18n.global.locale.value;
-
     const openDrawer = ref<boolean>(false);
     const openSearchDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
@@ -250,7 +247,6 @@ export default defineComponent({
     function resetLoadData() {
       searchdata.value = new CompSearchForm();
     }
-
 
     /* New */
     function createAction() {
@@ -392,7 +388,6 @@ export default defineComponent({
       context: {
         componentParent: this,
       },
-
     };
   },
 });
