@@ -44,6 +44,11 @@
           :upload-file="uploadFile"
           ref="compFormDrawerPrimary"
         />
+        <comp-contact-list
+          v-if="compFormData.compUuid"
+          :comp-uuid="compFormData.compUuid"
+          ref="compContactList"
+        />
       </div>
     </drawer-comp>
   </div>
@@ -67,6 +72,7 @@ import i18n from 'src/i18n';
 // Components
 import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 import DialogComp from 'src/components/common/DialogComp.vue';
+import CompContactList from 'src/views/comp/CompContactList.vue';
 // View Layout
 import CompFormDrawerPrimary from 'src/views/comp/CompFormDrawerPrimary.vue';
 // Services
@@ -89,6 +95,7 @@ export default defineComponent({
     DrawerComp,
     DialogComp,
     CompFormDrawerPrimary,
+    CompContactList,
   },
   props: {
     compSeq: {
@@ -161,7 +168,7 @@ export default defineComponent({
   ],
   setup(props, { emit }) {
     const title = i18n.global.t('manageCompany');
-    const compFormData = ref<CompForm | undefined>(new CompForm());
+    const compFormData = ref<CompForm>(new CompForm());
     const printdata = ref<CompForm[]>([]);
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);

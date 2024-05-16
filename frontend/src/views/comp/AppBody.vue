@@ -54,7 +54,6 @@
         <div class="col-12">
           <table-comp
             id="comp-form-grid"
-            class="ag-theme-alpine grid"
             :column-defs="columns"
             :context="context"
             :loading="loading"
@@ -233,7 +232,9 @@ export default defineComponent({
         CompService.getAllComp(searchdata.value).then((response) => {
           loading.value = false;
           compUuid.value = 0;
-          data.value = response;
+          if (response) {
+            data.value = response;
+          }
           // if (gridOptions.value && gridOptions.value.columnApi) {
           //   gridOptions.value.columnApi.applyColumnState({
           //     state: CompFormTableConfig.defaultSortModel,
@@ -335,13 +336,15 @@ export default defineComponent({
         searchCardNumber: '',
       };
       CdcdService.getAll(searchReq).then((response) => {
-        prepaidHowList.value = response.map(
-          (x) =>
-            new SelectOption(
-              locale === 'en' ? x.mngNameEng : x.mngNameKor,
-              x.cdCdUuid
-            )
-        );
+        if (response) {
+          prepaidHowList.value = response.map(
+            (x) =>
+              new SelectOption(
+                locale === 'en' ? x.mngNameEng : x.mngNameKor,
+                x.cdCdUuid
+              )
+          );
+        }
       });
     }
 

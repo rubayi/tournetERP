@@ -2,7 +2,7 @@ import { ColDef } from 'ag-grid-community';
 import OpenButtonCellRenderer from 'src/components/table/OpenButtonCellRenderer.vue';
 import i18n from 'src/i18n';
 
-export class ContactFormTableConfig {
+export class CompContanctFormTableConfig {
   static overlay =
     '<span class="ag-overlay-loading-center">Please wait while your Data are loading</span>';
 
@@ -24,8 +24,8 @@ export class ContactFormTableConfig {
       {
         field: locale === 'en' ? 'contactTypeNameEn' : 'contactTypeName',
         headerName: i18n.global.t('contactType'),
-        minWidth: 120,
-        width: 150,
+        minWidth: 150,
+        width: 200,
         sortable: true,
         filter: true,
         cellStyle: { 'text-align': 'center' },
@@ -40,8 +40,8 @@ export class ContactFormTableConfig {
       {
         field: locale === 'en' ? 'repYnNameEn' : 'repYnName',
         headerName: i18n.global.t('repYn'),
-        minWidth: 70,
-        maxWidth: 100,
+        minWidth: 150,
+        maxWidth: 180,
         sortable: true,
         filter: true,
         cellStyle: { 'text-align': 'center' },
@@ -55,7 +55,7 @@ export class ContactFormTableConfig {
 
   static defaultSortModel = [
     {
-      colId: 'contactUuid',
+      colId: 'modifiedDt',
       sort: 'desc',
       sortIndex: 0,
     },

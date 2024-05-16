@@ -101,5 +101,7 @@
     "honeymoonRate": "Honeymoon Only Rate",
     "compColor": "Company Color",
     "uploadImage": "Upload Image",
-    "compContacts": "Company Contacts"
+    "compContacts": "Company Contacts",
+    "contact": "Contact",
+    "type": "Type"
 }

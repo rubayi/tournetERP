@@ -20,17 +20,15 @@
     @sort-changed="sortChanged"
     ref="agGrid"
   />
-
 </template>
 
 <script lang="ts">
 import { AgGridVue } from 'ag-grid-vue3';
-import { ColDef, GridOptions,  GridApi } from 'ag-grid-community';
+import { ColDef, GridOptions } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useTableApi } from 'src/utils/helpers/useTableApi';
-import { defineComponent, ref, watch } from 'vue';
-import i18n from "src/i18n";
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'TableComp',
@@ -109,12 +107,11 @@ export default defineComponent({
   },
   emits: ['grid-ready', 'filterChanged', 'selectionChanged', 'sortChanged'],
   setup(props, { emit }) {
-
     const getRowHeight = () => {
       return 45;
     };
-    const gridColumn = ref(props.columnDefs);
-    const gridData = ref(props.rowData);
+    // const gridColumn = ref(props.columnDefs);
+    // const gridData = ref(props.rowData);
 
     const internalGridOptions = ref<GridOptions>({});
 

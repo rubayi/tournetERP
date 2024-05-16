@@ -43,15 +43,13 @@ public class ContactController {
     ContactService contactService;
 
     @PostMapping("/searchContactByCondition")
-    public ResponseEntity<Map<String, Object>> selectContacts(@RequestBody Contact contactReq) {
+    public ResponseEntity<List<ContactDTO>> selectContacts(@RequestBody Contact contactReq) {
 
         // Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
         List<ContactDTO> currentContacts = contactService.findContactList(contactReq);
 
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("contactList", currentContacts);
-        return new ResponseEntity<>(resMap, HttpStatus.OK);
+        return new ResponseEntity<>(currentContacts, HttpStatus.OK);
     }
     
     @GetMapping("/selectByContactUuid/{id}")

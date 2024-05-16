@@ -21,9 +21,9 @@ export class ContactService {
       .then((response) => response.data);
   }
 
-  static getContactForm(id: number): Promise<ContactForm[]> {
+  static getContactForm(id: number): Promise<ContactForm> {
     return api
-      .get<ContactForm[]>(API_URL + `selectByContactUuid/${id}`, {
+      .get<ContactForm>(API_URL + `selectByContactUuid/${id}`, {
         headers: authHeader(),
       })
       .then((response) => response.data);

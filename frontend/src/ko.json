@@ -101,5 +101,7 @@
     "honeymoonRate": "허니문전용요율",
     "compColor": "업체 색상",
     "uploadImage": "이미지 업로드",
-    "compContacts": "업체 연락처"
+    "compContacts": "업체 연락처",
+    "contact": "연락처",
+    "type": "유형"
 }
