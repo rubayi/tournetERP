@@ -1,12 +1,13 @@
 package com.tournet.tournetERP.contents.service;
 
 
+import com.tournet.tournetERP.account.entity.CreditCardMng;
+import com.tournet.tournetERP.account.repository.CreditCardMngRepository;
+import com.tournet.tournetERP.common.entity.ComCode;
 import com.tournet.tournetERP.common.util.FetchCodeUtil;
 import com.tournet.tournetERP.contents.dto.TourDTO;
 import com.tournet.tournetERP.contents.entity.Tour;
-import com.tournet.tournetERP.contents.repository.CompanyRepository;
 import com.tournet.tournetERP.contents.repository.TourRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,10 @@ public class TourInfoService {
 
     @Autowired
     CompanyService companyService;
+
+    @Autowired
+    CreditCardMngRepository creditCardMngRepository;
+
     public List<TourDTO> findtoursList(TourDTO tourpReq) {
 
         long tourCategory = tourpReq.getSearchTourCategory();
@@ -69,7 +74,12 @@ public class TourInfoService {
                     tourpResponse.setTourCategoryName(fetchCodeUtil.fetchCodeKr(tourp.getTourCategory()));
                     tourpResponse.setTourAreaName(fetchCodeUtil.fetchCodeKr(tourp.getTourArea()));
                     tourpResponse.setTourAreaSubName(fetchCodeUtil.fetchCodeKr(tourp.getTourAreaSub()));
-                    tourpResponse.setPrepaidMethodName(fetchCodeUtil.fetchCodeKr(tourp.getPrepaidMethod()));
+                    tourpResponse.setPrepaidMethodName(fetchPrepaidKr(tourp.getPrepaidMethod()));
+
+                    tourpResponse.setTourCategoryNameEn(fetchCodeUtil.fetchCodeEn(tourp.getTourCategory()));
+                    tourpResponse.setTourAreaNameEn(fetchCodeUtil.fetchCodeEn(tourp.getTourArea()));
+                    tourpResponse.setTourAreaSubNameEn(fetchCodeUtil.fetchCodeEn(tourp.getTourAreaSub()));
+                    tourpResponse.setPrepaidMethodNameEn(fetchPrepaidEn(tourp.getPrepaidMethod()));
 
 //                    tourpResponse.setCompKor(companyService.fetchCompKr(tourp.getCompUuid()));
 //                    tourpResponse.setCompEng(companyService.fetchCompEng(tourp.getCompUuid()));
@@ -93,5 +103,24 @@ public class TourInfoService {
                 .collect(Collectors.toList());
 
         return tourpResList;
+    }
+
+
+    public String fetchPrepaidKr(long codeUuid) {
+        CreditCardMng cdcdCode = creditCardMngRepository.findOneByCdCdUuid(codeUuid);
+        if (cdcdCode != null) {
+            return cdcdCode.getMngNameKor();
+        } else {
+            return null;
+        }
+    }
+
+    public String fetchPrepaidEn(long codeUuid) {
+        CreditCardMng cdcdCode = creditCardMngRepository.findOneByCdCdUuid(codeUuid);
+        if (cdcdCode != null) {
+            return cdcdCode.getMngNameEng();
+        } else {
+            return null;
+        }
     }
 }

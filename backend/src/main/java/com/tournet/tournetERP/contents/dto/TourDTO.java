@@ -24,14 +24,19 @@ public class TourDTO {
     private long tourCategory; //투어구분
 
     private String tourCategoryName; //투어구분
+    private String tourCategoryNameEn; //투어구분
     private long tourArea; //지역코드
     private String tourAreaName; //지역코드
+    private String tourAreaNameEn; //지역코드
+
     private long tourAreaSub; //지역코드
     private String tourAreaSubName; //지역코드
+    private String tourAreaSubNameEn; //지역코드
     private String tourKor; //투어명KOR
     private String tourEng; //투어명ENG
     private long prepaidMethod; //프리페이드지정]
     private String prepaidMethodName; //프리페이드지정
+    private String prepaidMethodNameEn; //프리페이드지정
     private long minAge; //제한연령
     private long childAge; //아이나이
     private long youthAge; //쥬니어나이

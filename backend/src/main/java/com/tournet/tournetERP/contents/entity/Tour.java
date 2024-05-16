@@ -38,7 +38,7 @@ public class Tour {
     private long prepaidMethod; //프리페이드지정
 
     @Column(name = "MIN_AGE", nullable = true)
-    private long minAge; //제한연령
+    private long minAge; //유아나이
 
     @Column(name = "CHILD_AGE", nullable = true)
     private long childAge; //아이나이
@@ -47,7 +47,7 @@ public class Tour {
     private long youthAge; //쥬니어나이
 
     @Column(name = "TOUR_ORD", nullable = true)
-    private long tourOrd; //투어명ENG
+    private long tourOrd; //투어정렬순서
 
     @Column(name = "BEGIN_DT", nullable = true)
     private String beginDt; //시작일

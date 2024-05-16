@@ -26,7 +26,10 @@ public class Hotel {
     private long hotelGrp; //투어정보UUID
 
     @Column(name = "HOTEL_LVL", nullable = false)
-    private long hotelLvl; //투어정보UUID
+    private long hotelLvl; //호텔등급
+
+    @Column(name = "COUPON_USE", nullable = false)
+    private long couponUse; //호텔등급
 
     @Column(name = "CHILD_AGE_BREAKFAST", nullable = true)
     private long childAgeBreakfast; //조식어린이나이

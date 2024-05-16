@@ -48,4 +48,9 @@ public class HotelDTO {
     private String modifiedByName; //최종수정자
 
     private Date modifiedDt; //최종수정일
+
+    private long searchHotelUuid;
+    private long searchHotelGrp;
+    private long searchTourUuid;
+
 }

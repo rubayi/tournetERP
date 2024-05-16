@@ -120,11 +120,9 @@ public class CompanyController {
                 String fileName = "";
                 if (currentCompany.isPresent()) {
                     companyReq.setModifyUser(modifyingUser);
-                    message = "수정 되었습니다.";
                 } else {
                     companyReq.setModifyUser(modifyingUser);
                     companyReq.setCreateUser(modifyingUser);
-                    message = "등록 되었습니다.";
                 }
 
                 if (file != null) {

@@ -26,6 +26,10 @@
       <div class="flex flex-grow-1 q-pa-md">
         <tour-form-drawer-content
           v-model="tourformData"
+          :tour-area-list = "tourAreaList"
+          :tour-area-sub-list = "tourAreaSubList"
+          :sector-list = "sectorList"
+          :prepaid-how-list = "prepaidHowList"
           ref="tourFormDrawerContent"
         />
       </div>
@@ -61,6 +65,7 @@ import { TourForm } from 'src/types/TourForm';
 import store from 'src/store';
 //helper
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
+import {SelectOption} from "@/types/SelectOption";
 
 export default defineComponent({
   name: 'TourFormDrawer',
@@ -77,6 +82,22 @@ export default defineComponent({
     modelValue: {
       type: Boolean,
       default: false,
+    },
+    tourAreaList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    tourAreaSubList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    sectorList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    prepaidHowList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
     },
   },
   emits: [
@@ -146,7 +167,6 @@ export default defineComponent({
         loading.value = true;
         TourService.getOneTourForm(props.tourSeq)
           .then((response) => {
-            console.log(response);
             tourformData.value = response;
           })
           .finally(() => {

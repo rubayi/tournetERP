@@ -12,6 +12,7 @@ import java.util.*;
 import com.tournet.tournetERP.auth.dto.MessageResponse;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
+import com.tournet.tournetERP.contents.dto.CompanyDTO;
 import com.tournet.tournetERP.contents.dto.HotelDTO;
 import com.tournet.tournetERP.contents.entity.Hotel;
 import com.tournet.tournetERP.contents.repository.HotelRepository;
@@ -39,14 +40,16 @@ public class HotelController {
     HotelService hotelService;
 
     @PostMapping("/selectHotels")
-    public ResponseEntity<Map<String, Object>> selectHotels (@RequestBody HotelDTO searchhotelReq) {
+    public ResponseEntity<?> selectHotels (@RequestBody HotelDTO searchhotelReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        List<Hotel> listHotel = new ArrayList<Hotel>();
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("listHotel", listHotel);
-        return new ResponseEntity<>(resMap, HttpStatus.OK);
+        List<HotelDTO> hotelList = new ArrayList<HotelDTO>();
+        //compRepository.findAllByOrderByModifiedDtDesc();
+        if(storUser.isAuthenticated()) {
+            hotelList = hotelService.findHotelList(searchhotelReq);
+        }
+        return new ResponseEntity<>(hotelList, HttpStatus.OK);
     }
 
 

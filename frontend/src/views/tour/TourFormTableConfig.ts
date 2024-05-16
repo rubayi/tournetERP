@@ -24,7 +24,7 @@ export class TourFormTableConfig {
         cellStyle: { 'text-align': 'center' },
       },
       {
-        headerName: i18n.global.t('mngNameKor'),
+        headerName: i18n.global.t('tourAreaName'),
         field: 'tourAreaName',
         floatingFilter: false,
         minWidth: 120,
@@ -33,7 +33,7 @@ export class TourFormTableConfig {
         resizable: true,
       },
       {
-        headerName: i18n.global.t('mngNameEng'),
+        headerName: i18n.global.t('tourAreaSubName'),
         field: 'tourAreaSubName',
         filter: true,
         minWidth: 140,
@@ -42,7 +42,7 @@ export class TourFormTableConfig {
         resizable: true,
       },
       {
-        headerName: i18n.global.t('mngNameKor'),
+        headerName: i18n.global.t('tourKor'),
         field: 'tourKor',
         floatingFilter: false,
         minWidth: 120,
@@ -51,7 +51,7 @@ export class TourFormTableConfig {
         resizable: true,
       },
       {
-        headerName: i18n.global.t('mngNameEng'),
+        headerName: i18n.global.t('tourEng'),
         field: 'tourEng',
         filter: true,
         minWidth: 140,
@@ -60,7 +60,7 @@ export class TourFormTableConfig {
         resizable: true,
       },
       {
-        headerName: i18n.global.t('carNum'),
+        headerName: i18n.global.t('prepaidMethodName'),
         field: 'prepaidMethodName',
         floatingFilter: false,
         minWidth: 150,

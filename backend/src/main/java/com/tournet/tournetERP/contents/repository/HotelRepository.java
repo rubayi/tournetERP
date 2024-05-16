@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.tournet.tournetERP.contents.entity.Hotel;
+import com.tournet.tournetERP.contents.entity.Tour;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -33,4 +34,14 @@ public interface HotelRepository extends JpaRepository<Hotel,Long> {
     void deleteByHotelUuid(long hotelUuid);
 
     Optional<Hotel> findByTourUuid(long id);
+
+    @Query("SELECT h FROM Hotel h " +
+            "WHERE (:hotelUuid IS NULL OR h.hotelUuid = :hotelUuid) " +
+            "AND (:tourUuid IS NULL OR h.tourUuid = :tourUuid) " +
+            "AND (:hotelGrp IS NULL OR h.hotelGrp = :hotelGrp) " +
+            "OR (:hotelUuid IS NULL AND :tourUuid IS NULL AND :hotelGrp IS NULL ) " +
+            "ORDER BY h.modifiedDt DESC")
+    List<Hotel> findHotelOrderByModifiedDtDesc(@Param("hotelUuid") Long hotelUuid,
+                                              @Param("tourUuid") Long tourUuid,
+                                              @Param("hotelGrp") Long hotelGrp);
 }

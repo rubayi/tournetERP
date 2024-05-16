@@ -1,5 +1,5 @@
 <template>
-  <card-comp-design :title="t('manageCreditCard')">
+  <card-comp-design :title="t('manageTour')">
     <template #content>
       <q-card-section v-if="edittourformData">
         <div class="row q-col-gutter-md">
@@ -7,8 +7,8 @@
             <select-comp
               v-model="edittourformData.tourArea"
               class="full-width"
-              :label="t('expmonth')"
-              :options="monNumbers"
+              :label="t('tourArea')"
+              :options="tourAreaList"
               outlined
             />
           </div>
@@ -16,8 +16,8 @@
             <select-comp
               v-model="edittourformData.tourAreaSub"
               class="full-width"
-              :label="t('expmonth')"
-              :options="monNumbers"
+              :label="t('tourAreaSub')"
+              :options="tourAreaSubList"
               outlined
             />
           </div>
@@ -26,7 +26,7 @@
               v-model="edittourformData.tourKor"
               class="full-width"
               clearable
-              :label="t('mngNameKor')"
+              :label="t('tourKor')"
               outlined
               required
             />
@@ -36,29 +36,46 @@
               v-model="edittourformData.tourEng"
               class="full-width"
               clearable
-              :label="t('mngNameEng')"
+              :label="t('tourEng')"
               outlined
               required
             />
           </div>
-
+          <!--유아 나이-->
           <div class="col-6">
-            <input-comp
-              v-model="edittourformData.codeAbb"
+            <select-comp
+              v-model="edittourformData.minAge"
               class="full-width"
-              clearable
-              :label="t('nameOnCard')"
+              :label="t('minAge')"
+              :options="ageNumbers"
               outlined
-              required
             />
           </div>
-
+          <!--어린이 나이-->
+          <div class="col-6">
+            <select-comp
+              v-model="edittourformData.childAge"
+              class="full-width"
+              :label="t('childAge')"
+              :options="ageNumbers"
+              outlined
+            />
+          </div>
           <div class="col-6">
             <select-comp
               v-model="edittourformData.prepaidMethod"
               class="full-width"
-              :label="t('expyear')"
-              :options="yearNumbers"
+              :label="t('prepaidMethod')"
+              :options="prepaidHowList"
+              outlined
+            />
+          </div>
+          <div class="col-6">
+            <select-comp
+              v-model="edittourformData.tourOrd"
+              class="full-width"
+              :label="t('tourOrd')"
+              :options="ordNumbers"
               outlined
             />
           </div>
@@ -80,15 +97,7 @@
               :label="t('endDt')"
             />
           </div>
-          <div class="col-6">
-            <select-comp
-              v-model="edittourformData.tourArea"
-              class="full-width"
-              :label="t('usage')"
-              :options="useYnList"
-              outlined
-            />
-          </div>
+
         </div>
       </q-card-section>
     </template>
@@ -124,6 +133,22 @@ export default defineComponent({
       type: Object as () => TourForm,
       default: () => new TourForm(),
     },
+    tourAreaList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    tourAreaSubList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    sectorList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    prepaidHowList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
   },
   setup(props, { emit }) {
     const edittourformData = ref<TourForm>();
@@ -141,13 +166,23 @@ export default defineComponent({
 
     const yearNumbers = ref<SelectOption[]>([]);
     const monNumbers = ref<SelectOption[]>([]);
+    const ageNumbers = ref<SelectOption[]>([]);
+    const ordNumbers = ref<SelectOption[]>([]);
 
     loadcdMonthOptions();
 
     function loadcdMonthOptions() {
       for (let i = 0; i <= 20; i++) {
         let tnum = i.toString().padStart(2, '0');
-        monNumbers.value.push({ label: tnum, value: parseInt(tnum) });
+        monNumbers.value.push({ label: tnum, value: i });
+      }
+    }
+
+    loadcdAgeOptions();
+    function loadcdAgeOptions() {
+      for (let i = 0; i <= 20; i++) {
+        let tnum = i.toString();
+        ageNumbers.value.push({ label: tnum, value: i });
       }
     }
 
@@ -160,6 +195,14 @@ export default defineComponent({
       }
     }
 
+    loadcdOrdOptions();
+    function loadcdOrdOptions() {
+      for (let i = 0; i <= 70; i++) {
+        let tnum = i.toString();
+        ordNumbers.value.push({ label: tnum, value: i });
+      }
+    }
+
     const useYnList = ref<SelectOption[]>([]);
     loadOptionsList(515, useYnList, locale);
 
@@ -168,6 +211,8 @@ export default defineComponent({
       edittourformData,
       monNumbers,
       yearNumbers,
+      ageNumbers,
+      ordNumbers,
       useYnList,
     };
   },

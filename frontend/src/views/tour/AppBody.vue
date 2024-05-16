@@ -39,9 +39,9 @@
         <div class="col-12">
           <table-comp
             id="tour-form-grid"
+            class="ag-theme-alpine grid"
             :column-defs="columns"
             :context="context"
-            :framework-components="frameworkComponents"
             :loading="loading"
             :overlay-loading-template="overlayLoadingTemplate"
             :pagination="true"
@@ -56,6 +56,10 @@
       <tour-form-drawer
         v-model="openDrawer"
         :tour-seq="tourUuid"
+        :tour-area-list = "tourAreaList"
+        :tour-area-sub-list = "tourAreaSubList"
+        :sector-list = "sectorList"
+        :prepaid-how-list = "prepaidHowList"
         @tourform-deleted="loadData"
         @tourform-drawer-closed="tourUuid = 0"
         @tourform-saved="loadData"
@@ -95,13 +99,17 @@ import TourSearchDrawer from 'src/views/tour/TourSearchDrawer.vue';
 import {CodeService} from "src/services/CodeService";
 import {CodeForm} from "src/types/CodeForm";
 import {CodeSearchForm} from "src/types/CodeSearchForm";
+import {SelectOption} from "src/types/SelectOption";
+import {loadOptionsList} from "src/utils/commoncode/commonCode";
+import {CdcdSearchForm} from "src/types/CdcdSearchForm";
+import {CdcdService} from "src/services/CdcdService";
 
 export default defineComponent({
   name: 'TourForm',
   components: {
     TableComp,
     TourFormDrawer,
-    TourSearchDrawer,
+    TourSearchDrawer
   },
   setup() {
     const locale = i18n.global.locale.value;
@@ -130,7 +138,6 @@ export default defineComponent({
       const route = useRoute();
       sector.value = route.params.sector as string;
       setSectorAndTourCategory();
-
     });
 
     /* List */
@@ -181,18 +188,19 @@ export default defineComponent({
       showinsertbutton.value =
         store.getters.currentUserHasApplicationPermission('CONT_W');
 
-      searchdata.value.searchTourCategory = tourCategory.value;
+      if( tourCategory.value){
+        searchdata.value.searchTourCategory = tourCategory.value;
 
-      if (store.getters.currentUserHasApplicationPermission('CONT_R')) {
-        TourService.getAll(searchdata.value).then((response) => {
-          loading.value = false;
-          tourUuid.value = 0;
+        if (store.getters.currentUserHasApplicationPermission('CONT_R')) {
+          TourService.getAll(searchdata.value).then((response) => {
+            loading.value = false;
+            tourUuid.value = 0;
 
-          if (response) {
-            data.value = response;
-            console.log(data.value);
-          }
-        });
+            if (response) {
+              data.value = response;
+            }
+          });
+        }
       }
     }
     function resetloadData() {
@@ -252,6 +260,35 @@ export default defineComponent({
     };
 
 
+    const tourAreaList = ref<SelectOption[]>([]);
+    const tourAreaSubList = ref<SelectOption[]>([]);
+    const sectorList = ref<SelectOption[]>([]);
+
+    loadOptionsList(31, tourAreaList, locale);
+    loadOptionsList(144, tourAreaSubList, locale);
+    loadOptionsList(22, sectorList, locale);
+
+    loadPrepaidHowListOptions();
+
+    /*Prepaid How List*/
+    const prepaidHowList = ref<SelectOption[]>([]);
+    function loadPrepaidHowListOptions() {
+      let searchReq: CdcdSearchForm = {
+        searchCdCdUuid: 0,
+        searchMngNameKor: '',
+        searchMngNameEng: '',
+        searchCardNumber: '',
+      };
+      CdcdService.getAll(searchReq).then((response) => {
+        prepaidHowList.value = response.map(
+          (x) =>
+            new SelectOption(
+              locale === 'en' ? x.mngNameEng : x.mngNameKor,
+              x.cdCdUuid
+            )
+        );
+      });
+    }
 
     return {
       t: i18n.global.t,
@@ -268,6 +305,10 @@ export default defineComponent({
       filterAction,
       tourformGrid,
       overlayLoadingTemplate,
+      tourAreaList,
+      tourAreaSubList,
+      sectorList,
+      prepaidHowList,
       searchdata,
       resetloadData,
       filterNumber,

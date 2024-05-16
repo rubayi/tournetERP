@@ -41,21 +41,16 @@ public class TourController {
     TourInfoService tourInfoService;
 
     @PostMapping("/selectTours")
-    public ResponseEntity<Map<String, Object>> selectTours (@RequestBody TourDTO searchtourReq) {
+    public ResponseEntity<?> selectTours (@RequestBody TourDTO searchtourReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
         List<TourDTO> listTour = new ArrayList<TourDTO>();
-        String message = "";
         if(storUser.isAuthenticated()) {
             listTour = tourInfoService.findtoursList(searchtourReq);
-            message = "OK";
         }
 
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("listTour", listTour);
-        resMap.put("message", message);
-        return new ResponseEntity<>(resMap, HttpStatus.OK);
+        return new ResponseEntity<>(listTour, HttpStatus.OK);
     }
 
     @PostMapping("/updateTour")
