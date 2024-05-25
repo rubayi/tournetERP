@@ -1,6 +1,6 @@
-INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('16','고용형태선택','Employment Type','','000','1','Y',now(),now());
-INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('16','정규직','Full Time','Full Time','001','1','Y',now(),now());
-INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('16','임시직','Part Time','Part Time','002','1','Y',now(),now());
-INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('16','계약직','Contract worker','Contract worker','003','1','Y',now(),now());
-INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('16','인턴직','Internship','Internship','004','1','Y',now(),now());
-INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_value, code_lvl, use_yn, created_dt, modified_dt) VALUES ('16','가이드','Guide','Guide','005','1','Y',now(),now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_lvl, use_yn, created_dt, modified_dt) VALUES ('16','고용형태선택','Employment Type','','1','Y',now(),now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_lvl, use_yn, created_dt, modified_dt) VALUES ('16','정규직','Full Time','Full Time','1','Y',now(),now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_lvl, use_yn, created_dt, modified_dt) VALUES ('16','임시직','Part Time','Part Time','1','Y',now(),now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_lvl, use_yn, created_dt, modified_dt) VALUES ('16','계약직','Contract worker','Contract worker','1','Y',now(),now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_lvl, use_yn, created_dt, modified_dt) VALUES ('16','인턴직','Internship','Internship','1','Y',now(),now());
+INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_lvl, use_yn, created_dt, modified_dt) VALUES ('16','가이드','Guide','Guide','1','Y',now(),now());

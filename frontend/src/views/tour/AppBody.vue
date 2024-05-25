@@ -55,6 +55,7 @@
       </div>
       <tour-form-drawer
         v-model="openDrawer"
+        :tour-category ="tourCategory"
         :tour-seq="tourUuid"
         :tour-area-list = "tourAreaList"
         :tour-area-sub-list = "tourAreaSubList"
@@ -314,6 +315,7 @@ export default defineComponent({
       filterNumber,
       showinsertbutton,
       frameworkComponents,
+      tourCategory
     };
   },
   data() {

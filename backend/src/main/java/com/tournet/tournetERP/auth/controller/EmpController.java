@@ -210,6 +210,20 @@ public ResponseEntity<List<UserResponse>> selectEmpsByCondition(@RequestBody Use
         return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
+
+
+    @PostMapping("/createEmp")
+    public ResponseEntity<Map<String, Object>> createEmp(@RequestBody User empReq) {
+
+        empReq.setPassword(encoder.encode(empReq.getPassword()));
+
+        empReq = empRepository.save(empReq);
+
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("empReq", empReq);
+        return new ResponseEntity<>(resMap, HttpStatus.OK);
+    }
+
     @Transactional
     @DeleteMapping("/deleteEmp/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable long id) {

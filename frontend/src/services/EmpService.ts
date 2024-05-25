@@ -55,6 +55,14 @@ export class EmpService {
       .then((response) => response.data);
   }
 
+  static createEmpForm(empForm: EmpForm): Promise<EmpForm> {
+    return api
+      .post<EmpForm>(API_URL + 'createEmp', empForm, {
+        headers: authHeader(),
+      })
+      .then((response) => response.data);
+  }
+
   static deleteEmpForm(empUuid: number): Promise<void> {
     return api
       .delete<void>(API_URL + `deleteEmp/${empUuid}`, {

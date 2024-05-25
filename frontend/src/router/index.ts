@@ -12,6 +12,7 @@ import Comp from 'src/views/comp/AppBody.vue';
 import Cdcd from 'src/views/cdcd/AppBody.vue';
 import Emp from 'src/views/emp/AppBody.vue';
 import Tour from 'src/views/tour/AppBody.vue';
+import RegisterTN from "src/views/Register.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -59,8 +60,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'tour',
     children: [{ path: '', component: () => Tour }],
   },
-  // Always leave this as last one,
-  // but you can also remove it
+  {
+    path: "/register",
+    name: 'register',
+    component: RegisterTN,
+  },
   {
     path: '/:catchAll(.*)*',
     component: () => import('src/views/NotFound.vue'),
@@ -80,7 +84,7 @@ function loginGuard(
   from: RouteLocationNormalized,
   next: NavigationGuardNext
 ): void {
-  if (to.name !== 'Login') {
+  if (to.name !== 'Login' && to.name !== 'register') {
     LoginService.getCurrentUser()
       .then((result) => {
         store.commit('updateCurrentUser', result);

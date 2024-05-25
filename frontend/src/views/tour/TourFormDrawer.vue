@@ -65,7 +65,7 @@ import { TourForm } from 'src/types/TourForm';
 import store from 'src/store';
 //helper
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
-import {SelectOption} from "@/types/SelectOption";
+import {SelectOption} from "src/types/SelectOption";
 
 export default defineComponent({
   name: 'TourFormDrawer',
@@ -82,6 +82,10 @@ export default defineComponent({
     modelValue: {
       type: Boolean,
       default: false,
+    },
+    tourCategory: {
+      type: Number,
+      default: 0,
     },
     tourAreaList: {
       type: Array as () => SelectOption[],
@@ -124,6 +128,7 @@ export default defineComponent({
     const tourformDrawerContent = ref();
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
+    const lcTourCategory = ref(props.tourCategory);
 
     watch(
       () => props.modelValue,
@@ -135,13 +140,15 @@ export default defineComponent({
       () => openDrawer.value,
       (newValue) => {
         emit('update:modelValue', newValue);
-        getCodeformData();
+        getTourFormData();
       }
     );
 
     // Reset Drawer
     function resetDrawer() {
       tourformData.value = new TourForm();
+      tourformData.value.tourCategory = lcTourCategory.value;
+
       if (props.tourSeq != 0) {
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = i18n.global.t('change');
@@ -161,7 +168,7 @@ export default defineComponent({
     }
 
     // Loading One Data
-    function getCodeformData() {
+    function getTourFormData() {
       resetDrawer();
       if (props.tourSeq != 0) {
         loading.value = true;
@@ -180,6 +187,7 @@ export default defineComponent({
       notificationHelper.dismiss();
       notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
+      tourformData.value.tourCategory = lcTourCategory.value;
       if (tourformData.value) {
         TourService.saveTourForm(tourformData.value)
           .then((response) => {
