@@ -18,9 +18,9 @@ public class ComCodeDTO {
 
     private String codeEn;
 
-    private int codeLvl;
+    private long codeLvl;
 
-    private int codeOrd;
+    private long codeOrd;
 
     private long uprCodeUuid;
 

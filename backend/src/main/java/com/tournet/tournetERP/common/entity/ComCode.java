@@ -30,10 +30,10 @@ public class ComCode {
     private String codeAbb;
 
     @Column(name = "CODE_LVL", nullable = true)
-    private int codeLvl;
+    private long codeLvl;
 
     @Column(name = "CODE_ORD", nullable = true)
-    private int codeOrd;
+    private long codeOrd;
 
     @Column(name = "UPR_CODE_UUID", nullable = true)
     private long uprCodeUuid;

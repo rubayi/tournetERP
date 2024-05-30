@@ -41,6 +41,9 @@ INSERT INTO COM_MENU_AUTH (`auth_yn`, `menu_auth_name_eng`, `menu_auth_name`, `m
 INSERT INTO COM_MENU_AUTH (`auth_yn`, `menu_auth_name_eng`, `menu_auth_name`, `modified_dt`) VALUES('Y', 'ASSIGN_R', '배정 읽기', now());
 INSERT INTO COM_MENU_AUTH (`auth_yn`, `menu_auth_name_eng`, `menu_auth_name`, `modified_dt`) VALUES('Y', 'ASSIGN_WU', '배정 편집', now());
 INSERT INTO COM_MENU_AUTH (`auth_yn`, `menu_auth_name_eng`, `menu_auth_name`, `modified_dt`) VALUES('Y', 'ASSIGN_D', '배정 삭제', now());
+INSERT INTO COM_MENU_AUTH (`auth_yn`, `menu_auth_name_eng`, `menu_auth_name`, `modified_dt`) VALUES('Y', 'COMP_R', '업체관리 읽기', now());
+INSERT INTO COM_MENU_AUTH (`auth_yn`, `menu_auth_name_eng`, `menu_auth_name`, `modified_dt`) VALUES('Y', 'COMP_WU', '업체관리 편집', now());
+INSERT INTO COM_MENU_AUTH (`auth_yn`, `menu_auth_name_eng`, `menu_auth_name`, `modified_dt`) VALUES('Y', 'COMP_D', '업체관리 삭제', now());
 
 
 

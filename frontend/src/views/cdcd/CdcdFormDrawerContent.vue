@@ -107,6 +107,7 @@ import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 // Service
 import { CodeService } from 'src/services/CodeService';
 import DatePickerComp from 'src/components/common/DatePickerComp.vue';
+import {loadOptionsList} from "src/utils/commoncode/commonCode";
 
 export default defineComponent({
   name: 'CdcdFormDrawerContent',
@@ -123,6 +124,7 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
+    const locale = i18n.global.locale.value;
     const editcodeformData = ref<CdcdForm>();
     useSyncModelValue(
       props,
@@ -155,15 +157,9 @@ export default defineComponent({
       }
     }
 
-    loadCouponYnListOptions();
     const useYnList = ref<SelectOption[]>([]);
-    function loadCouponYnListOptions() {
-      CodeService.getGroupCodeForm(35).then((response) => {
-        useYnList.value = response.map(
-          (x) => new SelectOption(x.codeKr, x.codeUuid)
-        );
-      });
-    }
+    loadOptionsList(35, useYnList, locale);
+
     return {
       t: i18n.global.t,
       editcodeformData,

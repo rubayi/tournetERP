@@ -43,7 +43,7 @@ public interface ComCodeRepository extends JpaRepository<ComCode, Long> {
             "ORDER BY p.codeOrd")
     List<ComCode> findByUprCodeUuidOrderByCodeOrdAsc(long codeUuid);
 
-    List<ComCode> findByUprCodeUuidAndCodeLvlOrderByCodeOrdAsc(long uprCodeUuid, int codeLvl);
+    List<ComCode> findByUprCodeUuidAndCodeLvlOrderByCodeOrdAsc(long uprCodeUuid, long codeLvl);
 
     @Query("SELECT u FROM ComCode u " +
             "WHERE (:uprCodeUuid IS NULL OR u.uprCodeUuid = :uprCodeUuid) " +
