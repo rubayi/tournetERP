@@ -145,8 +145,8 @@ export default defineComponent({
         filterNumber.value++;
       }
       showinsertbutton.value =
-        store.getters.currentUserHasApplicationPermission('CODE_W');
-      if (store.getters.currentUserHasApplicationPermission('CODE_R')) {
+        store.getters.currentUserHasApplicationPermission('ACCOUNT_WU');
+      if (store.getters.currentUserHasApplicationPermission('ACCOUNT_R')) {
         CdcdService.getAll(searchdata.value).then((response) => {
           loading.value = false;
           codeUuid.value = 0;

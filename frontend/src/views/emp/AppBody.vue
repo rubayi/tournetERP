@@ -168,8 +168,8 @@ export default defineComponent({
         filterNumber.value++;
       }
       showinsertbutton.value =
-        store.getters.currentUserHasApplicationPermission('CODE_W');
-      if (store.getters.currentUserHasApplicationPermission('CODE_R')) {
+        store.getters.currentUserHasApplicationPermission('USER_WU');
+      if (store.getters.currentUserHasApplicationPermission('USER_R')) {
         EmpService.selectEmpsByCondition(searchdata.value).then((response) => {
           loading.value = false;
 

@@ -57,9 +57,7 @@ export class EmpService {
 
   static createEmpForm(empForm: EmpForm): Promise<EmpForm> {
     return api
-      .post<EmpForm>(API_URL + 'createEmp', empForm, {
-        headers: authHeader(),
-      })
+      .post<EmpForm>('/auth/createEmp', empForm)
       .then((response) => response.data);
   }
 

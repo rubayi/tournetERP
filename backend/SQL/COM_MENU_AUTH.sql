@@ -41,3 +41,48 @@ INSERT INTO COM_MENU_AUTH (`auth_yn`, `menu_auth_name_eng`, `menu_auth_name`, `m
 INSERT INTO COM_MENU_AUTH (`auth_yn`, `menu_auth_name_eng`, `menu_auth_name`, `modified_dt`) VALUES('Y', 'ASSIGN_R', '배정 읽기', now());
 INSERT INTO COM_MENU_AUTH (`auth_yn`, `menu_auth_name_eng`, `menu_auth_name`, `modified_dt`) VALUES('Y', 'ASSIGN_WU', '배정 편집', now());
 INSERT INTO COM_MENU_AUTH (`auth_yn`, `menu_auth_name_eng`, `menu_auth_name`, `modified_dt`) VALUES('Y', 'ASSIGN_D', '배정 삭제', now());
+
+
+
+
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 3);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 4);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 5);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 6);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 7);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 8);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 9);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 10);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 11);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 12);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 13);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 14);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 15);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 16);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 17);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 18);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 19);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 20);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 21);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 22);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 23);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 24);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 25);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 26);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 27);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 28);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 29);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 30);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 31);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 32);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 33);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 34);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 35);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 36);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 37);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 38);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 39);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 40);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 41);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 42);
+INSERT INTO tnnewerp.emp_auth (emp_uuid, menu_auth_uuid) VALUES (3, 43);

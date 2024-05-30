@@ -140,7 +140,7 @@ export default defineComponent({
     loadcdMonthOptions();
 
     function loadcdMonthOptions() {
-      for (let i = 0; i <= 20; i++) {
+      for (let i = 1; i <= 12; i++) {
         let tnum = i.toString().padStart(2, '0');
         monNumbers.value.push({ label: tnum, value: parseInt(tnum) });
       }
@@ -158,7 +158,7 @@ export default defineComponent({
     loadCouponYnListOptions();
     const useYnList = ref<SelectOption[]>([]);
     function loadCouponYnListOptions() {
-      CodeService.getGroupCodeForm(515).then((response) => {
+      CodeService.getGroupCodeForm(35).then((response) => {
         useYnList.value = response.map(
           (x) => new SelectOption(x.codeKr, x.codeUuid)
         );

@@ -146,7 +146,7 @@ export default defineComponent({
         filterNumber.value++;
       }
       showinsertbutton.value =
-        store.getters.currentUserHasApplicationPermission('CODE_W');
+        store.getters.currentUserHasApplicationPermission('CODE_WU');
       if (store.getters.currentUserHasApplicationPermission('CODE_R')) {
         CodeService.getAll(searchdata.value).then((response) => {
           loading.value = false;

@@ -186,6 +186,56 @@ public class AuthController {
         return new ResponseEntity<>(resMap, HttpStatus.OK);
     }
 
+
+    @PostMapping("/createEmp")
+    public ResponseEntity<?> registerUserInFirst(@Valid @RequestBody UserRequest signUpRequest) {
+
+        String message = "";
+
+        // Create new user's account
+        User user = new User();
+        user.setUsername(signUpRequest.getUsername());
+        user.setEmpEmail(signUpRequest.getEmpEmail());
+        user.setPassword(encoder.encode(signUpRequest.getPassword()));
+
+        Set<String> strRoles = signUpRequest.getRole();
+        Set<Role> roles = new HashSet<>();
+
+        if (strRoles == null) {
+            Role userRole = roleRepository.findByRoles(ERole.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("없는 사용자 권한 입니다."));
+            roles.add(userRole);
+        } else {
+            strRoles.forEach(role -> {
+                switch (role) {
+                    case "admin":
+                        Role adminRole = roleRepository.findByRoles(ERole.ROLE_ADMIN)
+                                .orElseThrow(() -> new RuntimeException("없는 사용자 권한 입니다."));
+                        roles.add(adminRole);
+
+                        break;
+                    case "mod":
+                        Role modRole = roleRepository.findByRoles(ERole.ROLE_MODERATOR)
+                                .orElseThrow(() -> new RuntimeException("없는 사용자 권한 입니다."));
+                        roles.add(modRole);
+
+                        break;
+                    default:
+                        Role userRole = roleRepository.findByRoles(ERole.ROLE_USER)
+                                .orElseThrow(() -> new RuntimeException("없는 사용자 권한 입니다."));
+                        roles.add(userRole);
+                }
+            });
+        }
+
+        user.setRoles(roles);
+        userRepository.save(user);
+
+        message = "사용자 등록이 완료 되었습니다.";
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("message", message);
+        return new ResponseEntity<>(resMap, HttpStatus.OK);
+    }
     @PostMapping("/refreshtoken")
     public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();

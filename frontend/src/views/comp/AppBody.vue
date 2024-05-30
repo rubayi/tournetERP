@@ -227,7 +227,7 @@ export default defineComponent({
       }
 
       showinsertbutton.value =
-        store.getters.currentUserHasApplicationPermission('COMP_W');
+        store.getters.currentUserHasApplicationPermission('COMP_WU');
       if (store.getters.currentUserHasApplicationPermission('COMP_R')) {
         CompService.getAllComp(searchdata.value).then((response) => {
           loading.value = false;

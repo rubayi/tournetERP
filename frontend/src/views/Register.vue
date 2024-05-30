@@ -14,8 +14,8 @@
             <ErrorMessage name="username" class="error-feedback" />
           </div>
           <div class="form-group">
-            <label for="email">Email</label>
-            <Field name="email" type="email" class="form-control" />
+            <label for="empEmail">Email</label>
+            <Field name="empEmail" type="email" class="form-control" />
             <ErrorMessage name="email" class="error-feedback" />
           </div>
           <div class="form-group">
@@ -72,7 +72,7 @@ export default defineComponent({
         .required("Username is required!")
         .min(3, "Must be at least 3 characters!")
         .max(20, "Must be maximum 20 characters!"),
-      email: yup
+      empEmail: yup
         .string()
         .required("Email is required!")
         .email("Email is invalid!")
