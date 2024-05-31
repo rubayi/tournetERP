@@ -72,9 +72,12 @@ public class ComCodeService {
 //            if(comCode.getUprCodeUuid() != 0 && comCode.getCodeLvl() != 0){
 //                comCodeResponse.setUprNameEn(fetchCodeUtil.uprFetchCodeEn(comCode.getUprCodeUuid()));
 //            }
-            comCodeResponse.setModifiedByName(comp.getModifyUser().getUsername());
-            comCodeResponse.setCreatedByName(comp.getCreateUser().getUsername());
-
+            if(comp.getModifyUser() != null) {
+                comCodeResponse.setModifiedByName(comp.getModifyUser().getUsername());
+            }
+            if(comp.getCreateUser() != null) {
+                comCodeResponse.setCreatedByName(comp.getCreateUser().getUsername());
+            }
             return comCodeResponse;
         }).collect(Collectors.toList());
 //        List<ComCodeResponse> comCodeResList = null;

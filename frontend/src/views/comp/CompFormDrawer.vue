@@ -212,7 +212,7 @@ export default defineComponent({
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = 'edit';
-        if (store.getters.currentUserHasApplicationPermission('COMP_W')) {
+        if (store.getters.currentUserHasApplicationPermission('COMP_WU')) {
           showconfirmbutton.value = true;
         } else {
           showconfirmbutton.value = false;
@@ -262,6 +262,8 @@ export default defineComponent({
       notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
       if (compFormData.value) {
+
+        console.log(attfile.value);
         const fileToUpload = attfile.value;
         CompService.saveCompForm(fileToUpload, compFormData.value)
           .then((response) => {

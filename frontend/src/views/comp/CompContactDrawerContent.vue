@@ -86,10 +86,10 @@ export default defineComponent({
     );
 
     const ContactTypeList = ref<SelectOption[]>([]);
-    loadOptionsList(342, ContactTypeList, locale);
+    loadOptionsList(23, ContactTypeList, locale);
 
     const RepresentTypeList = ref<SelectOption[]>([]);
-    loadOptionsList(343, RepresentTypeList, locale);
+    loadOptionsList(35, RepresentTypeList, locale);
 
     return {
       t: i18n.global.t,

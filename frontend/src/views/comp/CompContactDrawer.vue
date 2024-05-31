@@ -128,15 +128,15 @@ export default defineComponent({
         confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = 'edit';
         showconfirmbutton.value =
-          store.getters.currentUserHasApplicationPermission('CODE_W');
+          store.getters.currentUserHasApplicationPermission('COMP_WU');
         showdeletebutton.value =
-          store.getters.currentUserHasApplicationPermission('CODE_D');
+          store.getters.currentUserHasApplicationPermission('COMP_D');
       } else {
         confirmbuttoncolor.value = 'primary';
         confirmbuttonlabel.value = i18n.global.t('add');
         confirmicon.value = 'add';
         showconfirmbutton.value =
-          store.getters.currentUserHasApplicationPermission('CODE_W');
+          store.getters.currentUserHasApplicationPermission('COMP_WU');
         showdeletebutton.value = false;
       }
     }

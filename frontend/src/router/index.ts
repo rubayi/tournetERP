@@ -41,8 +41,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('src/views/main/AppBody.vue'),
   },
   {
-    path: '/comcode',
-    name: 'comcode',
+    path: '/code',
+    name: 'code',
     children: [{ path: '', component: () => Code }],
   },
   {

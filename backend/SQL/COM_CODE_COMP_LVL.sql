@@ -1,0 +1,9 @@
+INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_kr, code_en, code_abb) VALUES ('426',1, 'Y',now(),now(),'5','5', '5');
+INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_kr, code_en, code_abb) VALUES ('426',1, 'Y',now(),now(),'4.5','4.5', '4.5');
+INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_kr, code_en, code_abb) VALUES ('426',1, 'Y',now(),now(),'4','4', '4');
+INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_kr, code_en, code_abb) VALUES ('426',1, 'Y',now(),now(),'3.5','3.5', '3.5');
+INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_kr, code_en, code_abb) VALUES ('426',1, 'Y',now(),now(),'3','3', '3');
+INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_kr, code_en, code_abb) VALUES ('426',1, 'Y',now(),now(),'2.5','2.5', '2.5');
+INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_kr, code_en, code_abb) VALUES ('426',1, 'Y',now(),now(),'2','2', '2');
+INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_kr, code_en, code_abb) VALUES ('426',1, 'Y',now(),now(),'1.5','1.5', '1.5');
+INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_kr, code_en, code_abb) VALUES ('426',1, 'Y',now(),now(),'1','1', '1');

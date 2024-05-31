@@ -60,8 +60,9 @@
                 />
               </div>
               <div class="col-5">
+              <!--if hotel-->
                 <select-comp
-                  v-if="compFormData.compSector == 337"
+                  v-if="compFormData.compSector == 209"
                   v-model="compFormData.compGroup"
                   :label="t('compgroup')"
                   class="full-width select-comp-padding"
@@ -101,13 +102,13 @@
                   v-model="compFormData.compColor"
                   class="full-width"
                   clearable
-                  :label="t('assgnprepaid')"
+                  :label="t('compColor')"
                   outlined
                 />
 
                 <select-comp
                   v-model="compFormData.prepaidHow"
-                  :label="t('compColor')"
+                  :label="t('assgnprepaid')"
                   class="full-width select-comp-padding"
                   :options="prepaidHowList"
                   outlined

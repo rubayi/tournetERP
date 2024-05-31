@@ -150,11 +150,11 @@ public ResponseEntity<List<UserResponse>> selectEmpsByCondition(@RequestBody Use
     }
 
     @PostMapping("/updateEmp")
-    public ResponseEntity<Map<String, Object>> updateEmp(@RequestBody UserRequest empReq) {
+    public ResponseEntity<?> updateEmp(@RequestBody UserRequest empReq) {
 
         //수정자 정보
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
-        String message = "";
+        User resEmp = new User();
         if (storUser != null) {
             UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
 
@@ -196,18 +196,11 @@ public ResponseEntity<List<UserResponse>> selectEmpsByCondition(@RequestBody Use
                     _emp.setPassword(encoder.encode(empReq.getPassword()));
                 }
 
-                empRepository.save(_emp);
-                message = "수정 되었습니다.";
-            } else {
-                message = "수정이 완료 되지 않았습니다.";
+                resEmp = empRepository.save(_emp);
             }
-        } else {
-            message = "다시 로그인 해 주십시오.";
         }
 
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("message", message);
-        return new ResponseEntity<>(resMap, HttpStatus.OK);
+        return new ResponseEntity<>(resEmp, HttpStatus.OK);
     }
 
     @Transactional

@@ -312,17 +312,17 @@ export default defineComponent({
 
     // Loading options lists
     loadOptionsList(22, compSectorList, locale);
-    loadOptionsList(652, compRateList, locale);
-    loadOptionsList(239, hotelRateList, locale);
-    loadOptionsList(515, couponYnList, locale);
-    loadOptionsList(518, compGroupList, locale);
-    loadOptionsList(240, compOptionRateList, locale);
-    loadOptionsList(353, pkgRateList, locale);
-    loadOptionsList(354, pkgOnlyRateList, locale);
-    loadOptionsList(355, honeymoonRateList, locale);
-    loadOptionsList(356, honeymoonOnlyRateList, locale);
-    loadOptionsList(242, restaurantRateList, locale);
-    loadOptionsList(241, rentcarRateList, locale);
+    loadOptionsList(426, compRateList, locale);
+    loadOptionsList(30, hotelRateList, locale);
+    loadOptionsList(35, couponYnList, locale);
+    loadOptionsList(41, compGroupList, locale);
+    loadOptionsList(31, compOptionRateList, locale);
+    loadOptionsList(36, pkgRateList, locale);
+    loadOptionsList(37, pkgOnlyRateList, locale);
+    loadOptionsList(36, honeymoonRateList, locale);
+    loadOptionsList(39, honeymoonOnlyRateList, locale);
+    loadOptionsList(33, restaurantRateList, locale);
+    loadOptionsList(32, rentcarRateList, locale);
 
     loadPrepaidHowListOptions();
 

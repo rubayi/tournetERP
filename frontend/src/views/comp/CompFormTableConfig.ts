@@ -82,7 +82,7 @@ export class CompFormTableConfig {
       },
       {
         headerName: i18n.global.t('compRate'),
-        field: 'compRate',
+        field: 'compRateName',
         filter: true,
         minWidth: 120,
         maxWidth: 150,
@@ -90,17 +90,6 @@ export class CompFormTableConfig {
         resizable: true,
         cellStyle: { 'text-align': 'center' },
       },
-      {
-        headerName: i18n.global.t('hotelRate'),
-        field: locale === 'en' ? 'hotelRateNameEn' : 'hotelRateName',
-        filter: true,
-        minWidth: 180,
-        maxWidth: 180,
-        sortable: true,
-        resizable: true,
-        cellStyle: { 'text-align': 'center' },
-      },
-
       {
         headerName: i18n.global.t('beginDt'),
         field: 'beginDt',

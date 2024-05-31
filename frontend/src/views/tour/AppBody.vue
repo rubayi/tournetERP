@@ -187,7 +187,7 @@ export default defineComponent({
       }
 
       showinsertbutton.value =
-        store.getters.currentUserHasApplicationPermission('CONT_W');
+        store.getters.currentUserHasApplicationPermission('CONT_WU');
 
       if( tourCategory.value){
         searchdata.value.searchTourCategory = tourCategory.value;

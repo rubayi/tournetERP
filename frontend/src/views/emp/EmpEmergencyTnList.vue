@@ -95,8 +95,8 @@ export default defineComponent({
     function loadData() {
       loading.value = true;
       showinsertbutton.value =
-        store.getters.currentUserHasApplicationPermission('CODE_W');
-      if (store.getters.currentUserHasApplicationPermission('CODE_R')) {
+        store.getters.currentUserHasApplicationPermission('USER_WU');
+      if (store.getters.currentUserHasApplicationPermission('USER_R')) {
         EmergencyService.getEmerForm(props.empUuid).then((response) => {
           loading.value = false;
           if (response) {

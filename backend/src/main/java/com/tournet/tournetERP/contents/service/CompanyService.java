@@ -103,6 +103,7 @@ public class CompanyService {
                     compResponse.setCompGroupNameEn(fetchCodeUtil.fetchCodeEn(comp.getCompGroup()));
                     compResponse.setCompSectorName(fetchCodeUtil.fetchCodeKr(comp.getCompSector()));
                     compResponse.setCompSectorNameEn(fetchCodeUtil.fetchCodeEn(comp.getCompSector()));
+                    compResponse.setCompRateName(fetchCodeUtil.fetchCodeKr(comp.getCompRate()));
                     compResponse.setHotelRateName(fetchCodeUtil.fetchCodeKr(comp.getHotelRate()));
                     compResponse.setHotelRateNameEn(fetchCodeUtil.fetchCodeEn(comp.getHotelRate()));
                     compResponse.setOptionRateName(fetchCodeUtil.fetchCodeKr(comp.getOptionRate()));

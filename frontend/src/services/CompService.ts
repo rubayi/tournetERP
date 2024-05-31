@@ -33,6 +33,7 @@ export class CompService {
     // for (let pair of formData.entries()) {
     //   console.log(pair[0] + ', ' + pair[1]);
     // }
+    console.log(formData);
     return api.post("/comp/updateComp", formData,
       { headers: {...authHeader(), "Content-Type": "multipart/form-data"}  });
   }

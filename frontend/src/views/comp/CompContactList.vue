@@ -95,8 +95,8 @@ export default defineComponent({
     const loadData = () => {
       loading.value = true;
       showinsertbutton.value =
-        store.getters.currentUserHasApplicationPermission('CODE_W');
-      if (store.getters.currentUserHasApplicationPermission('CODE_R')) {
+        store.getters.currentUserHasApplicationPermission('COMP_WU');
+      if (store.getters.currentUserHasApplicationPermission('COMP_R')) {
         searchdata.value.compUuid = props.compUuid;
         ContactService.getContactList(searchdata.value).then((response) => {
           loading.value = false;

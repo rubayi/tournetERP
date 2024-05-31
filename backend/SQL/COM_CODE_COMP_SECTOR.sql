@@ -15,42 +15,22 @@ INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_lvl, use_y
 INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_lvl, use_yn, created_dt, modified_dt) VALUES ('3','렌트카','Gift', '','1','Y',now(),now());
 INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_lvl, use_yn, created_dt, modified_dt) VALUES ('3','셔틀','Shuttle', '','1','Y',now(),now());
 
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 1,'', '아쿠아', 'Aqua');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 2,'', '애스톤', 'Aston');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 3,'', '캐슬리조트', 'Castle Resort');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 4,'', '페어몬트', 'Fairmont');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 5,'', '포시즌리조트', 'Four seasons Resort');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 6,'', '하와이안호텔&리조트', 'Hawaiian Hotels & Resorts');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 7,'', '힐튼', 'Hilton');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 8,'', '하야트', 'Hyatt');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 9,'', '메리엇', 'Marriott');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 10,'', '아웃리거', 'Outrigger');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 11,'', '프린스', 'Prince');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 12,'', '스타우드', 'Starwood');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 13,'', '없음', 'None Group');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 14,'', '아쿠아애스톤', 'Aqua-Aston');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 15,'', '필라멘트 호스피탈리티', 'Filament Hospitality');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 16,'', '퍼시피카', 'Pacifica Hotels');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 17,'', '블랙스톤', 'Blackstone');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 18,'', '하이게이트', 'High Gate');
-INSERT INTO COM_CODE (upr_code_uuid, code_lvl, use_yn, created_dt, modified_dt, code_ord, code_abb, code_kr, code_en) VALUES ('518', 1, 'Y', now(), now(), 19,'', '올스 호텔 & 리조트', 'OLS Hotels & Resorts');
 
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('0', '040', '0', '0', 'Y', now(), now(), '1', '1', '침대유형', 'Bed Type', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('0', '050', '0', '0', 'Y', now(), now(), '1', '1', '추가비용', 'Option', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('0', '051', '0', '0', 'Y', now(), now(), '1', '1', '추가비용단위', 'Option', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('0', '030', '0', '0', 'Y', now(), now(), '1', '1', '호텔시설', 'Amenity', '');
 
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('23', '0', '0', '0', 'Y', now(), now(), '1', '1', '어메니티정보', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('23', '0', '0', '0', 'Y', now(), now(), '1', '1', '취소규정', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('23', '0', '0', '0', 'Y', now(), now(), '1', '1', '취소규정(영문)', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('23', '0', '0', '0', 'Y', now(), now(), '1', '1', '특이사항', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('23', '0', '0', '0', 'Y', now(), now(), '1', '1', '특이사항(영문)', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('23', '0', '0', '0', 'Y', now(), now(), '1', '1', '소개', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('23', '0', '0', '0', 'Y', now(), now(), '1', '1', '소개(영문)', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('0', '0', '0', '0', 'Y', now(), now(), '1', '1', '기타', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('1', '0', '0', '0', 'Y', now(), now(), '1', '1', '기타(영문)', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('1', '0', '0', '0', 'Y', now(), now(), '1', '1', '바우처하단', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ( '0', '0', '0', 'Y', now(), now(), '1', '1', '바우처하단(영문)', '');
+
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('463', '0', '1', 'Y', now(), now(), '1', '1', '어메니티정보', 'Amenity', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('463', '0', '1', 'Y', now(), now(), '1', '1', '어메니티정보(영문)', 'Amenity(En)', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('463', '0', '1', 'Y', now(), now(), '1', '1', '취소규정', 'Cancel Policy', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('463', '0', '1', 'Y', now(), now(), '1', '1', '취소규정(영문)', 'Cancel Policy(En)', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('463', '0', '1', 'Y', now(), now(), '1', '1', '특이사항', 'Special notes', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('463', '0', '1', 'Y', now(), now(), '1', '1', '특이사항(영문)', 'Special notes(En)', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('463', '0', '1', 'Y', now(), now(), '1', '1', '소개', 'Detail', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('463', '0', '1', 'Y', now(), now(), '1', '1', '소개(영문)', 'Detail(En)', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('463', '0', '1', 'Y', now(), now(), '1', '1', '바우처하단', 'Voucher Footer', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('463', '0', '1', 'Y', now(), now(), '1', '1', '바우처하단(영문)', 'Voucher Footer(En)', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('463', '0', '1', 'Y', now(), now(), '1', '1', '기타', 'Others', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('463', '0', '1', 'Y', now(), now(), '1', '1', '기타(영문)', 'Others(En)', '');
+
 
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '인원추가', 'Additional Person', '');
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '주차장', 'Parking', '');
@@ -77,15 +57,15 @@ INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, mod
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '디럭스 디너(Deluxe Dinner)', '');
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '프리미엄디너(Premium Dinner)', '');
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', 'KBG 디너', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '디너 뷔페(월-목)', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '디너 뷔페 (금-일)', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '디너 뷔페(월-목)', 'Dinner Buffet(Mon-Thur)');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '디너 뷔페 (금-일)', 'Dinner Buffet(Fri-Sun)');
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '휴일 디너 뷔페', '');
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '24시간 피트니스 패스', '');
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '호텔 투숙객용 골프 요금', '');
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '특정 타워 보장', '');
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '얼리체크인', 'Early Check-In', '');
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '레이트체크아웃', 'Late Check-Out', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '칵테일(Cocktail)', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '칵테일', 'Cocktail');
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '레인보우 라나이 BF 부페스페셜', '');
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '테마 저녁 부페', '');
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('574', '0', '0', '0', 'Y', now(), now(), '1', '1', '롯데 홈쇼핑 테마 디너뷔페', '');
@@ -121,26 +101,26 @@ INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, mod
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('589','0', '0','1', 'Y', now(), now(), '1', '1', '아이들액티비티', '');
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('589','0', '0','1', 'Y', now(), now(), '1', '1', '조식 시간', '');
 
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '0', '1', 'Y', now(), now(), '1', '1', '호텔그룹선택', 'Group', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '1', '1', 'Y', now(), now(), '1', '1', '아쿠아', 'Aqua', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '2', '1', 'Y', now(), now(), '1', '1', '애스톤', 'Aston', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '3', '1', 'Y', now(), now(), '1', '1', '캐슬리조트', 'Castle Resort', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '4', '1', 'Y', now(), now(), '1', '1', '페어몬트', 'Fairmont', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '5', '1', 'Y', now(), now(), '1', '1', '포시즌', 'Four seasons Resort', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '6', '1', 'Y', now(), now(), '1', '1', '하와이안 호텔 & 리조트', 'Hawaiian Hotels & Resorts', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '7', '1', 'Y', now(), now(), '1', '1', '힐튼', 'Hilton', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '8', '1', 'Y', now(), now(), '1', '1', '하야트', 'Hyatt', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '9', '1', 'Y', now(), now(), '1', '1', '메리엇', 'Marriott', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '10', '1', 'Y', now(), now(), '1', '1', '아웃리거', 'Outrigger', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '11', '1', 'Y', now(), now(), '1', '1', '프린스', 'Prince', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '12', '1', 'Y', now(), now(), '1', '1', '스타우드', 'Starwood', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '13', '1', 'Y', now(), now(), '1', '1', '아쿠아 애스톤', 'Aqua-Aston', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '14', '1', 'Y', now(), now(), '1', '1', '필라멘트 호스털리티', 'Filament Hospitality', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '15', '1', 'Y', now(), now(), '1', '1', '퍼시피카', 'Pacifica Hotels', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '16', '1', 'Y', now(), now(), '1', '1', '블랙스톤', 'Blackstone', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '17', '1', 'Y', now(), now(), '1', '1', '하이게이트', 'High Gate', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '18', '1', 'Y', now(), now(), '1', '1', '올스 호텔 & 리조트', 'OLS Hotels and Resorts', '');
-INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('518', '99', '1', 'Y', now(), now(), '1', '1', '그룹없음', 'None Group', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '0', '1', 'Y', now(), now(), '1', '1', '호텔그룹선택', 'Group', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '1', '1', 'Y', now(), now(), '1', '1', '아쿠아', 'Aqua', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '2', '1', 'Y', now(), now(), '1', '1', '애스톤', 'Aston', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '3', '1', 'Y', now(), now(), '1', '1', '캐슬리조트', 'Castle Resort', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '4', '1', 'Y', now(), now(), '1', '1', '페어몬트', 'Fairmont', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '5', '1', 'Y', now(), now(), '1', '1', '포시즌', 'Four seasons Resort', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '6', '1', 'Y', now(), now(), '1', '1', '하와이안 호텔 & 리조트', 'Hawaiian Hotels & Resorts', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '7', '1', 'Y', now(), now(), '1', '1', '힐튼', 'Hilton', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '8', '1', 'Y', now(), now(), '1', '1', '하야트', 'Hyatt', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '9', '1', 'Y', now(), now(), '1', '1', '메리엇', 'Marriott', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '10', '1', 'Y', now(), now(), '1', '1', '아웃리거', 'Outrigger', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '11', '1', 'Y', now(), now(), '1', '1', '프린스', 'Prince', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '12', '1', 'Y', now(), now(), '1', '1', '스타우드', 'Starwood', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '13', '1', 'Y', now(), now(), '1', '1', '아쿠아 애스톤', 'Aqua-Aston', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '14', '1', 'Y', now(), now(), '1', '1', '필라멘트 호스털리티', 'Filament Hospitality', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '15', '1', 'Y', now(), now(), '1', '1', '퍼시피카', 'Pacifica Hotels', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '16', '1', 'Y', now(), now(), '1', '1', '블랙스톤', 'Blackstone', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '17', '1', 'Y', now(), now(), '1', '1', '하이게이트', 'High Gate', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '18', '1', 'Y', now(), now(), '1', '1', '올스 호텔 & 리조트', 'OLS Hotels and Resorts', '');
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('41', '99', '1', 'Y', now(), now(), '1', '1', '그룹없음', 'None Group', '');
 
 
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('613','0', '0','1', 'Y', now(), now(), '1', '1', '룸정보', '');
