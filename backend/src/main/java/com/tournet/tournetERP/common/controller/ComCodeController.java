@@ -57,7 +57,6 @@ public class ComCodeController {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-
         List<ComCodeDTO> comcodes = new ArrayList<ComCodeDTO>();
 
         if(storUser.isAuthenticated()) {

@@ -26,6 +26,8 @@ public class ComCodeDTO {
 
     private String uprNameKr;
 
+    private String codeAbb;
+
     private String uprNameEn;
 
     private String useYn;

@@ -62,9 +62,11 @@ public class ComCodeService {
             comCodeResponse.setCodeEn(comp.getCodeEn());
             comCodeResponse.setUseYn(comp.getUseYn());
             comCodeResponse.setCodeOrd(comp.getCodeOrd());
-            comCodeResponse.setGroupName(fetchCodeUtil.fetchCodeKr(comp.getUprCodeUuid()));
-            comCodeResponse.setGroupNameEn(fetchCodeUtil.fetchCodeEn(comp.getUprCodeUuid()));
+
+//            comCodeResponse.setGroupName(fetchCodeUtil.fetchCodeKr(comp.getUprCodeUuid()));
+//            comCodeResponse.setGroupNameEn(fetchCodeUtil.fetchCodeEn(comp.getUprCodeUuid()));
             comCodeResponse.setUprCodeUuid(comp.getUprCodeUuid());
+            comCodeResponse.setCodeAbb(comp.getCodeAbb());
 
 //            if(comCode.getUprCodeUuid() != 0 && comCode.getCodeLvl() != 0){
 //                comCodeResponse.setUprNameKr(fetchCodeUtil.uprFetchCodeKr(comCode.getUprCodeUuid()));
