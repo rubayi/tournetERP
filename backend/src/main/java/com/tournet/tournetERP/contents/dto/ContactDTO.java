@@ -17,7 +17,9 @@ public class ContactDTO {
     private long compUuid;
     private long contactType;
     private String contactTypeName;
+    private String contactTypeNameEn;
     private long repYn;
     private String repYnName;
+    private String repYnNameEn;
     private String contactCont;
 }
