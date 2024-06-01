@@ -25,6 +25,9 @@ public class Tour {
     @Column(name = "TOUR_AREA", nullable = true)
     private long tourArea; //지역코드
 
+    @Column(name = "COMP_UUID", nullable = true)
+    private long compUuid; //업체코드
+
     @Column(name = "TOUR_AREA_SUB", nullable = true)
     private long tourAreaSub; //지역코드
 

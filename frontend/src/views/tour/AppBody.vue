@@ -61,6 +61,7 @@
         :tour-area-sub-list = "tourAreaSubList"
         :sector-list = "sectorList"
         :prepaid-how-list = "prepaidHowList"
+        :company-list = "companyList"
         @tourform-deleted="loadData"
         @tourform-drawer-closed="tourUuid = 0"
         @tourform-saved="loadData"
@@ -104,6 +105,8 @@ import {SelectOption} from "src/types/SelectOption";
 import {loadOptionsList} from "src/utils/commoncode/commonCode";
 import {CdcdSearchForm} from "src/types/CdcdSearchForm";
 import {CdcdService} from "src/services/CdcdService";
+import {CompService} from "src/services/CompService";
+import {CompSearchForm} from "src/types/CompSearchForm";
 
 export default defineComponent({
   name: 'TourForm',
@@ -270,10 +273,11 @@ export default defineComponent({
     loadOptionsList(183, tourAreaSubList, locale);
     loadOptionsList(22, sectorList, locale);
 
-    loadPrepaidHowListOptions();
+
 
     /*Prepaid How List*/
     const prepaidHowList = ref<SelectOption[]>([]);
+    loadPrepaidHowListOptions();
     function loadPrepaidHowListOptions() {
       let searchReq: CdcdSearchForm = {
         searchCdCdUuid: 0,
@@ -287,6 +291,33 @@ export default defineComponent({
             new SelectOption(
               locale === 'en' ? x.mngNameEng : x.mngNameKor,
               x.cdCdUuid
+            )
+        );
+      });
+    }
+
+    /*Company List*/
+    const companyList = ref<SelectOption[]>([]);
+    loadcompanyListOptions();
+    function loadcompanyListOptions() {
+      let searchReq: CompSearchForm = {
+        searchCompSector: 0,
+        searchCompKor: '',
+        searchCompEng: '',
+        searchBeginDt: '',
+        searchEndDt: '',
+        searchCompMemo: '',
+        searchCompUuid: '',
+        searchCompRate: '',
+        searchCouponYn: 0,
+        searchCompGroup: '',
+      };
+      CompService.getAllComp(searchReq).then((response) => {
+        companyList.value = response.map(
+          (x) =>
+            new SelectOption(
+              locale === 'en' ? x.compEng : x.compKor,
+              x.compUuid
             )
         );
       });
@@ -316,7 +347,8 @@ export default defineComponent({
       filterNumber,
       showinsertbutton,
       frameworkComponents,
-      tourCategory
+      tourCategory,
+      companyList
     };
   },
   data() {

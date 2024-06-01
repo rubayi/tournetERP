@@ -29,6 +29,7 @@
           :tour-area-list = "tourAreaList"
           :tour-area-sub-list = "tourAreaSubList"
           :sector-list = "sectorList"
+          :company-list = "companyList"
           :prepaid-how-list = "prepaidHowList"
           ref="tourFormDrawerContent"
         />
@@ -96,6 +97,10 @@ export default defineComponent({
       default: () => [],
     },
     sectorList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    companyList: {
       type: Array as () => SelectOption[],
       default: () => [],
     },

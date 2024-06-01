@@ -2,6 +2,7 @@ import { getNumberMemberValue } from 'src/utils/helpers/ConstructorHelper';
 
 export interface ITourForm {
   tourUuid: number | 0;
+  compUuid: number | 0;
   tourCategory: number | 0;
   tourArea: number | 0;
   tourAreaSub: number | 0;
@@ -20,6 +21,7 @@ export interface ITourForm {
 
 export class TourForm implements ITourForm {
   public tourUuid: number | 0;
+  public compUuid: number | 0;
   public tourCategory: number | 0;
   public tourArea: number | 0;
   public tourAreaSub: number | 0;
@@ -40,6 +42,7 @@ export class TourForm implements ITourForm {
     this.tourCategory = (obj && obj.tourCategory) || 0;
     this.tourArea = (obj && obj.tourArea) || 0;
     this.tourAreaSub = (obj && obj.tourAreaSub) || 0;
+    this.compUuid = (obj && obj.compUuid) || 0;
     this.prepaidMethod = (obj && obj.prepaidMethod) || 0;
     this.tourKor = (obj && obj.tourKor) || '';
     this.tourEng = (obj && obj.tourEng) || '';

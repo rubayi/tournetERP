@@ -22,6 +22,15 @@
             />
           </div>
           <div class="col-6">
+            <select-comp
+              v-model="edittourformData.compUuid"
+              class="full-width"
+              :label="t('compUuid')"
+              :options="companyList"
+              outlined
+            />
+          </div>
+          <div class="col-6">
             <input-comp
               v-model="edittourformData.tourKor"
               class="full-width"
@@ -147,6 +156,10 @@ export default defineComponent({
       default: () => [],
     },
     prepaidHowList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    companyList: {
       type: Array as () => SelectOption[],
       default: () => [],
     },

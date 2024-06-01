@@ -23,6 +23,8 @@ public class TourDTO {
     private long tourUuid; //투어UUID
     private long tourCategory; //투어구분
 
+    private long compUuid; //업체UUID
+
     private String tourCategoryName; //투어구분
     private String tourCategoryNameEn; //투어구분
     private long tourArea; //지역코드
