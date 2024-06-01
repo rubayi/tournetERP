@@ -74,6 +74,7 @@ public class CompanyController {
         String message = "";
         Company _company = new Company();
         if (storUser.isAuthenticated()) {
+
             try {
                 UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
 
@@ -84,6 +85,7 @@ public class CompanyController {
                 JsonNode companyJsonNode = objectMapper.readTree(companyReqJson);
 
                 Company companyReq = new Company();
+
                 companyReq.setCompUuid(companyJsonNode.get("compUuid").asLong());
                 companyReq.setCompSector(companyJsonNode.get("compSector").asLong());
 
@@ -112,14 +114,18 @@ public class CompanyController {
                 companyReq.setBeginDt(new Date(companyJsonNode.get("beginDt").asLong()));
                 companyReq.setEndDt(new Date(companyJsonNode.get("endDt").asLong()));
                 companyReq.setEstDate(new Date(companyJsonNode.get("estDate").asLong()));
-                companyReq.setCompKor(companyJsonNode.get("compKor").asText());
-                companyReq.setCompKor(companyJsonNode.get("compKor").asText());
 
                 Optional<Company> currentCompany = compRepository.findByCompUuid(companyReq.getCompUuid());
 
                 String fileName = "";
                 if (currentCompany.isPresent()) {
+
                     companyReq.setModifyUser(modifyingUser);
+                    Company existingCompany = currentCompany.get();
+
+                    if(existingCompany.getLogoFile() != null) {
+                        companyReq.setLogoFile(existingCompany.getLogoFile());
+                    }
                 } else {
                     companyReq.setModifyUser(modifyingUser);
                     companyReq.setCreateUser(modifyingUser);
@@ -128,11 +134,10 @@ public class CompanyController {
                 if (file != null) {
                     fileName = storageService.newSave(file);
                     companyReq.setLogoFile(fileName);
-                } else{
-                    companyReq.setLogoFile(currentCompany.get().getLogoFile());
                 }
 
                 _company = compRepository.save(companyReq);
+
             } catch (Exception e) {
                 if (e instanceof FileAlreadyExistsException) {
                     message = "파일이 이미 존재합니다.";

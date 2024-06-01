@@ -63,8 +63,6 @@ public class ComCodeService {
             comCodeResponse.setUseYn(comp.getUseYn());
             comCodeResponse.setCodeOrd(comp.getCodeOrd());
 
-//            comCodeResponse.setGroupName(fetchCodeUtil.fetchCodeKr(comp.getUprCodeUuid()));
-//            comCodeResponse.setGroupNameEn(fetchCodeUtil.fetchCodeEn(comp.getUprCodeUuid()));
             comCodeResponse.setUprCodeUuid(comp.getUprCodeUuid());
             comCodeResponse.setCodeAbb(comp.getCodeAbb());
 

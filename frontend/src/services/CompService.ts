@@ -26,13 +26,15 @@ export class CompService {
     // return api.post<CompForm>(API_URL + "updateComp", h3caseform,
     //   { headers: {...authHeader(), "Content-Type": "multipart/form-data"}  })
     //   .then((response) => response.data);
+
+    console.log("=======FILE======");
     const formData = new FormData();
 
     formData.append("companyReq", JSON.stringify(h3caseform));
-    formData.append("file", attachFile);
-    // for (let pair of formData.entries()) {
-    //   console.log(pair[0] + ', ' + pair[1]);
-    // }
+    if (attachFile) {
+      formData.append("file", attachFile);
+    }
+
     console.log(formData);
     return api.post("/comp/updateComp", formData,
       { headers: {...authHeader(), "Content-Type": "multipart/form-data"}  });

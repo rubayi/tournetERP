@@ -5,6 +5,3 @@ INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_lvl, use_y
 INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_lvl, use_yn, created_dt, modified_dt) VALUES ('17','사장','President','','1','Y',now(),now());
 INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_lvl, use_yn, created_dt, modified_dt) VALUES ('17','부사장','Vice President','','1','Y',now(),now());
 INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_lvl, use_yn, created_dt, modified_dt) VALUES ('17','소장','Supervisor','','1','Y',now(),now());
-
-INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_lvl, use_yn, created_dt, modified_dt) VALUES ('515','사용','Y','','1','Y',now(),now());
-INSERT INTO COM_CODE (upr_code_uuid, code_kr, code_en, code_abb, code_lvl, use_yn, created_dt, modified_dt) VALUES ('515','미사용','N','','1','Y',now(),now());

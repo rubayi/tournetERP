@@ -142,15 +142,6 @@
               </div>
               <div class="col-4">
                 <select-comp
-                  v-model="editEmpFormData.empTitle"
-                  class="full-width select-comp-padding"
-                  :label="t('jobTitle')"
-                  :options="JobTitleList"
-                  outlined
-                />
-              </div>
-              <div class="col-4">
-                <select-comp
                   v-model="editEmpFormData.empRole"
                   class="full-width select-comp-padding"
                   :label="t('jobRole')"
@@ -289,9 +280,6 @@ export default defineComponent({
     const OfficeList = ref<SelectOption[]>([]);
     loadOptionsList(2, OfficeList, locale);
 
-    const JobTitleList = ref<SelectOption[]>([]);
-    loadOptionsList(17, JobTitleList, locale);
-
     const JobRoleList = ref<SelectOption[]>([]);
     loadOptionsList(18, JobRoleList, locale);
 
@@ -306,7 +294,6 @@ export default defineComponent({
       DivisionList,
       CompList,
       OfficeList,
-      JobTitleList,
       JobRoleList,
       WorkStatusList,
     };

@@ -263,8 +263,7 @@ export default defineComponent({
       loading.value = true;
       if (compFormData.value) {
 
-        console.log(attfile.value);
-        const fileToUpload = attfile.value;
+        const fileToUpload = attfile.value || null;
         CompService.saveCompForm(fileToUpload, compFormData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
