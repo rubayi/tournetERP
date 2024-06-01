@@ -17,7 +17,7 @@
               v-model="edittourformData.tourAreaSub"
               class="full-width"
               :label="t('tourAreaSub')"
-              :options="tourAreaSubList"
+              :options="lcTourAreaSubList"
               outlined
             />
           </div>
@@ -105,7 +105,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import i18n from 'src/i18n';
 // Component
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
@@ -119,6 +119,7 @@ import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
 import DatePickerComp from 'src/components/common/DatePickerComp.vue';
 import {loadOptionsList} from "src/utils/commoncode/commonCode";
+import {CodeService} from "src/services/CodeService";
 
 export default defineComponent({
   name: 'TourFormDrawerContent',
@@ -153,6 +154,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const edittourformData = ref<TourForm>();
     const locale = i18n.global.locale.value;
+    const lcTourAreaSubList =ref(props.tourAreaSubList);
 
     useSyncModelValue(
       props,
@@ -162,7 +164,34 @@ export default defineComponent({
       edittourformData
     );
 
-    // Loading Group Tour Options
+
+    watch(
+      () => edittourformData.value?.tourArea,
+      (newAreaUuid) => {
+        if (newAreaUuid) {
+          fetchTourAreaSubList(newAreaUuid);
+        } else {
+          // Clear the tourAreaSubList if no area is selected
+          lcTourAreaSubList.value = [];
+        }
+      }
+    , { deep: true, immediate:true });
+
+    function fetchTourAreaSubList(areaUuid: number) {
+      CodeService.getGroupCodeForm(areaUuid).then((response) => {
+        if (Array.isArray(response)) {
+          lcTourAreaSubList.value = response.map((x) => {
+            return new SelectOption(
+              locale === 'en' ? x.codeEn : x.codeKr,
+              x.codeUuid
+            );
+          });
+        } else {
+          console.error('Response is not an array:', response);
+        }
+      });
+    }
+
 
     const yearNumbers = ref<SelectOption[]>([]);
     const monNumbers = ref<SelectOption[]>([]);
@@ -204,11 +233,12 @@ export default defineComponent({
     }
 
     const useYnList = ref<SelectOption[]>([]);
-    loadOptionsList(515, useYnList, locale);
+    loadOptionsList(35, useYnList, locale);
 
     return {
       t: i18n.global.t,
       edittourformData,
+      lcTourAreaSubList,
       monNumbers,
       yearNumbers,
       ageNumbers,

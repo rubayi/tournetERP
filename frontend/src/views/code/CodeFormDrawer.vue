@@ -125,7 +125,7 @@ export default defineComponent({
         confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = 'edit';
         showconfirmbutton.value =
-          store.getters.currentUserHasApplicationPermission('CODE_W');
+          store.getters.currentUserHasApplicationPermission('CODE_WU');
         showdeletebutton.value =
           store.getters.currentUserHasApplicationPermission('CODE_D');
       } else {
@@ -133,7 +133,7 @@ export default defineComponent({
         confirmbuttonlabel.value = i18n.global.t('add');
         confirmicon.value = 'add';
         showconfirmbutton.value =
-          store.getters.currentUserHasApplicationPermission('CODE_W');
+          store.getters.currentUserHasApplicationPermission('CODE_WU');
         showdeletebutton.value = false;
       }
     }

@@ -141,6 +141,7 @@ export default defineComponent({
       setSectorAndTourCategory();
     });
 
+
     /* List */
     function loadData() {
       loading.value = true;
@@ -265,8 +266,8 @@ export default defineComponent({
     const tourAreaSubList = ref<SelectOption[]>([]);
     const sectorList = ref<SelectOption[]>([]);
 
-    loadOptionsList(31, tourAreaList, locale);
-    loadOptionsList(144, tourAreaSubList, locale);
+    loadOptionsList(43, tourAreaList, locale);
+    loadOptionsList(183, tourAreaSubList, locale);
     loadOptionsList(22, sectorList, locale);
 
     loadPrepaidHowListOptions();
