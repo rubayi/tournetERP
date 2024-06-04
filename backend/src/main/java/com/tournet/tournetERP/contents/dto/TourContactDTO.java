@@ -11,8 +11,10 @@ public class TourContactDTO {
     private long tourUuid; //연락처UUID
     private long contactType; //유형
     private String contactTypeName;
+    private String contactTypeNameEn;
     private long repYn; //대표연락처여부
     private String repYnName;
+    private String repYnNameEn;
     private String contactCont; //연락처
 
     public TourContactDTO() {

@@ -103,5 +103,7 @@
     "uploadImage": "Upload Image",
     "compContacts": "Company Contacts",
     "contact": "Contact",
-    "type": "Type"
+    "type": "Type",
+    "tourContacts": "Contact Information",
+    "manageTour": "Basic Information"
 }

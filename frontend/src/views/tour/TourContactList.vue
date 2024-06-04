@@ -5,7 +5,7 @@
         <div class="col q-pr-md q-mt-sm">
           <span class="emer-title">
             <q-icon name="phone" class="q-mr-sm"></q-icon
-            >{{ t('compContacts') }}</span
+            >{{ t('tourContacts') }}</span
           >
         </div>
         <q-btn
@@ -19,7 +19,7 @@
       </div>
       <div id="company-contact-list-grid-container" class="row grow-1">
         <table-comp
-          id="company-contact-list-grid"
+          id="tour-contact-list-grid"
           :column-defs="columns"
           :context="context"
           :framework-components="frameworkComponents"
@@ -31,13 +31,13 @@
           :open-action="openAction"
           row-selection="single"
           @grid-ready="loadData"
-          ref="CompContactFormGrid"
+          ref="TourContactFormGrid"
         />
       </div>
-      <comp-contact-drawer
+      <tour-contact-drawer
         :contact-drawer="openContactDrawer"
-        :comp-seq="contactUuid"
-        :comp-uuid="compUuid"
+        :tour-seq="contactUuid"
+        :tour-uuid="tourUuid"
         @contactform-deleted="loadData"
         @contactform-contactDrawer-closed="contactUuid = 0"
         @contactform-saved="loadData"
@@ -53,25 +53,25 @@ import i18n from 'src/i18n';
 import { GridOptions } from 'ag-grid-community';
 import { TableHelper } from 'src/components/table/TableHelper';
 import TableComp from 'src/components/table/TableComp.vue';
-import { CompContactFormTableConfig } from 'src/views/comp/CompContactFormTableConfig';
+import { TourContactFormTableConfig } from 'src/views/tour/TourContactFormTableConfig';
 // Service
-import { ContactService } from 'src/services/ContactService';
+import { TourContactService } from 'src/services/TourContactService';
 // Type
-import { ContactForm } from 'src/types/ContactForm';
-import { ContactSearchForm } from 'src/types/ContactSearchForm';
+import { TourContactForm } from 'src/types/TourContactForm';
+import { TourContactSearchForm } from 'src/types/TourContactSearchForm';
 // Store
 import store from 'src/store';
 // Drawer
-import CompContactDrawer from 'src/views/comp/CompContactDrawer.vue';
+import TourContactDrawer from 'src/views/tour/TourContactDrawer.vue';
 
 export default defineComponent({
-  name: 'CompContactList',
+  name: 'TourContactList',
   components: {
     TableComp,
-    CompContactDrawer,
+    TourContactDrawer,
   },
   props: {
-    compUuid: {
+    tourUuid: {
       type: Number,
       default: 0,
     },
@@ -80,13 +80,13 @@ export default defineComponent({
     const locale = i18n.global.locale.value;
     const openContactDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
-    const columns = CompContactFormTableConfig.getColumns(locale);
+    const columns = TourContactFormTableConfig.getColumns(locale);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const frameworkComponents: { [key: string]: any } =
-      CompContactFormTableConfig.frameworkComponents;
+      TourContactFormTableConfig.frameworkComponents;
     const overlayLoadingTemplate = TableHelper.loadingOverlay;
-    const data = ref<ContactForm[]>([]);
-    const searchdata = ref<ContactSearchForm>(new ContactSearchForm());
+    const data = ref<TourContactForm[]>([]);
+    const searchdata = ref<TourContactSearchForm>(new TourContactSearchForm());
     const contactFormGrid = ref();
     const contactUuid = ref<number>(0);
     const gridOptions = ref<GridOptions>({});
@@ -95,10 +95,10 @@ export default defineComponent({
     const loadData = () => {
       loading.value = true;
       showinsertbutton.value =
-        store.getters.currentUserHasApplicationPermission('COMP_WU');
-      if (store.getters.currentUserHasApplicationPermission('COMP_R')) {
-        searchdata.value.compUuid = props.compUuid;
-        ContactService.getContactList(searchdata.value).then((response) => {
+        store.getters.currentUserHasApplicationPermission('CONT_WU');
+      if (store.getters.currentUserHasApplicationPermission('CONT_R')) {
+        searchdata.value.tourUuid = props.tourUuid;
+        TourContactService.getTourContactList(searchdata.value).then((response) => {
           loading.value = false;
           if (response) {
             data.value = response;

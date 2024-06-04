@@ -103,5 +103,7 @@
     "uploadImage": "이미지 업로드",
     "compContacts": "업체 연락처",
     "contact": "연락처",
-    "type": "유형"
+    "type": "유형",
+    "tourContacts": "기본 연락처",
+    "manageTour": "기본정보"
 }

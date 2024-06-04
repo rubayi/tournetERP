@@ -76,6 +76,21 @@ INSERT INTO COM_MENU (`upper_menu_uuid`, `use_yn`, `menu_lvl`, `menu_ord`,`creat
 INSERT INTO COM_MENU (`upper_menu_uuid`, `use_yn`, `menu_lvl`, `menu_ord`,`created_by`,`created_dt`,`modified_dt`, `menu_kor`) VALUES(5, 'Y', 1, 1, 1, now(), now(), '연간통계리포트');
 
 
+
+INSERT INTO COM_MENU (`upper_menu_uuid`, `use_yn`, `menu_lvl`, `menu_ord`,`created_by`,`created_dt`,`modified_dt`, `menu_kor`) VALUES(7, 'Y', 1, 1, 1, now(), now(), '호텔 휴일관리');
+INSERT INTO COM_MENU (`upper_menu_uuid`, `use_yn`, `menu_lvl`, `menu_ord`,`created_by`,`created_dt`,`modified_dt`, `menu_kor`) VALUES(7, 'Y', 1, 1, 1, now(), now(), '옵션 상품 휴일관리');
+INSERT INTO COM_MENU (`upper_menu_uuid`, `use_yn`, `menu_lvl`, `menu_ord`,`created_by`,`created_dt`,`modified_dt`, `menu_kor`) VALUES(7, 'Y', 1, 1, 1, now(), now(), '식당 휴일관리');
+INSERT INTO COM_MENU (`upper_menu_uuid`, `use_yn`, `menu_lvl`, `menu_ord`,`created_by`,`created_dt`,`modified_dt`, `menu_kor`) VALUES(7, 'Y', 1, 1, 1, now(), now(), '호텔 가격관리');
+INSERT INTO COM_MENU (`upper_menu_uuid`, `use_yn`, `menu_lvl`, `menu_ord`,`created_by`,`created_dt`,`modified_dt`, `menu_kor`) VALUES(7, 'Y', 1, 1, 1, now(), now(), '호텔 블럭관리');
+INSERT INTO COM_MENU (`upper_menu_uuid`, `use_yn`, `menu_lvl`, `menu_ord`,`created_by`,`created_dt`,`modified_dt`, `menu_kor`) VALUES(7, 'Y', 1, 1, 1, now(), now(), '옵션 원가관리');
+INSERT INTO COM_MENU (`upper_menu_uuid`, `use_yn`, `menu_lvl`, `menu_ord`,`created_by`,`created_dt`,`modified_dt`, `menu_kor`) VALUES(7, 'Y', 1, 1, 1, now(), now(), '옵션 블럭관리');
+INSERT INTO COM_MENU (`upper_menu_uuid`, `use_yn`, `menu_lvl`, `menu_ord`,`created_by`,`created_dt`,`modified_dt`, `menu_kor`) VALUES(7, 'Y', 1, 1, 1, now(), now(), '식당 원가관리');
+INSERT INTO COM_MENU (`upper_menu_uuid`, `use_yn`, `menu_lvl`, `menu_ord`,`created_by`,`created_dt`,`modified_dt`, `menu_kor`) VALUES(7, 'Y', 1, 1, 1, now(), now(), '식당 판매가관리');
+INSERT INTO COM_MENU (`upper_menu_uuid`, `use_yn`, `menu_lvl`, `menu_ord`,`created_by`,`created_dt`,`modified_dt`, `menu_kor`) VALUES(7, 'Y', 1, 1, 1, now(), now(), '가이드 커미션 관리');
+
+
+
+
 INSERT INTO COM_MENU (`upper_menu_uuid`, `use_yn`, `menu_lvl`, `menu_ord`,`created_by`,`created_dt`,`modified_dt`, `menu_kor`) VALUES(6, 'Y', 1, 1, 1, now(), now(), '픽업장소');
 INSERT INTO COM_MENU (`upper_menu_uuid`, `use_yn`, `menu_lvl`, `menu_ord`,`created_by`,`created_dt`,`modified_dt`, `menu_kor`) VALUES(6,  'Y', 1, 1, 1, now(), now(), '프로모션정보관리');
 

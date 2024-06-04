@@ -241,6 +241,7 @@ export default defineComponent({
 
 
     const setSectorAndTourCategory = () => {
+
       const tourCategoryOptions = ref<CodeForm[]>([]);
 
       const searchReq:CodeSearchForm = {
@@ -250,20 +251,22 @@ export default defineComponent({
         searchCodeEn: ''
       }
       CodeService.getAll(searchReq).then((response) => {
-
         tourCategoryOptions.value = response;
 
         for (let category of tourCategoryOptions.value) {
-          if (category.codeEn.toLowerCase() === sector.value
-            || category.codeEn === sector.value) {
+
+          let codeEn = category.codeEn.toLowerCase();
+          let sectorVal = sector.value.toLowerCase();
+
+          if (codeEn === sectorVal) {
             tourCategory.value = category.codeUuid;
+            console.log(tourCategory.value);
             loadData();
-            break; // Stop looping once category is found
+            break;
           }
         }
       });
     };
-
 
     const tourAreaList = ref<SelectOption[]>([]);
     const tourAreaSubList = ref<SelectOption[]>([]);
@@ -272,7 +275,6 @@ export default defineComponent({
     loadOptionsList(43, tourAreaList, locale);
     loadOptionsList(183, tourAreaSubList, locale);
     loadOptionsList(22, sectorList, locale);
-
 
 
     /*Prepaid How List*/

@@ -55,8 +55,9 @@ public class TourContactService {
                     trContRes.setContactType(trCont.getContactType());
                     trContRes.setRepYn(trCont.getRepYn());
                     trContRes.setRepYnName(fetchCodeUtil.fetchCodeKr(trCont.getRepYn()));
-
+                    trContRes.setRepYnNameEn(fetchCodeUtil.fetchCodeEn(trCont.getRepYn()));
                     trContRes.setContactTypeName(fetchCodeUtil.fetchCodeKr(trCont.getContactType()));
+                    trContRes.setContactTypeNameEn(fetchCodeUtil.fetchCodeEn(trCont.getContactType()));
 
                     return trContRes;
                 })

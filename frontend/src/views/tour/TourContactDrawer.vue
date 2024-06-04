@@ -1,7 +1,7 @@
 <template>
-  <div id="tour-form-drawer">
+  <div id="tour-contact-drawer">
     <drawer-comp
-      v-model="openDrawer"
+      v-model="openContactDrawer"
       v-model:loading="loading"
       cancel-buttonicon="fa fa-chevron-right"
       center-title
@@ -11,32 +11,23 @@
       :cancel-button-label="cancelbuttonlabel"
       :reset-button-label="resetbuttonlabel"
       :confirm-icon="confirmicon"
-      icon-title="fas fa-cogs"
+      icon-title="person"
       :show-confirm-button="showconfirmbutton"
       :show-delete-button="showdeletebutton"
       :show-print-button="false"
       side="right"
       :title="title"
-      :width="40"
+      :width="30"
       @cancel-clicked="closeDrawer"
-      @confirm-clicked="saveUpdatedCodeData"
+      @confirm-clicked="saveUpdatedContactData"
       @delete-clicked="openDeleteConfirm = true"
-      ref="drawerComp"
+      ref="compDrawerComp"
     >
       <div class="flex flex-grow-1 q-pa-md">
-        <tour-form-drawer-content
-          v-model="tourformData"
-          :tour-area-list = "tourAreaList"
-          :tour-area-sub-list = "tourAreaSubList"
-          :sector-list = "sectorList"
-          :company-list = "companyList"
-          :prepaid-how-list = "prepaidHowList"
-          ref="tourFormDrawerContent"
-        />
-        <tour-contact-list
-          v-if="tourformData.tourUuid"
-          :tour-uuid="tourformData.tourUuid"
-          ref="tourContactList"
+        <tour-contact-drawer-content
+          v-model="contactForm"
+          :tourUuid="tourUuid"
+          ref="tourContactDrawerContent"
         />
       </div>
     </drawer-comp>
@@ -46,152 +37,117 @@
     :action-button-label="deletebuttonlabel"
     max-width="500px"
     :modal-title="deleteTitle"
-    @confirm-clicked="deleteTourForm"
+    @confirm-clicked="deleteContactForm"
   >
     <template #htmlContent>
       <div>{{ t('deleteconfirmmsg') }}</div>
     </template>
   </dialog-comp>
 </template>
-
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
-//Lang
-import i18n from 'src/i18n';
 // Components
 import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 import DialogComp from 'src/components/common/DialogComp.vue';
 // View Layout
-import TourFormDrawerContent from 'src/views/tour/TourFormDrawerContent.vue';
-// Services
-import { TourService } from 'src/services/TourService';
-// Types
-import { TourForm } from 'src/types/TourForm';
+import TourContactDrawerContent from 'src/views/tour/TourContactDrawerContent.vue';
+// Service
+import { TourContactService } from 'src/services/TourContactService';
+// Type
+import { TourContactForm } from 'src/types/TourContactForm';
 // Store
 import store from 'src/store';
 //helper
+import i18n from 'src/i18n';
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
-import {SelectOption} from "src/types/SelectOption";
-import TourContactList from "src/views/tour/TourContactList.vue";
 
 export default defineComponent({
-  name: 'TourFormDrawer',
+  name: 'TourContactDrawer',
   components: {
-    TourContactList,
     DrawerComp,
     DialogComp,
-    TourFormDrawerContent
+    TourContactDrawerContent,
   },
   props: {
-    tourSeq: {
+    compSeq: {
       type: Number,
       default: 0,
     },
-    modelValue: {
+    contactDrawer: {
       type: Boolean,
       default: false,
     },
-    tourCategory: {
+    tourUuid: {
       type: Number,
       default: 0,
     },
-    tourAreaList: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
-    tourAreaSubList: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
-    sectorList: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
-    companyList: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
-    prepaidHowList: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
   },
   emits: [
-    'update:modelValue',
-    'update:drawerData',
-    'tourform-saved',
-    'tourform-deleted',
-    'tourform-drawer-closed',
+    'update:contactDrawer',
+    'contactform-deleted',
+    'contactform-saved',
+    'contactform-contactDrawer-closed',
   ],
   setup(props, { emit }) {
-    const title = i18n.global.t('manageTour');
-    const tourformData = ref<TourForm>(new TourForm());
+    const title = i18n.global.t('tourContacts');
+    const contactForm = ref<TourContactForm>(new TourContactForm());
     const loading = ref<boolean>(false);
-    const openDrawer = ref<boolean>(false);
+    const openContactDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
     const confirmbuttonlabel = ref<string>(i18n.global.t('change'));
     const deletebuttonlabel = ref<string>(i18n.global.t('delete'));
     const deleteTitle = ref<string>(i18n.global.t('deleteTitle'));
     const resetbuttonlabel = ref<string>(i18n.global.t('reset'));
     const cancelbuttonlabel = ref<string>(i18n.global.t('cancel'));
-    const confirmicon = ref<string>('plus');
+    const confirmicon = ref<string>('fas fa-plus');
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
-    const tourformDrawerContent = ref();
+    const empformDrawerContent = ref();
+    const empformDrawerMenuAuth = ref();
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
-    const lcTourCategory = ref(props.tourCategory);
 
     watch(
-      () => props.modelValue,
+      () => props.contactDrawer,
       (newValue) => {
-        openDrawer.value = newValue;
+        openContactDrawer.value = newValue;
       }
     );
     watch(
-      () => props.tourCategory,
+      () => openContactDrawer.value,
       (newValue) => {
-        lcTourCategory.value = newValue;
-      }, {deep:true, immediate:true}
-    );
-    watch(
-      () => openDrawer.value,
-      (newValue) => {
-        emit('update:modelValue', newValue);
-        getTourFormData();
+        emit('update:contactDrawer', newValue);
+        getContactFormData();
       }
     );
 
-    // Reset Drawer
     function resetDrawer() {
-      tourformData.value = new TourForm();
-
-      if (props.tourSeq != 0) {
+      contactForm.value = new TourContactForm();
+      if (props.compSeq != 0) {
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = 'edit';
         showconfirmbutton.value =
-          store.getters.currentUserHasApplicationPermission('CONT_WU');
+          store.getters.currentUserHasApplicationPermission('COMP_WU');
         showdeletebutton.value =
-          store.getters.currentUserHasApplicationPermission('CONT_D');
+          store.getters.currentUserHasApplicationPermission('COMP_D');
       } else {
         confirmbuttoncolor.value = 'primary';
         confirmbuttonlabel.value = i18n.global.t('add');
         confirmicon.value = 'add';
         showconfirmbutton.value =
-          store.getters.currentUserHasApplicationPermission('CONT_WU');
+          store.getters.currentUserHasApplicationPermission('COMP_WU');
         showdeletebutton.value = false;
       }
     }
 
-    // Loading One Data
-    function getTourFormData() {
+    function getContactFormData() {
       resetDrawer();
-      if (props.tourSeq != 0) {
+      if (props.compSeq != 0) {
         loading.value = true;
-        TourService.getOneTourForm(props.tourSeq)
+        TourContactService.getTourContactForm(props.compSeq)
           .then((response) => {
-            tourformData.value = response;
+            contactForm.value = response;
           })
           .finally(() => {
             loading.value = false;
@@ -199,25 +155,21 @@ export default defineComponent({
       }
     }
 
-    //Add & Edit
-    function saveUpdatedCodeData() {
+    function saveUpdatedContactData() {
       notificationHelper.dismiss();
       notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
-      tourformData.value.tourCategory = lcTourCategory.value;
-      if (tourformData.value) {
-        TourService.saveTourForm(tourformData.value)
+      if (contactForm.value) {
+        contactForm.value.tourUuid = props.tourUuid;
+        console.log(contactForm.value);
+        TourContactService.saveTourContactForm(contactForm.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
               i18n.global.t('saved')
             );
-            if (props.tourSeq != 0) {
-              emit('tourform-saved', response);
-              tourformData.value = new TourForm(response);
-            } else {
-              emit('tourform-saved', response);
-              closeDrawer();
-            }
+
+            emit('contactform-saved', response);
+            closeDrawer();
           })
           .catch((error) => {
             notificationHelper.createErrorNotification(
@@ -231,18 +183,18 @@ export default defineComponent({
       }
     }
 
-    //Delete Data
     function deleteAction() {
       openDeleteConfirm.value = true;
     }
-    function deleteTourForm() {
+
+    function deleteContactForm() {
       loading.value = true;
-      TourService.deleteTourForm(props.tourSeq)
+      TourContactService.deleteTourContactForm(props.compSeq)
         .then((response) => {
           notificationHelper.createSuccessNotification(
             i18n.global.t('deletesucess')
           );
-          emit('tourform-deleted', response);
+          emit('contactform-deleted', response);
           closeDrawer();
         })
         .catch((error) => {
@@ -257,19 +209,17 @@ export default defineComponent({
     }
 
     function closeDrawer() {
-      openDrawer.value = false;
+      openContactDrawer.value = false;
       resetDrawer();
-      emit('tourform-drawer-closed');
+      emit('contactform-contactDrawer-closed');
     }
+
     return {
       t: i18n.global.t,
       title,
-      tourformData,
+      contactForm,
       loading,
-      drawerComp,
-      openDrawer,
-      closeDrawer,
-      tourformDrawerContent,
+      openContactDrawer,
       confirmbuttoncolor,
       confirmbuttonlabel,
       deletebuttonlabel,
@@ -279,20 +229,17 @@ export default defineComponent({
       confirmicon,
       showconfirmbutton,
       showdeletebutton,
-      deleteAction,
+      empformDrawerContent,
+      empformDrawerMenuAuth,
+      drawerComp,
       openDeleteConfirm,
-      deleteTourForm,
-      saveUpdatedCodeData,
+      resetDrawer,
+      getContactFormData,
+      saveUpdatedContactData,
+      deleteAction,
+      deleteContactForm,
+      closeDrawer,
     };
   },
 });
 </script>
-
-<style lang="scss">
-#tourform-drawer {
-  .q-page {
-    display: flex;
-    flex-direction: column;
-  }
-}
-</style>
