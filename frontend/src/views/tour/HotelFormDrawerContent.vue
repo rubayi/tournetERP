@@ -4,106 +4,51 @@
       <q-card-section v-if="edittourformData">
         <div class="row q-col-gutter-md">
           <div class="col-6">
-            <select-comp
-              v-model="edittourformData.tourArea"
-              class="full-width"
-              :label="t('tourArea')"
-              :options="tourAreaList"
-              outlined
-            />
-          </div>
-          <div class="col-6">
-            <select-comp
-              v-model="edittourformData.tourAreaSub"
-              class="full-width"
-              :label="t('tourAreaSub')"
-              :options="lcTourAreaSubList"
-              outlined
-            />
-          </div>
-          <div class="col-6">
-            <select-comp
-              v-model="edittourformData.compUuid"
-              class="full-width"
-              :label="t('compUuid')"
-              :options="companyList"
-              outlined
-            />
-          </div>
-          <div class="col-6">
             <input-comp
-              v-model="edittourformData.tourKor"
+              v-model="edittourformData.checkinTime"
               class="full-width"
               clearable
-              :label="t('tourKor')"
+              :label="t('checkinTime')"
               outlined
               required
             />
           </div>
           <div class="col-6">
             <input-comp
-              v-model="edittourformData.tourEng"
+              v-model="edittourformData.checkoutTime"
               class="full-width"
               clearable
-              :label="t('tourEng')"
+              :label="t('checkoutTime')"
               outlined
               required
             />
           </div>
-          <!--유아 나이-->
           <div class="col-6">
-            <select-comp
-              v-model="edittourformData.minAge"
+            <input-comp
+              v-model="edittourformData.resortFee"
               class="full-width"
-              :label="t('minAge')"
-              :options="ageNumbers"
+              clearable
+              :label="t('resortFee')"
               outlined
             />
           </div>
           <!--어린이 나이-->
           <div class="col-6">
             <select-comp
-              v-model="edittourformData.childAge"
+              v-model="edittourformData.childAgeBreakfast"
               class="full-width"
-              :label="t('childAge')"
+              :label="t('childAgeBreakfast')"
               :options="ageNumbers"
               outlined
             />
           </div>
           <div class="col-6">
             <select-comp
-              v-model="edittourformData.prepaidMethod"
-              class="full-width"
-              :label="t('prepaidMethod')"
-              :options="prepaidHowList"
+              v-model="edittourformData.couponYn"
+              :label="t('couponuseyn')"
+              class="full-width select-comp-padding"
+              :options="useYnList"
               outlined
-            />
-          </div>
-          <div class="col-6">
-            <select-comp
-              v-model="edittourformData.tourOrd"
-              class="full-width"
-              :label="t('tourOrd')"
-              :options="ordNumbers"
-              outlined
-            />
-          </div>
-          <div class="col-6">
-            <date-picker-comp
-              v-model="edittourformData.beginDt"
-              class="full-width"
-              clearable
-              outlined
-              :label="t('beginDt')"
-            />
-          </div>
-          <div class="col-6">
-            <date-picker-comp
-              v-model="edittourformData.endDt"
-              class="full-width"
-              clearable
-              outlined
-              :label="t('endDt')"
             />
           </div>
 
@@ -121,14 +66,12 @@ import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 import InputComp from 'src/components/common/InputComp.vue';
 import SelectComp from 'src/components/common/SelectComp.vue';
 // Type
-import { TourForm } from 'src/types/TourForm';
+import { HotelForm } from 'src/types/HotelForm';
 import { SelectOption } from 'src/types/SelectOption';
 // Helper
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
-import DatePickerComp from 'src/components/common/DatePickerComp.vue';
 import {loadOptionsList} from "src/utils/commoncode/commonCode";
-import {CodeService} from "src/services/CodeService";
 
 export default defineComponent({
   name: 'HotelFormDrawerContent',
@@ -136,38 +79,17 @@ export default defineComponent({
     InputComp,
     SelectComp,
     CardCompDesign,
-    DatePickerComp,
   },
   props: {
     modelValue: {
-      type: Object as () => TourForm,
-      default: () => new TourForm(),
+      type: Object as () => HotelForm,
+      default: () => new HotelForm(),
     },
-    tourAreaList: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
-    tourAreaSubList: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
-    sectorList: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
-    prepaidHowList: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
-    companyList: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
+
   },
   setup(props, { emit }) {
-    const edittourformData = ref<TourForm>();
+    const edittourformData = ref<HotelForm>();
     const locale = i18n.global.locale.value;
-    const lcTourAreaSubList =ref(props.tourAreaSubList);
 
     useSyncModelValue(
       props,
@@ -177,71 +99,13 @@ export default defineComponent({
       edittourformData
     );
 
-
-    watch(
-      () => edittourformData.value?.tourArea,
-      (newAreaUuid) => {
-        if (newAreaUuid) {
-          fetchTourAreaSubList(newAreaUuid);
-        } else {
-          // Clear the tourAreaSubList if no area is selected
-          lcTourAreaSubList.value = [];
-        }
-      }
-    , { deep: true, immediate:true });
-
-    function fetchTourAreaSubList(areaUuid: number) {
-      CodeService.getGroupCodeForm(areaUuid).then((response) => {
-        if (Array.isArray(response)) {
-          lcTourAreaSubList.value = response.map((x) => {
-            return new SelectOption(
-              locale === 'en' ? x.codeEn : x.codeKr,
-              x.codeUuid
-            );
-          });
-        } else {
-          console.error('Response is not an array:', response);
-        }
-      });
-    }
-
-
-    const yearNumbers = ref<SelectOption[]>([]);
-    const monNumbers = ref<SelectOption[]>([]);
     const ageNumbers = ref<SelectOption[]>([]);
-    const ordNumbers = ref<SelectOption[]>([]);
 
-    loadcdMonthOptions();
-
-    function loadcdMonthOptions() {
-      for (let i = 0; i <= 20; i++) {
-        let tnum = i.toString().padStart(2, '0');
-        monNumbers.value.push({ label: tnum, value: i });
-      }
-    }
-
-    loadcdAgeOptions();
-    function loadcdAgeOptions() {
+    loadAgeOptions();
+    function loadAgeOptions() {
       for (let i = 0; i <= 20; i++) {
         let tnum = i.toString();
         ageNumbers.value.push({ label: tnum, value: i });
-      }
-    }
-
-    loadcdYearOptions();
-    function loadcdYearOptions() {
-      let currentYear = +new Date().getFullYear();
-      for (let t = currentYear; t <= currentYear + 20; t++) {
-        let label = t.toString();
-        yearNumbers.value.push({ label: label, value: t });
-      }
-    }
-
-    loadcdOrdOptions();
-    function loadcdOrdOptions() {
-      for (let i = 0; i <= 70; i++) {
-        let tnum = i.toString();
-        ordNumbers.value.push({ label: tnum, value: i });
       }
     }
 
@@ -251,11 +115,7 @@ export default defineComponent({
     return {
       t: i18n.global.t,
       edittourformData,
-      lcTourAreaSubList,
-      monNumbers,
-      yearNumbers,
       ageNumbers,
-      ordNumbers,
       useYnList,
     };
   },

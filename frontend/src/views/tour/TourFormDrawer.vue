@@ -23,22 +23,46 @@
       @delete-clicked="openDeleteConfirm = true"
       ref="drawerComp"
     >
-      <div class="flex flex-grow-1 q-pa-md">
-        <tour-form-drawer-content
-          v-model="tourformData"
-          :tour-area-list = "tourAreaList"
-          :tour-area-sub-list = "tourAreaSubList"
-          :sector-list = "sectorList"
-          :company-list = "companyList"
-          :prepaid-how-list = "prepaidHowList"
-          ref="tourFormDrawerContent"
-        />
-        <tour-contact-list
-          v-if="tourformData.tourUuid"
-          :tour-uuid="tourformData.tourUuid"
-          ref="tourContactList"
-        />
+      <div>
+        <q-tabs v-model="tab" align="left">
+          <q-tab name="content" label="Content" class="q-ml-md" />
+          <q-tab name="tourcontact" label="Contact List" v-if="tourformData.tourUuid" />
+          <q-tab
+            name="hotel"
+            label="Hotel Basic Information"
+            v-if="tourformData.tourUuid"
+          />
+        </q-tabs>
+
+        <q-tab-panels v-model="tab">
+          <q-tab-panel name="content">
+            <tour-form-drawer-content
+              v-model="tourformData"
+              :tour-area-list = "tourAreaList"
+              :tour-area-sub-list = "tourAreaSubList"
+              :sector-list = "sectorList"
+              :company-list = "companyList"
+              :prepaid-how-list = "prepaidHowList"
+              ref="tourFormDrawerContent"
+            />
+          </q-tab-panel>
+
+          <q-tab-panel name="tourcontact">
+            <tour-contact-list
+              v-if="tourformData.tourUuid"
+              :tour-uuid="tourformData.tourUuid"
+              ref="tourContactList"
+            />
+          </q-tab-panel>
+
+          <q-tab-panel name="hotel">
+            <hotel-form-drawer-content
+              ref="hotelFormDrawerContent"
+            />
+          </q-tab-panel>
+        </q-tab-panels>
       </div>
+
     </drawer-comp>
   </div>
   <dialog-comp
@@ -63,6 +87,7 @@ import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 import DialogComp from 'src/components/common/DialogComp.vue';
 // View Layout
 import TourFormDrawerContent from 'src/views/tour/TourFormDrawerContent.vue';
+import HotelFormDrawerContent from 'src/views/tour/HotelFormDrawerContent.vue';
 // Services
 import { TourService } from 'src/services/TourService';
 // Types
@@ -74,13 +99,15 @@ import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 import {SelectOption} from "src/types/SelectOption";
 import TourContactList from "src/views/tour/TourContactList.vue";
 
+
 export default defineComponent({
   name: 'TourFormDrawer',
   components: {
     TourContactList,
     DrawerComp,
     DialogComp,
-    TourFormDrawerContent
+    TourFormDrawerContent,
+    HotelFormDrawerContent
   },
   props: {
     tourSeq: {
@@ -141,6 +168,7 @@ export default defineComponent({
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
     const lcTourCategory = ref(props.tourCategory);
+    const tab = ref<string>('content');
 
     watch(
       () => props.modelValue,
@@ -263,6 +291,7 @@ export default defineComponent({
     }
     return {
       t: i18n.global.t,
+      tab,
       title,
       tourformData,
       loading,
