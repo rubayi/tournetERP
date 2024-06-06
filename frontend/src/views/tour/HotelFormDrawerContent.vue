@@ -24,7 +24,7 @@
             />
           </div>
           <div class="col-6">
-            <input-comp
+            <number-comp
               v-model="edittourformData.resortFee"
               class="full-width"
               clearable
@@ -44,14 +44,21 @@
           </div>
           <div class="col-6">
             <select-comp
-              v-model="edittourformData.couponYn"
+              v-model="edittourformData.couponUse"
               :label="t('couponuseyn')"
               class="full-width select-comp-padding"
               :options="useYnList"
               outlined
             />
           </div>
-
+          <div class="col-6">
+            <number-comp
+              v-model="edittourformData.hotelLvl"
+              :label="t('hotelLvl')"
+              class="full-width"
+              outlined
+            />
+          </div>
         </div>
       </q-card-section>
     </template>
@@ -59,25 +66,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref } from 'vue';
 import i18n from 'src/i18n';
 // Component
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 import InputComp from 'src/components/common/InputComp.vue';
 import SelectComp from 'src/components/common/SelectComp.vue';
+import NumberComp from 'src/components/common/NumberComp.vue';
 // Type
 import { HotelForm } from 'src/types/HotelForm';
 import { SelectOption } from 'src/types/SelectOption';
 // Helper
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
-import {loadOptionsList} from "src/utils/commoncode/commonCode";
+import { loadOptionsList } from 'src/utils/commoncode/commonCode';
 
 export default defineComponent({
   name: 'HotelFormDrawerContent',
   components: {
     InputComp,
     SelectComp,
+    NumberComp,
     CardCompDesign,
   },
   props: {
@@ -85,7 +94,6 @@ export default defineComponent({
       type: Object as () => HotelForm,
       default: () => new HotelForm(),
     },
-
   },
   setup(props, { emit }) {
     const edittourformData = ref<HotelForm>();

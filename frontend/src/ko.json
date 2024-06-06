@@ -105,5 +105,10 @@
     "contact": "연락처",
     "type": "유형",
     "tourContacts": "기본 연락처",
-    "manageTour": "기본정보"
+    "manageTour": "기본정보",
+    "tourAreaName": "지역명",
+    "tourAreaSubName": "소분류 지역",
+    "tourKor": "한글명",
+    "tourEng": "영문명",
+    "prepaidMethodName": "선불결제방법"
 }

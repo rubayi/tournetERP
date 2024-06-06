@@ -105,5 +105,10 @@
     "contact": "Contact",
     "type": "Type",
     "tourContacts": "Contact Information",
-    "manageTour": "Basic Information"
+    "manageTour": "Basic Information",
+    "tourAreaName": "Tour Area Name",
+    "tourAreaSubName": "Tour Area Sub Name",
+    "tourKor": "Korean Name",
+    "tourEng": "English Name",
+    "prepaidMethodName": "Prepaid Method"
 }
