@@ -21,6 +21,7 @@ export interface IUserDetails {
   accountNonExpired: boolean | '';
   accountNonLocked: boolean | '';
   credentialsNonExpired: boolean | '';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   authorities: any[];
 
   ipAddress: string;
@@ -38,6 +39,7 @@ export class UserDetails implements IUserDetails {
   public accountNonExpired: boolean;
   public accountNonLocked: boolean;
   public credentialsNonExpired: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public authorities: any[];
 
   public ipAddress: string;

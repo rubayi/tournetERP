@@ -10,10 +10,7 @@
   >
     <template #append>
       <q-icon class="cursor-pointer" name="colorize">
-        <q-popup-proxy
-          transition-hide="scale"
-          transition-show="scale"
-        >
+        <q-popup-proxy transition-hide="scale" transition-show="scale">
           <q-color v-model="inputValue" />
         </q-popup-proxy>
       </q-icon>
@@ -28,16 +25,16 @@
 </template>
 
 <script lang="ts">
-import { requiredValidator } from "src/utils/helpers/InputValidatorHelper";
-import { defineComponent, ref, computed } from "vue";
-import DateHelper from "src/utils/helpers/DateHelper";
-import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
+import { requiredValidator } from 'src/utils/helpers/InputValidatorHelper';
+import { defineComponent, ref, computed } from 'vue';
+import DateHelper from 'src/utils/helpers/DateHelper';
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
-import InputComp from "src/components/common/InputComp.vue";
-import {useValidateInputs} from "src/utils/helpers/useValidateInputs";
+import InputComp from 'src/components/common/InputComp.vue';
+import { useValidateInputs } from 'src/utils/helpers/useValidateInputs';
 
 export default defineComponent({
-  name: "InputColorComp",
+  name: 'InputColorComp',
   components: { InputComp },
   props: {
     disable: {
@@ -46,7 +43,7 @@ export default defineComponent({
     },
     modelValue: {
       type: String,
-      default: "",
+      default: '',
     },
     formatToMonth: {
       type: Number,
@@ -69,10 +66,10 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ["update:modelValue"],
+  emits: ['update:modelValue'],
   setup(props, { emit }) {
     let timeout = 0;
-    const inputValue = ref<string | null>(props.modelValue);
+    const inputValue = ref<string | undefined>(props.modelValue);
     const formatDate = computed(
       () => props.formatToMonth || props.formatToDay || props.formatToYear
     );
@@ -101,9 +98,9 @@ export default defineComponent({
 
     useSyncModelValue(
       props,
-      "modelValue",
+      'modelValue',
       emit,
-      "update:modelValue",
+      'update:modelValue',
       inputValue
     );
 
@@ -114,7 +111,7 @@ export default defineComponent({
 
     function resetValidation() {
       if (props.modelValue !== inputValue.value) {
-        inputValue.value = "";
+        inputValue.value = '';
       }
       colorInput.value.resetValidation();
     }

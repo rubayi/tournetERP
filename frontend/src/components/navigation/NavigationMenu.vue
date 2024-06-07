@@ -75,6 +75,7 @@ export default defineComponent({
     function buildComMenuTree(
       menuItems: MenuForm[],
       parentUuid: number
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): any[] {
       const filteredComMenus = menuItems.filter(
         (menu) => menu.upperMenuUuid === parentUuid

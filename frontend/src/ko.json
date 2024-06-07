@@ -110,5 +110,10 @@
     "tourAreaSubName": "소분류 지역",
     "tourKor": "한글명",
     "tourEng": "영문명",
-    "prepaidMethodName": "선불결제방법"
+    "prepaidMethodName": "선불결제방법",
+    "checkinTime": "체크인시간",
+    "checkoutTime": "체크아웃시간",
+    "resortFee": "리조트요금",
+    "childAgeBreakfast": "아동 조식 연령",
+    "hotelLvl": "호텔등급"
 }

@@ -110,5 +110,10 @@
     "tourAreaSubName": "Tour Area Sub Name",
     "tourKor": "Korean Name",
     "tourEng": "English Name",
-    "prepaidMethodName": "Prepaid Method"
+    "prepaidMethodName": "Prepaid Method",
+    "checkinTime": "Check In Time",
+    "checkoutTime": "Check Out Time",
+    "resortFee": "Resort Fee",
+    "childAgeBreakfast": "Child Age for Breakfast",
+    "hotelLvl": "Hotel Level"
 }

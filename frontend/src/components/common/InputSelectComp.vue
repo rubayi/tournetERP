@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, PropType, ref } from 'vue';
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
 export default defineComponent({
@@ -71,8 +71,24 @@ export default defineComponent({
       default: 'value',
     },
     newValueCallback: {
-      type: Function,
-      default: (val: unknown, done: CallableFunction) => {
+      type: Function as PropType<
+        (
+          inputValue: string,
+          doneFn: (
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            item?: any,
+            mode?: 'add' | 'add-unique' | 'toggle' | undefined
+          ) => void
+        ) => void
+      >,
+      default: (
+        val: unknown,
+        done: (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          item?: any,
+          mode?: 'add' | 'add-unique' | 'toggle' | undefined
+        ) => void
+      ) => {
         done(val, 'add-unique');
       },
     },

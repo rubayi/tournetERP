@@ -47,11 +47,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "ButtonCellRenderer",
+  name: 'ButtonCellRenderer',
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data(): { params: any } {
     return {
       params: {},

@@ -105,9 +105,8 @@ import { SelectOption } from 'src/types/SelectOption';
 // Helper
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 // Service
-import { CodeService } from 'src/services/CodeService';
 import DatePickerComp from 'src/components/common/DatePickerComp.vue';
-import {loadOptionsList} from "src/utils/commoncode/commonCode";
+import { loadOptionsList } from 'src/utils/commoncode/commonCode';
 
 export default defineComponent({
   name: 'CdcdFormDrawerContent',

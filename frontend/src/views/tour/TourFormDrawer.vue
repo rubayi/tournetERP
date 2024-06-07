@@ -26,7 +26,11 @@
       <div>
         <q-tabs v-model="tab" align="left">
           <q-tab name="content" label="Content" class="q-ml-md" />
-          <q-tab name="tourcontact" label="Contact List" v-if="tourformData.tourUuid" />
+          <q-tab
+            name="tourcontact"
+            label="Contact List"
+            v-if="tourformData.tourUuid"
+          />
           <q-tab
             name="hotel"
             label="Hotel Basic Information"
@@ -38,11 +42,11 @@
           <q-tab-panel name="content">
             <tour-form-drawer-content
               v-model="tourformData"
-              :tour-area-list = "tourAreaList"
-              :tour-area-sub-list = "tourAreaSubList"
-              :sector-list = "sectorList"
-              :company-list = "companyList"
-              :prepaid-how-list = "prepaidHowList"
+              :tour-area-list="tourAreaList"
+              :tour-area-sub-list="tourAreaSubList"
+              :sector-list="sectorList"
+              :company-list="companyList"
+              :prepaid-how-list="prepaidHowList"
               ref="tourFormDrawerContent"
             />
           </q-tab-panel>
@@ -57,12 +61,13 @@
 
           <q-tab-panel name="hotel">
             <hotel-form-drawer-content
+              v-if="tourformData.tourUuid"
+              :tour-uuid="tourformData.tourUuid"
               ref="hotelFormDrawerContent"
             />
           </q-tab-panel>
         </q-tab-panels>
       </div>
-
     </drawer-comp>
   </div>
   <dialog-comp
@@ -96,9 +101,8 @@ import { TourForm } from 'src/types/TourForm';
 import store from 'src/store';
 //helper
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
-import {SelectOption} from "src/types/SelectOption";
-import TourContactList from "src/views/tour/TourContactList.vue";
-
+import { SelectOption } from 'src/types/SelectOption';
+import TourContactList from 'src/views/tour/TourContactList.vue';
 
 export default defineComponent({
   name: 'TourFormDrawer',
@@ -107,7 +111,7 @@ export default defineComponent({
     DrawerComp,
     DialogComp,
     TourFormDrawerContent,
-    HotelFormDrawerContent
+    HotelFormDrawerContent,
   },
   props: {
     tourSeq: {
@@ -180,7 +184,8 @@ export default defineComponent({
       () => props.tourCategory,
       (newValue) => {
         lcTourCategory.value = newValue;
-      }, {deep:true, immediate:true}
+      },
+      { deep: true, immediate: true }
     );
     watch(
       () => openDrawer.value,

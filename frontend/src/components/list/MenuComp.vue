@@ -12,24 +12,56 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "MenuComp",
+  name: 'MenuComp',
   props: {
     value: {
       type: Boolean,
     },
     anchor: {
-      type: String,
-      default: "top right",
+      type: String as () =>
+        | 'top right'
+        | 'top left'
+        | 'bottom left'
+        | 'top middle'
+        | 'top start'
+        | 'top end'
+        | 'center left'
+        | 'center middle'
+        | 'center right'
+        | 'center start'
+        | 'center end'
+        | 'bottom middle'
+        | 'bottom right'
+        | 'bottom start'
+        | 'bottom end'
+        | undefined,
+      default: 'top right',
     },
     self: {
-      type: String,
-      default: "top left",
+      type: String as () =>
+        | 'top right'
+        | 'top left'
+        | 'bottom left'
+        | 'top middle'
+        | 'top start'
+        | 'top end'
+        | 'center left'
+        | 'center middle'
+        | 'center right'
+        | 'center start'
+        | 'center end'
+        | 'bottom middle'
+        | 'bottom right'
+        | 'bottom start'
+        | 'bottom end'
+        | undefined,
+      default: 'top left',
     },
   },
-  emits: ["input", "mouseout", "mouseover"],
+  emits: ['input', 'mouseout', 'mouseover'],
 });
 </script>
 

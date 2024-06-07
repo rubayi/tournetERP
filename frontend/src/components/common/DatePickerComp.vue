@@ -37,16 +37,16 @@
 </template>
 
 <script lang="ts">
-import { requiredValidator } from "src/utils/helpers/InputValidatorHelper";
-import { defineComponent, ref, computed } from "vue";
-import DateHelper from "src/utils/helpers/DateHelper";
-import { useValidateInputs } from "src/utils/helpers/useValidateInputs";
-import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
+import { requiredValidator } from 'src/utils/helpers/InputValidatorHelper';
+import { defineComponent, ref, computed } from 'vue';
+import DateHelper from 'src/utils/helpers/DateHelper';
+import { useValidateInputs } from 'src/utils/helpers/useValidateInputs';
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
-import InputComp from "src/components/common/InputComp.vue";
+import InputComp from 'src/components/common/InputComp.vue';
 
 export default defineComponent({
-  name: "DatePickerComp",
+  name: 'DatePickerComp',
   components: { InputComp },
   props: {
     disable: {
@@ -55,7 +55,7 @@ export default defineComponent({
     },
     modelValue: {
       type: String,
-      default: "",
+      default: '',
     },
     formatToMonth: {
       type: Number,
@@ -78,26 +78,26 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ["update:modelValue"],
+  emits: ['update:modelValue'],
   setup(props, { emit }) {
     let timeout = 0;
-    const inputValue = ref<string | "">(
-      props.modelValue ? props.modelValue :
-        DateHelper.formatToMonthDayYearShortDateString(
-          new Date().toLocaleDateString(),
-          props.formatToMonth,
-          props.formatToDay,
-          props.formatToYear
-        )
+    const inputValue = ref<string | ''>(
+      props.modelValue
+        ? props.modelValue
+        : DateHelper.formatToMonthDayYearShortDateString(
+            new Date().toLocaleDateString(),
+            props.formatToMonth,
+            props.formatToDay,
+            props.formatToYear
+          )
     );
 
     const validationMessage = computed(() => {
       if (!props.modelValue && !validator(inputValue.value)) {
-        return "Date is Invalid";
+        return 'Date is Invalid';
       }
-      return null;
+      return undefined;
     });
-
     const formatDate = computed(
       () => props.formatToMonth || props.formatToDay || props.formatToYear
     );
@@ -110,7 +110,6 @@ export default defineComponent({
           clearTimeout(timeout);
         }
         if (validator(newVal)) {
-
           // Timer to pause for user input
           timeout = window.setTimeout(() => {
             inputValue.value = DateHelper.formatToMonthDayYearShortDateString(
@@ -127,9 +126,9 @@ export default defineComponent({
 
     useSyncModelValue(
       props,
-      "modelValue",
+      'modelValue',
       emit,
-      "update:modelValue",
+      'update:modelValue',
       inputValue
     );
 
@@ -140,13 +139,12 @@ export default defineComponent({
 
     function resetValidation() {
       if (props.modelValue !== inputValue.value) {
-        inputValue.value = "";
+        inputValue.value = '';
       }
       dateInput.value.resetValidation();
     }
 
     const validator = (dateString: string): boolean => {
-
       return (
         DateHelper.isValidShortDateString(dateString) &&
         computedRequiredValidator.value(dateString)
@@ -166,7 +164,7 @@ export default defineComponent({
       resetValidation,
       inputHasError,
       validator,
-      validationMessage
+      validationMessage,
     };
   },
 });

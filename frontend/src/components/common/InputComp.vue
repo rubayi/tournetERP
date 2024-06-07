@@ -112,7 +112,20 @@ export default defineComponent({
       default: false,
     },
     type: {
-      type: String,
+      type: String as () =>
+        | 'number'
+        | 'text'
+        | 'search'
+        | 'email'
+        | 'date'
+        | 'textarea'
+        | 'time'
+        | 'file'
+        | 'password'
+        | 'tel'
+        | 'url'
+        | 'datetime-local'
+        | undefined,
       default: 'text',
     },
     validator: {

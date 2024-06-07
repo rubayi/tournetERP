@@ -1,6 +1,6 @@
-import { ColDef } from "ag-grid-community";
-import _ from "lodash";
-import DateHelper from "src/utils/helpers/DateHelper";
+import { ColDef } from 'ag-grid-community';
+import _ from 'lodash';
+import DateHelper from 'src/utils/helpers/DateHelper';
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export class TableHelper {
@@ -15,73 +15,76 @@ export class TableHelper {
 
   static textFilterParams = {
     inRangeInclusive: true,
-    newRowsAction: "keep",
+    newRowsAction: 'keep',
     filterOptions: [
-      "contains",
-      "notContains",
+      'contains',
+      'notContains',
       {
-        displayKey: "notBlank",
-        displayName: "Not blank",
+        displayKey: 'notBlank',
+        displayName: 'Not blank',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         test: function (filterValue: any, cellValue: any) {
           return (
-            cellValue !== null && cellValue !== undefined && cellValue !== ""
+            cellValue !== null && cellValue !== undefined && cellValue !== ''
           );
         },
         hideFilterInput: true,
       },
-      "equals",
-      "notEqual",
-      "startsWith",
-      "endsWith",
+      'equals',
+      'notEqual',
+      'startsWith',
+      'endsWith',
     ],
   };
 
   static numberFilterParams = {
     inRangeInclusive: true,
-    newRowsAction: "keep",
+    newRowsAction: 'keep',
     filterOptions: [
-      "equals",
-      "notEqual",
+      'equals',
+      'notEqual',
       {
-        displayKey: "notBlank",
-        displayName: "Not blank",
+        displayKey: 'notBlank',
+        displayName: 'Not blank',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         test: function (filterValue: any, cellValue: any) {
           return (
-            cellValue !== null && cellValue !== undefined && cellValue !== ""
+            cellValue !== null && cellValue !== undefined && cellValue !== ''
           );
         },
         hideFilterInput: true,
       },
-      "lessThan",
-      "lessThanOrEqual",
-      "greaterThan",
-      "greaterThanOrEqual",
-      "inRange",
+      'lessThan',
+      'lessThanOrEqual',
+      'greaterThan',
+      'greaterThanOrEqual',
+      'inRange',
     ],
   };
 
   static dateFilterParams = {
     inRangeInclusive: true,
-    newRowsAction: "keep",
+    newRowsAction: 'keep',
     comparator: DateHelper.shortDateComparator,
     filterOptions: [
-      "equals",
-      "notEqual",
+      'equals',
+      'notEqual',
       {
-        displayKey: "notBlank",
-        displayName: "Not blank",
+        displayKey: 'notBlank',
+        displayName: 'Not blank',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         test: function (filterValue: any, cellValue: any) {
           return (
-            cellValue !== null && cellValue !== undefined && cellValue !== ""
+            cellValue !== null && cellValue !== undefined && cellValue !== ''
           );
         },
         hideFilterInput: true,
       },
-      "lessThan",
-      "lessThanOrEqual",
-      "greaterThan",
-      "greaterThanOrEqual",
-      "inRange",
+      'lessThan',
+      'lessThanOrEqual',
+      'greaterThan',
+      'greaterThanOrEqual',
+      'inRange',
     ],
   };
 
@@ -91,7 +94,7 @@ export class TableHelper {
     suppressMenu: true,
     resizable: true,
     floatingFilter: true,
-    filter: "agTextColumnFilter",
+    filter: 'agTextColumnFilter',
     filterParams: TableHelper.textFilterParams,
   };
 }
@@ -119,14 +122,14 @@ export function modifyActionCellRenderer(
     if (disableAdd && disableEdit && disableDelete) {
       columns[0].hide = true;
     } else if (disableEdit && disableDelete) {
-      columns[0].cellRenderer = "actionAddCellRenderer";
+      columns[0].cellRenderer = 'actionAddCellRenderer';
     } else if (disableDelete) {
-      columns[0].cellRenderer = "actionEditCellRenderer";
+      columns[0].cellRenderer = 'actionEditCellRenderer';
     } else if (disableEdit) {
       // disableDelete values of undefined means no delete permission exists and the full actionCellRenderer should be shown
-      columns[0].cellRenderer = "actionDeleteCellRenderer";
+      columns[0].cellRenderer = 'actionDeleteCellRenderer';
     } else {
-      columns[0].cellRenderer = "actionCellRenderer";
+      columns[0].cellRenderer = 'actionCellRenderer';
     }
   }
   return columns;

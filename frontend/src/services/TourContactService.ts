@@ -29,7 +29,9 @@ export class TourContactService {
       .then((response) => response.data);
   }
 
-  static saveTourContactForm(contactForm: TourContactForm): Promise<TourContactForm> {
+  static saveTourContactForm(
+    contactForm: TourContactForm
+  ): Promise<TourContactForm> {
     return api
       .post<TourContactForm>(API_URL + 'updateContact', contactForm, {
         headers: authHeader(),
@@ -39,7 +41,7 @@ export class TourContactService {
 
   static deleteTourContactForm(id: number): Promise<void> {
     return api
-      .delete<void>(API_URL + `deleteContact/${id}`, {
+      .get<void>(API_URL + `deleteContact/${id}`, {
         headers: authHeader(),
       })
       .then((response) => response.data);

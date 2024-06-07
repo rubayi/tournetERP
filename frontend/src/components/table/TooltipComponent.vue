@@ -5,13 +5,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import FormatHelper from "src/utils/helpers/FormatHelper";
+import { defineComponent } from 'vue';
+import FormatHelper from 'src/utils/helpers/FormatHelper';
 
 export default defineComponent({
-  name: "TooltipComponent",
+  name: 'TooltipComponent',
   data(): {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     content: any;
   } {
     return {

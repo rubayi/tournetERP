@@ -27,10 +27,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "InputLabelTemplateContent",
+  name: 'InputLabelTemplateContent',
   props: {
     label: {
       type: String,
@@ -42,7 +42,7 @@ export default defineComponent({
     },
     prependIconSize: {
       type: String,
-      default: "20px",
+      default: '20px',
     },
     appendIconName: {
       type: String,
@@ -50,23 +50,55 @@ export default defineComponent({
     },
     appendIconSize: {
       type: String,
-      default: "20px",
+      default: '20px',
     },
     tooltipText: {
       type: String,
       default: null,
     },
     tooltipAnchor: {
-      type: String,
-      default: "top left",
+      type: String as () =>
+        | 'top right'
+        | 'top left'
+        | 'bottom left'
+        | 'top middle'
+        | 'top start'
+        | 'top end'
+        | 'center left'
+        | 'center middle'
+        | 'center right'
+        | 'center start'
+        | 'center end'
+        | 'bottom middle'
+        | 'bottom right'
+        | 'bottom start'
+        | 'bottom end'
+        | undefined,
+      default: 'top left',
     },
     tooltipOffset: {
       type: Array,
       default: () => [5, 5],
     },
     tooltipSelf: {
-      type: String,
-      default: "bottom left",
+      type: String as () =>
+        | 'top right'
+        | 'top left'
+        | 'bottom left'
+        | 'top middle'
+        | 'top start'
+        | 'top end'
+        | 'center left'
+        | 'center middle'
+        | 'center right'
+        | 'center start'
+        | 'center end'
+        | 'bottom middle'
+        | 'bottom right'
+        | 'bottom start'
+        | 'bottom end'
+        | undefined,
+      default: 'bottom left',
     },
     scale: {
       type: Number,
@@ -78,10 +110,10 @@ export default defineComponent({
     },
     validationMessage: {
       type: String,
-      default: "Number is Invalid",
+      default: 'Number is Invalid',
     },
   },
-  emits: ["update:modelValue"],
+  emits: ['update:modelValue'],
 });
 </script>
 

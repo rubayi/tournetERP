@@ -21,25 +21,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { TabOptions } from "src/types/TabOptions";
+import { defineComponent } from 'vue';
+import { TabOptions } from 'src/types/TabOptions';
 export default defineComponent({
-  name: "TabsComp",
+  name: 'TabsComp',
   props: {
     value: {
       type: String,
-      default: "",
+      default: '',
     },
     align: {
-      type: String,
-      default: "left",
+      type: String as () => 'left' | 'center' | 'right' | 'justify' | undefined,
+      default: 'left',
     },
     tabOptions: {
       type: Object as () => Array<TabOptions>,
       default: Object as () => [],
     },
   },
-  emits: ["update:modelValue"],
+  emits: ['update:modelValue'],
 });
 </script>
 

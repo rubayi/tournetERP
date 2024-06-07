@@ -52,10 +52,11 @@
             />
           </div>
           <div class="col-6">
-            <number-comp
+            <select-comp
               v-model="edittourformData.hotelLvl"
               :label="t('hotelLvl')"
-              class="full-width"
+              class="full-width select-comp-padding"
+              :options="hotelLevelList"
               outlined
             />
           </div>
@@ -66,8 +67,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import i18n from 'src/i18n';
+import { defineComponent, ref, onMounted } from 'vue';
 // Component
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 import InputComp from 'src/components/common/InputComp.vue';
@@ -76,10 +76,15 @@ import NumberComp from 'src/components/common/NumberComp.vue';
 // Type
 import { HotelForm } from 'src/types/HotelForm';
 import { SelectOption } from 'src/types/SelectOption';
+// Store
+import store from 'src/store';
 // Helper
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
-
 import { loadOptionsList } from 'src/utils/commoncode/commonCode';
+import { HotelService } from 'src/services/HotelService';
+// helper
+import i18n from 'src/i18n';
+import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 
 export default defineComponent({
   name: 'HotelFormDrawerContent',
@@ -94,10 +99,77 @@ export default defineComponent({
       type: Object as () => HotelForm,
       default: () => new HotelForm(),
     },
+    tourUuid: {
+      type: Number,
+      default: 0,
+    },
   },
   setup(props, { emit }) {
-    const edittourformData = ref<HotelForm>();
+    const loading = ref<boolean>(false);
+    const edittourformData = ref<HotelForm>(new HotelForm());
     const locale = i18n.global.locale.value;
+    const showinsertbutton = ref<boolean>(false);
+
+    const loadData = () => {
+      loading.value = true;
+      edittourformData.value = props.modelValue;
+      showinsertbutton.value =
+        store.getters.currentUserHasApplicationPermission('CONT_WU');
+      if (store.getters.currentUserHasApplicationPermission('CONT_R')) {
+        HotelService.searchHotelByTour(props.tourUuid).then((response) => {
+          if (response) {
+            edittourformData.value = response;
+            loading.value = false;
+            console.log('edittourformData', edittourformData.value);
+          }
+        });
+      }
+    };
+
+    function saveUpdatedHotelData() {
+      notificationHelper.dismiss();
+      notificationHelper.createOngoingNotification(i18n.global.t('saving'));
+      loading.value = true;
+      if (edittourformData.value) {
+        edittourformData.value.tourUuid = props.tourUuid;
+        HotelService.saveHotelForm(edittourformData.value)
+          .then((response) => {
+            notificationHelper.createSuccessNotification(
+              i18n.global.t('saved')
+            );
+            emit('hotelform-saved', response);
+          })
+          .catch((error) => {
+            notificationHelper.createErrorNotification(
+              notificationHelper.formatResponseToErrorMessage(error.response)
+            );
+          })
+          .finally(() => {
+            notificationHelper.dismissOngoingNotification();
+            loading.value = false;
+          });
+      }
+    }
+
+    function deleteHotelData() {
+      loading.value = true;
+      HotelService.deleteHotelForm(props.tourUuid)
+        .then((response) => {
+          notificationHelper.createSuccessNotification(
+            i18n.global.t('deletesucess')
+          );
+          emit('hotelform-deleted', response);
+        })
+        .catch((error) => {
+          notificationHelper.createErrorNotification(
+            notificationHelper.formatResponseToErrorMessage(error.response)
+          );
+        })
+        .finally(() => {
+          notificationHelper.dismissOngoingNotification();
+          loading.value = false;
+        });
+    }
 
     useSyncModelValue(
       props,
@@ -120,11 +192,19 @@ export default defineComponent({
     const useYnList = ref<SelectOption[]>([]);
     loadOptionsList(35, useYnList, locale);
 
+    const hotelLevelList = ref<SelectOption[]>([]);
+    loadOptionsList(30, hotelLevelList, locale);
+
+    onMounted(loadData);
+
     return {
       t: i18n.global.t,
       edittourformData,
       ageNumbers,
       useYnList,
+      hotelLevelList,
+      saveUpdatedHotelData,
+      deleteHotelData,
     };
   },
 });

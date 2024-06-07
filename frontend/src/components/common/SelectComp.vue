@@ -84,8 +84,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const inputValue = ref<ISelectOption | null>();
     setInputValue(props.modelValue);
-
-    /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function setInputValue(value: any) {
       let matchingOption = null;
       if (value !== null && value !== undefined) {

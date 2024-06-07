@@ -23,12 +23,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
-import { ISelectOption } from "src/types/SelectOption";
-import { useSyncModelValue } from "src/utils/helpers/useSyncModelValue";
+import { computed, defineComponent, PropType, ref } from 'vue';
+import { ISelectOption } from 'src/types/SelectOption';
+import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 
 export default defineComponent({
-  name: "MultiInputComp",
+  name: 'MultiInputComp',
   props: {
     clearable: {
       type: Boolean,
@@ -40,7 +40,7 @@ export default defineComponent({
     },
     hint: {
       type: String,
-      default: "",
+      default: '',
     },
     label: {
       type: String,
@@ -55,9 +55,25 @@ export default defineComponent({
       default: () => [],
     },
     newValueCallback: {
-      type: Function,
-      default: (val: any, done: CallableFunction) => {
-        done(val, "add-unique");
+      type: Function as PropType<
+        (
+          inputValue: string,
+          doneFn: (
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            item?: any,
+            mode?: 'add' | 'add-unique' | 'toggle' | undefined
+          ) => void
+        ) => void
+      >,
+      default: (
+        val: string,
+        done: (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          item?: any,
+          mode?: 'add' | 'add-unique' | 'toggle' | undefined
+        ) => void
+      ) => {
+        done(val, 'add-unique');
       },
     },
     validator: {
@@ -66,27 +82,27 @@ export default defineComponent({
     },
     validationMessage: {
       type: String,
-      default: "",
+      default: '',
     },
     options: {
       type: Array as () => ISelectOption[] | string[],
       default: undefined,
     },
   },
-  emits: ["update:modelValue", "new-value"],
+  emits: ['update:modelValue', 'new-value'],
   setup(props, { emit }) {
     const inputValue = ref<ISelectOption | null>();
 
     useSyncModelValue(
       props,
-      "modelValue",
+      'modelValue',
       emit,
-      "update:modelValue",
+      'update:modelValue',
       inputValue
     );
 
     const maxInputWidth = computed(() =>
-      props.maxWidth ? { width: props.maxWidth + "px" } : ""
+      props.maxWidth ? { width: props.maxWidth + 'px' } : ''
     );
 
     const input = ref();

@@ -1,10 +1,7 @@
 package com.tournet.tournetERP.contents.dto;
 
 import com.tournet.tournetERP.auth.entity.User;
-import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
 
