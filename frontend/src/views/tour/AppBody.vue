@@ -79,7 +79,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 //Lang
 import i18n from 'src/i18n';
@@ -141,12 +141,17 @@ export default defineComponent({
     const hotelYn = ref<string>("");
     const tourNm = ref<string>("");
 
-    onMounted(() => {
-      const route = useRoute();
-      sector.value = route.params.sector as string;
+    const route = useRoute();
+
+    watch(() => route.params.sector, (newSector) => {
+      sector.value = newSector as string;
       setSectorAndTourCategory();
     });
 
+    onMounted(() => {
+      sector.value = route.params.sector as string;
+      setSectorAndTourCategory();
+    });
 
     /* List */
     function loadData() {
@@ -215,16 +220,6 @@ export default defineComponent({
       searchdata.value = new TourSearchForm();
     }
 
-    // watch(loading, (loading) => {
-    //   if (gridOptions.value.api) {
-    //     if (loading) {
-    //        gridOptions.value.api.showLoadingOverlay();
-    //     } else {
-    //        gridOptions.value.api.hideOverlay();
-    //     }
-    //   }
-    // });
-
     /* New */
     function createAction() {
       tourUuid.value = 0;
@@ -261,14 +256,13 @@ export default defineComponent({
           let codeEn = category.codeEn.toLowerCase();
           let sectorVal = sector.value.toLowerCase();
 
-          if(codeEn === "hotel"){
+          if(sectorVal === "hotel"){
             hotelYn.value = "Y";
-            console.log("=====HOTEL======");
+
           }
           if (codeEn === sectorVal) {
             tourNm.value = codeEn;
             tourCategory.value = category.codeUuid;
-            console.log(tourCategory.value);
             loadData();
             break;
           }

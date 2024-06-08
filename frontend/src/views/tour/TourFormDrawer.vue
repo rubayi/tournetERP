@@ -67,7 +67,7 @@
 
           <q-tab-panel name="hotel">
             <hotel-form-drawer-content
-              v-if="tourformData.tourUuid"
+              v-if="lcHotelYn === 'Y'"
               :tour-uuid="tourformData.tourUuid"
               ref="hotelFormDrawerContent"
             />
@@ -196,6 +196,7 @@ export default defineComponent({
     const openDeleteConfirm = ref<boolean>(false);
     const lcTourCategory = ref(props.tourCategory);
     const tab = ref<string>('content');
+    const lcHotelYn = ref<string>(props.hotelYn);
 
     watch(
       () => props.modelValue,
@@ -340,6 +341,7 @@ export default defineComponent({
       openDeleteConfirm,
       deleteTourForm,
       saveUpdatedTourData,
+      lcHotelYn
     };
   },
 });
