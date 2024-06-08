@@ -9,7 +9,7 @@
               class="q-ml-xs q-mr-sm"
               size="sm"
             ></q-icon>
-            {{ t(`manageTour`) }}
+            {{ t(tourNm+`manageTour`) }}
           </span>
         </div>
         <div class="col-auto text-right q-pr-md">
@@ -55,6 +55,7 @@
       </div>
       <tour-form-drawer
         v-model="openDrawer"
+        :hotel-yn = "hotelYn"
         :tour-category ="tourCategory"
         :tour-seq="tourUuid"
         :tour-area-list = "tourAreaList"
@@ -137,6 +138,8 @@ export default defineComponent({
 
     const sector = ref<string>("");
     const tourCategory = ref<number>(0);
+    const hotelYn = ref<string>("");
+    const tourNm = ref<string>("");
 
     onMounted(() => {
       const route = useRoute();
@@ -258,7 +261,12 @@ export default defineComponent({
           let codeEn = category.codeEn.toLowerCase();
           let sectorVal = sector.value.toLowerCase();
 
+          if(codeEn === "hotel"){
+            hotelYn.value = "Y";
+            console.log("=====HOTEL======");
+          }
           if (codeEn === sectorVal) {
+            tourNm.value = codeEn;
             tourCategory.value = category.codeUuid;
             console.log(tourCategory.value);
             loadData();
@@ -350,7 +358,9 @@ export default defineComponent({
       showinsertbutton,
       frameworkComponents,
       tourCategory,
-      companyList
+      companyList,
+      hotelYn,
+      tourNm
     };
   },
   data() {

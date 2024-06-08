@@ -13,6 +13,7 @@ import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
 import com.tournet.tournetERP.contents.repository.InfoRepository;
 import com.tournet.tournetERP.contents.entity.Info;
+import com.tournet.tournetERP.contents.service.InfoService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,8 +37,8 @@ public class InfoController {
     @Autowired
     InfoRepository infoRepository;
 
-//    @Autowired
-//    InfoService infoService;
+    @Autowired
+    InfoService infoService;
 
     @PostMapping("/selectInfos")
     public ResponseEntity<Map<String, Object>> selectInfos (@RequestBody Info infoReq) {
@@ -49,6 +50,20 @@ public class InfoController {
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("infos", currentInfos);
         return new ResponseEntity<>(resMap, HttpStatus.OK);
+    }
+
+    @PostMapping("/searchInfoByCondition")
+    public ResponseEntity<?> searchInfoByCondition (@RequestBody Info infoReq) {
+
+        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+
+        List<Info> infoList = new ArrayList<Info>();
+
+        if (storUser.isAuthenticated()) {
+            infoList = infoRepository.findAllByTourUuidOrderByModifiedDtDesc(infoReq.getTourUuid());
+        }
+
+        return new ResponseEntity<>(infoList, HttpStatus.OK);
     }
 
     @PostMapping("/updateInfo")

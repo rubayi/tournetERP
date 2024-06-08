@@ -1,5 +1,5 @@
 <template>
-  <div id="tour-contact-drawer">
+  <div id="tour-info-drawer">
     <drawer-comp
       v-model="openContactDrawer"
       v-model:loading="loading"
@@ -24,10 +24,10 @@
       ref="compDrawerComp"
     >
       <div class="flex flex-grow-1 q-pa-md">
-        <tour-contact-drawer-content
-          v-model="contactForm"
+        <info-drawer-content
+          v-model="infoForm"
           :tourUuid="tourUuid"
-          ref="tourContactDrawerContent"
+          ref="infoDrawerContent"
         />
       </div>
     </drawer-comp>
@@ -50,11 +50,11 @@ import { defineComponent, ref, watch } from 'vue';
 import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 import DialogComp from 'src/components/common/DialogComp.vue';
 // View Layout
-import TourContactDrawerContent from 'src/views/tour/TourContactDrawerContent.vue';
+import InfoDrawerContent from 'src/views/tour/InfoDrawerContent.vue';
 // Service
-import { TourContactService } from 'src/services/TourContactService';
+import { InfoService } from 'src/services/InfoService';
 // Type
-import { TourContactForm } from 'src/types/TourContactForm';
+import { InfoForm } from 'src/types/InfoForm';
 // Store
 import store from 'src/store';
 //helper
@@ -62,18 +62,18 @@ import i18n from 'src/i18n';
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 
 export default defineComponent({
-  name: 'TourContactDrawer',
+  name: 'InfoDrawer',
   components: {
     DrawerComp,
     DialogComp,
-    TourContactDrawerContent,
+    InfoDrawerContent,
   },
   props: {
     compSeq: {
       type: Number,
       default: 0,
     },
-    contactDrawer: {
+    infoDrawer: {
       type: Boolean,
       default: false,
     },
@@ -83,14 +83,14 @@ export default defineComponent({
     },
   },
   emits: [
-    'update:contactDrawer',
-    'contactform-deleted',
-    'contactform-saved',
-    'contactform-contactDrawer-closed',
+    'update:infoDrawer',
+    'infoform-deleted',
+    'infoform-saved',
+    'infoform-Drawer-closed',
   ],
   setup(props, { emit }) {
-    const title = i18n.global.t('tourContacts');
-    const contactForm = ref<TourContactForm>(new TourContactForm());
+    const title = i18n.global.t('infos');
+    const infoForm = ref<InfoForm>(new InfoForm());
     const loading = ref<boolean>(false);
     const openContactDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
@@ -108,7 +108,7 @@ export default defineComponent({
     const openDeleteConfirm = ref<boolean>(false);
 
     watch(
-      () => props.contactDrawer,
+      () => props.infoDrawer,
       (newValue) => {
         openContactDrawer.value = newValue;
       }
@@ -116,13 +116,13 @@ export default defineComponent({
     watch(
       () => openContactDrawer.value,
       (newValue) => {
-        emit('update:contactDrawer', newValue);
-        getContactFormData();
+        emit('update:infoDrawer', newValue);
+        getInfoFormData();
       }
     );
 
     function resetDrawer() {
-      contactForm.value = new TourContactForm();
+      infoForm.value = new InfoForm();
       if (props.compSeq != 0) {
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = i18n.global.t('change');
@@ -141,13 +141,13 @@ export default defineComponent({
       }
     }
 
-    function getContactFormData() {
+    function getInfoFormData() {
       resetDrawer();
       if (props.compSeq != 0) {
         loading.value = true;
-        TourContactService.getTourContactForm(props.compSeq)
+        InfoService.getInfoForm(props.compSeq)
           .then((response) => {
-            contactForm.value = response;
+            infoForm.value = response;
           })
           .finally(() => {
             loading.value = false;
@@ -159,16 +159,16 @@ export default defineComponent({
       notificationHelper.dismiss();
       notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
-      if (contactForm.value) {
-        contactForm.value.tourUuid = props.tourUuid;
-        console.log(contactForm.value);
-        TourContactService.saveTourContactForm(contactForm.value)
+      if (infoForm.value) {
+        infoForm.value.tourUuid = props.tourUuid;
+        console.log(infoForm.value);
+        InfoService.saveInfoForm(infoForm.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
               i18n.global.t('saved')
             );
 
-            emit('contactform-saved', response);
+            emit('infoform-saved', response);
             closeDrawer();
           })
           .catch((error) => {
@@ -189,12 +189,12 @@ export default defineComponent({
 
     function deleteContactForm() {
       loading.value = true;
-      TourContactService.deleteTourContactForm(props.compSeq)
+      InfoService.deleteInfoForm(props.compSeq)
         .then((response) => {
           notificationHelper.createSuccessNotification(
             i18n.global.t('deletesucess')
           );
-          emit('contactform-deleted', response);
+          emit('infoform-deleted', response);
           closeDrawer();
         })
         .catch((error) => {
@@ -211,13 +211,14 @@ export default defineComponent({
     function closeDrawer() {
       openContactDrawer.value = false;
       resetDrawer();
-      emit('contactform-contactDrawer-closed');
+      emit('infoform-Drawer-closed');
+
     }
 
     return {
       t: i18n.global.t,
       title,
-      contactForm,
+      infoForm,
       loading,
       openContactDrawer,
       confirmbuttoncolor,
@@ -234,7 +235,7 @@ export default defineComponent({
       drawerComp,
       openDeleteConfirm,
       resetDrawer,
-      getContactFormData,
+      getInfoFormData,
       saveUpdatedContactData,
       deleteAction,
       deleteContactForm,

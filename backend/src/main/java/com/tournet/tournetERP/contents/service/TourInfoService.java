@@ -3,7 +3,6 @@ package com.tournet.tournetERP.contents.service;
 
 import com.tournet.tournetERP.account.entity.CreditCardMng;
 import com.tournet.tournetERP.account.repository.CreditCardMngRepository;
-import com.tournet.tournetERP.common.entity.ComCode;
 import com.tournet.tournetERP.common.util.FetchCodeUtil;
 import com.tournet.tournetERP.contents.dto.TourDTO;
 import com.tournet.tournetERP.contents.entity.Tour;
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
 public class TourInfoService {
 
     @Autowired
-    TourRepository tourpRepository;
+    TourRepository tourRepository;
 
     @Autowired
     FetchCodeUtil fetchCodeUtil;
@@ -49,7 +48,7 @@ public class TourInfoService {
         String tourKor = tourpReq.getSearchTourKor();
         String tourEng = tourpReq.getSearchTourEng();
 
-        List<Tour> selectedTours = tourpRepository.findTourOrderByModifiedDtDesc(
+        List<Tour> selectedTours = tourRepository.findTourOrderByModifiedDtDesc(
                 tourCategory == 0 ? null : tourCategory,
                 tourKor.isEmpty() ? null : tourKor,
                 tourEng.isEmpty() ? null : tourEng,

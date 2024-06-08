@@ -19,7 +19,7 @@
       :title="title"
       :width="40"
       @cancel-clicked="closeDrawer"
-      @confirm-clicked="saveUpdatedCodeData"
+      @confirm-clicked="saveUpdatedTourData"
       @delete-clicked="openDeleteConfirm = true"
       ref="drawerComp"
     >
@@ -32,9 +32,15 @@
             v-if="tourformData.tourUuid"
           />
           <q-tab
+            v-if="hotelYn == 'Y'"
             name="hotel"
             label="Hotel Basic Information"
+
+          />
+          <q-tab
             v-if="tourformData.tourUuid"
+            name="info"
+            label="Information"
           />
         </q-tabs>
 
@@ -66,6 +72,15 @@
               ref="hotelFormDrawerContent"
             />
           </q-tab-panel>
+
+          <q-tab-panel name="info">
+            <info-list
+              v-if="tourformData.tourUuid"
+              :tour-uuid="tourformData.tourUuid"
+              ref="infoList"
+            />
+          </q-tab-panel>
+
         </q-tab-panels>
       </div>
     </drawer-comp>
@@ -93,6 +108,9 @@ import DialogComp from 'src/components/common/DialogComp.vue';
 // View Layout
 import TourFormDrawerContent from 'src/views/tour/TourFormDrawerContent.vue';
 import HotelFormDrawerContent from 'src/views/tour/HotelFormDrawerContent.vue';
+import TourContactList from 'src/views/tour/TourContactList.vue';
+import InfoList from 'src/views/tour/InfoList.vue';
+
 // Services
 import { TourService } from 'src/services/TourService';
 // Types
@@ -102,7 +120,7 @@ import store from 'src/store';
 //helper
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 import { SelectOption } from 'src/types/SelectOption';
-import TourContactList from 'src/views/tour/TourContactList.vue';
+
 
 export default defineComponent({
   name: 'TourFormDrawer',
@@ -112,11 +130,16 @@ export default defineComponent({
     DialogComp,
     TourFormDrawerContent,
     HotelFormDrawerContent,
+    InfoList,
   },
   props: {
     tourSeq: {
       type: Number,
       default: 0,
+    },
+    hotelYn: {
+      type: String,
+      default: "N",
     },
     modelValue: {
       type: Boolean,
@@ -233,7 +256,7 @@ export default defineComponent({
     }
 
     //Add & Edit
-    function saveUpdatedCodeData() {
+    function saveUpdatedTourData() {
       notificationHelper.dismiss();
       notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
@@ -316,7 +339,7 @@ export default defineComponent({
       deleteAction,
       openDeleteConfirm,
       deleteTourForm,
-      saveUpdatedCodeData,
+      saveUpdatedTourData,
     };
   },
 });

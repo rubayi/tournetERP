@@ -46,11 +46,7 @@ INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, mod
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('0', '050', '0', 'Y', now(), now(), '1', '1', '추가비용', 'Extra Fee', '');
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('0', '051', '0', 'Y', now(), now(), '1', '1', '추가비용단위', 'Extra Fee Std.', '');
 INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('0', '030', '0', 'Y', now(), now(), '1', '1', '호텔시설', 'Amenity', '');
-
-
-
-
-
+INSERT INTO COM_CODE (upr_code_uuid, code_ord, code_lvl, use_yn, created_dt, modified_dt, created_by, modified_by, code_kr, code_en, code_abb) VALUES ('0', '030', '0', 'Y', now(), now(), '1', '1', '안내타입', 'Info Type', '');
 
 INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (13, '1', 'Y', now(), now(), '월', 'Monday', 'Mon');
 INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (13, '1', 'Y', now(), now(), '화', 'Tuesday', 'Tue');
@@ -59,4 +55,17 @@ INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, 
 INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (13, '1', 'Y', now(), now(), '금', 'Friday', 'Fri');
 INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (13, '1', 'Y', now(), now(), '토', 'Saturday', 'Sat');
 INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (13, '1', 'Y', now(), now(), '일', 'Sunday', 'Sun');
+
+INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (481, '1', 'Y', now(), now(), '취소규정', 'Cancel Policy', '');
+INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (481, '1', 'Y', now(), now(), '어메니티정보', 'Amenity Info', '');
+INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (481, '1', 'Y', now(), now(), '공통안내', 'Wednesday', '');
+INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (481, '1', 'Y', now(), now(), '특이사항', 'Special Note', '');
+INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (481, '1', 'Y', now(), now(), '소개', 'Description', '');
+INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (481, '1', 'Y', now(), now(), '기타', 'Etc', '');
+INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (481, '1', 'Y', now(), now(), '취소규정(영문)', 'Cancel Policy(En)', '');
+INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (481, '1', 'Y', now(), now(), '어메니티정보(영문)', 'Amenity Info(En)', '');
+INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (481, '1', 'Y', now(), now(), '공통안내(영문)', 'General information(En)', '');
+INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (481, '1', 'Y', now(), now(), '특이사항(영문)', 'Special Note(En)', '');
+INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (481, '1', 'Y', now(), now(), '소개(영문)', 'Description(En)', '');
+INSERT INTO COM_CODE (upr_code_uuid, CODE_LVL, USE_YN, CREATED_DT, MODIFIED_DT, CODE_KR, code_en, code_abb) VALUES (481, '1', 'Y', now(), now(), '기타(영문)', 'Etc(En)', '');
 

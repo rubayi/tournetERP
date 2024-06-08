@@ -19,8 +19,11 @@ public class Info {
     @Column(name = "INFO_UUID", nullable = false)
     private long infoUuid; //안내UUID
 
+    @Column(name = "TOUR_UUID", nullable = false)
+    private long tourUuid; //투어UUID
+
     @Column(name = "INFO_TYPE", nullable = true)
-    private String infoType; //구분
+    private long infoType; //구분
 
     @Column(name = "CONTENT_KOR", nullable = true)
     private String contentKor; //내용KOR

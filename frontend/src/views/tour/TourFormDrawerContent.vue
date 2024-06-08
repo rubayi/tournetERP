@@ -25,7 +25,7 @@
             <select-comp
               v-model="edittourformData.compUuid"
               class="full-width"
-              :label="t('compUuid')"
+              :label="t('compName')"
               :options="companyList"
               outlined
             />
