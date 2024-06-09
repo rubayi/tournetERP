@@ -14,6 +14,7 @@ import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
 import com.tournet.tournetERP.contents.dto.ContactDTO;
 import com.tournet.tournetERP.contents.entity.Contact;
+import com.tournet.tournetERP.contents.entity.TourContact;
 import com.tournet.tournetERP.contents.repository.ContactRepository;
 import com.tournet.tournetERP.contents.service.ContactService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,14 +52,16 @@ public class ContactController {
 
         return new ResponseEntity<>(currentContacts, HttpStatus.OK);
     }
-    
+
     @GetMapping("/selectByContactUuid/{id}")
-    public ResponseEntity<Optional<Contact>> selectByContactUuid(@PathVariable long id) {
+    public ResponseEntity<?> selectByContactUuid(@PathVariable long id) {
 
-        Optional<Contact> currentContact = contactRepository.findByContactUuid(id);
+        Contact contact = contactRepository.findByContactUuid(id);
 
-        return new ResponseEntity<>(currentContact, HttpStatus.OK);
+        return new ResponseEntity<>(contact, HttpStatus.OK);
     }
+    
+
 
     @PostMapping("/updateContact")
     public ResponseEntity<Map<String, Object>> updateContact(@RequestBody Contact contactReq) {

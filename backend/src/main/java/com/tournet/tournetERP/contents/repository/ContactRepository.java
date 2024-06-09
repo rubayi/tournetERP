@@ -23,7 +23,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ContactRepository extends JpaRepository<Contact,Long> {
 
-    Optional<Contact> findByContactUuid(long id);
+    Contact findByContactUuid(long id);
 
     @Query("SELECT u FROM Contact u " +
             "WHERE (:compUuid IS NULL OR u.compUuid = :compUuid) " +

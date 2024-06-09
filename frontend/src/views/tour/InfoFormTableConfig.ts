@@ -24,8 +24,8 @@ export class InfoFormTableConfig {
       {
         field: locale === 'en' ? 'infoTypeNameEn' : 'infoTypeName',
         headerName: i18n.global.t('infoType'),
-        minWidth: 150,
-        width: 200,
+        minWidth: 70,
+        width: 80,
         sortable: true,
         filter: true,
         cellStyle: { 'text-align': 'center' },

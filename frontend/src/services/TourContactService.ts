@@ -22,6 +22,7 @@ export class TourContactService {
   }
 
   static getTourContactForm(id: number): Promise<TourContactForm> {
+    console.log("======여기======");
     return api
       .get<TourContactForm>(API_URL + `selectByContactUuid/${id}`, {
         headers: authHeader(),

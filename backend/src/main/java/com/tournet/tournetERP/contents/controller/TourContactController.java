@@ -12,6 +12,7 @@ import com.tournet.tournetERP.auth.dto.MessageResponse;
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
 import com.tournet.tournetERP.contents.dto.TourContactDTO;
+import com.tournet.tournetERP.contents.entity.Contact;
 import com.tournet.tournetERP.contents.entity.TourContact;
 import com.tournet.tournetERP.contents.repository.TourContactRepository;
 import com.tournet.tournetERP.contents.service.TourContactService;
@@ -66,6 +67,15 @@ public class TourContactController {
         }
 
         return new ResponseEntity<>(_tourContact, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/selectByContactUuid/{id}")
+    public ResponseEntity<?> selectByContactUuid(@PathVariable long id) {
+
+        TourContact contact = contactRepository.findOneByContactUuid(id);
+
+        return new ResponseEntity<>(contact, HttpStatus.OK);
     }
 
     @Transactional

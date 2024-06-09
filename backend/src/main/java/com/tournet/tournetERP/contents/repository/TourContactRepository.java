@@ -25,6 +25,8 @@ public interface TourContactRepository extends JpaRepository<TourContact,Long> {
 
     Optional<TourContact> findByContactUuid(long id);
 
+    TourContact findOneByContactUuid(long id);
+    
     @Query("SELECT u FROM TourContact u " +
             "WHERE (:tourUuid IS NULL OR u.tourUuid = :tourUuid) " +
             "AND (:contactCont IS NULL OR u.contactCont LIKE CONCAT('%', :contactCont, '%')) " +

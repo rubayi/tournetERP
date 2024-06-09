@@ -1,7 +1,7 @@
 <template>
   <div id="tour-info-drawer">
     <drawer-comp
-      v-model="openContactDrawer"
+      v-model="openInfoDrawer"
       v-model:loading="loading"
       cancel-buttonicon="fa fa-chevron-right"
       center-title
@@ -21,7 +21,7 @@
       @cancel-clicked="closeDrawer"
       @confirm-clicked="saveUpdatedContactData"
       @delete-clicked="openDeleteConfirm = true"
-      ref="compDrawerComp"
+      ref="infoDrawerComp"
     >
       <div class="flex flex-grow-1 q-pa-md">
         <info-drawer-content
@@ -37,7 +37,7 @@
     :action-button-label="deletebuttonlabel"
     max-width="500px"
     :modal-title="deleteTitle"
-    @confirm-clicked="deleteContactForm"
+    @confirm-clicked="deleteTourInfoForm"
   >
     <template #htmlContent>
       <div>{{ t('deleteconfirmmsg') }}</div>
@@ -69,7 +69,7 @@ export default defineComponent({
     InfoDrawerContent,
   },
   props: {
-    compSeq: {
+    infoSeq: {
       type: Number,
       default: 0,
     },
@@ -86,13 +86,13 @@ export default defineComponent({
     'update:infoDrawer',
     'infoform-deleted',
     'infoform-saved',
-    'infoform-Drawer-closed',
+    'infoform-drawer-closed',
   ],
   setup(props, { emit }) {
     const title = i18n.global.t('infos');
     const infoForm = ref<InfoForm>(new InfoForm());
     const loading = ref<boolean>(false);
-    const openContactDrawer = ref<boolean>(false);
+    const openInfoDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
     const confirmbuttonlabel = ref<string>(i18n.global.t('change'));
     const deletebuttonlabel = ref<string>(i18n.global.t('delete'));
@@ -110,11 +110,11 @@ export default defineComponent({
     watch(
       () => props.infoDrawer,
       (newValue) => {
-        openContactDrawer.value = newValue;
+        openInfoDrawer.value = newValue;
       }
     );
     watch(
-      () => openContactDrawer.value,
+      () => openInfoDrawer.value,
       (newValue) => {
         emit('update:infoDrawer', newValue);
         getInfoFormData();
@@ -123,7 +123,7 @@ export default defineComponent({
 
     function resetDrawer() {
       infoForm.value = new InfoForm();
-      if (props.compSeq != 0) {
+      if (props.infoSeq != 0) {
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = 'edit';
@@ -143,10 +143,11 @@ export default defineComponent({
 
     function getInfoFormData() {
       resetDrawer();
-      if (props.compSeq != 0) {
+      if (props.infoSeq != 0) {
         loading.value = true;
-        InfoService.getInfoForm(props.compSeq)
+        InfoService.getInfoForm(props.infoSeq)
           .then((response) => {
+            console.log(response);
             infoForm.value = response;
           })
           .finally(() => {
@@ -187,9 +188,9 @@ export default defineComponent({
       openDeleteConfirm.value = true;
     }
 
-    function deleteContactForm() {
+    function deleteTourInfoForm() {
       loading.value = true;
-      InfoService.deleteInfoForm(props.compSeq)
+      InfoService.deleteInfoForm(props.infoSeq)
         .then((response) => {
           notificationHelper.createSuccessNotification(
             i18n.global.t('deletesucess')
@@ -209,9 +210,9 @@ export default defineComponent({
     }
 
     function closeDrawer() {
-      openContactDrawer.value = false;
+      openInfoDrawer.value = false;
       resetDrawer();
-      emit('infoform-Drawer-closed');
+      emit('infoform-drawer-closed');
 
     }
 
@@ -220,7 +221,7 @@ export default defineComponent({
       title,
       infoForm,
       loading,
-      openContactDrawer,
+      openInfoDrawer,
       confirmbuttoncolor,
       confirmbuttonlabel,
       deletebuttonlabel,
@@ -238,7 +239,7 @@ export default defineComponent({
       getInfoFormData,
       saveUpdatedContactData,
       deleteAction,
-      deleteContactForm,
+      deleteTourInfoForm,
       closeDrawer,
     };
   },

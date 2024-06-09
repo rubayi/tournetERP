@@ -36,10 +36,10 @@
       </div>
       <tour-contact-drawer
         :contact-drawer="openContactDrawer"
-        :tour-seq="contactUuid"
+        :contact-seq="contactUuid"
         :tour-uuid="tourUuid"
         @contactform-deleted="loadData"
-        @contactform-contactDrawer-closed="contactUuid = 0"
+        @contactform-drawer-closed="contactUuid = 0"
         @contactform-saved="loadData"
       />
     </q-page>

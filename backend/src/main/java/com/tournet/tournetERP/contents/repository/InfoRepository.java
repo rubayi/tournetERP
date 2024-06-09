@@ -10,6 +10,7 @@ package com.tournet.tournetERP.contents.repository;
 import java.util.List;
 import java.util.Optional;
 
+import com.tournet.tournetERP.contents.dto.InfoDTO;
 import com.tournet.tournetERP.contents.entity.Info;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -40,4 +41,6 @@ public interface InfoRepository extends JpaRepository<Info,Long> {
     List<Info> findInfoOrderByModifiedDtDesc(
             @Param("infoUuid") Long infoUuid,
             @Param("tourUuid") Long tourUuid);
+
+    Info findOneByInfoUuid(long id);
 }

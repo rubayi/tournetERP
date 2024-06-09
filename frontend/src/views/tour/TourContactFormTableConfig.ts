@@ -24,8 +24,8 @@ export class TourContactFormTableConfig {
       {
         field: locale === 'en' ? 'contactTypeNameEn' : 'contactTypeName',
         headerName: i18n.global.t('contactType'),
-        minWidth: 150,
-        width: 200,
+        minWidth: 70,
+        width: 80,
         sortable: true,
         filter: true,
         cellStyle: { 'text-align': 'center' },

@@ -1,11 +1,11 @@
 <template>
-  <card-comp-design :title="t('tourInfos')">
-    <template #content>
+  <card-comp-design :title="t('tourContacts')">
+    <template #serviceName>
       <q-card-section>
         <div class="row q-col-gutter-md">
           <div class="col-12">
             <select-comp
-              v-model="infoFormData.infoType"
+              v-model="tourServiceFormData.infoType"
               class="full-width select-padding"
               :label="t('type')"
               :options="infoTypeList"
@@ -15,19 +15,19 @@
           </div>
           <div class="col-12">
             <text-area-comp
-              v-model="infoFormData.contentKor"
+              v-model="tourServiceFormData.serviceNameKor"
               class="full-width"
               clearable
-              :label="t('contentKor')"
+              :label="t('serviceNameKor')"
               outlined
               required
             />
           </div>
           <div class="col-12">
             <text-area-comp
-              v-model="infoFormData.contentEng"
+              v-model="tourServiceFormData.serviceNameEng"
               class="full-width select-padding"
-              :label="t('contentEng')"
+              :label="t('serviceNameEng')"
               outlined
             />
           </div>
@@ -44,14 +44,14 @@ import SelectComp from 'src/components/common/SelectComp.vue';
 import TextAreaComp from 'src/components/common/TextAreaComp.vue';
 // Type
 import { SelectOption } from 'src/types/SelectOption';
-import { InfoForm } from 'src/types/InfoForm';
+import { TourServiceForm } from 'src/types/TourServiceForm';
 // Helper
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 import { loadOptionsList } from 'src/utils/commoncode/commonCode';
 import i18n from 'src/i18n';
 
 export default defineComponent({
-  name: 'InfoDrawerContent',
+  name: 'TourContactDrawerContent',
   components: {
     CardCompDesign,
     SelectComp,
@@ -59,20 +59,20 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Object as () => InfoForm,
-      default: () => new InfoForm(),
+      type: Object as () => TourServiceForm,
+      default: () => new TourServiceForm(),
     },
-    infoUuid: {
+    serviceUuid: {
       type: Number,
       default: 0,
     },
   },
   setup(props, { emit }) {
     const locale = i18n.global.locale.value;
-    const infoFormData = ref<InfoForm>(new InfoForm());
+    const tourServiceFormData = ref<TourServiceForm>(new TourServiceForm());
 
     const setContactUuid = () => {
-      infoFormData.value.infoUuid = props.infoUuid;
+      tourServiceFormData.value.serviceUuid = props.serviceUuid;
     };
     setContactUuid();
 
@@ -81,7 +81,7 @@ export default defineComponent({
       'modelValue',
       emit,
       'update:modelValue',
-      infoFormData
+      tourServiceFormData
     );
 
     const infoTypeList = ref<SelectOption[]>([]);
@@ -90,7 +90,7 @@ export default defineComponent({
     return {
       t: i18n.global.t,
       infoTypeList,
-      infoFormData,
+      tourServiceFormData,
     };
   },
 });

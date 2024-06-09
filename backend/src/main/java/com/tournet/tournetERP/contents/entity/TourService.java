@@ -19,6 +19,9 @@ public class TourService {
     @Column(name = "SERVICE_UUID", nullable = false)
     private long serviceUuid; //서비스UUID
 
+    @Column(name = "TOUR_UUID", nullable = false)
+    private long tourUuid; //서비스UUID
+
     @Column(name = "SERVICE_NAME_KOR", nullable = true)
     private String serviceNameKor; //서비스명KOR
 

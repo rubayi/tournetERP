@@ -1,5 +1,5 @@
 <template>
-  <div id="contact-drawer">
+  <div id="tour-tour-service-drawer">
     <drawer-comp
       v-model="openContactDrawer"
       v-model:loading="loading"
@@ -19,15 +19,15 @@
       :title="title"
       :width="30"
       @cancel-clicked="closeDrawer"
-      @confirm-clicked="saveUpdatedContactData"
+      @confirm-clicked="saveUpdatedTrServiceData"
       @delete-clicked="openDeleteConfirm = true"
-      ref="contactDrawerComp"
+      ref="compDrawerComp"
     >
       <div class="flex flex-grow-1 q-pa-md">
-        <tour-contact-drawer-content
-          v-model="contactForm"
+        <tour-service-drawer-content
+          v-model="infoForm"
           :tourUuid="tourUuid"
-          ref="tourContactDrawerContent"
+          ref="infoDrawerContent"
         />
       </div>
     </drawer-comp>
@@ -50,11 +50,11 @@ import { defineComponent, ref, watch } from 'vue';
 import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 import DialogComp from 'src/components/common/DialogComp.vue';
 // View Layout
-import TourContactDrawerContent from 'src/views/tour/TourContactDrawerContent.vue';
+import TourServiceDrawerContent from 'src/views/tour/TourServiceDrawerContent.vue';
 // Service
-import { TourContactService } from 'src/services/TourContactService';
+import { TourServiceService } from 'src/services/TourServiceService';
 // Type
-import { TourContactForm } from 'src/types/TourContactForm';
+import { TourServiceForm } from 'src/types/TourServiceForm';
 // Store
 import store from 'src/store';
 //helper
@@ -62,18 +62,18 @@ import i18n from 'src/i18n';
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 
 export default defineComponent({
-  name: 'TourContactDrawer',
+  name: 'TourServiceDrawer',
   components: {
     DrawerComp,
     DialogComp,
-    TourContactDrawerContent,
+    TourServiceDrawerContent,
   },
   props: {
-    contactSeq: {
+    compSeq: {
       type: Number,
       default: 0,
     },
-    contactDrawer: {
+    infoDrawer: {
       type: Boolean,
       default: false,
     },
@@ -83,14 +83,14 @@ export default defineComponent({
     },
   },
   emits: [
-    'update:contactDrawer',
-    'contactform-deleted',
-    'contactform-saved',
-    'contactform-drawer-closed',
+    'update:infoDrawer',
+    'tourserviceform-deleted',
+    'tourserviceform-saved',
+    'tourserviceform-Drawer-closed',
   ],
   setup(props, { emit }) {
-    const title = i18n.global.t('tourContacts');
-    const contactForm = ref<TourContactForm>(new TourContactForm());
+    const title = i18n.global.t('infos');
+    const infoForm = ref<TourServiceForm>(new TourServiceForm());
     const loading = ref<boolean>(false);
     const openContactDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
@@ -102,11 +102,13 @@ export default defineComponent({
     const confirmicon = ref<string>('fas fa-plus');
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
+    const empformDrawerContent = ref();
+    const empformDrawerMenuAuth = ref();
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
 
     watch(
-      () => props.contactDrawer,
+      () => props.infoDrawer,
       (newValue) => {
         openContactDrawer.value = newValue;
       }
@@ -114,14 +116,14 @@ export default defineComponent({
     watch(
       () => openContactDrawer.value,
       (newValue) => {
-        emit('update:contactDrawer', newValue);
-        getContactFormData();
+        emit('update:infoDrawer', newValue);
+        getTourServiceFormData();
       }
     );
 
     function resetDrawer() {
-      contactForm.value = new TourContactForm();
-      if (props.contactSeq != 0) {
+      infoForm.value = new TourServiceForm();
+      if (props.compSeq != 0) {
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = 'edit';
@@ -139,13 +141,13 @@ export default defineComponent({
       }
     }
 
-    function getContactFormData() {
+    function getTourServiceFormData() {
       resetDrawer();
-      if (props.contactSeq != 0) {
+      if (props.compSeq != 0) {
         loading.value = true;
-        TourContactService.getTourContactForm(props.contactSeq)
+        TourServiceService.getTourServiceForm(props.compSeq)
           .then((response) => {
-            contactForm.value = response;
+            infoForm.value = response;
           })
           .finally(() => {
             loading.value = false;
@@ -153,19 +155,20 @@ export default defineComponent({
       }
     }
 
-    function saveUpdatedContactData() {
+    function saveUpdatedTrServiceData() {
       notificationHelper.dismiss();
       notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
-      if (contactForm.value) {
-        contactForm.value.tourUuid = props.tourUuid;
-        TourContactService.saveTourContactForm(contactForm.value)
+      if (infoForm.value) {
+        infoForm.value.tourUuid = props.tourUuid;
+        console.log(infoForm.value);
+        TourServiceService.saveTourServiceForm(infoForm.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
               i18n.global.t('saved')
             );
 
-            emit('contactform-saved', response);
+            emit('tourserviceform-saved', response);
             closeDrawer();
           })
           .catch((error) => {
@@ -186,12 +189,12 @@ export default defineComponent({
 
     function deleteContactForm() {
       loading.value = true;
-      TourContactService.deleteTourContactForm(props.contactSeq)
+      TourServiceService.deleteTourServiceForm(props.compSeq)
         .then((response) => {
           notificationHelper.createSuccessNotification(
             i18n.global.t('deletesucess')
           );
-          emit('contactform-deleted', response);
+          emit('tourserviceform-deleted', response);
           closeDrawer();
         })
         .catch((error) => {
@@ -208,13 +211,14 @@ export default defineComponent({
     function closeDrawer() {
       openContactDrawer.value = false;
       resetDrawer();
-      emit('contactform-drawer-closed');
+      emit('tourserviceform-Drawer-closed');
+
     }
 
     return {
       t: i18n.global.t,
       title,
-      contactForm,
+      infoForm,
       loading,
       openContactDrawer,
       confirmbuttoncolor,
@@ -226,11 +230,13 @@ export default defineComponent({
       confirmicon,
       showconfirmbutton,
       showdeletebutton,
+      empformDrawerContent,
+      empformDrawerMenuAuth,
       drawerComp,
       openDeleteConfirm,
       resetDrawer,
-      getContactFormData,
-      saveUpdatedContactData,
+      getTourServiceFormData,
+      saveUpdatedTrServiceData,
       deleteAction,
       deleteContactForm,
       closeDrawer,

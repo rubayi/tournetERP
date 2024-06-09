@@ -1,11 +1,11 @@
 <template>
-  <div id="info-list">
+  <div id="tour-service-list">
     <q-page class="q-pt-md">
       <div class="row justify-end q-pb-sm">
         <div class="col q-pr-md q-mt-sm">
           <span class="emer-title">
             <q-icon name="tips_and_updates" class="q-mr-sm"></q-icon
-            >{{ t('tourInfos') }}</span
+            >{{ t('tourTourServices') }}</span
           >
         </div>
         <q-btn
@@ -17,9 +17,9 @@
           @click="createAction"
         />
       </div>
-      <div id="info-list-grid-container" class="row grow-1">
+      <div id="tour-service-list-grid-container" class="row grow-1">
         <table-comp
-          id="tour-info-list-grid"
+          id="tour-service-list-grid"
           :column-defs="columns"
           :context="context"
           :framework-components="frameworkComponents"
@@ -31,15 +31,15 @@
           :open-action="openAction"
           row-selection="single"
           @grid-ready="loadData"
-          ref="InfoFormGrid"
+          ref="TourServiceFormGrid"
         />
       </div>
-      <info-drawer
-        :info-drawer="openInfoDrawer"
-        :info-seq="infoUuid"
+      <tour-service-drawer
+        :tour-service-drawer="openTourServiceDrawer"
+        :tour-seq="serviceUuid"
         :tour-uuid="tourUuid"
         @infoform-deleted="loadData"
-        @infoform-drawer-closed="infoUuid = 0"
+        @infoform-infoDrawer-closed="serviceUuid = 0"
         @infoform-saved="loadData"
       />
     </q-page>
@@ -53,22 +53,22 @@ import i18n from 'src/i18n';
 import { GridOptions } from 'ag-grid-community';
 import { TableHelper } from 'src/components/table/TableHelper';
 import TableComp from 'src/components/table/TableComp.vue';
-import { InfoFormTableConfig } from 'src/views/tour/InfoFormTableConfig';
+import { TourServiceTableConfig } from 'src/views/tour/TourServiceTableConfig';
 // Service
-import { InfoService } from 'src/services/InfoService';
+import { TourServiceService } from 'src/services/TourServiceService';
 // Type
-import { InfoForm } from 'src/types/InfoForm';
-import { InfoSearchForm } from 'src/types/InfoSearchForm';
+import { TourServiceForm } from 'src/types/TourServiceForm';
+import { TourServiceSearchForm } from 'src/types/TourServiceSearchForm';
 // Store
 import store from 'src/store';
 // Drawer
-import InfoDrawer from 'src/views/tour/InfoDrawer.vue';
+import TourServiceDrawer from 'src/views/tour/TourServiceDrawer.vue';
 
 export default defineComponent({
-  name: 'InfoList',
+  name: 'TourServiceList',
   components: {
     TableComp,
-    InfoDrawer,
+    TourServiceDrawer,
   },
   props: {
     tourUuid: {
@@ -76,20 +76,19 @@ export default defineComponent({
       default: 0,
     },
   },
-
   setup(props) {
     const locale = i18n.global.locale.value;
-    const openInfoDrawer = ref<boolean>(false);
+    const openTourServiceDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
-    const columns = InfoFormTableConfig.getColumns(locale);
+    const columns = TourServiceTableConfig.getColumns(locale);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const frameworkComponents: { [key: string]: any } =
-      InfoFormTableConfig.frameworkComponents;
+      TourServiceTableConfig.frameworkComponents;
     const overlayLoadingTemplate = TableHelper.loadingOverlay;
-    const data = ref<InfoForm[]>([]);
-    const searchdata = ref<InfoSearchForm>(new InfoSearchForm());
+    const data = ref<TourServiceForm[]>([]);
+    const searchdata = ref<TourServiceSearchForm>(new TourServiceSearchForm());
     const infoFormGrid = ref();
-    const infoUuid = ref<number>(0);
+    const serviceUuid = ref<number>(0);
     const gridOptions = ref<GridOptions>({});
     const showinsertbutton = ref<boolean>(false);
 
@@ -99,22 +98,22 @@ export default defineComponent({
         store.getters.currentUserHasApplicationPermission('CONT_WU');
       if (store.getters.currentUserHasApplicationPermission('CONT_R')) {
         searchdata.value.tourUuid = props.tourUuid;
-        InfoService.getInfoList(searchdata.value).then((response) => {
+        TourServiceService.getTourServiceList(searchdata.value).then((response) => {
           loading.value = false;
           if (response) {
             data.value = response;
-
+            //console.log('data', data.value);
           }
         });
       }
     };
     function createAction() {
-      infoUuid.value = 0;
-      openInfoDrawer.value = true;
+      serviceUuid.value = 0;
+      openTourServiceDrawer.value = true;
     }
     function openAction(value: number) {
-      infoUuid.value = value;
-      openInfoDrawer.value = true;
+      serviceUuid.value = value;
+      openTourServiceDrawer.value = true;
     }
 
     return {
@@ -124,8 +123,8 @@ export default defineComponent({
       loadData,
       loading,
       columns,
-      infoUuid,
-      openInfoDrawer,
+      serviceUuid,
+      openTourServiceDrawer,
       createAction,
       openAction,
       infoFormGrid,
@@ -145,14 +144,14 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
-#info-list {
+#tour-service-list {
   width: 100%;
   height: 420px;
   overflow: hidden;
-  #info-list-grid-container {
+  #tour-service-list-grid-container {
     height: 300px;
 
-    #tour-info-list-grid {
+    #tour-service-list-grid {
       height: 300px;
     }
   }

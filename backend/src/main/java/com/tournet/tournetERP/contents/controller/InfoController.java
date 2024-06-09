@@ -11,21 +11,17 @@ import java.util.*;
 
 import com.tournet.tournetERP.auth.entity.User;
 import com.tournet.tournetERP.auth.service.UserDetailsImpl;
+import com.tournet.tournetERP.contents.dto.InfoDTO;
 import com.tournet.tournetERP.contents.repository.InfoRepository;
 import com.tournet.tournetERP.contents.entity.Info;
 import com.tournet.tournetERP.contents.service.InfoService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import jakarta.transaction.Transactional;
 
@@ -53,17 +49,30 @@ public class InfoController {
     }
 
     @PostMapping("/searchInfoByCondition")
-    public ResponseEntity<?> searchInfoByCondition (@RequestBody Info infoReq) {
+    public ResponseEntity<?> searchInfoByCondition (@RequestBody InfoDTO infoReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        List<Info> infoList = new ArrayList<Info>();
+        List<InfoDTO> infoList = new ArrayList<InfoDTO>();
 
         if (storUser.isAuthenticated()) {
-            infoList = infoRepository.findAllByTourUuidOrderByModifiedDtDesc(infoReq.getTourUuid());
+            infoList = infoService.findinfosList(infoReq);
         }
 
         return new ResponseEntity<>(infoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/searchInfoByInfoUuid/{id}")
+    public ResponseEntity<?> searchInfoByInfoUuid (@PathVariable long id) {
+
+        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+
+        Info curInfo = new Info();
+        if (storUser.isAuthenticated()) {
+           curInfo = infoRepository.findOneByInfoUuid(id);
+        }
+
+        return new ResponseEntity<>(curInfo, HttpStatus.OK);
     }
 
     @PostMapping("/updateInfo")

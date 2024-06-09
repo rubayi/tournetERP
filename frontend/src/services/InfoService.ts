@@ -23,7 +23,7 @@ export class InfoService {
 
   static getInfoForm(id: number): Promise<InfoForm> {
     return api
-      .get<InfoForm>(API_URL + `selectByInfoUuid/${id}`, {
+      .get<InfoForm>(API_URL + `searchInfoByInfoUuid/${id}`, {
         headers: authHeader(),
       })
       .then((response) => response.data);
