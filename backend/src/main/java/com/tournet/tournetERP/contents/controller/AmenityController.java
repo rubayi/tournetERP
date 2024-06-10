@@ -44,7 +44,7 @@ public class AmenityController {
     }
     
     @GetMapping("/searchAmenityByTour/{id}")
-    public ResponseEntity<Map<String, Object>> searchAmenityByTour(
+    public ResponseEntity<?> searchAmenityByTour(
             @PathVariable long id) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
@@ -59,9 +59,7 @@ public class AmenityController {
                 amenity = amenityService.findAmenityAddInfo(amenityData.get());
             }
         }
-        Map<String, Object> response = new HashMap<>();
-        response.put("amenity", amenity);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(amenity, HttpStatus.OK);
     }
 
     @PostMapping("/updateAmenity")

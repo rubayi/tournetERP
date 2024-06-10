@@ -1,11 +1,11 @@
 <template>
-  <card-comp-design :title="t('manageTour')">
+  <card-comp-design :title="t('hotelBasicInfo')">
     <template #content>
-      <q-card-section v-if="edittourformData">
+      <q-card-section v-if="editHotelData">
         <div class="row q-col-gutter-md">
           <div class="col-6">
             <input-comp
-              v-model="edittourformData.checkinTime"
+              v-model="editHotelData.checkinTime"
               class="full-width"
               clearable
               :label="t('checkinTime')"
@@ -15,7 +15,7 @@
           </div>
           <div class="col-6">
             <input-comp
-              v-model="edittourformData.checkoutTime"
+              v-model="editHotelData.checkoutTime"
               class="full-width"
               clearable
               :label="t('checkoutTime')"
@@ -25,7 +25,7 @@
           </div>
           <div class="col-6">
             <number-comp
-              v-model="edittourformData.resortFee"
+              v-model="editHotelData.resortFee"
               class="full-width"
               clearable
               :label="t('resortFee')"
@@ -35,7 +35,7 @@
           <!--어린이 나이-->
           <div class="col-6">
             <select-comp
-              v-model="edittourformData.childAgeBreakfast"
+              v-model="editHotelData.childAgeBreakfast"
               class="full-width"
               :label="t('childAgeBreakfast')"
               :options="ageNumbers"
@@ -44,7 +44,7 @@
           </div>
           <div class="col-6">
             <select-comp
-              v-model="edittourformData.couponUse"
+              v-model="editHotelData.couponUse"
               :label="t('couponuseyn')"
               class="full-width select-comp-padding"
               :options="useYnList"
@@ -53,7 +53,7 @@
           </div>
           <div class="col-6">
             <select-comp
-              v-model="edittourformData.hotelLvl"
+              v-model="editHotelData.hotelLvl"
               :label="t('hotelLvl')"
               class="full-width select-comp-padding"
               :options="hotelLevelList"
@@ -106,21 +106,21 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const loading = ref<boolean>(false);
-    const edittourformData = ref<HotelForm>(new HotelForm());
+    const editHotelData = ref<HotelForm>(new HotelForm());
     const locale = i18n.global.locale.value;
     const showinsertbutton = ref<boolean>(false);
 
     const loadData = () => {
       loading.value = true;
-      edittourformData.value = props.modelValue;
+      editHotelData.value = props.modelValue;
       showinsertbutton.value =
         store.getters.currentUserHasApplicationPermission('CONT_WU');
       if (store.getters.currentUserHasApplicationPermission('CONT_R')) {
         HotelService.searchHotelByTour(props.tourUuid).then((response) => {
           if (response) {
-            edittourformData.value = response;
+            editHotelData.value = response;
             loading.value = false;
-            console.log('edittourformData', edittourformData.value);
+            console.log('editHotelData', editHotelData.value);
           }
         });
       }
@@ -130,9 +130,9 @@ export default defineComponent({
       notificationHelper.dismiss();
       notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
-      if (edittourformData.value) {
-        edittourformData.value.tourUuid = props.tourUuid;
-        HotelService.saveHotelForm(edittourformData.value)
+      if (editHotelData.value) {
+        editHotelData.value.tourUuid = props.tourUuid;
+        HotelService.saveHotelForm(editHotelData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
               i18n.global.t('saved')
@@ -176,7 +176,7 @@ export default defineComponent({
       'modelValue',
       emit,
       'update:modelValue',
-      edittourformData
+      editHotelData
     );
 
     const ageNumbers = ref<SelectOption[]>([]);
@@ -199,7 +199,7 @@ export default defineComponent({
 
     return {
       t: i18n.global.t,
-      edittourformData,
+      editHotelData,
       ageNumbers,
       useYnList,
       hotelLevelList,

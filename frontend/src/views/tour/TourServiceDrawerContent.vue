@@ -3,19 +3,10 @@
     <template #serviceName>
       <q-card-section>
         <div class="row q-col-gutter-md">
-          <div class="col-12">
-            <select-comp
-              v-model="tourServiceFormData.infoType"
-              class="full-width select-padding"
-              :label="t('type')"
-              :options="infoTypeList"
-              outlined
-              required
-            />
-          </div>
+
           <div class="col-12">
             <text-area-comp
-              v-model="tourServiceFormData.serviceNameKor"
+              v-model="editFormData.serviceNameKor"
               class="full-width"
               clearable
               :label="t('serviceNameKor')"
@@ -23,14 +14,67 @@
               required
             />
           </div>
+
+          <div class="col-6">
+            <select-comp
+              v-model="editFormData.adults"
+              class="full-width"
+              :label="t('adultsNum')"
+              :options="numbers"
+              outlined
+            />
+          </div>
+
+          <div class="col-6">
+            <select-comp
+              v-model="editFormData.children"
+              class="full-width"
+              :label="t('childrenNum')"
+              :options="numbers"
+              outlined
+            />
+          </div>
+
+          <div class="col-6">
+            <select-comp
+              v-model="editFormData.maxPeople"
+              class="full-width"
+              :label="t('maxPeopleNum')"
+              :options="numbers"
+              outlined
+            />
+          </div>
+
+
           <div class="col-12">
             <text-area-comp
-              v-model="tourServiceFormData.serviceNameEng"
+              v-model="editFormData.serviceNameEng"
               class="full-width select-padding"
               :label="t('serviceNameEng')"
               outlined
             />
           </div>
+        </div>
+        <div class="col-12">
+          <select-comp
+            v-model="editFormData.pickupYn"
+            class="full-width select-padding"
+            :label="t('pickupYn')"
+            :options="infoTypeList"
+            outlined
+            required
+          />
+        </div>
+
+        <div class="col-12">
+          <select-comp
+            v-model="editFormData.mealYn"
+            class="full-width select-padding"
+            :label="t('mealYn')"
+            :options="infoTypeList"
+            outlined
+            required
+          />
         </div>
       </q-card-section>
     </template>
@@ -69,10 +113,10 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const locale = i18n.global.locale.value;
-    const tourServiceFormData = ref<TourServiceForm>(new TourServiceForm());
+    const editFormData = ref<TourServiceForm>(new TourServiceForm());
 
     const setContactUuid = () => {
-      tourServiceFormData.value.serviceUuid = props.serviceUuid;
+      editFormData.value.serviceUuid = props.serviceUuid;
     };
     setContactUuid();
 
@@ -81,16 +125,26 @@ export default defineComponent({
       'modelValue',
       emit,
       'update:modelValue',
-      tourServiceFormData
+      editFormData
     );
 
     const infoTypeList = ref<SelectOption[]>([]);
     loadOptionsList(481, infoTypeList, locale);
 
+    const numbers = ref<SelectOption[]>([]);
+    loadNumOptions();
+    function loadNumOptions() {
+      for (let i = 0; i <= 70; i++) {
+        let tnum = i.toString();
+        numbers.value.push({ label: tnum, value: i });
+      }
+    }
+
     return {
       t: i18n.global.t,
       infoTypeList,
-      tourServiceFormData,
+      editFormData,
+      numbers
     };
   },
 });

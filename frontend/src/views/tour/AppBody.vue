@@ -63,6 +63,7 @@
         :sector-list = "sectorList"
         :prepaid-how-list = "prepaidHowList"
         :company-list = "companyList"
+        :hotel-grp-list = "hotelGrpList"
         @tourform-deleted="loadData"
         @tourform-drawer-closed="tourUuid = 0"
         @tourform-saved="loadData"
@@ -278,6 +279,8 @@ export default defineComponent({
     loadOptionsList(183, tourAreaSubList, locale);
     loadOptionsList(22, sectorList, locale);
 
+    const hotelGrpList = ref<SelectOption[]>([]);
+    loadOptionsList(41, hotelGrpList, locale);
 
     /*Prepaid How List*/
     const prepaidHowList = ref<SelectOption[]>([]);
@@ -353,6 +356,7 @@ export default defineComponent({
       frameworkComponents,
       tourCategory,
       companyList,
+      hotelGrpList,
       hotelYn,
       tourNm
     };

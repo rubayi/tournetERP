@@ -1,11 +1,11 @@
 <template>
-  <div id="tour-service-list">
+  <div id="amenity-list">
     <q-page class="q-pt-md">
       <div class="row justify-end q-pb-sm">
         <div class="col q-pr-md q-mt-sm">
           <span class="emer-title">
             <q-icon name="tips_and_updates" class="q-mr-sm"></q-icon
-            >{{ t('tourServices') }}</span
+            >{{ t('tourInfos') }}</span
           >
         </div>
         <q-btn
@@ -17,9 +17,9 @@
           @click="createAction"
         />
       </div>
-      <div id="tour-service-list-grid-container" class="row grow-1">
+      <div id="amenity-list-grid-container" class="row grow-1">
         <table-comp
-          id="tour-service-list-grid"
+          id="tour-amenity-list-grid"
           :column-defs="columns"
           :context="context"
           :framework-components="frameworkComponents"
@@ -31,16 +31,16 @@
           :open-action="openAction"
           row-selection="single"
           @grid-ready="loadData"
-          ref="tourServiceFormGrid"
+          ref="AmenityFormGrid"
         />
       </div>
-      <tour-service-drawer
-        :tour-service-drawer="openTourServiceDrawer"
-        :tour-seq="serviceUuid"
+      <amenity-drawer
+        :amenity-drawer="openAmenityDrawer"
+        :amenity-seq="infoUuid"
         :tour-uuid="tourUuid"
-        @serviceform-deleted="loadData"
-        @serviceform-infoDrawer-closed="serviceUuid = 0"
-        @serviceform-saved="loadData"
+        @infoform-deleted="loadData"
+        @infoform-drawer-closed="infoUuid = 0"
+        @infoform-saved="loadData"
       />
     </q-page>
   </div>
@@ -53,22 +53,22 @@ import i18n from 'src/i18n';
 import { GridOptions } from 'ag-grid-community';
 import { TableHelper } from 'src/components/table/TableHelper';
 import TableComp from 'src/components/table/TableComp.vue';
-import { TourServiceTableConfig } from 'src/views/tour/TourServiceTableConfig';
+import { AmenityFormTableConfig } from 'src/views/tour/AmenityFormTableConfig';
 // Service
-import { TourServiceService } from 'src/services/TourServiceService';
+import { AmenityService } from 'src/services/AmenityService';
 // Type
-import { TourServiceForm } from 'src/types/TourServiceForm';
-import { TourServiceSearchForm } from 'src/types/TourServiceSearchForm';
+import { AmenityForm } from 'src/types/AmenityForm';
+import { AmenitySearchForm } from 'src/types/AmenitySearchForm';
 // Store
 import store from 'src/store';
 // Drawer
-import TourServiceDrawer from 'src/views/tour/TourServiceDrawer.vue';
+import AmenityDrawer from 'src/views/tour/AmenityDrawer.vue';
 
 export default defineComponent({
-  name: 'TourServiceList',
+  name: 'AmenityList',
   components: {
     TableComp,
-    TourServiceDrawer,
+    AmenityDrawer,
   },
   props: {
     tourUuid: {
@@ -76,19 +76,20 @@ export default defineComponent({
       default: 0,
     },
   },
+
   setup(props) {
     const locale = i18n.global.locale.value;
-    const openTourServiceDrawer = ref<boolean>(false);
+    const openAmenityDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
-    const columns = TourServiceTableConfig.getColumns(locale);
+    const columns = AmenityFormTableConfig.getColumns(locale);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const frameworkComponents: { [key: string]: any } =
-      TourServiceTableConfig.frameworkComponents;
+      AmenityFormTableConfig.frameworkComponents;
     const overlayLoadingTemplate = TableHelper.loadingOverlay;
-    const data = ref<TourServiceForm[]>([]);
-    const searchdata = ref<TourServiceSearchForm>(new TourServiceSearchForm());
+    const data = ref<AmenityForm[]>([]);
+    const searchdata = ref<AmenitySearchForm>(new AmenitySearchForm());
     const infoFormGrid = ref();
-    const serviceUuid = ref<number>(0);
+    const infoUuid = ref<number>(0);
     const gridOptions = ref<GridOptions>({});
     const showinsertbutton = ref<boolean>(false);
 
@@ -97,11 +98,10 @@ export default defineComponent({
       showinsertbutton.value =
         store.getters.currentUserHasApplicationPermission('CONT_WU');
       if (store.getters.currentUserHasApplicationPermission('CONT_R')) {
-        searchdata.value.searchTourUuid = props.tourUuid;
-        TourServiceService.getTourServiceList(searchdata.value).then((response) => {
+        searchdata.value.tourUuid = props.tourUuid;
+        AmenityService.selectAmenities(searchdata.value).then((response) => {
           loading.value = false;
           if (response) {
-            console.log('data', response);
             data.value = response;
 
           }
@@ -109,12 +109,12 @@ export default defineComponent({
       }
     };
     function createAction() {
-      serviceUuid.value = 0;
-      openTourServiceDrawer.value = true;
+      infoUuid.value = 0;
+      openAmenityDrawer.value = true;
     }
     function openAction(value: number) {
-      serviceUuid.value = value;
-      openTourServiceDrawer.value = true;
+      infoUuid.value = value;
+      openAmenityDrawer.value = true;
     }
 
     return {
@@ -124,8 +124,8 @@ export default defineComponent({
       loadData,
       loading,
       columns,
-      serviceUuid,
-      openTourServiceDrawer,
+      infoUuid,
+      openAmenityDrawer,
       createAction,
       openAction,
       infoFormGrid,
@@ -145,14 +145,14 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
-#tour-service-list {
+#amenity-list {
   width: 100%;
   height: 420px;
   overflow: hidden;
-  #tour-service-list-grid-container {
+  #amenity-list-grid-container {
     height: 300px;
 
-    #tour-service-list-grid {
+    #tour-amenity-list-grid {
       height: 300px;
     }
   }

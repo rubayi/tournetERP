@@ -1,7 +1,7 @@
 import {ColDef, ValueFormatterParams} from 'ag-grid-community';
 import OpenButtonCellRenderer from 'src/components/table/OpenButtonCellRenderer.vue';
 import i18n from 'src/i18n';
-import DateHelper from "@/utils/helpers/DateHelper";
+import DateHelper from "src/utils/helpers/DateHelper";
 
 export class TourServiceTableConfig {
   static overlay =
@@ -25,8 +25,8 @@ export class TourServiceTableConfig {
       {
         field: locale === 'en' ? 'serviceTypeNameEn' : 'serviceTypeName',
         headerName: i18n.global.t('serviceType'),
-        minWidth: 150,
-        width: 200,
+        minWidth: 80,
+        width: 90,
         sortable: true,
         filter: true,
         cellStyle: { 'text-align': 'center' },

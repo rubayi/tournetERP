@@ -62,7 +62,7 @@ public class InfoController {
         return new ResponseEntity<>(infoList, HttpStatus.OK);
     }
 
-    @GetMapping("/searchInfoByInfoUuid/{id}")
+    @GetMapping("/searchInfo/{id}")
     public ResponseEntity<?> searchInfoByInfoUuid (@PathVariable long id) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();

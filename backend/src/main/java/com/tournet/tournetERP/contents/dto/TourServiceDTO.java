@@ -22,11 +22,15 @@ public class TourServiceDTO {
 
     private String serviceColor; //서비스별구분색
 
-    private String pickupYn; //픽업여부
+    private long pickupYn; //픽업여부
+
+    private String pickupYnName; //픽업여부
 
     private String servicePrice; //시중가
 
-    private String mealYn; //식사제공여부
+    private long mealYn; //식사제공여부
+
+    private String mealYnName; //픽업여부
 
     private int adults; //성인기본인원
 
@@ -57,6 +61,18 @@ public class TourServiceDTO {
     private String createdByName;
 
     private Date modifiedDt; //최종수정일
+
+    private long searchServiceUuid; //서비스UUID
+
+    private long searchTourUuid; //투어UUID
+
+    private String searchServiceNameKor; //서비스명KOR
+
+    private String searchServiceNameEng; //서비스명ENG
+
+    private long searchPickupYn; //픽업여부
+
+    private long searchMealYn; //식사제공여부
 
     public TourServiceDTO() {
     }

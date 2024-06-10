@@ -17,7 +17,7 @@ export class TourService {
 
   static getOneTourForm(tourUuid: number): Promise<TourForm> {
     return api
-      .get<TourForm>(API_URL + `getTour/${tourUuid}`, { headers: authHeader() })
+      .get<TourForm>(API_URL + `searchTour/${tourUuid}`, { headers: authHeader() })
       .then((response) => response.data);
   }
 
@@ -29,7 +29,7 @@ export class TourService {
 
   static deleteTourForm(tourUuid: number): Promise<void> {
     return api
-      .delete(API_URL + `deletetour/${tourUuid}`, { headers: authHeader() })
+      .delete(API_URL + `deleteTour/${tourUuid}`, { headers: authHeader() })
       .then((response) => response.data);
   }
 }

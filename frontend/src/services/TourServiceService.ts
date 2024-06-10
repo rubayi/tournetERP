@@ -4,7 +4,7 @@ import { TourServiceSearchForm } from 'src/types/TourServiceSearchForm';
 
 import authHeader from 'src/services/auth-header';
 
-const API_URL = '/info/';
+const API_URL = '/trService/';
 
 export class TourServiceService {
   static getTourServiceList(
@@ -12,7 +12,7 @@ export class TourServiceService {
   ): Promise<TourServiceForm[]> {
     return api
       .post<TourServiceForm[]>(
-        API_URL + 'searchTourServiceByCondition',
+        API_URL + 'selectServices',
         contactSearchForm,
         {
           headers: authHeader(),
@@ -23,7 +23,7 @@ export class TourServiceService {
 
   static getTourServiceForm(id: number): Promise<TourServiceForm> {
     return api
-      .get<TourServiceForm>(API_URL + `selectByTourServiceUuid/${id}`, {
+      .get<TourServiceForm>(API_URL + `searchTourService/${id}`, {
         headers: authHeader(),
       })
       .then((response) => response.data);

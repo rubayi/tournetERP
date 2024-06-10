@@ -26,9 +26,10 @@
               v-model="edittourformData.compUuid"
               class="full-width"
               :label="t('compName')"
-              :options="companyList"
+              :options="hotelYn !='Y'? companyList: hotelGrpList"
               outlined
             />
+
           </div>
           <div class="col-6">
             <input-comp
@@ -162,6 +163,14 @@ export default defineComponent({
     companyList: {
       type: Array as () => SelectOption[],
       default: () => [],
+    },
+    hotelGrpList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    hotelYn: {
+      type: String,
+      default: "N",
     },
   },
   setup(props, { emit }) {

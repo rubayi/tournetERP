@@ -67,10 +67,10 @@ public class TourController {
             User modifyingUser = new User();
             modifyingUser.setEmpUuid(userDetails.getEmpUuid());
 
-            Optional<Tour> currentCreditCardMng = tourRepository.
+            Optional<Tour> currentTour = tourRepository.
                     findByTourUuid(tourReq.getTourUuid());
 
-            if (currentCreditCardMng.isPresent()) {
+            if (currentTour.isPresent()) {
                 tourReq.setModifyUser(modifyingUser);
             } else {
                 tourReq.setModifyUser(modifyingUser);
@@ -84,16 +84,16 @@ public class TourController {
     }
 
     @Transactional
-    @GetMapping("/deletetour/{id}")
-    public ResponseEntity<?> deletetour(@PathVariable long id) {
+    @GetMapping("/deleteTour/{id}")
+    public ResponseEntity<?> deleteTour(@PathVariable long id) {
 
         tourRepository.deleteByTourUuid(id);
 
         return ResponseEntity.ok(new MessageResponse("삭제 되었습니다."));
     }
 
-    @GetMapping("/getTour/{id}")
-    public ResponseEntity<?> searchCompany(@PathVariable long id) {
+    @GetMapping("/searchTour/{id}")
+    public ResponseEntity<?> searchTour(@PathVariable long id) {
 
         Tour tourInfo = tourRepository.findOneByTourUuid(id);
 

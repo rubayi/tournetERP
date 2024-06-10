@@ -32,7 +32,7 @@
             v-if="tourformData.tourUuid"
           />
           <q-tab
-            v-if="hotelYn == 'Y'"
+            v-if="hotelYn == 'Y'  && tourformData.tourUuid != 0"
             name="hotel"
             label="Hotel Basic Information"
 
@@ -42,16 +42,24 @@
             name="info"
             label="Information"
           />
+
+          <q-tab
+            v-if="tourformData.tourUuid"
+            name="tourService"
+            label="Tour Service"
+          />
         </q-tabs>
 
         <q-tab-panels v-model="tab">
           <q-tab-panel name="content">
             <tour-form-drawer-content
               v-model="tourformData"
+              :hotel-yn = "hotelYn"
               :tour-area-list="tourAreaList"
               :tour-area-sub-list="tourAreaSubList"
               :sector-list="sectorList"
               :company-list="companyList"
+              :hotel-grp-list = "hotelGrpList"
               :prepaid-how-list="prepaidHowList"
               ref="tourFormDrawerContent"
             />
@@ -67,7 +75,7 @@
 
           <q-tab-panel name="hotel">
             <hotel-form-drawer-content
-              v-if="lcHotelYn === 'Y'"
+              v-if="hotelYn == 'Y' && tourformData.tourUuid != 0"
               :tour-uuid="tourformData.tourUuid"
               ref="hotelFormDrawerContent"
             />
@@ -78,6 +86,14 @@
               v-if="tourformData.tourUuid"
               :tour-uuid="tourformData.tourUuid"
               ref="infoList"
+            />
+          </q-tab-panel>
+
+          <q-tab-panel name="tourService">
+            <tour-service-list
+              v-if="tourformData.tourUuid"
+              :tour-uuid="tourformData.tourUuid"
+              ref="tourServiceList"
             />
           </q-tab-panel>
 
@@ -110,6 +126,7 @@ import TourFormDrawerContent from 'src/views/tour/TourFormDrawerContent.vue';
 import HotelFormDrawerContent from 'src/views/tour/HotelFormDrawerContent.vue';
 import TourContactList from 'src/views/tour/TourContactList.vue';
 import InfoList from 'src/views/tour/InfoList.vue';
+import TourServiceList from 'src/views/tour/TourServiceList.vue';
 
 // Services
 import { TourService } from 'src/services/TourService';
@@ -131,6 +148,7 @@ export default defineComponent({
     TourFormDrawerContent,
     HotelFormDrawerContent,
     InfoList,
+    TourServiceList,
   },
   props: {
     tourSeq: {
@@ -162,6 +180,10 @@ export default defineComponent({
       default: () => [],
     },
     companyList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
+    hotelGrpList: {
       type: Array as () => SelectOption[],
       default: () => [],
     },

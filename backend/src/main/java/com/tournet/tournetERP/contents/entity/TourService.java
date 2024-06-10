@@ -32,13 +32,13 @@ public class TourService {
     private String serviceColor; //서비스별구분색
 
     @Column(name = "PICKUP_YN", nullable = true)
-    private String pickupYn; //픽업여부
+    private long pickupYn; //픽업여부
 
     @Column(name = "SERVICE_PRICE", nullable = true)
     private String servicePrice; //시중가
 
     @Column(name = "MEAL_YN", nullable = true)
-    private String mealYn; //식사제공여부
+    private long mealYn; //식사제공여부
 
     @Column(name = "ADULTS", nullable = true)
     private int adults; //성인기본인원

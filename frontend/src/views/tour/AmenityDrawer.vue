@@ -1,5 +1,5 @@
 <template>
-  <div id="tour-info-drawer">
+  <div id="tour-amenity-drawer">
     <drawer-comp
       v-model="openInfoDrawer"
       v-model:loading="loading"
@@ -21,13 +21,13 @@
       @cancel-clicked="closeDrawer"
       @confirm-clicked="saveUpdatedContactData"
       @delete-clicked="openDeleteConfirm = true"
-      ref="infoDrawerComp"
+      ref="amenityDrawerComp"
     >
       <div class="flex flex-grow-1 q-pa-md">
-        <info-drawer-content
+        <amenity-drawer-content
           v-model="infoForm"
           :tourUuid="tourUuid"
-          ref="infoDrawerContent"
+          ref="amenityDrawerContent"
         />
       </div>
     </drawer-comp>
@@ -50,7 +50,7 @@ import { defineComponent, ref, watch } from 'vue';
 import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 import DialogComp from 'src/components/common/DialogComp.vue';
 // View Layout
-import InfoDrawerContent from 'src/views/tour/InfoDrawerContent.vue';
+import AmenityDrawerContent from 'src/views/tour/AmenityDrawerContent.vue';
 // Service
 import { InfoService } from 'src/services/InfoService';
 // Type
@@ -62,18 +62,18 @@ import i18n from 'src/i18n';
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 
 export default defineComponent({
-  name: 'InfoDrawer',
+  name: 'AmenityDrawer',
   components: {
     DrawerComp,
     DialogComp,
-    InfoDrawerContent,
+    AmenityDrawerContent,
   },
   props: {
     infoSeq: {
       type: Number,
       default: 0,
     },
-    infoDrawer: {
+    amenityDrawer: {
       type: Boolean,
       default: false,
     },
@@ -83,10 +83,10 @@ export default defineComponent({
     },
   },
   emits: [
-    'update:infoDrawer',
-    'infoform-deleted',
-    'infoform-saved',
-    'infoform-drawer-closed',
+    'update:amenityDrawer',
+    'amenityform-deleted',
+    'amenityform-saved',
+    'amenityform-drawer-closed',
   ],
   setup(props, { emit }) {
     const title = i18n.global.t('infos');
@@ -108,7 +108,7 @@ export default defineComponent({
     const openDeleteConfirm = ref<boolean>(false);
 
     watch(
-      () => props.infoDrawer,
+      () => props.amenityDrawer,
       (newValue) => {
         openInfoDrawer.value = newValue;
       }
@@ -116,7 +116,7 @@ export default defineComponent({
     watch(
       () => openInfoDrawer.value,
       (newValue) => {
-        emit('update:infoDrawer', newValue);
+        emit('update:amenityDrawer', newValue);
         getInfoFormData();
       }
     );
@@ -168,7 +168,7 @@ export default defineComponent({
               i18n.global.t('saved')
             );
 
-            emit('infoform-saved', response);
+            emit('amenityform-saved', response);
             closeDrawer();
           })
           .catch((error) => {
@@ -194,7 +194,7 @@ export default defineComponent({
           notificationHelper.createSuccessNotification(
             i18n.global.t('deletesucess')
           );
-          emit('infoform-deleted', response);
+          emit('amenityform-deleted', response);
           closeDrawer();
         })
         .catch((error) => {
@@ -211,7 +211,7 @@ export default defineComponent({
     function closeDrawer() {
       openInfoDrawer.value = false;
       resetDrawer();
-      emit('infoform-drawer-closed');
+      emit('amenityform-drawer-closed');
 
     }
 
