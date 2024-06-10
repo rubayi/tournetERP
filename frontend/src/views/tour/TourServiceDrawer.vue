@@ -17,7 +17,7 @@
       :show-print-button="false"
       side="right"
       :title="title"
-      :width="30"
+      :width="70"
       @cancel-clicked="closeDrawer"
       @confirm-clicked="saveUpdatedTrServiceData"
       @delete-clicked="openDeleteConfirm = true"
@@ -25,7 +25,7 @@
     >
       <div class="flex flex-grow-1 q-pa-md">
         <tour-service-drawer-content
-          v-model="infoForm"
+          v-model="trserviceForm"
           :tourUuid="tourUuid"
           ref="tourServiceDrawerContent"
         />
@@ -69,7 +69,7 @@ export default defineComponent({
     TourServiceDrawerContent,
   },
   props: {
-    compSeq: {
+    tourSeq: {
       type: Number,
       default: 0,
     },
@@ -89,8 +89,8 @@ export default defineComponent({
     'tourserviceform-Drawer-closed',
   ],
   setup(props, { emit }) {
-    const title = i18n.global.t('infos');
-    const infoForm = ref<TourServiceForm>(new TourServiceForm());
+    const title = i18n.global.t('tourService');
+    const trserviceForm = ref<TourServiceForm>(new TourServiceForm());
     const loading = ref<boolean>(false);
     const openTourServiceDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
@@ -120,8 +120,8 @@ export default defineComponent({
     );
 
     function resetDrawer() {
-      infoForm.value = new TourServiceForm();
-      if (props.compSeq != 0) {
+      trserviceForm.value = new TourServiceForm();
+      if (props.tourSeq != 0) {
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = 'edit';
@@ -141,11 +141,11 @@ export default defineComponent({
 
     function getTourServiceFormData() {
       resetDrawer();
-      if (props.compSeq != 0) {
+      if (props.tourSeq != 0) {
         loading.value = true;
-        TourServiceService.getTourServiceForm(props.compSeq)
+        TourServiceService.getTourServiceForm(props.tourSeq)
           .then((response) => {
-            infoForm.value = response;
+            trserviceForm.value = response;
           })
           .finally(() => {
             loading.value = false;
@@ -157,10 +157,10 @@ export default defineComponent({
       notificationHelper.dismiss();
       notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
-      if (infoForm.value) {
-        infoForm.value.tourUuid = props.tourUuid;
-        console.log(infoForm.value);
-        TourServiceService.saveTourServiceForm(infoForm.value)
+      if (trserviceForm.value) {
+        trserviceForm.value.tourUuid = props.tourUuid;
+        console.log(trserviceForm.value);
+        TourServiceService.saveTourServiceForm(trserviceForm.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
               i18n.global.t('saved')
@@ -187,7 +187,7 @@ export default defineComponent({
 
     function deleteContactForm() {
       loading.value = true;
-      TourServiceService.deleteTourServiceForm(props.compSeq)
+      TourServiceService.deleteTourServiceForm(props.tourSeq)
         .then((response) => {
           notificationHelper.createSuccessNotification(
             i18n.global.t('deletesucess')
@@ -216,7 +216,7 @@ export default defineComponent({
     return {
       t: i18n.global.t,
       title,
-      infoForm,
+      trserviceForm,
       loading,
       openTourServiceDrawer,
       confirmbuttoncolor,

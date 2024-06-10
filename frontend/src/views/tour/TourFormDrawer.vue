@@ -17,7 +17,7 @@
       :show-print-button="false"
       side="right"
       :title="title"
-      :width="40"
+      :width="70"
       @cancel-clicked="closeDrawer"
       @confirm-clicked="saveUpdatedTourData"
       @delete-clicked="openDeleteConfirm = true"

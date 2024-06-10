@@ -1,17 +1,26 @@
 <template>
   <card-comp-design :title="t('tourService')">
-    <template #serviceName>
+    <template #content>
       <q-card-section>
         <div class="row q-col-gutter-md">
 
           <div class="col-12">
-            <text-area-comp
+            <input-comp
               v-model="editFormData.serviceNameKor"
               class="full-width"
               clearable
               :label="t('serviceNameKor')"
               outlined
               required
+            />
+          </div>
+
+          <div class="col-12">
+            <input-comp
+              v-model="editFormData.serviceNameEng"
+              class="full-width select-padding"
+              :label="t('serviceNameEng')"
+              outlined
             />
           </div>
 
@@ -45,84 +54,75 @@
             />
           </div>
 
+          <div class="col-12">
+            <select-comp
+              v-model="editFormData.pickupYn"
+              class="full-width select-padding"
+              :label="t('pickupYn')"
+              :options="useYnList"
+              outlined
+              required
+            />
+          </div>
 
           <div class="col-12">
-            <text-area-comp
-              v-model="editFormData.serviceNameEng"
+            <select-comp
+              v-model="editFormData.mealYn"
               class="full-width select-padding"
-              :label="t('serviceNameEng')"
+              :label="t('mealYn')"
+              :options="useYnList"
+              outlined
+              required
+            />
+          </div>
+
+          <div class="col-6">
+            <date-picker-comp
+              v-model="editFormData.beginDt"
+              class="full-width"
+              clearable
+              outlined
+              :label="t('beginDt')"
+            />
+          </div>
+          <div class="col-6">
+            <date-picker-comp
+              v-model="editFormData.endDt"
+              class="full-width"
+              clearable
+              outlined
+              :label="t('endDt')"
+            />
+          </div>
+
+          <div class="col-6">
+            <date-picker-comp
+              v-model="editFormData.bookBeginDt"
+              class="full-width"
+              clearable
+              outlined
+              :label="t('bookBeginDt')"
+            />
+          </div>
+          <div class="col-6">
+            <date-picker-comp
+              v-model="editFormData.bookEndDt"
+              class="full-width"
+              clearable
+              outlined
+              :label="t('bookEndDt')"
+            />
+          </div>
+
+          <div class="col-6">
+            <select-comp
+              v-model="editFormData.showingOrder"
+              class="full-width"
+              :label="t('showingOrder')"
+              :options="numbers"
               outlined
             />
           </div>
-        </div>
-        <div class="col-12">
-          <select-comp
-            v-model="editFormData.pickupYn"
-            class="full-width select-padding"
-            :label="t('pickupYn')"
-            :options="infoTypeList"
-            outlined
-            required
-          />
-        </div>
-
-        <div class="col-12">
-          <select-comp
-            v-model="editFormData.mealYn"
-            class="full-width select-padding"
-            :label="t('mealYn')"
-            :options="infoTypeList"
-            outlined
-            required
-          />
-        </div>
-
-        <div class="col-6">
-          <date-picker-comp
-            v-model="editFormData.beginDt"
-            class="full-width"
-            clearable
-            outlined
-            :label="t('beginDt')"
-          />
-        </div>
-        <div class="col-6">
-          <date-picker-comp
-            v-model="editFormData.endDt"
-            class="full-width"
-            clearable
-            outlined
-            :label="t('endDt')"
-          />
-        </div>
-
-        <div class="col-6">
-          <date-picker-comp
-            v-model="editFormData.bookBeginDt"
-            class="full-width"
-            clearable
-            outlined
-            :label="t('bookBeginDt')"
-          />
-        </div>
-        <div class="col-6">
-          <date-picker-comp
-            v-model="editFormData.bookEndDt"
-            class="full-width"
-            clearable
-            outlined
-            :label="t('bookEndDt')"
-          />
-        </div>
-
-        <div class="col-6">
-          <select-comp
-            v-model="editFormData.showingOrder"
-            class="full-width"
-            :label="t('showingOrder')"
-            :options="numbers"
-            outlined
-          />
         </div>
       </q-card-section>
     </template>
@@ -133,7 +133,7 @@ import { ref, defineComponent } from 'vue';
 // Components
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
 import SelectComp from 'src/components/common/SelectComp.vue';
-import TextAreaComp from 'src/components/common/TextAreaComp.vue';
+import InputComp from 'src/components/common/InputComp.vue';
 // Type
 import { SelectOption } from 'src/types/SelectOption';
 import { TourServiceForm } from 'src/types/TourServiceForm';
@@ -149,7 +149,7 @@ export default defineComponent({
     DatePickerComp,
     CardCompDesign,
     SelectComp,
-    TextAreaComp
+    InputComp
   },
   props: {
     modelValue: {
@@ -165,10 +165,10 @@ export default defineComponent({
     const locale = i18n.global.locale.value;
     const editFormData = ref<TourServiceForm>(new TourServiceForm());
 
-    const setContactUuid = () => {
+    const setServiceUuid = () => {
       editFormData.value.serviceUuid = props.serviceUuid;
     };
-    setContactUuid();
+    setServiceUuid();
 
     useSyncModelValue(
       props,
@@ -178,8 +178,8 @@ export default defineComponent({
       editFormData
     );
 
-    const infoTypeList = ref<SelectOption[]>([]);
-    loadOptionsList(481, infoTypeList, locale);
+    const useYnList = ref<SelectOption[]>([]);
+    loadOptionsList(35, useYnList, locale);
 
     const numbers = ref<SelectOption[]>([]);
     loadNumOptions();
@@ -192,7 +192,7 @@ export default defineComponent({
 
     return {
       t: i18n.global.t,
-      infoTypeList,
+      useYnList,
       editFormData,
       numbers
     };
