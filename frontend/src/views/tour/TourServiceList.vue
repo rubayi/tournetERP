@@ -38,9 +38,9 @@
         :tour-service-drawer="openTourServiceDrawer"
         :tour-seq="serviceUuid"
         :tour-uuid="tourUuid"
-        @serviceform-deleted="loadData"
-        @serviceform-infoDrawer-closed="serviceUuid = 0"
-        @serviceform-saved="loadData"
+        @tourserviceform-deleted="loadData"
+        @tourserviceform-drawer-closed="serviceUuid = 0"
+        @tourserviceform-saved="loadData"
       />
     </q-page>
   </div>
@@ -101,7 +101,6 @@ export default defineComponent({
         TourServiceService.getTourServiceList(searchdata.value).then((response) => {
           loading.value = false;
           if (response) {
-            console.log('data', response);
             data.value = response;
 
           }

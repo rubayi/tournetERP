@@ -86,7 +86,7 @@ export default defineComponent({
     'update:tourServiceDrawer',
     'tourserviceform-deleted',
     'tourserviceform-saved',
-    'tourserviceform-Drawer-closed',
+    'tourserviceform-drawer-closed',
   ],
   setup(props, { emit }) {
     const title = i18n.global.t('tourService');
@@ -209,7 +209,7 @@ export default defineComponent({
     function closeDrawer() {
       openTourServiceDrawer.value = false;
       resetDrawer();
-      emit('tourserviceform-Drawer-closed');
+      emit('tourserviceform-drawer-closed');
 
     }
 
