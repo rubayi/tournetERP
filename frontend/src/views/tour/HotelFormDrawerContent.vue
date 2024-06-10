@@ -51,15 +51,15 @@
               outlined
             />
           </div>
-          <div class="col-6">
-            <select-comp
-              v-model="editHotelData.hotelLvl"
-              :label="t('hotelLvl')"
-              class="full-width select-comp-padding"
-              :options="hotelLevelList"
-              outlined
-            />
-          </div>
+<!--          <div class="col-6">-->
+<!--            <select-comp-->
+<!--              v-model="editHotelData.hotelLvl"-->
+<!--              :label="t('hotelLvl')"-->
+<!--              class="full-width select-comp-padding"-->
+<!--              :options="hotelLevelList"-->
+<!--              outlined-->
+<!--            />-->
+<!--          </div>-->
         </div>
       </q-card-section>
     </template>
@@ -120,7 +120,6 @@ export default defineComponent({
           if (response) {
             editHotelData.value = response;
             loading.value = false;
-            console.log('editHotelData', editHotelData.value);
           }
         });
       }
@@ -132,6 +131,7 @@ export default defineComponent({
       loading.value = true;
       if (editHotelData.value) {
         editHotelData.value.tourUuid = props.tourUuid;
+
         HotelService.saveHotelForm(editHotelData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(

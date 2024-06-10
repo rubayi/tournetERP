@@ -74,11 +74,11 @@ public class HotelController {
     }
 
     @PostMapping("/updateHotel")
-    public ResponseEntity<Map<String, Object>> updateHotel(@RequestBody Hotel hotelReq) {
+    public ResponseEntity<?> updateHotel(@RequestBody Hotel hotelReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
-        String message = "";
 
+        Hotel updatedHotel = new Hotel();
         if(storUser.isAuthenticated()) {
 
             UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
@@ -86,31 +86,24 @@ public class HotelController {
             User modifyingUser = new User();
             modifyingUser.setEmpUuid(userDetails.getEmpUuid());
 
-
             Optional<Hotel> currentHotel = hotelRepository.findByHotelUuid(hotelReq.getHotelUuid());
 
             if (currentHotel.isPresent()) {
                 hotelReq.setModifiedUser(modifyingUser);
-                message = "수정 되었습니다.";
             } else {
                 hotelReq.setModifiedUser(modifyingUser);
                 hotelReq.setCreatedUser(modifyingUser);
-                message = "등록 되었습니다.";
             }
 
-            hotelRepository.save(hotelReq);
-        } else {
-            message = "수정이 완료 되지 않았습니다.";
+            updatedHotel = hotelRepository.save(hotelReq);
         }
 
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("message", message);
-        return new ResponseEntity<>(resMap, HttpStatus.OK);
+        return new ResponseEntity<>(updatedHotel, HttpStatus.OK);
     }
 
     @Transactional
-    @GetMapping("/deletehotel/{id}")
-    public ResponseEntity<?> deletehotel(@PathVariable long id) {
+    @GetMapping("/deleteHotel/{id}")
+    public ResponseEntity<?> deleteHotel(@PathVariable long id) {
 
         hotelRepository.deleteByHotelUuid(id);
 

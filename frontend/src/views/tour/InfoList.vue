@@ -98,7 +98,8 @@ export default defineComponent({
       showinsertbutton.value =
         store.getters.currentUserHasApplicationPermission('CONT_WU');
       if (store.getters.currentUserHasApplicationPermission('CONT_R')) {
-        searchdata.value.tourUuid = props.tourUuid;
+        console.log(props.tourUuid);
+        searchdata.value.searchTourUuid = props.tourUuid;
         InfoService.getInfoList(searchdata.value).then((response) => {
           loading.value = false;
           if (response) {

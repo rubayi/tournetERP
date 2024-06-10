@@ -76,12 +76,11 @@ public class InfoController {
     }
 
     @PostMapping("/updateInfo")
-    public ResponseEntity<Map<String, Object>> updateInfo(@RequestBody Info infoReq) {
+    public ResponseEntity<?> updateInfo(@RequestBody Info infoReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        String message = "";
-
+        Info  updatedInfo = new Info();
         if (storUser.isAuthenticated()) {
             UserDetailsImpl userDetails = (UserDetailsImpl) storUser.getPrincipal();
 
@@ -92,19 +91,15 @@ public class InfoController {
 
             if (currentInfo.isPresent()) {
                 infoReq.setModifiedUser(modifyingUser);
-                message = "수정 되었습니다.";
             } else {
                 infoReq.setModifiedUser(modifyingUser);
                 infoReq.setCreatedUser(modifyingUser);
-                message = "등록 되었습니다.";
             }
 
-            infoRepository.save(infoReq);
+            updatedInfo = infoRepository.save(infoReq);
         }
 
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("message", message);
-        return new ResponseEntity<>(resMap, HttpStatus.OK);
+        return new ResponseEntity<>(updatedInfo, HttpStatus.OK);
 
     }
 

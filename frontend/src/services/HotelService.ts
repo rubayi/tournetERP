@@ -32,7 +32,7 @@ export class HotelService {
 
   static deleteHotelForm(hotelUuid: number): Promise<void> {
     return api
-      .get<void>(API_URL + `deletehotel/${hotelUuid}`, {
+      .get<void>(API_URL + `deleteHotel/${hotelUuid}`, {
         headers: authHeader(),
       })
       .then((response) => response.data);

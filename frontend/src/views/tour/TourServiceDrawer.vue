@@ -159,7 +159,7 @@ export default defineComponent({
       loading.value = true;
       if (trserviceForm.value) {
         trserviceForm.value.tourUuid = props.tourUuid;
-        console.log(trserviceForm.value);
+
         TourServiceService.saveTourServiceForm(trserviceForm.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
