@@ -1,7 +1,7 @@
 <template>
-  <div id="tour-tour-service-drawer">
+  <div id="tour-service-drawer">
     <drawer-comp
-      v-model="openContactDrawer"
+      v-model="openTourServiceDrawer"
       v-model:loading="loading"
       cancel-buttonicon="fa fa-chevron-right"
       center-title
@@ -27,7 +27,7 @@
         <tour-service-drawer-content
           v-model="infoForm"
           :tourUuid="tourUuid"
-          ref="infoDrawerContent"
+          ref="tourServiceDrawerContent"
         />
       </div>
     </drawer-comp>
@@ -73,7 +73,7 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
-    infoDrawer: {
+    tourServiceDrawer: {
       type: Boolean,
       default: false,
     },
@@ -83,7 +83,7 @@ export default defineComponent({
     },
   },
   emits: [
-    'update:infoDrawer',
+    'update:tourServiceDrawer',
     'tourserviceform-deleted',
     'tourserviceform-saved',
     'tourserviceform-Drawer-closed',
@@ -92,7 +92,7 @@ export default defineComponent({
     const title = i18n.global.t('infos');
     const infoForm = ref<TourServiceForm>(new TourServiceForm());
     const loading = ref<boolean>(false);
-    const openContactDrawer = ref<boolean>(false);
+    const openTourServiceDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
     const confirmbuttonlabel = ref<string>(i18n.global.t('change'));
     const deletebuttonlabel = ref<string>(i18n.global.t('delete'));
@@ -102,21 +102,19 @@ export default defineComponent({
     const confirmicon = ref<string>('fas fa-plus');
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
-    const empformDrawerContent = ref();
-    const empformDrawerMenuAuth = ref();
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
 
     watch(
-      () => props.infoDrawer,
+      () => props.tourServiceDrawer,
       (newValue) => {
-        openContactDrawer.value = newValue;
+        openTourServiceDrawer.value = newValue;
       }
     );
     watch(
-      () => openContactDrawer.value,
+      () => openTourServiceDrawer.value,
       (newValue) => {
-        emit('update:infoDrawer', newValue);
+        emit('update:tourServiceDrawer', newValue);
         getTourServiceFormData();
       }
     );
@@ -209,7 +207,7 @@ export default defineComponent({
     }
 
     function closeDrawer() {
-      openContactDrawer.value = false;
+      openTourServiceDrawer.value = false;
       resetDrawer();
       emit('tourserviceform-Drawer-closed');
 
@@ -220,7 +218,7 @@ export default defineComponent({
       title,
       infoForm,
       loading,
-      openContactDrawer,
+      openTourServiceDrawer,
       confirmbuttoncolor,
       confirmbuttonlabel,
       deletebuttonlabel,
@@ -230,8 +228,6 @@ export default defineComponent({
       confirmicon,
       showconfirmbutton,
       showdeletebutton,
-      empformDrawerContent,
-      empformDrawerMenuAuth,
       drawerComp,
       openDeleteConfirm,
       resetDrawer,

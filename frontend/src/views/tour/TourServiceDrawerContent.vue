@@ -1,5 +1,5 @@
 <template>
-  <card-comp-design :title="t('tourContacts')">
+  <card-comp-design :title="t('tourService')">
     <template #serviceName>
       <q-card-section>
         <div class="row q-col-gutter-md">
@@ -76,6 +76,54 @@
             required
           />
         </div>
+
+        <div class="col-6">
+          <date-picker-comp
+            v-model="editFormData.beginDt"
+            class="full-width"
+            clearable
+            outlined
+            :label="t('beginDt')"
+          />
+        </div>
+        <div class="col-6">
+          <date-picker-comp
+            v-model="editFormData.endDt"
+            class="full-width"
+            clearable
+            outlined
+            :label="t('endDt')"
+          />
+        </div>
+
+        <div class="col-6">
+          <date-picker-comp
+            v-model="editFormData.bookBeginDt"
+            class="full-width"
+            clearable
+            outlined
+            :label="t('bookBeginDt')"
+          />
+        </div>
+        <div class="col-6">
+          <date-picker-comp
+            v-model="editFormData.bookEndDt"
+            class="full-width"
+            clearable
+            outlined
+            :label="t('bookEndDt')"
+          />
+        </div>
+
+        <div class="col-6">
+          <select-comp
+            v-model="editFormData.showingOrder"
+            class="full-width"
+            :label="t('showingOrder')"
+            :options="numbers"
+            outlined
+          />
+        </div>
       </q-card-section>
     </template>
   </card-comp-design>
@@ -93,10 +141,12 @@ import { TourServiceForm } from 'src/types/TourServiceForm';
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 import { loadOptionsList } from 'src/utils/commoncode/commonCode';
 import i18n from 'src/i18n';
+import DatePickerComp from "src/components/common/DatePickerComp.vue";
 
 export default defineComponent({
-  name: 'TourContactDrawerContent',
+  name: 'TourServiceDrawerContent',
   components: {
+    DatePickerComp,
     CardCompDesign,
     SelectComp,
     TextAreaComp

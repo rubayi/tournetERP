@@ -102,8 +102,6 @@ export default defineComponent({
     const confirmicon = ref<string>('fas fa-plus');
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
-    const empformDrawerContent = ref();
-    const empformDrawerMenuAuth = ref();
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
 
@@ -230,8 +228,6 @@ export default defineComponent({
       confirmicon,
       showconfirmbutton,
       showdeletebutton,
-      empformDrawerContent,
-      empformDrawerMenuAuth,
       drawerComp,
       openDeleteConfirm,
       resetDrawer,

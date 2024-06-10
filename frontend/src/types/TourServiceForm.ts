@@ -24,6 +24,8 @@ export interface ITourServiceForm {
 
   departureArea: string | '';
   returnArea: string | '';
+
+  showingOrder: number | 0;
 }
 
 export class TourServiceForm implements ITourServiceForm {
@@ -51,6 +53,8 @@ export class TourServiceForm implements ITourServiceForm {
   public departureArea: string | '';
   public returnArea: string | '';
 
+  public showingOrder: number | 0;
+
   constructor(obj?: ITourServiceForm) {
     this.serviceUuid = getNumberMemberValue(obj && obj.serviceUuid);
     this.tourUuid = getNumberMemberValue(obj && obj.tourUuid);
@@ -75,5 +79,7 @@ export class TourServiceForm implements ITourServiceForm {
 
     this.departureArea = (obj && obj.departureArea)|| '';
     this.returnArea = (obj && obj.returnArea)|| '';
+
+    this.showingOrder = getNumberMemberValue(obj && obj.showingOrder);
   }
 }
