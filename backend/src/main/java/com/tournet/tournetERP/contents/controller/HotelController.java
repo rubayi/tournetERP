@@ -54,7 +54,7 @@ public class HotelController {
 
 
     @GetMapping("/searchHotelByTour/{id}")
-    public ResponseEntity<Map<String, Object>> searchHotelByTour(
+    public ResponseEntity<?> searchHotelByTour(
             @PathVariable long id) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
@@ -68,9 +68,7 @@ public class HotelController {
                 hotelInfo = hotelService.findHotelAddInfo(currentHotel.get());
             }
         }
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("hotelInfo", hotelInfo);
-        return new ResponseEntity<>(resMap, HttpStatus.OK);
+        return new ResponseEntity<>(hotelInfo, HttpStatus.OK);
     }
 
     @PostMapping("/updateHotel")

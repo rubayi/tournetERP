@@ -75,9 +75,14 @@
 
           <q-tab-panel name="hotel">
             <hotel-form-drawer-content
+              v-model="hotelformData"
               v-if="hotelYn == 'Y' && tourformData.tourUuid != 0"
               :tour-uuid="tourformData.tourUuid"
-              ref="hotelFormDrawerContent"
+              :delete-flag="deleteFlag"
+              :delete-hotel="deleteHotelUuid"
+              @update:deleteFlag="deleteFlag = $event"
+              @update:deleteHotel="deleteHotelUuid = $event"
+              ref="hotelformDrawerContent"
             />
           </q-tab-panel>
 
@@ -132,12 +137,14 @@ import TourServiceList from 'src/views/tour/TourServiceList.vue';
 import { TourService } from 'src/services/TourService';
 // Types
 import { TourForm } from 'src/types/TourForm';
+import { SelectOption } from 'src/types/SelectOption';
+import { HotelForm } from "src/types/HotelForm";
+
 // Store
 import store from 'src/store';
 //helper
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
-import { SelectOption } from 'src/types/SelectOption';
-
+import { HotelService } from "src/services/HotelService";
 
 export default defineComponent({
   name: 'TourFormDrawer',
@@ -198,10 +205,12 @@ export default defineComponent({
     'tourform-saved',
     'tourform-deleted',
     'tourform-drawer-closed',
+    'hotelform-saved',
   ],
   setup(props, { emit }) {
     const title = i18n.global.t('manageTour');
     const tourformData = ref<TourForm>(new TourForm());
+    const hotelformData = ref<HotelForm>(new HotelForm());
     const loading = ref<boolean>(false);
     const openDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
@@ -214,8 +223,11 @@ export default defineComponent({
     const showconfirmbutton = ref<boolean>(false);
     const showdeletebutton = ref<boolean>(false);
     const tourformDrawerContent = ref();
+    const hotelformDrawerContent = ref();
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
+    const deleteFlag = ref<boolean>(false);
+    const deleteHotelUuid = ref<number>(0);
     const lcTourCategory = ref(props.tourCategory);
     const tab = ref<string>('content');
     const lcHotelYn = ref<string>(props.hotelYn);
@@ -284,6 +296,7 @@ export default defineComponent({
       notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
       tourformData.value.tourCategory = lcTourCategory.value;
+
       if (tourformData.value) {
         TourService.saveTourForm(tourformData.value)
           .then((response) => {
@@ -308,6 +321,27 @@ export default defineComponent({
             loading.value = false;
           });
       }
+
+      if (props.tourSeq != 0 && hotelformData.value) {
+        hotelformData.value.tourUuid = props.tourSeq;
+
+        HotelService.saveHotelForm(hotelformData.value)
+          .then((response) => {
+            notificationHelper.createSuccessNotification(
+              i18n.global.t('saved')
+            );
+            emit('hotelform-saved', response);
+          })
+          .catch((error) => {
+            notificationHelper.createErrorNotification(
+              notificationHelper.formatResponseToErrorMessage(error.response)
+            );
+          })
+          .finally(() => {
+            notificationHelper.dismissOngoingNotification();
+            loading.value = false;
+          });
+      }
     }
 
     //Delete Data
@@ -316,23 +350,49 @@ export default defineComponent({
     }
     function deleteTourForm() {
       loading.value = true;
-      TourService.deleteTourForm(props.tourSeq)
-        .then((response) => {
-          notificationHelper.createSuccessNotification(
-            i18n.global.t('deletesucess')
-          );
-          emit('tourform-deleted', response);
-          closeDrawer();
-        })
-        .catch((error) => {
-          notificationHelper.createErrorNotification(
-            notificationHelper.formatResponseToErrorMessage(error.response)
-          );
-        })
-        .finally(() => {
-          notificationHelper.dismissOngoingNotification();
-          loading.value = false;
-        });
+
+      console.log("==========================");
+      console.log(deleteFlag.value);
+      console.log(deleteHotelUuid.value);
+      console.log("==========================");
+
+      if(!deleteFlag.value) {
+        TourService.deleteTourForm(props.tourSeq)
+          .then((response) => {
+            notificationHelper.createSuccessNotification(
+              i18n.global.t('deletesucess')
+            );
+            emit('tourform-deleted', response);
+            closeDrawer();
+          })
+          .catch((error) => {
+            notificationHelper.createErrorNotification(
+              notificationHelper.formatResponseToErrorMessage(error.response)
+            );
+          })
+          .finally(() => {
+            notificationHelper.dismissOngoingNotification();
+            loading.value = false;
+          });
+      }
+
+      if(deleteFlag.value && deleteHotelUuid.value !=0) {
+        HotelService.deleteHotelForm(deleteHotelUuid.value)
+          .then((response) => {
+            notificationHelper.createSuccessNotification(
+              i18n.global.t('deletesucess')
+            );
+          })
+          .catch((error) => {
+            notificationHelper.createErrorNotification(
+              notificationHelper.formatResponseToErrorMessage(error.response)
+            );
+          })
+          .finally(() => {
+            notificationHelper.dismissOngoingNotification();
+            loading.value = false;
+          });
+      }
     }
 
     function closeDrawer() {
@@ -345,11 +405,13 @@ export default defineComponent({
       tab,
       title,
       tourformData,
+      hotelformData,
       loading,
       drawerComp,
       openDrawer,
       closeDrawer,
       tourformDrawerContent,
+      hotelformDrawerContent,
       confirmbuttoncolor,
       confirmbuttonlabel,
       deletebuttonlabel,
@@ -363,6 +425,8 @@ export default defineComponent({
       openDeleteConfirm,
       deleteTourForm,
       saveUpdatedTourData,
+      deleteFlag,
+      deleteHotelUuid,
       lcHotelYn
     };
   },
