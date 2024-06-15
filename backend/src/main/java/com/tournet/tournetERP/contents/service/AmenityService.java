@@ -20,22 +20,6 @@ public class AmenityService {
     @Autowired
     FetchCodeUtil fetchCodeUtil;
 
-    public AmenityDTO findAmenityAddInfo(Amenity amenityReq) {
-        AmenityDTO amenityInfo = new AmenityDTO();
-
-        amenityInfo.setAmenityUuid(amenityReq.getAmenityUuid());
-        amenityInfo.setTourUuid(amenityReq.getTourUuid());
-        amenityInfo.setAmenityDescKor(amenityReq.getAmenityDescKor());
-        amenityInfo.setAmenityDescEng(amenityReq.getAmenityDescEng());
-        amenityInfo.setModifiedByName(amenityReq.getModifiedUser().getUsername());
-        amenityInfo.setCreatedByName(amenityReq.getCreatedUser().getUsername());
-
-        amenityInfo.setCreatedDt(amenityReq.getCreatedDt());
-        amenityInfo.setModifiedDt(amenityReq.getModifiedDt());
-
-        return amenityInfo;
-    }
-
     public List<AmenityDTO> findAmenityList(AmenityDTO searchReq) {
         long amenityUuid = searchReq.getSearchAmenityUuid();
         long tourUuid = searchReq.getSearchTourUuid();

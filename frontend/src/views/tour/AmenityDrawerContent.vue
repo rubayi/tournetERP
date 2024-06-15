@@ -1,5 +1,5 @@
 <template>
-  <card-comp-design :title="t('tourInfos')">
+  <card-comp-design :title="t('hotelAmetnities')">
     <template #content>
       <q-card-section>
         <div class="row q-col-gutter-md">

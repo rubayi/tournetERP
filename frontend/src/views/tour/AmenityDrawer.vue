@@ -17,7 +17,7 @@
       :show-print-button="false"
       side="right"
       :title="title"
-      :width="30"
+      :width="50"
       @cancel-clicked="closeDrawer"
       @confirm-clicked="saveUpdatedContactData"
       @delete-clicked="openDeleteConfirm = true"

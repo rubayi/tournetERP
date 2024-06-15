@@ -5,7 +5,7 @@
         <div class="col q-pr-md q-mt-sm">
           <span class="emer-title">
             <q-icon name="tips_and_updates" class="q-mr-sm"></q-icon
-            >{{ t('tourInfos') }}</span
+            >{{ t('hotelAmetnities') }}</span
           >
         </div>
         <q-btn

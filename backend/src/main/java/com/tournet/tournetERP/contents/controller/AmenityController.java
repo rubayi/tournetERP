@@ -49,14 +49,14 @@ public class AmenityController {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
-        AmenityDTO amenity = new AmenityDTO();
+        Amenity amenity = new Amenity();
 
         if (storUser.isAuthenticated()) {
             Optional<Amenity> amenityData = amenityRepository.findById(id);
 
             if (amenityData.isPresent()) {
 
-                amenity = amenityService.findAmenityAddInfo(amenityData.get());
+                amenity = amenityData.get();
             }
         }
         return new ResponseEntity<>(amenity, HttpStatus.OK);

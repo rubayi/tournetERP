@@ -9,7 +9,7 @@ export class AmenityFormTableConfig {
   static getColumns(locale: string): ColDef[] {
     return [
       {
-        field: 'infoUuid',
+        field: 'amenityUuid',
         headerName: '',
         cellClass: 'no-border',
         floatingFilter: false,

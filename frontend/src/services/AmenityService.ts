@@ -16,9 +16,9 @@ export class AmenityService {
       .then((response) => response.data);
   }
 
-  static searchAmenityByTour(tourUuid: number): Promise<AmenityForm> {
+  static getAmenityForm(amenityUuid: number): Promise<AmenityForm> {
     return api
-      .get<AmenityForm>(API_URL + `searchAmenityByTour/${tourUuid}`, {
+      .get<AmenityForm>(API_URL + `searchAmenityByTour/${amenityUuid}`, {
         headers: authHeader(),
       })
       .then((response) => response.data);

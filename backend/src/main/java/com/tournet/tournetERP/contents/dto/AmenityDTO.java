@@ -22,6 +22,8 @@ public class AmenityDTO {
 
     private String amenityDescEng;
 
+    private String useYn;
+
     private Date createdDt; //생성일
 
     private User createdUser;
