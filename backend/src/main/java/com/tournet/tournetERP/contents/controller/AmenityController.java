@@ -36,7 +36,7 @@ public class AmenityController {
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
         List<AmenityDTO> amenityList = new ArrayList<AmenityDTO>();
-        //compRepository.findAllByOrderByModifiedDtDesc();
+
         if (storUser.isAuthenticated()) {
             amenityList = amenityService.findAmenityList(searchAmenityReq);
         }

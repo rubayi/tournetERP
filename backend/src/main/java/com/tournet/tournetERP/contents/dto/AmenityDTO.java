@@ -12,9 +12,11 @@ public class AmenityDTO {
 
     private long tourUuid; //투어정보UUID
 
-    private String amenityKor; //편의시설명
+    private long amenityType;
 
-    private String amenityEng; //편의시설영문명
+    private String amenityTypeKor;
+
+    private String amenityTypeEng;
 
     private String amenityDescKor;
 
@@ -33,5 +35,6 @@ public class AmenityDTO {
     private String modifiedByName; //최종수정자
 
     private long searchAmenityUuid;
+
     private long searchTourUuid;
 }

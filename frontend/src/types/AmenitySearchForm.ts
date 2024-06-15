@@ -1,13 +1,13 @@
 export interface IAmenitySearchForm {
-  tourUuid: number | 0;
-  amenityUuid: number | 0;
+  searchTourUuid: number | 0;
+  searchAmenityUuid: number | 0;
 }
 export class AmenitySearchForm implements IAmenitySearchForm {
-  public tourUuid: number | 0;
-  public amenityUuid: number | 0;
+  public searchTourUuid: number | 0;
+  public searchAmenityUuid: number | 0;
 
   constructor(obj?: IAmenitySearchForm) {
-    this.tourUuid = (obj && obj.tourUuid) || 0;
-    this.amenityUuid = (obj && obj.amenityUuid) || 0;
+    this.searchTourUuid = (obj && obj.searchTourUuid) || 0;
+    this.searchAmenityUuid = (obj && obj.searchAmenityUuid) || 0;
   }
 }

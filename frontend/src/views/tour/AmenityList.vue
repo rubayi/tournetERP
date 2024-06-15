@@ -19,7 +19,7 @@
       </div>
       <div id="amenity-list-grid-container" class="row grow-1">
         <table-comp
-          id="tour-amenity-list-grid"
+          id="amenity-list-grid"
           :column-defs="columns"
           :context="context"
           :framework-components="frameworkComponents"
@@ -36,11 +36,11 @@
       </div>
       <amenity-drawer
         :amenity-drawer="openAmenityDrawer"
-        :amenity-seq="infoUuid"
+        :amenity-seq="amenityUuid"
         :tour-uuid="tourUuid"
-        @infoform-deleted="loadData"
-        @infoform-drawer-closed="infoUuid = 0"
-        @infoform-saved="loadData"
+        @amenityform-deleted="loadData"
+        @amenityform-drawer-closed="amenityUuid = 0"
+        @amenityform-saved="loadData"
       />
     </q-page>
   </div>
@@ -88,8 +88,8 @@ export default defineComponent({
     const overlayLoadingTemplate = TableHelper.loadingOverlay;
     const data = ref<AmenityForm[]>([]);
     const searchdata = ref<AmenitySearchForm>(new AmenitySearchForm());
-    const infoFormGrid = ref();
-    const infoUuid = ref<number>(0);
+    const amenityFormGrid = ref();
+    const amenityUuid = ref<number>(0);
     const gridOptions = ref<GridOptions>({});
     const showinsertbutton = ref<boolean>(false);
 
@@ -98,7 +98,7 @@ export default defineComponent({
       showinsertbutton.value =
         store.getters.currentUserHasApplicationPermission('CONT_WU');
       if (store.getters.currentUserHasApplicationPermission('CONT_R')) {
-        searchdata.value.tourUuid = props.tourUuid;
+        searchdata.value.searchTourUuid = props.tourUuid;
         AmenityService.selectAmenities(searchdata.value).then((response) => {
           loading.value = false;
           if (response) {
@@ -109,11 +109,11 @@ export default defineComponent({
       }
     };
     function createAction() {
-      infoUuid.value = 0;
+      amenityUuid.value = 0;
       openAmenityDrawer.value = true;
     }
     function openAction(value: number) {
-      infoUuid.value = value;
+      amenityUuid.value = value;
       openAmenityDrawer.value = true;
     }
 
@@ -124,11 +124,11 @@ export default defineComponent({
       loadData,
       loading,
       columns,
-      infoUuid,
+      amenityUuid,
       openAmenityDrawer,
       createAction,
       openAction,
-      infoFormGrid,
+      amenityFormGrid,
       overlayLoadingTemplate,
       searchdata,
       showinsertbutton,

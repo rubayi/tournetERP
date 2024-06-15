@@ -37,6 +37,13 @@
             label="Hotel Basic Information"
 
           />
+
+          <q-tab
+            v-if="hotelYn == 'Y'  && tourformData.tourUuid != 0"
+            name="amenity"
+            label="Hotel Amenity"
+
+          />
           <q-tab
             v-if="tourformData.tourUuid"
             name="info"
@@ -86,6 +93,14 @@
             />
           </q-tab-panel>
 
+          <q-tab-panel name="amenity">
+            <amenity-list
+              v-if="hotelYn == 'Y' && tourformData.tourUuid != 0"
+              :tour-uuid="tourformData.tourUuid"
+              ref="amenityList"
+            />
+          </q-tab-panel>
+
           <q-tab-panel name="info">
             <info-list
               v-if="tourformData.tourUuid"
@@ -132,6 +147,7 @@ import HotelFormDrawerContent from 'src/views/tour/HotelFormDrawerContent.vue';
 import TourContactList from 'src/views/tour/TourContactList.vue';
 import InfoList from 'src/views/tour/InfoList.vue';
 import TourServiceList from 'src/views/tour/TourServiceList.vue';
+import AmenityList from 'src/views/tour/AmenityList.vue';
 
 // Services
 import { TourService } from 'src/services/TourService';
@@ -139,6 +155,7 @@ import { TourService } from 'src/services/TourService';
 import { TourForm } from 'src/types/TourForm';
 import { SelectOption } from 'src/types/SelectOption';
 import { HotelForm } from "src/types/HotelForm";
+import { AmenityForm } from "src/types/AmenityForm";
 
 // Store
 import store from 'src/store';
@@ -156,6 +173,7 @@ export default defineComponent({
     HotelFormDrawerContent,
     InfoList,
     TourServiceList,
+    AmenityList
   },
   props: {
     tourSeq: {
@@ -350,11 +368,6 @@ export default defineComponent({
     }
     function deleteTourForm() {
       loading.value = true;
-
-      console.log("==========================");
-      console.log(deleteFlag.value);
-      console.log(deleteHotelUuid.value);
-      console.log("==========================");
 
       if(!deleteFlag.value) {
         TourService.deleteTourForm(props.tourSeq)

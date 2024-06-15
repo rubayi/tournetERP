@@ -24,12 +24,12 @@ public class Amenity {
 
     @Column(name = "TOUR_UUID", nullable = false)
     private long tourUuid; //투어정보UUID
-    
-    @Column(name = "AMENITY_KOR", nullable = true)
-    private String amenityKor; //시설명KOR
 
-    @Column(name = "AMENITY_ENG", nullable = true)
-    private String amenityEng; //시설명ENG
+    @Column(name = "AMENITY_TYPE", nullable = true)
+    private long amenityType; //시설명KOR
+    
+    @Column(name = "USE_YN", nullable = true)
+    private String useYn; //시설명ENG
 
     @Column(name = "AMENITY_DESC_KOR", nullable = true)
     private String amenityDescKor; //시설설명KOR

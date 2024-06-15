@@ -1,7 +1,7 @@
 <template>
   <div id="tour-amenity-drawer">
     <drawer-comp
-      v-model="openInfoDrawer"
+      v-model="openAmenityDrawer"
       v-model:loading="loading"
       cancel-buttonicon="fa fa-chevron-right"
       center-title
@@ -25,7 +25,7 @@
     >
       <div class="flex flex-grow-1 q-pa-md">
         <amenity-drawer-content
-          v-model="infoForm"
+          v-model="amenityForm"
           :tourUuid="tourUuid"
           ref="amenityDrawerContent"
         />
@@ -37,7 +37,7 @@
     :action-button-label="deletebuttonlabel"
     max-width="500px"
     :modal-title="deleteTitle"
-    @confirm-clicked="deleteTourInfoForm"
+    @confirm-clicked="deleteTourAmenityForm"
   >
     <template #htmlContent>
       <div>{{ t('deleteconfirmmsg') }}</div>
@@ -52,9 +52,9 @@ import DialogComp from 'src/components/common/DialogComp.vue';
 // View Layout
 import AmenityDrawerContent from 'src/views/tour/AmenityDrawerContent.vue';
 // Service
-import { InfoService } from 'src/services/InfoService';
+import { AmenityService } from 'src/services/AmenityService';
 // Type
-import { InfoForm } from 'src/types/InfoForm';
+import { AmenityForm } from 'src/types/AmenityForm';
 // Store
 import store from 'src/store';
 //helper
@@ -69,7 +69,7 @@ export default defineComponent({
     AmenityDrawerContent,
   },
   props: {
-    infoSeq: {
+    amenitySeq: {
       type: Number,
       default: 0,
     },
@@ -90,9 +90,9 @@ export default defineComponent({
   ],
   setup(props, { emit }) {
     const title = i18n.global.t('infos');
-    const infoForm = ref<InfoForm>(new InfoForm());
+    const amenityForm = ref<AmenityForm>(new AmenityForm());
     const loading = ref<boolean>(false);
-    const openInfoDrawer = ref<boolean>(false);
+    const openAmenityDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
     const confirmbuttonlabel = ref<string>(i18n.global.t('change'));
     const deletebuttonlabel = ref<string>(i18n.global.t('delete'));
@@ -108,20 +108,20 @@ export default defineComponent({
     watch(
       () => props.amenityDrawer,
       (newValue) => {
-        openInfoDrawer.value = newValue;
+        openAmenityDrawer.value = newValue;
       }
     );
     watch(
-      () => openInfoDrawer.value,
+      () => openAmenityDrawer.value,
       (newValue) => {
         emit('update:amenityDrawer', newValue);
-        getInfoFormData();
+        getAmenityFormData();
       }
     );
 
     function resetDrawer() {
-      infoForm.value = new InfoForm();
-      if (props.infoSeq != 0) {
+      amenityForm.value = new AmenityForm();
+      if (props.amenitySeq != 0) {
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = 'edit';
@@ -139,13 +139,13 @@ export default defineComponent({
       }
     }
 
-    function getInfoFormData() {
+    function getAmenityFormData() {
       resetDrawer();
-      if (props.infoSeq != 0) {
+      if (props.amenitySeq != 0) {
         loading.value = true;
-        InfoService.getInfoForm(props.infoSeq)
+        AmenityService.getAmenityForm(props.amenitySeq)
           .then((response) => {
-            infoForm.value = response;
+            amenityForm.value = response;
           })
           .finally(() => {
             loading.value = false;
@@ -157,10 +157,10 @@ export default defineComponent({
       notificationHelper.dismiss();
       notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
-      if (infoForm.value) {
-        infoForm.value.tourUuid = props.tourUuid;
-        console.log(infoForm.value);
-        InfoService.saveInfoForm(infoForm.value)
+      if (amenityForm.value) {
+        amenityForm.value.tourUuid = props.tourUuid;
+        console.log(amenityForm.value);
+        AmenityService.saveAmenityForm(amenityForm.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
               i18n.global.t('saved')
@@ -185,9 +185,9 @@ export default defineComponent({
       openDeleteConfirm.value = true;
     }
 
-    function deleteTourInfoForm() {
+    function deleteTourAmenityForm() {
       loading.value = true;
-      InfoService.deleteInfoForm(props.infoSeq)
+      AmenityService.deleteAmenityForm(props.amenitySeq)
         .then((response) => {
           notificationHelper.createSuccessNotification(
             i18n.global.t('deletesucess')
@@ -207,7 +207,7 @@ export default defineComponent({
     }
 
     function closeDrawer() {
-      openInfoDrawer.value = false;
+      openAmenityDrawer.value = false;
       resetDrawer();
       emit('amenityform-drawer-closed');
 
@@ -216,9 +216,9 @@ export default defineComponent({
     return {
       t: i18n.global.t,
       title,
-      infoForm,
+      amenityForm,
       loading,
-      openInfoDrawer,
+      openAmenityDrawer,
       confirmbuttoncolor,
       confirmbuttonlabel,
       deletebuttonlabel,
@@ -231,10 +231,10 @@ export default defineComponent({
       drawerComp,
       openDeleteConfirm,
       resetDrawer,
-      getInfoFormData,
+      getAmenityFormData,
       saveUpdatedContactData,
       deleteAction,
-      deleteTourInfoForm,
+      deleteTourAmenityForm,
       closeDrawer,
     };
   },

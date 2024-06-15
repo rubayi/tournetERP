@@ -25,8 +25,6 @@ public class AmenityService {
 
         amenityInfo.setAmenityUuid(amenityReq.getAmenityUuid());
         amenityInfo.setTourUuid(amenityReq.getTourUuid());
-        amenityInfo.setAmenityKor(amenityReq.getAmenityKor());
-        amenityInfo.setAmenityEng(amenityReq.getAmenityEng());
         amenityInfo.setAmenityDescKor(amenityReq.getAmenityDescKor());
         amenityInfo.setAmenityDescEng(amenityReq.getAmenityDescEng());
         amenityInfo.setModifiedByName(amenityReq.getModifiedUser().getUsername());
@@ -51,8 +49,8 @@ public class AmenityService {
                     AmenityDTO amenityInfo = new AmenityDTO();
                     amenityInfo.setAmenityUuid(amenity.getAmenityUuid());
                     amenityInfo.setTourUuid(amenity.getTourUuid());
-                    amenityInfo.setAmenityKor(amenity.getAmenityKor());
-                    amenityInfo.setAmenityEng(amenity.getAmenityEng());
+                    amenityInfo.setAmenityTypeKor(fetchCodeUtil.fetchCodeKr(amenity.getAmenityType()));
+                    amenityInfo.setAmenityTypeEng(fetchCodeUtil.fetchCodeEn(amenity.getAmenityType()));
                     amenityInfo.setAmenityDescKor(amenity.getAmenityDescKor());
                     amenityInfo.setAmenityDescEng(amenity.getAmenityDescEng());
                     amenityInfo.setModifiedByName(amenity.getModifiedUser().getUsername());

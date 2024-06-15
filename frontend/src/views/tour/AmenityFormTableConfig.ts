@@ -22,8 +22,8 @@ export class AmenityFormTableConfig {
         cellStyle: { 'text-align': 'center' },
       },
       {
-        field: locale === 'en' ? 'amenityEng' : 'amenityKor',
-        headerName: i18n.global.t('infoType'),
+        field: locale === 'en' ? 'amenityTypeEng' : 'amenityTypeKor',
+        headerName: i18n.global.t('amenityType'),
         minWidth: 70,
         width: 80,
         sortable: true,

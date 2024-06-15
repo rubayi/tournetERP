@@ -3,28 +3,18 @@
     <template #content>
       <q-card-section>
         <div class="row q-col-gutter-md">
-
           <div class="col-12">
-            <text-area-comp
-              v-model="editFormData.amenityKor"
-              class="full-width"
-              clearable
-              :label="t('amenityKor')"
-              outlined
-              required
-            />
-          </div>
-          <div class="col-12">
-            <text-area-comp
-              v-model="editFormData.amenityEng"
+            <select-comp
+              v-model="editFormData.amenityType"
               class="full-width select-padding"
-              :label="t('amenityEng')"
+              :label="t('amenityType')"
+              :options="AmenityTypeList"
               outlined
             />
           </div>
 
           <div class="col-12">
-            <text-area-comp
+            <input-comp
               v-model="editFormData.amenityDescKor"
               class="full-width"
               clearable
@@ -34,10 +24,19 @@
             />
           </div>
           <div class="col-12">
-            <text-area-comp
+            <input-comp
               v-model="editFormData.amenityDescEng"
               class="full-width select-padding"
               :label="t('amenityDescEng')"
+              outlined
+            />
+          </div>
+          <div class="col-12">
+            <select-comp
+              v-model="editFormData.useYn"
+              class="full-width select-padding"
+              :label="t('usage')"
+              :options="useYnList"
               outlined
             />
           </div>
@@ -50,7 +49,8 @@
 import { ref, defineComponent } from 'vue';
 // Components
 import CardCompDesign from 'src/components/common/CardCompDesign.vue';
-import TextAreaComp from 'src/components/common/TextAreaComp.vue';
+import InputComp from 'src/components/common/InputComp.vue';
+import SelectComp from "src/components/common/SelectComp.vue";
 // Type
 import { SelectOption } from 'src/types/SelectOption';
 import { AmenityForm } from 'src/types/AmenityForm';
@@ -59,11 +59,13 @@ import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 import { loadOptionsList } from 'src/utils/commoncode/commonCode';
 import i18n from 'src/i18n';
 
+
 export default defineComponent({
   name: 'InfoDrawerContent',
   components: {
+    SelectComp,
     CardCompDesign,
-    TextAreaComp
+    InputComp
   },
   props: {
     modelValue: {
@@ -92,13 +94,17 @@ export default defineComponent({
       editFormData
     );
 
-    const infoTypeList = ref<SelectOption[]>([]);
-    loadOptionsList(481, infoTypeList, locale);
+    const useYnList = ref<SelectOption[]>([]);
+    loadOptionsList(35, useYnList, locale);
+
+    const AmenityTypeList = ref<SelectOption[]>([]);
+    loadOptionsList(494, AmenityTypeList, locale);
 
     return {
       t: i18n.global.t,
-      infoTypeList,
+      useYnList,
       editFormData,
+      AmenityTypeList
     };
   },
 });
