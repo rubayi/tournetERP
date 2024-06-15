@@ -172,8 +172,11 @@ public class CompanyController {
     @GetMapping("/getComp/{id}")
     public ResponseEntity<?> searchCompany(@PathVariable long id) {
 
-        Company company = compRepository.findFirstByCompUuid(id);
-
+        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+        Company company = new Company();
+        if (storUser.isAuthenticated()) {
+            company = compRepository.findFirstByCompUuid(id);
+        }
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
 
@@ -181,8 +184,10 @@ public class CompanyController {
     @GetMapping("/deleteComp/{id}")
     public ResponseEntity<?> deleteCompany(@PathVariable long id) {
 
-        compRepository.deleteByCompUuid(id);
-
+        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+        if (storUser.isAuthenticated()) {
+            compRepository.deleteByCompUuid(id);
+        }
         return ResponseEntity.ok(new MessageResponse("삭제 되었습니다."));
     }
 
