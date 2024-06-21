@@ -1,7 +1,7 @@
 <template>
   <ag-grid-vue
     class="ag-theme-alpine grid"
-    :column-defs="columnDefs"
+    :column-defs="adjustedColumnDefs"
     :context="context"
     :style="{ width: '100%', height: gridHeight, overflow: 'auto' }"
     :overlay-loading-template="overlayLoadingTemplate"
@@ -19,6 +19,7 @@
     @selection-changed="selectionChanged"
     @sort-changed="sortChanged"
     ref="agGrid"
+    :suppress-movable-columns="true"
   />
 </template>
 
@@ -28,7 +29,7 @@ import { ColDef, GridOptions } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useTableApi } from 'src/utils/helpers/useTableApi';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 
 export default defineComponent({
   name: 'TableComp',
@@ -132,6 +133,19 @@ export default defineComponent({
     //   { immediate: true, deep: true }
     // );
 
+    const adjustedColumnDefs = computed(() => {
+      if (!props.columnDefs || props.columnDefs.length === 0) return [];
+
+      // Clone to avoid direct modification
+      const columns = [...props.columnDefs];
+      const lastIndex = columns.length - 1;
+
+      // Set the last column to be not resizable
+      columns[lastIndex] = { ...columns[lastIndex], resizable: false };
+
+      return columns;
+    });
+
     const {
       filterChanged,
       loadFilterModel,
@@ -177,6 +191,7 @@ export default defineComponent({
     } = useTableApi(props, emit, internalGridOptions);
 
     return {
+      adjustedColumnDefs,
       getRowHeight,
       internalGridOptions,
       filterChanged,
@@ -233,5 +248,11 @@ export default defineComponent({
 }
 .ag-header-cell-label {
   justify-content: center;
+}
+.ag-theme-alpine .ag-icon-asc,
+.ag-theme-alpine .ag-icon-desc,
+.ag-theme-alpine .ag-icon-none,
+.ag-theme-alpine .ag-icon-menu {
+  color: white !important; /* For the sort icons */
 }
 </style>
