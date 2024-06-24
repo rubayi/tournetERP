@@ -1,11 +1,11 @@
 <template>
-  <div id="tour-service-list">
+  <div id="hotel-room-list">
     <q-page class="q-pt-md">
       <div class="row justify-end q-pb-sm">
         <div class="col q-pr-md q-mt-sm">
           <span class="emer-title">
             <q-icon name="tips_and_updates" class="q-mr-sm"></q-icon
-            >{{ t('tourServices') }}</span
+            >{{ t('hotelRooms') }}</span
           >
         </div>
         <q-btn
@@ -17,9 +17,9 @@
           @click="createAction"
         />
       </div>
-      <div id="tour-service-list-grid-container" class="row grow-1">
+      <div id="hotel-room-list-grid-container" class="row grow-1">
         <table-comp
-          id="tour-service-list-grid"
+          id="hotel-room-list-grid"
           :column-defs="columns"
           :context="context"
           :framework-components="frameworkComponents"
@@ -31,16 +31,16 @@
           :open-action="openAction"
           row-selection="single"
           @grid-ready="loadData"
-          ref="tourServiceFormGrid"
+          ref="hotelRoomFormGrid"
         />
       </div>
-      <tour-service-drawer
-        :tour-service-drawer="openTourServiceDrawer"
-        :tour-seq="tourUuid"
-        :tour-uuid="tourUuid"
-        @tourserviceform-deleted="loadData"
-        @tourserviceform-drawer-closed="serviceUuid = 0"
-        @tourserviceform-saved="loadData"
+      <hotel-room-drawer
+        :hotel-room-drawer="openHotelRoomDrawer"
+        :room-seq="roomUuid"
+        :service-uuid="serviceUuid"
+        @hotelroomform-deleted="loadData"
+        @hotelroomform-drawer-closed="roomUuid = 0"
+        @hotelroomform-saved="loadData"
       />
     </q-page>
   </div>
@@ -53,67 +53,67 @@ import i18n from 'src/i18n';
 import { GridOptions } from 'ag-grid-community';
 import { TableHelper } from 'src/components/table/TableHelper';
 import TableComp from 'src/components/table/TableComp.vue';
-import { TourServiceTableConfig } from 'src/views/tour/TourServiceTableConfig';
+import { HotelRoomTableConfig } from 'src/views/tour/HotelRoomTableConfig';
 // Service
-import { TourServiceService } from 'src/services/TourServiceService';
+import { HotelRoomService } from 'src/services/HotelRoomService';
 // Type
-import { TourServiceForm } from 'src/types/TourServiceForm';
-import { TourServiceSearchForm } from 'src/types/TourServiceSearchForm';
+import { HotelRoomForm } from 'src/types/HotelRoomForm';
+import { HotelRoomSearchForm } from 'src/types/HotelRoomSearchForm';
 // Store
 import store from 'src/store';
 // Drawer
-import TourServiceDrawer from 'src/views/tour/TourServiceDrawer.vue';
+import HotelRoomDrawer from 'src/views/tour/HotelRoomDrawer.vue';
 
 export default defineComponent({
-  name: 'TourServiceList',
+  name: 'HotelRoomList',
   components: {
     TableComp,
-    TourServiceDrawer,
+    HotelRoomDrawer,
   },
   props: {
-    tourUuid: {
+    serviceUuid: {
       type: Number,
       default: 0,
     },
   },
   setup(props) {
     const locale = i18n.global.locale.value;
-    const openTourServiceDrawer = ref<boolean>(false);
+    const openHotelRoomDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
-    const columns = TourServiceTableConfig.getColumns(locale);
+    const columns = HotelRoomTableConfig.getColumns(locale);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const frameworkComponents: { [key: string]: any } =
-      TourServiceTableConfig.frameworkComponents;
+      HotelRoomTableConfig.frameworkComponents;
     const overlayLoadingTemplate = TableHelper.loadingOverlay;
-    const data = ref<TourServiceForm[]>([]);
-    const searchdata = ref<TourServiceSearchForm>(new TourServiceSearchForm());
+    const data = ref<HotelRoomForm[]>([]);
+    const searchdata = ref<HotelRoomSearchForm>(new HotelRoomSearchForm());
     const infoFormGrid = ref();
-    const serviceUuid = ref<number>(0);
+    const roomUuid = ref<number>(0);
     const gridOptions = ref<GridOptions>({});
     const showinsertbutton = ref<boolean>(false);
+    const hotelRoomFormGrid = ref();
 
     const loadData = () => {
       loading.value = true;
       showinsertbutton.value =
         store.getters.currentUserHasApplicationPermission('CONT_WU');
       if (store.getters.currentUserHasApplicationPermission('CONT_R')) {
-        searchdata.value.searchTourUuid = props.tourUuid;
-        TourServiceService.getTourServiceList(searchdata.value).then((response) => {
+        searchdata.value.searchServiceUuid = props.serviceUuid;
+        HotelRoomService.getHotelRoomList(searchdata.value).then((response) => {
           loading.value = false;
           if (response) {
             data.value = response;
-
           }
         });
       }
     };
     function createAction() {
-      serviceUuid.value = 0;
-      openTourServiceDrawer.value = true;
+      roomUuid.value = 0;
+      openHotelRoomDrawer.value = true;
     }
     function openAction(value: number) {
-      serviceUuid.value = value;
-      openTourServiceDrawer.value = true;
+      roomUuid.value = value;
+      openHotelRoomDrawer.value = true;
     }
 
     return {
@@ -123,8 +123,9 @@ export default defineComponent({
       loadData,
       loading,
       columns,
-      serviceUuid,
-      openTourServiceDrawer,
+      hotelRoomFormGrid,
+      roomUuid,
+      openHotelRoomDrawer,
       createAction,
       openAction,
       infoFormGrid,
@@ -144,14 +145,14 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
-#tour-service-list {
+#hotel-room-list {
   width: 100%;
   height: 420px;
   overflow: hidden;
-  #tour-service-list-grid-container {
+  #hotel-room-list-grid-container {
     height: 300px;
 
-    #tour-service-list-grid {
+    #hotel-room-list-grid {
       height: 300px;
     }
   }

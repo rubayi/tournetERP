@@ -20,6 +20,10 @@ public class TourServiceDTO {
 
     private String serviceNameEng; //서비스명ENG
 
+    private String descKor; //서비스명KOR
+
+    private String descEng; //서비스명ENG
+
     private String serviceColor; //서비스별구분색
 
     private long pickupYn; //픽업여부

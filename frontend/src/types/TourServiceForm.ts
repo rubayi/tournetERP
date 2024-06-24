@@ -9,7 +9,10 @@ export interface ITourServiceForm {
 
   serviceNameKor: string | '';
   serviceNameEng: string | '';
-  servicePrice: string | '';
+
+  descKor: string | '';
+  descEng: string | '';
+
   serviceColor: string | '';
 
   adults: number | 0;
@@ -37,7 +40,10 @@ export class TourServiceForm implements ITourServiceForm {
 
   public serviceNameKor: string | '';
   public serviceNameEng: string | '';
-  public servicePrice: string | '';
+
+  public descKor: string | '';
+  public descEng: string | '';
+
   public serviceColor: string | '';
 
   public adults: number | 0;
@@ -64,7 +70,10 @@ export class TourServiceForm implements ITourServiceForm {
 
     this.serviceNameKor = (obj && obj.serviceNameKor) || '';
     this.serviceNameEng = (obj && obj.serviceNameEng) || '';
-    this.servicePrice = (obj && obj.servicePrice) || '';
+
+    this.descKor = (obj && obj.descKor) || '';
+    this.descEng = (obj && obj.descEng) || '';
+
     this.serviceColor = (obj && obj.serviceColor) || '';
 
     this.adults = getNumberMemberValue(obj && obj.adults);

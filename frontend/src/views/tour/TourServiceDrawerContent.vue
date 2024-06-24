@@ -24,7 +24,27 @@
             />
           </div>
 
-          <div class="col-6">
+          <div class="col-12">
+            <text-area-comp
+              v-model="editFormData.descKor"
+              class="full-width"
+              clearable
+              :label="t('descKor')"
+              outlined
+              required
+            />
+          </div>
+          <div class="col-12">
+            <text-area-comp
+              v-model="editFormData.descEng"
+              class="full-width select-padding"
+              :label="t('descEng')"
+              outlined
+            />
+          </div>
+
+
+          <div class="col-4">
             <select-comp
               v-model="editFormData.adults"
               class="full-width"
@@ -34,7 +54,7 @@
             />
           </div>
 
-          <div class="col-6">
+          <div class="col-4">
             <select-comp
               v-model="editFormData.children"
               class="full-width"
@@ -44,7 +64,7 @@
             />
           </div>
 
-          <div class="col-6">
+          <div class="col-4">
             <select-comp
               v-model="editFormData.maxPeople"
               class="full-width"
@@ -54,7 +74,7 @@
             />
           </div>
 
-          <div class="col-12">
+          <div class="col-4">
             <select-comp
               v-model="editFormData.pickupYn"
               class="full-width select-padding"
@@ -65,7 +85,7 @@
             />
           </div>
 
-          <div class="col-12">
+          <div class="col-4">
             <select-comp
               v-model="editFormData.mealYn"
               class="full-width select-padding"
@@ -76,7 +96,17 @@
             />
           </div>
 
-          <div class="col-6">
+          <div class="col-4">
+            <select-comp
+              v-model="editFormData.showingOrder"
+              class="full-width"
+              :label="t('showingOrder')"
+              :options="numbers"
+              outlined
+            />
+          </div>
+
+          <div class="col-3">
             <date-picker-comp
               v-model="editFormData.beginDt"
               class="full-width"
@@ -85,7 +115,7 @@
               :label="t('beginDt')"
             />
           </div>
-          <div class="col-6">
+          <div class="col-3">
             <date-picker-comp
               v-model="editFormData.endDt"
               class="full-width"
@@ -95,7 +125,7 @@
             />
           </div>
 
-          <div class="col-6">
+          <div class="col-3">
             <date-picker-comp
               v-model="editFormData.bookBeginDt"
               class="full-width"
@@ -104,7 +134,7 @@
               :label="t('bookBeginDt')"
             />
           </div>
-          <div class="col-6">
+          <div class="col-3">
             <date-picker-comp
               v-model="editFormData.bookEndDt"
               class="full-width"
@@ -114,15 +144,7 @@
             />
           </div>
 
-          <div class="col-6">
-            <select-comp
-              v-model="editFormData.showingOrder"
-              class="full-width"
-              :label="t('showingOrder')"
-              :options="numbers"
-              outlined
-            />
-          </div>
+
         </div>
       </q-card-section>
     </template>
@@ -142,10 +164,12 @@ import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 import { loadOptionsList } from 'src/utils/commoncode/commonCode';
 import i18n from 'src/i18n';
 import DatePickerComp from "src/components/common/DatePickerComp.vue";
+import TextAreaComp from "src/components/common/TextAreaComp.vue";
 
 export default defineComponent({
   name: 'TourServiceDrawerContent',
   components: {
+    TextAreaComp,
     DatePickerComp,
     CardCompDesign,
     SelectComp,

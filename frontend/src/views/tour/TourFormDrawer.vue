@@ -25,35 +25,34 @@
     >
       <div>
         <q-tabs v-model="tab" align="left">
-          <q-tab name="content" label="Content" class="q-ml-md" />
+          <q-tab name="content"
+                 :label="t('tourBasic')" class="q-ml-md" />
           <q-tab
             name="tourcontact"
-            label="Contact List"
+            :label="t('contactList')"
             v-if="tourformData.tourUuid"
           />
           <q-tab
             v-if="hotelYn == 'Y'  && tourformData.tourUuid != 0"
             name="hotel"
-            label="Hotel Basic Information"
-
+            :label="t('hotelInfoBasic')"
           />
 
           <q-tab
             v-if="hotelYn == 'Y'  && tourformData.tourUuid != 0"
             name="amenity"
-            label="Hotel Amenity"
-
+            :label="t('hotelAmenity')"
           />
           <q-tab
             v-if="tourformData.tourUuid"
             name="info"
-            label="Information"
+            :label="t('tourInfo')"
           />
 
           <q-tab
             v-if="tourformData.tourUuid"
             name="tourService"
-            label="Tour Service"
+            :label="t('tourService')"
           />
         </q-tabs>
 
@@ -112,6 +111,7 @@
           <q-tab-panel name="tourService">
             <tour-service-list
               v-if="tourformData.tourUuid"
+              :hotel-yn = "hotelYn"
               :tour-uuid="tourformData.tourUuid"
               ref="tourServiceList"
             />

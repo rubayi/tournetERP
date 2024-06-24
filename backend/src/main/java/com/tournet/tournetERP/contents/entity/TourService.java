@@ -28,6 +28,12 @@ public class TourService {
     @Column(name = "SERVICE_NAME_ENG", nullable = true)
     private String serviceNameEng; //서비스명ENG
 
+    @Column(name = "DESC_KOR", nullable = true)
+    private String descKor; //서비스명KOR
+
+    @Column(name = "DESC_ENG", nullable = true)
+    private String descEng; //서비스명ENG
+
     @Column(name = "SERVICE_COLOR", nullable = true)
     private String serviceColor; //서비스별구분색
 

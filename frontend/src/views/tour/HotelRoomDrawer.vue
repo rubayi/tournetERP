@@ -1,7 +1,7 @@
 <template>
-  <div id="tour-service-drawer">
+  <div id="hotel-room-drawer">
     <drawer-comp
-      v-model="openTourServiceDrawer"
+      v-model="openHotelRoomDrawer"
       v-model:loading="loading"
       cancel-buttonicon="fa fa-chevron-right"
       center-title
@@ -17,60 +17,19 @@
       :show-print-button="false"
       side="right"
       :title="title"
-      :width="60"
+      :width="30"
       @cancel-clicked="closeDrawer"
-      @confirm-clicked="saveUpdatedTrServiceData"
+      @confirm-clicked="saveUpdatedContactData"
       @delete-clicked="openDeleteConfirm = true"
-      ref="compDrawerComp"
+      ref="hotelRoomDrawerComp"
     >
-
-      <q-tabs v-model="tab" align="left">
-        <q-tab name="ser_content"
-               :label="t('serviceBasic')" class="q-ml-md" />
-        <q-tab
-          name="bedType"
-          :label="t('bedType')"
-          v-if="trserviceForm.serviceUuid"
+      <div class="flex flex-grow-1 q-pa-md">
+        <hotel-room-drawer-content
+          v-model="hotelRoomForm"
+          :service-uuid="serviceUuid"
+          ref="hotelRoomDrawerContent"
         />
-        <q-tab
-          name="roomInfo"
-          v-if="hotelYn == 'Y'  && trserviceForm.serviceUuid != 0"
-          :label="t('roomInfo')"
-        />
-
-
-        <q-tab
-          v-if="trserviceForm.serviceUuid"
-          name="tourService"
-          label="Tour Service"
-        />
-      </q-tabs>
-
-      <q-tab-panels v-model="tab">
-        <q-tab-panel name="ser_content">
-        <tour-service-drawer-content
-          v-model="trserviceForm"
-          :service-uuid="trserviceForm.serviceUuid"
-          ref="tourServiceDrawerContent"
-        />
-        </q-tab-panel>
-
-        <q-tab-panel name="bedType">
-          <hotel-room-list
-            :service-uuid="trserviceForm.serviceUuid"
-            ref="tourServiceDrawerContent"
-          />
-        </q-tab-panel>
-
-        <q-tab-panel name="roomInfo">
-          <tour-service-drawer-content
-            v-model="trserviceForm"
-            :service-uuid="serviceUuid"
-            ref="tourServiceDrawerContent"
-          />
-        </q-tab-panel>
-
-      </q-tab-panels>
+      </div>
     </drawer-comp>
   </div>
   <dialog-comp
@@ -78,7 +37,7 @@
     :action-button-label="deletebuttonlabel"
     max-width="500px"
     :modal-title="deleteTitle"
-    @confirm-clicked="deleteContactForm"
+    @confirm-clicked="deleteTourHotelRoomForm"
   >
     <template #htmlContent>
       <div>{{ t('deleteconfirmmsg') }}</div>
@@ -86,40 +45,35 @@
   </dialog-comp>
 </template>
 <script lang="ts">
-import i18n from 'src/i18n';
 import { defineComponent, ref, watch } from 'vue';
 // Components
 import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 import DialogComp from 'src/components/common/DialogComp.vue';
 // View Layout
-import TourServiceDrawerContent from 'src/views/tour/TourServiceDrawerContent.vue';
-import HotelRoomList from 'src/views/tour/HotelRoomList.vue';
+import HotelRoomDrawerContent from 'src/views/tour/HotelRoomDrawerContent.vue';
 // Service
-import { TourServiceService } from 'src/services/TourServiceService';
+import { HotelRoomService } from 'src/services/HotelRoomService';
 // Type
-import { TourServiceForm } from 'src/types/TourServiceForm';
+import { HotelRoomForm } from 'src/types/HotelRoomForm';
 // Store
 import store from 'src/store';
 //helper
+import i18n from 'src/i18n';
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
 
-
-
-
 export default defineComponent({
-  name: 'TourServiceDrawer',
+  name: 'HotelRoomDrawer',
   components: {
     DrawerComp,
     DialogComp,
-    HotelRoomList,
-    TourServiceDrawerContent,
+    HotelRoomDrawerContent,
   },
   props: {
-    tourSeq: {
+    roomSeq: {
       type: Number,
       default: 0,
     },
-    tourServiceDrawer: {
+    hotelRoomDrawer: {
       type: Boolean,
       default: false,
     },
@@ -127,24 +81,18 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
-    hotelYn: {
-      type: String,
-      default: "N",
-    },
   },
   emits: [
-    'update:tourServiceDrawer',
-    'tourserviceform-deleted',
-    'tourserviceform-saved',
-    'tourserviceform-drawer-closed',
+    'update:hotelRoomDrawer',
+    'hotelroomform-deleted',
+    'hotelroomform-saved',
+    'hotelroomform-drawer-closed',
   ],
   setup(props, { emit }) {
-    const locale = i18n.global.locale.value;
-
-    const title = i18n.global.t('tourService');
-    const trserviceForm = ref<TourServiceForm>(new TourServiceForm());
+    const title = i18n.global.t('infos');
+    const hotelRoomForm = ref<HotelRoomForm>(new HotelRoomForm());
     const loading = ref<boolean>(false);
-    const openTourServiceDrawer = ref<boolean>(false);
+    const openHotelRoomDrawer = ref<boolean>(false);
     const confirmbuttoncolor = ref<string>('primary');
     const confirmbuttonlabel = ref<string>(i18n.global.t('change'));
     const deletebuttonlabel = ref<string>(i18n.global.t('delete'));
@@ -156,25 +104,24 @@ export default defineComponent({
     const showdeletebutton = ref<boolean>(false);
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
-    const tab = ref<string>('ser_content');
 
     watch(
-      () => props.tourServiceDrawer,
+      () => props.hotelRoomDrawer,
       (newValue) => {
-        openTourServiceDrawer.value = newValue;
+        openHotelRoomDrawer.value = newValue;
       }
     );
     watch(
-      () => openTourServiceDrawer.value,
+      () => openHotelRoomDrawer.value,
       (newValue) => {
-        emit('update:tourServiceDrawer', newValue);
-        getTourServiceFormData();
+        emit('update:hotelRoomDrawer', newValue);
+        getHotelRoomFormData();
       }
     );
 
     function resetDrawer() {
-      trserviceForm.value = new TourServiceForm();
-      if (props.tourSeq != 0) {
+      hotelRoomForm.value = new HotelRoomForm();
+      if (props.roomSeq != 0) {
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = 'edit';
@@ -192,13 +139,13 @@ export default defineComponent({
       }
     }
 
-    function getTourServiceFormData() {
+    function getHotelRoomFormData() {
       resetDrawer();
-      if (props.tourSeq != 0) {
+      if (props.roomSeq != 0) {
         loading.value = true;
-        TourServiceService.getTourServiceForm(props.tourSeq)
+        HotelRoomService.getOneHotelRoomForm(props.roomSeq)
           .then((response) => {
-            trserviceForm.value = response;
+            hotelRoomForm.value = response;
           })
           .finally(() => {
             loading.value = false;
@@ -206,20 +153,20 @@ export default defineComponent({
       }
     }
 
-    function saveUpdatedTrServiceData() {
+    function saveUpdatedContactData() {
       notificationHelper.dismiss();
       notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
-      if (trserviceForm.value) {
-        trserviceForm.value.serviceUuid = props.serviceUuid;
-
-        TourServiceService.saveTourServiceForm(trserviceForm.value)
+      if (hotelRoomForm.value) {
+        hotelRoomForm.value.serviceUuid = props.serviceUuid;
+        console.log(hotelRoomForm.value);
+        HotelRoomService.saveHotelRoomForm(hotelRoomForm.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
               i18n.global.t('saved')
             );
 
-            emit('tourserviceform-saved', response);
+            emit('hotelroomform-saved', response);
             closeDrawer();
           })
           .catch((error) => {
@@ -238,14 +185,14 @@ export default defineComponent({
       openDeleteConfirm.value = true;
     }
 
-    function deleteContactForm() {
+    function deleteTourHotelRoomForm() {
       loading.value = true;
-      TourServiceService.deleteTourServiceForm(props.tourSeq)
+      HotelRoomService.deleteHotelRoomForm(props.roomSeq)
         .then((response) => {
           notificationHelper.createSuccessNotification(
             i18n.global.t('deletesucess')
           );
-          emit('tourserviceform-deleted', response);
+          emit('hotelroomform-deleted', response);
           closeDrawer();
         })
         .catch((error) => {
@@ -260,19 +207,18 @@ export default defineComponent({
     }
 
     function closeDrawer() {
-      openTourServiceDrawer.value = false;
+      openHotelRoomDrawer.value = false;
       resetDrawer();
-      emit('tourserviceform-drawer-closed');
+      emit('hotelroomform-drawer-closed');
 
     }
 
     return {
       t: i18n.global.t,
-      tab,
       title,
-      trserviceForm,
+      hotelRoomForm,
       loading,
-      openTourServiceDrawer,
+      openHotelRoomDrawer,
       confirmbuttoncolor,
       confirmbuttonlabel,
       deletebuttonlabel,
@@ -285,18 +231,11 @@ export default defineComponent({
       drawerComp,
       openDeleteConfirm,
       resetDrawer,
-      getTourServiceFormData,
-      saveUpdatedTrServiceData,
+      getHotelRoomFormData,
+      saveUpdatedContactData,
       deleteAction,
-      deleteContactForm,
+      deleteTourHotelRoomForm,
       closeDrawer,
-    };
-  },
-  data() {
-    return {
-      context: {
-        componentParent: this,
-      },
     };
   },
 });
