@@ -28,11 +28,20 @@ public interface TournetCarRepository extends JpaRepository<TournetCar,Long> {
     @Query("SELECT a FROM TournetCar a " +
             "WHERE (:trnCarUuid IS NULL OR a.trnCarUuid = :trnCarUuid) " +
             "AND (:carType IS NULL OR a.carType = :carType) " +
-            "OR (:trnCarUuid IS NULL AND :carType IS NULL ) " +
+            "AND (:carBrand IS NULL OR a.carBrand = :carBrand) " +
+            "AND (:people IS NULL OR a.people = :people) " +
+            "AND (:carManager IS NULL OR a.carManager = :carManager) " +
+            "AND (:carVin IS NULL OR a.carVin = :carVin) " +
+            "OR (:trnCarUuid IS NULL AND :carType IS NULL AND :carBrand IS NULL " +
+            "AND :people IS NULL AND :carManager IS NULL AND :carVin IS NULL) " +
             "ORDER BY a.modifiedDt DESC")
     List<TournetCar> findAllByOrderByModifiedDtDesc(
             @Param("trnCarUuid") Long trnCarUuid,
-            @Param("carType") Long carType
+            @Param("carType") Long carType,
+            @Param("carBrand") Long carBrand,
+            @Param("people") Long people,
+            @Param("carManager") Long carManager,
+            @Param("carVin") String carVin
     );
 
     @Modifying

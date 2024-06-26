@@ -44,8 +44,8 @@ public class TournetCarController {
     @Autowired
     TournetCarService tournetCarService;
 
-    @PostMapping("/selectTournetCars")
-    public ResponseEntity<?> selectTournetCars (@RequestBody TournetCarDTO tournetCarReq) {
+    @PostMapping("/selectTrnCars")
+    public ResponseEntity<?> selectTrnCars (@RequestBody TournetCarDTO tournetCarReq) {
 
         Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
@@ -73,10 +73,10 @@ public class TournetCarController {
             Optional<TournetCar> currentTournetCar = tournetCarRepository.findByTrnCarUuid(trnCarReq.getTrnCarUuid());
 
             if (currentTournetCar.isPresent()) {
-                trnCarReq.setModifiedBy(modifyingUser.getEmpUuid());
+                trnCarReq.setModifyUser(modifyingUser);
             } else {
-                trnCarReq.setModifiedBy(modifyingUser.getEmpUuid());
-                trnCarReq.setCreatedBy(modifyingUser.getEmpUuid());
+                trnCarReq.setModifyUser(modifyingUser);
+                trnCarReq.setCreateUser(modifyingUser);
             }
             updatedtournetCar = tournetCarRepository.save(trnCarReq);
         }
@@ -87,8 +87,11 @@ public class TournetCarController {
     @GetMapping("/deleteTrnCar/{id}")
     public ResponseEntity<?> deleteTrnCar(@PathVariable long id) {
 
-        tournetCarRepository.deleteByTrnCarUuid(id);
+        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
 
+        if(storUser.isAuthenticated()) {
+            tournetCarRepository.deleteByTrnCarUuid(id);
+        }
         return ResponseEntity.ok(new MessageResponse("삭제 되었습니다."));
 
     }

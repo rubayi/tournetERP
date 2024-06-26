@@ -7,6 +7,7 @@ package com.tournet.tournetERP.contents.entity;
  * @fileName : TournetCar
  * @since : 2024-06-21
  */
+import com.tournet.tournetERP.auth.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -56,11 +57,14 @@ public class TournetCar {
     @Column(name = "CREATED_DT", updatable = false)
     private Date createdDt; //생성일
 
-    @Column(name = "CREATED_BY", nullable = true)
-    private long createdBy; //생성자
+    @OneToOne
+    @JoinColumn(name = "CREATED_BY", referencedColumnName = "EMP_UUID",
+            updatable = false)
+    private User createUser; //생성자
 
-    @Column(name = "MODIFIED_BY", nullable = true)
-    private long modifiedBy; //최종수정자
+    @OneToOne
+    @JoinColumn(name = "MODIFIED_BY", referencedColumnName = "EMP_UUID")
+    private User modifyUser; //최종수정자
 
     @LastModifiedDate
     @Column(name = "MODIFIED_DT", nullable = true)

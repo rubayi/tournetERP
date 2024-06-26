@@ -11,6 +11,7 @@ import Code from 'src/views/code/AppBody.vue';
 import Comp from 'src/views/comp/AppBody.vue';
 import Cdcd from 'src/views/cdcd/AppBody.vue';
 import Emp from 'src/views/emp/AppBody.vue';
+import Car from 'src/views/car/AppBody.vue';
 import Tour from 'src/views/tour/AppBody.vue';
 import RegisterTN from "src/views/Register.vue";
 
@@ -54,6 +55,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/emp',
     name: 'emp',
     children: [{ path: '', component: () => Emp }],
+  },
+  {
+    path: '/car',
+    name: 'car',
+    children: [{ path: '', component: () => Car }],
   },
   {
     path: '/tour/:sector',

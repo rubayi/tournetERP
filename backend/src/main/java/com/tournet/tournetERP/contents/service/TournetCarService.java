@@ -33,11 +33,19 @@ public class TournetCarService {
 
         long trnCarUuid = tournetCarReq.getSearchTrnCarUuid();
         long carType = tournetCarReq.getSearchCarType();
+        long carBrand = tournetCarReq.getSearchCarBrand();
+        long people = tournetCarReq.getSearchPeople();
+        long carManager = tournetCarReq.getSearchCarManager();
+        String carVin = tournetCarReq.getSearchCarVin();
 
         List<TournetCar> trnCarList =
                 tournetCarRepository.findAllByOrderByModifiedDtDesc(
                         trnCarUuid == 0 ? null : trnCarUuid,
-                        carType == 0 ? null : carType
+                        carType == 0 ? null : carType,
+                        carBrand == 0 ? null : carBrand,
+                        people == 0 ? null : people,
+                        carManager == 0 ? null : carManager,
+                        carVin.isEmpty() ? null : carVin
                 );
         List<TournetCarDTO> trnCarInfoList = trnCarList.stream()
                 .map(trnCar -> {
@@ -53,6 +61,9 @@ public class TournetCarService {
 
                     trnCarInfo.setCarBrandKor(fetchCodeUtil.fetchCodeKr(trnCar.getCarBrand()));
                     trnCarInfo.setCarBrandEng(fetchCodeUtil.fetchCodeEn(trnCar.getCarBrand()));
+
+                    trnCarInfo.setModifiedByName(trnCar.getModifyUser().getUsername());
+                    trnCarInfo.setCreatedByName(trnCar.getCreateUser().getUsername());
 
                     return trnCarInfo;
                 })

@@ -1,21 +1,21 @@
 import api from './api';
-import { CompForm } from 'src/types/CompForm';
-import { CompSearchForm } from 'src/types/CompSearchForm';
+import { CarForm } from 'src/types/CarForm';
+import { CarSearchForm } from 'src/types/CarSearchForm';
 import authHeader from 'src/services/auth-header';
 
-const API_URL = '/comp/';
-export class CompService {
-  static getAllComp(casesearchform: CompSearchForm): Promise<CompForm[]> {
+const API_URL = '/tournetCar/';
+export class CarService {
+  static getAllCar(casesearchform: CarSearchForm): Promise<CarForm[]> {
     return api
-      .post<CompForm[]>(API_URL + 'searchCompByCondition', casesearchform, {
+      .post<CarForm[]>(API_URL + 'selectTrnCars', casesearchform, {
         headers: authHeader(),
       })
       .then((response) => response.data);
   }
 
-  static getOneCompForm(compUuid: number): Promise<CompForm> {
+  static getOneCarForm(compUuid: number): Promise<CarForm> {
     return api
-      .get<CompForm>(API_URL + `getComp/${compUuid}`, {
+      .get<CarForm>(API_URL + `searchTrnCar/${compUuid}`, {
         headers: authHeader(),
       })
       .then((response) => {
@@ -24,10 +24,14 @@ export class CompService {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static saveCompForm(
+  static updateCarForm(
     attachFile: any,
-    h3caseform: CompForm
-  ): Promise<CompForm> {
+    h3caseform: CarForm
+  ): Promise<CarForm> {
+    // console.log(h3caseform);
+    // return api.post<CarForm>(API_URL + "updateCar", h3caseform,
+    //   { headers: {...authHeader(), "Content-Type": "multipart/form-data"}  })
+    //   .then((response) => response.data);
 
     console.log('=======FILE======');
     const formData = new FormData();
@@ -38,14 +42,14 @@ export class CompService {
     }
 
     console.log(formData);
-    return api.post('/comp/updateComp', formData, {
+    return api.post('/tournetCar/updateTrnCar', formData, {
       headers: { ...authHeader(), 'Content-Type': 'multipart/form-data' },
     });
   }
 
-  static deleteCompForm(compUuid: number): Promise<void> {
+  static deleteCarForm(compUuid: number): Promise<void> {
     return api
-      .get(API_URL + `deleteComp/${compUuid}`, {
+      .get(API_URL + `deleteTrnCar/${compUuid}`, {
         headers: authHeader(),
       })
       .then((response) => response.data);
