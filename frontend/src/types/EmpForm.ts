@@ -26,6 +26,8 @@ export interface IEmpForm {
   modifiedDt: Date | '';
   backColor: string | '';
   fontColor: string | '';
+  previewImage: string | '';
+  empImgFile?: string | '';
 }
 
 export class EmpForm implements IEmpForm {
@@ -54,6 +56,8 @@ export class EmpForm implements IEmpForm {
   public modifiedDt: Date | '';
   public backColor: string | '';
   public fontColor: string | '';
+  public previewImage: string | '';
+  public empImgFile?: string | '';
 
   constructor(obj?: IEmpForm) {
     this.empUuid = getNumberMemberValue(obj && obj.empUuid);
@@ -81,5 +85,7 @@ export class EmpForm implements IEmpForm {
     this.modifiedDt = (obj && obj.modifiedDt) || '';
     this.backColor = (obj && obj.backColor) || '';
     this.fontColor = (obj && obj.fontColor) || '';
+    this.previewImage = (obj && obj.previewImage) || '';
+    this.empImgFile = (obj && obj.empImgFile) || '';
   }
 }

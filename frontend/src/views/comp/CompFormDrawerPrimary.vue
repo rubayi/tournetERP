@@ -5,72 +5,137 @@
         <template #content>
           <q-card-section>
             <div v-if="compFormData != null" class="row q-col-gutter-md">
-              <div class="col-5">
+              <div class="row col-3">
+                <div v-if="!compFormData.previewImage">
+                  <q-img
+                    class="image-max-width"
+                    v-if="compFormData.logoFile != ''"
+                    :src="fileUrl + compFormData.logoFile"
+                  />
+                </div>
+                <q-img
+                  v-if="compFormData.previewImage"
+                  :src="compFormData.previewImage"
+                  class="image-max-width"
+                  alt="Preview Image"
+                />
                 <input-comp
-                  v-model="compFormData.compKor"
-                  class="full-width"
+                  type="file"
                   clearable
-                  :label="t('krcomp')"
-                  outlined
+                  class="btn-info input-style"
+                  @change="handleFileChange"
                 />
               </div>
-              <div class="col-5">
-                <input-comp
-                  v-model="compFormData.compEng"
-                  class="full-width"
-                  clearable
-                  :label="t('encomp')"
-                  outlined
-                />
+              <div class="row col-9 q-col-gutter-md">
+                <div class="col-6">
+                  <input-comp
+                    v-model="compFormData.compKor"
+                    class="full-width"
+                    clearable
+                    :label="t('krcomp')"
+                    outlined
+                  />
+                </div>
+
+                <div class="col-6">
+                  <input-comp
+                    v-model="compFormData.compEng"
+                    class="full-width"
+                    clearable
+                    :label="t('encomp')"
+                    outlined
+                  />
+                </div>
+
+                <div class="col-4">
+                  <date-picker-comp
+                    v-model="compFormData.beginDt"
+                    class="full-width"
+                    clearable
+                    :label="t('beginDt')"
+                    outlined
+                  />
+                </div>
+                <div class="col-4">
+                  <date-picker-comp
+                    v-model="compFormData.endDt"
+                    class="full-width"
+                    clearable
+                    :label="t('endDt')"
+                    outlined
+                  />
+                </div>
+
+                <div class="col-4">
+                  <input-comp
+                    v-model="compFormData.compAbb"
+                    class="full-width"
+                    clearable
+                    :label="t('abbreviation')"
+                    outlined
+                  />
+                </div>
+                <div class="col-4">
+                  <select-comp
+                    v-model="compFormData.compSector"
+                    class="full-width select-comp-padding"
+                    :label="t('compsector')"
+                    :options="compSectorList"
+                    outlined
+                  />
+                </div>
+                <div class="col-4">
+                  <select-comp
+                    v-model="compFormData.compRate"
+                    :label="t('complvl')"
+                    class="full-width select-comp-padding"
+                    :options="compRateList"
+                    outlined
+                  />
+                </div>
+                <div class="col-4">
+                  <select-comp
+                    v-model="compFormData.couponYn"
+                    :label="t('couponuseyn')"
+                    class="full-width select-comp-padding"
+                    :options="couponYnList"
+                    outlined
+                  />
+                </div>
+
+                <div class="col-4">
+                  <select-comp
+                    v-if="compFormData.compSector == 209"
+                    v-model="compFormData.compGroup"
+                    :label="t('compgroup')"
+                    class="full-width select-comp-padding"
+                    :options="compGroupList"
+                    outlined
+                  />
+                </div>
+
+                <div class="col-4">
+                  <input-color-comp
+                    v-model="compFormData.compColor"
+                    class="full-width"
+                    clearable
+                    :label="t('compColor')"
+                    outlined
+                  />
+                </div>
+
+                <div class="col-4">
+                  <select-comp
+                    v-model="compFormData.prepaidHow"
+                    :label="t('assgnprepaid')"
+                    class="full-width select-comp-padding"
+                    :options="prepaidHowList"
+                    outlined
+                  />
+                </div>
               </div>
-              <div class="col-2">
-                <input-comp
-                  v-model="compFormData.compAbb"
-                  class="full-width"
-                  clearable
-                  :label="t('abbreviation')"
-                  outlined
-                />
-              </div>
-              <div class="col-3">
-                <select-comp
-                  v-model="compFormData.compSector"
-                  class="full-width select-comp-padding"
-                  :label="t('compsector')"
-                  :options="compSectorList"
-                  outlined
-                />
-              </div>
-              <div class="col-2">
-                <select-comp
-                  v-model="compFormData.compRate"
-                  :label="t('complvl')"
-                  class="full-width select-comp-padding"
-                  :options="compRateList"
-                  outlined
-                />
-              </div>
-              <div class="col-2">
-                <select-comp
-                  v-model="compFormData.couponYn"
-                  :label="t('couponuseyn')"
-                  class="full-width select-comp-padding"
-                  :options="couponYnList"
-                  outlined
-                />
-              </div>
-              <div class="col-5">
-              <!--if hotel-->
-                <select-comp
-                  v-if="compFormData.compSector == 209"
-                  v-model="compFormData.compGroup"
-                  :label="t('compgroup')"
-                  class="full-width select-comp-padding"
-                  :options="compGroupList"
-                  outlined
-                />
-              </div>
-              <div class="col-4">
+
+              <!-- <div class="col-4">
                 <date-picker-comp
                   v-model="compFormData.estDate"
                   class="full-width"
@@ -78,70 +143,8 @@
                   :label="t('estdt')"
                   outlined
                 />
-              </div>
-              <div class="col-4">
-                <date-picker-comp
-                  v-model="compFormData.beginDt"
-                  class="full-width"
-                  clearable
-                  :label="t('beginDt')"
-                  outlined
-                />
-              </div>
-              <div class="col-4">
-                <date-picker-comp
-                  v-model="compFormData.endDt"
-                  class="full-width"
-                  clearable
-                  :label="t('endDt')"
-                  outlined
-                />
-              </div>
-              <div class="row col-4">
-                <input-color-comp
-                  v-model="compFormData.compColor"
-                  class="full-width"
-                  clearable
-                  :label="t('compColor')"
-                  outlined
-                />
+              </div> -->
 
-                <select-comp
-                  v-model="compFormData.prepaidHow"
-                  :label="t('assgnprepaid')"
-                  class="full-width select-comp-padding"
-                  :options="prepaidHowList"
-                  outlined
-                />
-              </div>
-
-              <div class="row col-8">
-                <div class="col-4">
-                  <label for="file-upload" class="custom-file-upload">
-                    {{ t('logofile') }}
-                  </label>
-                  <input-comp
-                    type="file"
-                    clearable
-                    class="btn btn-info input-style"
-                    @change="handleFileChange"
-                  />
-                </div>
-                <div class="col-auto">
-                  <q-img
-                    class="image-max-width"
-                    v-if="compFormData.logoFile != ''"
-                    :src="fileUrl + compFormData.logoFile"
-                  />
-                </div>
-                <div class="col-auto" v-if="compFormData.previewImage">
-                  <q-img
-                    :src="compFormData.previewImage"
-                    class="image-max-width"
-                    alt="Preview Image"
-                  />
-                </div>
-              </div>
               <div class="col-12">
                 <input-comp
                   v-model="compFormData.compMemo"
@@ -387,21 +390,19 @@ export default defineComponent({
   padding-bottom: 20px;
 }
 .custom-file-upload {
-  align-items: center;
   background-color: #4482df;
-  box-sizing: border-box;
   color: #fff;
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  flex-shrink: 0;
   font-family: 'RM Neue', sans-serif;
-  line-height: 2.1;
-  padding: 10px 21px;
+  line-height: 1.2;
+  padding: 10px 19px;
   text-align: center;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  width: 190px;
 }
 .custom-file-upload:active {
   background-color: #1c84ff;
@@ -413,8 +414,8 @@ input[type='file'] {
   display: none;
 }
 .image-max-width {
-  width: 100px;
-  height: 100px;
+  width: 190px;
+  height: 190px;
   border: 1px solid #b4b4b4;
   border-radius: 4px;
 }

@@ -218,7 +218,7 @@ export default defineComponent({
 }
 .icon-style {
   padding: 0 10px;
-  font-size: 20px;
+  font-size: 18px;
   color: white;
 }
 .span-style {
@@ -230,5 +230,8 @@ export default defineComponent({
   background-color: rgb(187, 187, 187);
   color: white;
   max-height: 40px;
+}
+.hidden {
+  display: none;
 }
 </style>

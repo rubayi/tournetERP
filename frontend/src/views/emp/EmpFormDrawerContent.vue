@@ -5,37 +5,104 @@
         <template #content>
           <q-card-section>
             <div class="row q-col-gutter-md">
-              <div class="col-6">
+              <div class="row col-4">
+                <div v-if="!editEmpFormData.previewImage">
+                  <q-img
+                    class="image-max-width"
+                    v-if="editEmpFormData.empImgFile != ''"
+                    :src="fileUrl + editEmpFormData.empImgFile"
+                  />
+                </div>
+                <q-img
+                  v-if="editEmpFormData.previewImage"
+                  :src="editEmpFormData.previewImage"
+                  class="image-max-width"
+                  alt="Preview Image"
+                />
                 <input-comp
-                  v-model="editEmpFormData.empEng"
-                  class="full-width"
+                  type="file"
                   clearable
-                  :label="t('enname')"
-                  outlined
-                  required
+                  class="btn-info input-style"
+                  @change="handleFileChange"
                 />
               </div>
-              <div class="col-6">
+
+              <div class="row col-8 q-col-gutter-md">
+                <div class="col-8">
+                  <input-comp
+                    v-model="editEmpFormData.empEng"
+                    class="full-width"
+                    clearable
+                    :label="t('enname')"
+                    outlined
+                    required
+                  />
+                </div>
+
+                <div class="col-4">
+                  <input-comp
+                    v-model="editEmpFormData.empKor"
+                    class="full-width"
+                    clearable
+                    :label="t('krname')"
+                    outlined
+                    required
+                  />
+                </div>
+
+                <div class="col-6">
+                  <input-comp
+                    v-model="editEmpFormData.username"
+                    class="full-width"
+                    clearable
+                    :label="t('username')"
+                    outlined
+                    required
+                  />
+                </div>
+
+                <div class="col-6">
+                  <date-picker-comp
+                    v-model="editEmpFormData.empDob"
+                    class="full-width"
+                    clearable
+                    :label="t('dob')"
+                    outlined
+                  />
+                </div>
+
+                <div class="col-6">
+                  <input-comp
+                    v-model="editEmpFormData.empEmail"
+                    class="full-width"
+                    clearable
+                    :label="t('Pemail')"
+                    outlined
+                  />
+                </div>
+
+                <div class="col-6">
+                  <input-comp
+                    v-model="editEmpFormData.empPhone"
+                    class="full-width"
+                    clearable
+                    :label="t('phone')"
+                    outlined
+                  />
+                </div>
+              </div>
+
+              <div class="col-8">
                 <input-comp
-                  v-model="editEmpFormData.empKor"
+                  v-model="editEmpFormData.empAddress"
                   class="full-width"
                   clearable
-                  :label="t('krname')"
+                  :label="t('address')"
                   outlined
-                  required
                 />
               </div>
-              <div class="col-6">
-                <input-comp
-                  v-model="editEmpFormData.username"
-                  class="full-width"
-                  clearable
-                  :label="t('username')"
-                  outlined
-                  required
-                />
-              </div>
-              <div v-if="pwChangeYN" class="col-3">
+
+              <div v-if="pwChangeYN" class="col-4">
                 <input-comp
                   v-model="editEmpFormData.password"
                   class="full-width"
@@ -53,42 +120,7 @@
                   {{ t(`changePW`) }}</label
                 >
               </div>
-              <div class="col-6">
-                <input-comp
-                  v-model="editEmpFormData.empEmail"
-                  class="full-width"
-                  clearable
-                  :label="t('Pemail')"
-                  outlined
-                />
-              </div>
-              <div class="col-6">
-                <input-comp
-                  v-model="editEmpFormData.empPhone"
-                  class="full-width"
-                  clearable
-                  :label="t('phone')"
-                  outlined
-                />
-              </div>
-              <div class="col-8">
-                <input-comp
-                  v-model="editEmpFormData.empAddress"
-                  class="full-width"
-                  clearable
-                  :label="t('address')"
-                  outlined
-                />
-              </div>
-              <div class="col-4">
-                <date-picker-comp
-                  v-model="editEmpFormData.empDob"
-                  class="full-width"
-                  clearable
-                  :label="t('dob')"
-                  outlined
-                />
-              </div>
+
               <div class="col-12">
                 <input-comp
                   v-model="editEmpFormData.empMemo"
@@ -242,6 +274,8 @@ import { EmpForm } from 'src/types/EmpForm';
 // Helper
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 import { loadOptionsList } from 'src/utils/commoncode/commonCode';
+//Fileinfo
+import { fileInfo } from 'src/utils/helpers/Fileinfo';
 
 export default defineComponent({
   name: 'EmpFormDrawerContent',
@@ -257,12 +291,16 @@ export default defineComponent({
       type: Object as () => EmpForm,
       default: () => new EmpForm(),
     },
+    uploadFile: Function,
   },
   setup(props, { emit }) {
     const locale = i18n.global.locale.value;
     const guideYN = ref<boolean>(false);
     const pwChangeYN = ref<boolean>(false);
     const editEmpFormData = ref<EmpForm>(new EmpForm());
+    const showflag = ref<number | 0>(0);
+    const fileUrl = ref(fileInfo);
+
     useSyncModelValue(
       props,
       'modelValue',
@@ -286,6 +324,26 @@ export default defineComponent({
     const WorkStatusList = ref<SelectOption[]>([]);
     loadOptionsList(15, WorkStatusList, locale);
 
+    const handleFileChange = (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      const file: File | null = (target.files && target.files[0]) || null;
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const result: string | null = e.target?.result as string;
+          editEmpFormData.value.previewImage = result;
+
+          if (props.uploadFile) {
+            props.uploadFile(file);
+            showflag.value = 1;
+          }
+        };
+        reader.readAsDataURL(file);
+      } else {
+        editEmpFormData.value.previewImage = '';
+      }
+    };
+
     return {
       t: i18n.global.t,
       guideYN,
@@ -296,6 +354,8 @@ export default defineComponent({
       OfficeList,
       JobRoleList,
       WorkStatusList,
+      fileUrl,
+      handleFileChange,
     };
   },
 });

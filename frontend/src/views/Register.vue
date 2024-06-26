@@ -48,14 +48,14 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref} from 'vue';
-import { Form as ValidationForm, Field, ErrorMessage } from "vee-validate";
-import * as yup from "yup";
+import { defineComponent, ref } from 'vue';
+import { Form as ValidationForm, Field, ErrorMessage } from 'vee-validate';
+import * as yup from 'yup';
 // Store
-import {EmpService} from "src/services/EmpService";
-import {EmpForm} from "src/types/EmpForm";
+import { EmpService } from 'src/services/EmpService';
+import { EmpForm } from 'src/types/EmpForm';
 export default defineComponent({
-  name: "RegisterTN",
+  name: 'RegisterTN',
   components: {
     ValidationForm,
     Field,
@@ -65,72 +65,70 @@ export default defineComponent({
     const empformData = ref<EmpForm>(new EmpForm());
   },
   data() {
-
     const schema = yup.object().shape({
       username: yup
         .string()
-        .required("Username is required!")
-        .min(3, "Must be at least 3 characters!")
-        .max(20, "Must be maximum 20 characters!"),
+        .required('Username is required!')
+        .min(3, 'Must be at least 3 characters!')
+        .max(20, 'Must be maximum 20 characters!'),
       empEmail: yup
         .string()
-        .required("Email is required!")
-        .email("Email is invalid!")
-        .max(50, "Must be maximum 50 characters!"),
+        .required('Email is required!')
+        .email('Email is invalid!')
+        .max(50, 'Must be maximum 50 characters!'),
       password: yup
         .string()
-        .required("Password is required!")
-        .min(6, "Must be at least 6 characters!")
-        .max(40, "Must be maximum 40 characters!"),
+        .required('Password is required!')
+        .min(6, 'Must be at least 6 characters!')
+        .max(40, 'Must be maximum 40 characters!'),
     });
 
     return {
       successful: false,
       loading: false,
-      message: "",
+      message: '',
       schema,
     };
   },
 
-
   methods: {
-
-    handleRegister(empformData:
-                     { empUuid: number;
-                       username: string;
-                       empEmail: string;
-                       password: string;
-                       empKor: string;
-                       empEng: string;
-                       empImg: string;
-                       empDiv: number;
-                       empRole: number;
-                       empTitle: number;
-                       empPhone: string;
-                       empWorkPhone: string;
-                       empAddress: string;
-                       empDob: string;
-                       empEmailBook: string;
-                       empBeginDt: string;
-                       empMemo: string;
-                       empStatus: number;
-                       empEndDt: string;
-                       empOffice: number;
-                       empComp: number;
-                       modifiedBy: number;
-                       modifiedDt: Date;
-                       backColor: string;
-                       fontColor: string;
-                     }) {
-      this.message = "";
+    handleRegister(empformData: {
+      empUuid: number | 0;
+      empEmail: string | '';
+      empKor: string | '';
+      password: string | '';
+      username: string | '';
+      empEng: string | '';
+      empImg: string | '';
+      empDiv: number | 0;
+      empRole: number | 0;
+      empTitle: number | 0;
+      empPhone: string | '';
+      empWorkPhone: string | '';
+      empAddress: string | '';
+      empDob: string | '';
+      empEmailBook: string | '';
+      empBeginDt: string | '';
+      empMemo: string | '';
+      empStatus: number | 0;
+      empEndDt: string | '';
+      empOffice: number | 0;
+      empComp: number | 0;
+      modifiedBy: number | 0;
+      modifiedDt: Date | '';
+      backColor: string | '';
+      fontColor: string | '';
+      previewImage: string | '';
+      empImgFile: string | '';
+    }) {
+      this.message = '';
       this.successful = false;
       this.loading = true;
 
-      EmpService.createEmpForm(empformData)
-        .then((response: EmpForm) => {
-          console.log("등록 했습니다.");
-         })
-
+      EmpService.createEmpForm(empformData).then((response: EmpForm) => {
+        console.log('등록 했습니다.');
+        console.log(response);
+      });
     },
   },
 });
