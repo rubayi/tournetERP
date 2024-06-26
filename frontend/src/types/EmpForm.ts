@@ -14,7 +14,8 @@ export interface IEmpForm {
   empPhone: string | '';
   empWorkPhone: string | '';
   empAddress: string | '';
-  empDob: string | '';
+  empExtenNum: string | '';
+  empFax: string | '';
   empEmailBook: string | '';
   empBeginDt: string | '';
   empMemo: string | '';
@@ -27,7 +28,9 @@ export interface IEmpForm {
   backColor: string | '';
   fontColor: string | '';
   previewImage: string | '';
-  empImgFile?: string | '';
+  car25seats: string | '';
+  car15seats: string | '';
+  carPersonal: string | '';
 }
 
 export class EmpForm implements IEmpForm {
@@ -44,7 +47,8 @@ export class EmpForm implements IEmpForm {
   public empPhone: string | '';
   public empWorkPhone: string | '';
   public empAddress: string | '';
-  public empDob: string | '';
+  public empExtenNum: string | '';
+  public empFax: string | '';
   public empEmailBook: string | '';
   public empBeginDt: string | '';
   public empMemo: string | '';
@@ -57,7 +61,9 @@ export class EmpForm implements IEmpForm {
   public backColor: string | '';
   public fontColor: string | '';
   public previewImage: string | '';
-  public empImgFile?: string | '';
+  public car25seats: string | '';
+  public car15seats: string | '';
+  public carPersonal: string | '';
 
   constructor(obj?: IEmpForm) {
     this.empUuid = getNumberMemberValue(obj && obj.empUuid);
@@ -73,7 +79,8 @@ export class EmpForm implements IEmpForm {
     this.empPhone = (obj && obj.empPhone) || '';
     this.empWorkPhone = (obj && obj.empWorkPhone) || '';
     this.empAddress = (obj && obj.empAddress) || '';
-    this.empDob = (obj && obj.empDob) || '';
+    this.empExtenNum = (obj && obj.empExtenNum) || '';
+    this.empFax = (obj && obj.empFax) || '';
     this.empEmailBook = (obj && obj.empEmailBook) || '';
     this.empBeginDt = (obj && obj.empBeginDt) || '';
     this.empMemo = (obj && obj.empMemo) || '';
@@ -86,6 +93,8 @@ export class EmpForm implements IEmpForm {
     this.backColor = (obj && obj.backColor) || '';
     this.fontColor = (obj && obj.fontColor) || '';
     this.previewImage = (obj && obj.previewImage) || '';
-    this.empImgFile = (obj && obj.empImgFile) || '';
+    this.car25seats = (obj && obj.car25seats) || '';
+    this.car15seats = (obj && obj.car15seats) || '';
+    this.carPersonal = (obj && obj.carPersonal) || '';
   }
 }

@@ -8,23 +8,27 @@
               <div class="row col-4">
                 <div v-if="!editEmpFormData.previewImage">
                   <q-img
-                    class="image-max-width"
-                    v-if="editEmpFormData.empImgFile != ''"
-                    :src="fileUrl + editEmpFormData.empImgFile"
+                    style="
+                      width: 190px;
+                      height: 170px;
+                      border: 1px solid #b4b4b4;
+                      border-radius: 4px;
+                    "
+                    :src="fileUrl + editEmpFormData.empImg"
                   />
                 </div>
                 <q-img
                   v-if="editEmpFormData.previewImage"
                   :src="editEmpFormData.previewImage"
-                  class="image-max-width"
+                  style="
+                    width: 190px;
+                    height: 170px;
+                    border: 1px solid #b4b4b4;
+                    border-radius: 4px;
+                  "
                   alt="Preview Image"
                 />
-                <input-comp
-                  type="file"
-                  clearable
-                  class="btn-info input-style"
-                  @change="handleFileChange"
-                />
+                <input-comp type="file" clearable @change="handleFileChange" />
               </div>
 
               <div class="row col-8 q-col-gutter-md">
@@ -61,7 +65,7 @@
                   />
                 </div>
 
-                <div class="col-6">
+                <!-- <div class="col-6">
                   <date-picker-comp
                     v-model="editEmpFormData.empDob"
                     class="full-width"
@@ -69,7 +73,7 @@
                     :label="t('dob')"
                     outlined
                   />
-                </div>
+                </div> -->
 
                 <div class="col-6">
                   <input-comp
@@ -92,7 +96,7 @@
                 </div>
               </div>
 
-              <div class="col-8">
+              <div class="col-12">
                 <input-comp
                   v-model="editEmpFormData.empAddress"
                   class="full-width"
@@ -100,25 +104,6 @@
                   :label="t('address')"
                   outlined
                 />
-              </div>
-
-              <div v-if="pwChangeYN" class="col-4">
-                <input-comp
-                  v-model="editEmpFormData.password"
-                  class="full-width"
-                  clearable
-                  :displayValue="false"
-                  :label="t('pw')"
-                  outlined
-                  required
-                  type="password"
-                />
-              </div>
-              <div class="col-3 q-pt-lg">
-                <input type="checkbox" v-model="pwChangeYN" />
-                <label for="guide-checkbox" class="q-pa-sm">
-                  {{ t(`changePW`) }}</label
-                >
               </div>
 
               <div class="col-12">
@@ -141,7 +126,6 @@
         <template #content>
           <q-card-section>
             <div class="row q-col-gutter-md">
-              <!-- <div class="col-12 noMarginPadd" /> -->
               <div class="col-4">
                 <select-comp
                   v-model="editEmpFormData.empComp"
@@ -158,6 +142,16 @@
                   class="full-width select-comp-padding"
                   :label="t('office')"
                   :options="OfficeList"
+                  outlined
+                  required
+                />
+              </div>
+              <div class="col-4">
+                <select-comp
+                  v-model="editEmpFormData.empTitle"
+                  class="full-width select-comp-padding"
+                  :label="t('empTitle')"
+                  :options="TitleList"
                   outlined
                   required
                 />
@@ -210,6 +204,24 @@
                   outlined
                 />
               </div>
+              <div class="col-6">
+                <input-comp
+                  v-model="editEmpFormData.empExtenNum"
+                  class="full-width"
+                  clearable
+                  :label="t('empExtenNum')"
+                  outlined
+                />
+              </div>
+              <div class="col-6">
+                <input-comp
+                  v-model="editEmpFormData.empFax"
+                  class="full-width"
+                  clearable
+                  :label="t('empFax')"
+                  outlined
+                />
+              </div>
               <div class="col-4">
                 <date-picker-comp
                   v-model="editEmpFormData.empBeginDt"
@@ -228,12 +240,50 @@
                   outlined
                 />
               </div>
-              <div class="col-4 q-pt-lg">
-                <input type="checkbox" v-model="guideYN" />
-                <label for="guide-checkbox" class="q-pa-sm">{{
-                  t(`guideColor`)
-                }}</label>
-              </div>
+            </div>
+          </q-card-section>
+        </template>
+      </card-comp-design>
+    </div>
+
+    <div class="col-6 q-pt-sm q-pr-sm">
+      <card-comp-design :title="t('changePW')">
+        <template #content>
+          <q-card-section>
+            <div v-if="pwChangeYN" class="col-4">
+              <input-comp
+                v-model="editEmpFormData.password"
+                class="full-width"
+                clearable
+                :displayValue="false"
+                :label="t('pw')"
+                outlined
+                required
+                type="password"
+              />
+            </div>
+            <div class="col-3 q-pt-lg">
+              <input type="checkbox" v-model="pwChangeYN" />
+              <label for="guide-checkbox" class="q-pa-sm">
+                {{ t(`changePW`) }}</label
+              >
+            </div>
+          </q-card-section>
+        </template>
+      </card-comp-design>
+    </div>
+
+    <div class="col-6 q-pt-sm q-pr-sm">
+      <card-comp-design :title="t('workInfo')">
+        <template #content>
+          <q-card-section>
+            <div class="col-4 q-pt-lg">
+              <input type="checkbox" v-model="guideYN" />
+              <label for="guide-checkbox" class="q-pa-sm">{{
+                t(`guideColor`)
+              }}</label>
+            </div>
+            <div class="row q-col-gutter-md">
               <div v-if="guideYN" class="col-4">
                 <input-color-comp
                   v-model="editEmpFormData.backColor"
@@ -318,8 +368,11 @@ export default defineComponent({
     const OfficeList = ref<SelectOption[]>([]);
     loadOptionsList(2, OfficeList, locale);
 
+    const TitleList = ref<SelectOption[]>([]);
+    loadOptionsList(18, TitleList, locale);
+
     const JobRoleList = ref<SelectOption[]>([]);
-    loadOptionsList(18, JobRoleList, locale);
+    loadOptionsList(16, JobRoleList, locale);
 
     const WorkStatusList = ref<SelectOption[]>([]);
     loadOptionsList(15, WorkStatusList, locale);
@@ -352,6 +405,7 @@ export default defineComponent({
       DivisionList,
       CompList,
       OfficeList,
+      TitleList,
       JobRoleList,
       WorkStatusList,
       fileUrl,

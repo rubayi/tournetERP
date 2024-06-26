@@ -182,13 +182,17 @@ public ResponseEntity<List<UserResponse>> selectEmpsByCondition(@RequestBody Use
                 _emp.setEmpAddress(empReq.getEmpAddress());
                 _emp.setEmpOffice(empReq.getEmpOffice());
                 _emp.setEmpComp(empReq.getEmpComp());
-                _emp.setEmpDob(empReq.getEmpDob());
+                _emp.setEmpExtenNum(empReq.getEmpExtenNum());
+                _emp.setEmpFax(empReq.getEmpFax());
                 _emp.setEmpMemo(empReq.getEmpMemo());
                 _emp.setEmpStatus(empReq.getEmpStatus());
                 _emp.setBackColor(empReq.getBackColor());
                 _emp.setFontColor(empReq.getFontColor());
                 _emp.setEmpMemo(empReq.getEmpMemo());
                 _emp.setEmpStatus(empReq.getEmpStatus());
+                _emp.setCar25seats(empReq.getCar25seats());
+                _emp.setCar15seats(empReq.getCar15seats());
+                _emp.setCarPersonal(empReq.getCarPersonal());
 
                 //_emp.setModifyUser(modifyingUser);
 

@@ -8,23 +8,28 @@
               <div class="row col-3">
                 <div v-if="!compFormData.previewImage">
                   <q-img
-                    class="image-max-width"
                     v-if="compFormData.logoFile != ''"
                     :src="fileUrl + compFormData.logoFile"
+                    style="
+                      width: 190px;
+                      height: 170px;
+                      border: 1px solid #b4b4b4;
+                      border-radius: 4px;
+                    "
                   />
                 </div>
                 <q-img
                   v-if="compFormData.previewImage"
                   :src="compFormData.previewImage"
-                  class="image-max-width"
+                  style="
+                    width: 190px;
+                    height: 170px;
+                    border: 1px solid #b4b4b4;
+                    border-radius: 4px;
+                  "
                   alt="Preview Image"
                 />
-                <input-comp
-                  type="file"
-                  clearable
-                  class="btn-info input-style"
-                  @change="handleFileChange"
-                />
+                <input-comp type="file" clearable @change="handleFileChange" />
               </div>
               <div class="row col-9 q-col-gutter-md">
                 <div class="col-6">
@@ -388,35 +393,5 @@ export default defineComponent({
 }
 .select-comp-padding {
   padding-bottom: 20px;
-}
-.custom-file-upload {
-  background-color: #4482df;
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  font-family: 'RM Neue', sans-serif;
-  line-height: 1.2;
-  padding: 10px 19px;
-  text-align: center;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  width: 190px;
-}
-.custom-file-upload:active {
-  background-color: #1c84ff;
-}
-.custom-file-upload:hover {
-  background-color: #4e9bfa;
-}
-input[type='file'] {
-  display: none;
-}
-.image-max-width {
-  width: 190px;
-  height: 190px;
-  border: 1px solid #b4b4b4;
-  border-radius: 4px;
 }
 </style>

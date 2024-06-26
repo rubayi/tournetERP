@@ -141,7 +141,8 @@ public class AuthController {
                 signUpRequest.getEmpAddress(),
                 signUpRequest.getEmpOffice(),
                 signUpRequest.getEmpComp(),
-                signUpRequest.getEmpDob(),
+                signUpRequest.getEmpExtenNum(),
+                signUpRequest.getEmpFax(),
                 signUpRequest.getEmpMemo(),
                 signUpRequest.getEmpStatus(),
                 userDetails.getEmpUuid()

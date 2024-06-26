@@ -106,7 +106,8 @@ export default defineComponent({
       empPhone: string | '';
       empWorkPhone: string | '';
       empAddress: string | '';
-      empDob: string | '';
+      empExtenNum: string | '';
+      empFax: string | '';
       empEmailBook: string | '';
       empBeginDt: string | '';
       empMemo: string | '';
@@ -119,7 +120,9 @@ export default defineComponent({
       backColor: string | '';
       fontColor: string | '';
       previewImage: string | '';
-      empImgFile: string | '';
+      car25seats: string | '';
+      car15seats: string | '';
+      carPersonal: string | '';
     }) {
       this.message = '';
       this.successful = false;

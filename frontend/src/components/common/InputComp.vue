@@ -234,4 +234,27 @@ export default defineComponent({
 .hidden {
   display: none;
 }
+.custom-file-upload {
+  background-color: #4482df;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  font-family: 'RM Neue', sans-serif;
+  padding: 5px 15px;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 190px;
+}
+.custom-file-upload:active {
+  background-color: #1c84ff;
+}
+.custom-file-upload:hover {
+  background-color: #4e9bfa;
+}
+input[type='file'] {
+  display: none;
+}
 </style>

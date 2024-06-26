@@ -68,8 +68,11 @@ public class User {
     @Column(name = "EMP_COMP", nullable = true)
     private long empComp;
 
-    @Column(name = "EMP_DOB", nullable = true)
-    private String empDob;
+    @Column(name = "EMP_EXTEN_NUM", nullable = true)
+    private String empExtenNum;
+
+    @Column(name = "EMP_FAX", nullable = true)
+    private String empFax;
 
     @Column(name = "EMP_MEMO", nullable = true)
     private String empMemo;
@@ -96,6 +99,15 @@ public class User {
     @Column(name = "MODIFIED_DT", nullable = false)
     private Date modifiedDt;
 
+    @Column(name = "CAR_25_SEATS", nullable = true)
+    private String car25seats;
+
+    @Column(name = "CAR_15_SEATS", nullable = true)
+    private String car15seats;
+
+    @Column(name = "CAR_PERSONAL", nullable = true)
+    private String carPersonal;
+
     @NotBlank
     @Size(max = 50)
     @Email
@@ -119,9 +131,9 @@ public class User {
 
     public User(String username, String empEmail, String password,
                 String empKor, String empEng, String empWorkPhone,
-                long empDiv, long empTitle, String empPhone,
-                String empEmailBook, String empAddress, long empOffice, 
-                long empComp, String empDob, String empMemo, long empStatus,
+                long empDiv, long empTitle, String empPhone, String empEmailBook, 
+                String empAddress, long empOffice, long empComp, String empExtenNum, 
+                String empFax, String empMemo, long empStatus,
                 long modifiedBy
     ) {
         this.username = username;
@@ -137,7 +149,8 @@ public class User {
         this.empAddress = empAddress;
         this.empOffice = empOffice;
         this.empComp = empComp;
-        this.empDob = empDob;
+        this.empExtenNum = empExtenNum;
+        this.empFax = empFax;
         this.empMemo = empMemo;
         this.empStatus = empStatus;
         this.modifiedBy = modifiedBy;

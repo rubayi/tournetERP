@@ -85,4 +85,14 @@ public class UserRequest {
     private Long searchEmpStatus;
 
     private String searchUsername;
+
+    private String empExtenNum;
+
+    private String empFax;
+
+    private String car25seats;
+
+    private String car15seats;
+
+    private String carPersonal;
 }
