@@ -29,6 +29,7 @@
           :content-data="carFormData"
           :car-type-list="carTypeList"
           :car-brand-list="carBrandList"
+          :car-manager-list="carManagerList"
           ref="compFormDrawerContent"
         />
         <car-img-list
@@ -99,6 +100,10 @@ export default defineComponent({
       type: Array as () => SelectOption[],
       default: () => [],
     },
+    carManagerList: {
+      type: Array as () => SelectOption[],
+      default: () => [],
+    },
   },
   emits: [
     'update:modelValue',
@@ -147,7 +152,6 @@ export default defineComponent({
     // Reset Drawer
     function resetDrawer() {
       carFormData.value = new CarForm();
-      attfile.value = null;
 
       if (props.carSeq != 0) {
         confirmbuttoncolor.value = 'warning';
@@ -198,8 +202,7 @@ export default defineComponent({
       loading.value = true;
       if (carFormData.value) {
 
-        const fileToUpload = attfile.value || null;
-        CarService.updateCarForm(fileToUpload, carFormData.value)
+        CarService.updateCarForm(carFormData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
               i18n.global.t('saved')

@@ -48,7 +48,7 @@ public class TournetCar {
     private long carManager; //담당자
 
     @Column(name = "CAR_END_DT", nullable = true)
-    private Date carEndDt; //종료일
+    private String carEndDt; //종료일
 
     @Column(name = "MEMO", nullable = true)
     private String memo; //메모

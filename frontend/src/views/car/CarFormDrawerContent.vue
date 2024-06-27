@@ -1,20 +1,11 @@
 <template>
   <div class="row">
     <div class="col-8 q-pr-sm">
-      <card-comp-design :title="t('contentiformation')">
+      <card-comp-design :title="t('basicIformation')">
         <template #content>
           <q-card-section>
             <div v-if="carFormData != null" class="row q-col-gutter-md">
-              <div class="col-3">
-                <select-comp
-                  v-model="carFormData.carType"
-                  class="full-width select-comp-padding"
-                  :label="t('carType')"
-                  :options="carTypeList"
-                  outlined
-                />
-              </div>
-              <div class="col-2">
+              <div class="col-4">
                 <select-comp
                   v-model="carFormData.carBrand"
                   :label="t('carBrand')"
@@ -23,7 +14,25 @@
                   outlined
                 />
               </div>
-              <div class="col-5">
+              <div class="col-4">
+                <select-comp
+                  v-model="carFormData.carType"
+                  class="full-width select-comp-padding"
+                  :label="t('carType')"
+                  :options="carTypeList"
+                  outlined
+                />
+              </div>
+              <div class="col-4">
+                <select-comp
+                  v-model="carFormData.people"
+                  :label="t('people')"
+                  class="full-width select-comp-padding"
+                  :options="peopleList"
+                  outlined
+                />
+              </div>
+              <div class="col-4">
                 <input-comp
                   v-model="carFormData.licensePlate"
                   class="full-width"
@@ -32,7 +41,7 @@
                   outlined
                 />
               </div>
-              <div class="col-5">
+              <div class="col-4">
                 <input-comp
                   v-model="carFormData.carVin"
                   class="full-width"
@@ -41,7 +50,7 @@
                   outlined
                 />
               </div>
-              <div class="col-2">
+              <div class="col-4">
                 <select-comp
                   v-model="carFormData.carYear"
                   :label="t('carYear')"
@@ -50,10 +59,9 @@
                   outlined
                 />
               </div>
-              <div class="col-5">
+              <div class="col-4">
               <!--if hotel-->
                 <select-comp
-                  v-if="carFormData.carType == 209"
                   v-model="carFormData.carManager"
                   :label="t('carManager')"
                   class="full-width select-comp-padding"
@@ -126,10 +134,6 @@ export default defineComponent({
       type: Array as () => SelectOption[],
       default: () => [],
     },
-    carYearList: {
-      type: Array as () => SelectOption[],
-      default: () => [],
-    },
     carManagerList: {
       type: Array as () => SelectOption[],
       default: () => [],
@@ -140,6 +144,33 @@ export default defineComponent({
     const readonlybtn = ref<boolean>(true);
 
     const showflag = ref<number | 0>(0);
+
+    //* set year list
+    const thisYear = new Date().getFullYear();
+    const initYear = thisYear - 25;
+    const endYear = thisYear + 3;
+
+    const carYearList = ref<SelectOption[]>([]);
+
+    loadCarYearOptions();
+    function loadCarYearOptions() {
+      for (let i = initYear; i <= endYear; i++) {
+        let tnum = i.toString();
+        carYearList.value.push({ label: tnum, value: i });
+      }
+    }
+
+    //* set year list
+
+    const peopleList = ref<SelectOption[]>([]);
+
+    loadPeopleOptions();
+    function loadPeopleOptions() {
+      for (let i = 30; i>= 1; i--) {
+        let tnum = i.toString();
+        peopleList.value.push({ label: tnum, value: i });
+      }
+    }
 
     useSyncModelValue(
       props,
@@ -155,6 +186,8 @@ export default defineComponent({
       carFormData,
       readonlybtn,
       showflag,
+      carYearList,
+      peopleList
     };
   },
 });

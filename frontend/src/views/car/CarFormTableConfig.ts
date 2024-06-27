@@ -8,10 +8,10 @@ export class CarFormTableConfig {
   static reportHeaderMap = {
     trnCarUuid: 'NO',
     carTypeKor: '',
-    compKor: '',
-    compEng: '',
-    estDate: '',
-    compRate: '',
+    carBrand: '',
+    licensePlate: '',
+    carYear: '',
+    carManager: '',
   };
 
   static overlay =
@@ -78,34 +78,10 @@ export class CarFormTableConfig {
         resizable: true,
         cellStyle: { 'text-align': 'center' },
       },
+
       {
-        headerName: i18n.global.t('compRate'),
-        field: 'compRateName',
-        filter: true,
-        minWidth: 120,
-        maxWidth: 150,
-        sortable: true,
-        resizable: true,
-        cellStyle: { 'text-align': 'center' },
-      },
-      {
-        headerName: i18n.global.t('beginDt'),
-        field: 'beginDt',
-        filter: true,
-        minWidth: 100,
-        maxWidth: 130,
-        sortable: true,
-        resizable: true,
-        valueFormatter: (params: ValueFormatterParams): string => {
-          return params.value
-            ? DateHelper.formatISOStringToShortDateString(params.value)
-            : '';
-        },
-        cellStyle: { 'text-align': 'center' },
-      },
-      {
-        headerName: i18n.global.t('endDt'),
-        field: 'endDt',
+        headerName: i18n.global.t('carEndDt'),
+        field: 'carEndDt',
         filter: true,
         minWidth: 100,
         maxWidth: 130,

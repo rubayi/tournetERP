@@ -53,6 +53,7 @@
         v-model="openDrawer"
         :car-type-list="carTypeList"
         :car-brand-list="carBrandList"
+        :car-manager-list="carManagerList"
         :car-seq="trnCarUuid"
         @carForm-deleted="loadData"
         @carForm-drawer-closed="trnCarUuid = 0"
@@ -82,7 +83,6 @@ import TableComp from 'src/components/table/TableComp.vue';
 import { TableHelper } from 'src/components/table/TableHelper';
 // Service
 import { CarService } from 'src/services/CarService';
-import { CdcdService } from 'src/services/CdcdService';
 import { ReportService } from 'src/services/CompReportService';
 //Type
 import { CarForm } from 'src/types/CarForm';
@@ -97,6 +97,8 @@ import ReportHelper from 'src/utils/helpers/ReportHelper';
 import CarFormDrawer from 'src/views/car/CarFormDrawer.vue';
 import CarSearchDrawer from 'src/views/car/CarSearchDrawer.vue';
 import { loadOptionsList } from 'src/utils/commoncode/commonCode';
+import {EmpSearchForm} from "src/types/EmpSearchForm";
+import {EmpService} from "src/services/EmpService";
 
 export default defineComponent({
   name: 'CarForm',
@@ -252,8 +254,31 @@ export default defineComponent({
     const carBrandList = ref<SelectOption[]>([]);
 
     // Loading options lists
-    loadOptionsList(22, carTypeList, locale);
-    loadOptionsList(426, carBrandList, locale);
+    loadOptionsList(544, carTypeList, locale);
+    loadOptionsList(545, carBrandList, locale);
+
+    /*Prepaid How List*/
+    const carManagerList = ref<SelectOption[]>([]);
+    loadCarManagerListOptions();
+    function loadCarManagerListOptions() {
+      let searchReq: EmpSearchForm = {
+        searchEmpUuid: 0,
+        searchEmpKor: '',
+        searchEmpEng: '',
+        searchEmpDiv: 157,
+        searchEmpStatus: 0,
+        searchUsername: '',
+      };
+      EmpService.selectEmpsByCondition(searchReq).then((response) => {
+        carManagerList.value = response.map(
+          (x) =>
+            new SelectOption(
+              locale === 'en' ? x.empEng : x.empKor,
+              x.empUuid
+            )
+        );
+      });
+    }
 
     return {
       t: i18n.global.t,
@@ -280,6 +305,7 @@ export default defineComponent({
       showexportbutton,
       carBrandList,
       carTypeList,
+      carManagerList
     };
   },
   data() {

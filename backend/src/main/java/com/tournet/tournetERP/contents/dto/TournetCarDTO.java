@@ -23,7 +23,7 @@ public class TournetCarDTO {
     private String carYear;
     private long carManager;
 
-    private Date carEndDt;
+    private String carEndDt;
     private String memo;
     private Date createdDt;
     private long createdBy;
