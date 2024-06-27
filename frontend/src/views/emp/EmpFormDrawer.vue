@@ -25,11 +25,15 @@
     >
       <div>
         <q-tabs v-model="tab" align="left">
-          <q-tab name="content" label="Content" class="q-ml-md" />
-          <q-tab name="menuAuth" label="Menu Auth" v-if="empformData.empUuid" />
+          <q-tab name="content" :label="t('userInfoTab')" class="q-ml-md" />
+          <q-tab
+            name="menuAuth"
+            :label="t('menuAuthTab')"
+            v-if="empformData.empUuid"
+          />
           <q-tab
             name="emergencyTn"
-            label="Emergency TN"
+            :label="t('emergenTab')"
             v-if="empformData.empUuid"
           />
         </q-tabs>
@@ -248,7 +252,6 @@ export default defineComponent({
       const idsToAdd = checkedAuthUuids.value.filter(
         (id) => !prevCheckedIds.value.includes(id)
       );
-
       if (empformData.value) {
         if (idsToDelete) {
           EmpAuthService.deleteEmpAuth({

@@ -134,7 +134,9 @@ public class User {
                 long empDiv, long empTitle, String empPhone, String empEmailBook, 
                 String empAddress, long empOffice, long empComp, String empExtenNum, 
                 String empFax, String empMemo, long empStatus,
-                long modifiedBy
+                long modifiedBy, String empImg, long empRole, String backColor,
+                String fontColor, String empBeginDt, String empEndDt,
+                String car25seats, String car15seats, String carPersonal
     ) {
         this.username = username;
         this.empEmail = empEmail;
@@ -154,6 +156,15 @@ public class User {
         this.empMemo = empMemo;
         this.empStatus = empStatus;
         this.modifiedBy = modifiedBy;
+        this.empImg = empImg;
+        this.empRole = empRole;
+        this.backColor = backColor;
+        this.fontColor = fontColor;
+        this.empBeginDt = empBeginDt;
+        this.empEndDt = empEndDt;
+        this.car25seats = car25seats;
+        this.car15seats = car15seats;
+        this.carPersonal = carPersonal;
     }
 
     // getters and setters

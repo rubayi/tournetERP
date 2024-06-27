@@ -28,9 +28,9 @@ export interface IEmpForm {
   backColor: string | '';
   fontColor: string | '';
   previewImage: string | '';
-  car25seats: string | '';
-  car15seats: string | '';
-  carPersonal: string | '';
+  car25seats: string | 'false';
+  car15seats: string | 'false';
+  carPersonal: string | 'false';
 }
 
 export class EmpForm implements IEmpForm {
@@ -61,9 +61,9 @@ export class EmpForm implements IEmpForm {
   public backColor: string | '';
   public fontColor: string | '';
   public previewImage: string | '';
-  public car25seats: string | '';
-  public car15seats: string | '';
-  public carPersonal: string | '';
+  public car25seats: string | 'false';
+  public car15seats: string | 'false';
+  public carPersonal: string | 'false';
 
   constructor(obj?: IEmpForm) {
     this.empUuid = getNumberMemberValue(obj && obj.empUuid);
@@ -93,8 +93,8 @@ export class EmpForm implements IEmpForm {
     this.backColor = (obj && obj.backColor) || '';
     this.fontColor = (obj && obj.fontColor) || '';
     this.previewImage = (obj && obj.previewImage) || '';
-    this.car25seats = (obj && obj.car25seats) || '';
-    this.car15seats = (obj && obj.car15seats) || '';
-    this.carPersonal = (obj && obj.carPersonal) || '';
+    this.car25seats = (obj && obj.car25seats) || 'false';
+    this.car15seats = (obj && obj.car15seats) || 'false';
+    this.carPersonal = (obj && obj.carPersonal) || 'false';
   }
 }

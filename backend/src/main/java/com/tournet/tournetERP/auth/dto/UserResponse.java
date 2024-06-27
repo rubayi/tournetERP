@@ -2,16 +2,7 @@ package com.tournet.tournetERP.auth.dto;
 
 import com.tournet.tournetERP.auth.entity.EmpMenuAuth;
 import com.tournet.tournetERP.auth.entity.Role;
-import com.tournet.tournetERP.auth.entity.User;
-import com.tournet.tournetERP.common.entity.ComCode;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -109,5 +100,15 @@ public class UserResponse {
     private String empStatusName = "";
     
     private String empStatusNameEn = "";
+
+    private String car15seats = "";
+
+    private String car25seats = "";
+
+    private String carPersonal = "";
+
+    private String empFax = "";
+
+    private String empExtenNum = "";
 
 }

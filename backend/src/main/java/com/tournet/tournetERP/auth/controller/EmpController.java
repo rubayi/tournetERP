@@ -171,8 +171,12 @@ public ResponseEntity<List<UserResponse>> selectEmpsByCondition(@RequestBody Use
                 _emp.setEmpKor(empReq.getEmpKor());
                 _emp.setEmpEng(empReq.getEmpEng());
                 _emp.setEmpDiv(empReq.getEmpDiv());
+                _emp.setUsername(empReq.getUsername());
+                _emp.setEmpImg(empReq.getEmpImg());
                 _emp.setEmpTitle(empReq.getEmpTitle());
                 _emp.setEmpWorkPhone(empReq.getEmpWorkPhone());
+                _emp.setEmpExtenNum(empReq.getEmpExtenNum());
+                _emp.setEmpFax(empReq.getEmpFax());
                 _emp.setEmpDiv(empReq.getEmpDiv());
                 _emp.setEmpTitle(empReq.getEmpTitle());
                 _emp.setEmpRole(empReq.getEmpRole());
@@ -188,6 +192,8 @@ public ResponseEntity<List<UserResponse>> selectEmpsByCondition(@RequestBody Use
                 _emp.setEmpStatus(empReq.getEmpStatus());
                 _emp.setBackColor(empReq.getBackColor());
                 _emp.setFontColor(empReq.getFontColor());
+                _emp.setEmpBeginDt(empReq.getEmpBeginDt());
+                _emp.setEmpEndDt(empReq.getEmpEndDt());
                 _emp.setEmpMemo(empReq.getEmpMemo());
                 _emp.setEmpStatus(empReq.getEmpStatus());
                 _emp.setCar25seats(empReq.getCar25seats());
@@ -195,6 +201,46 @@ public ResponseEntity<List<UserResponse>> selectEmpsByCondition(@RequestBody Use
                 _emp.setCarPersonal(empReq.getCarPersonal());
 
                 //_emp.setModifyUser(modifyingUser);
+
+                if (empReq.getPassword() != null && !empReq.getPassword().equals("")) {
+                    _emp.setPassword(encoder.encode(empReq.getPassword()));
+                }
+
+                resEmp = empRepository.save(_emp);
+            } else {
+                System.out.println("수정할 데이터가 없습니다.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                User _emp = new User();
+                _emp.setEmpKor(empReq.getEmpKor());
+                _emp.setEmpEng(empReq.getEmpEng());
+                _emp.setUsername(empReq.getUsername());
+                _emp.setEmpImg(empReq.getEmpImg());
+                _emp.setEmpDiv(empReq.getEmpDiv());
+                _emp.setEmpTitle(empReq.getEmpTitle());
+                _emp.setEmpWorkPhone(empReq.getEmpWorkPhone());
+                _emp.setEmpExtenNum(empReq.getEmpExtenNum());
+                _emp.setEmpFax(empReq.getEmpFax());
+                _emp.setEmpDiv(empReq.getEmpDiv());
+                _emp.setEmpTitle(empReq.getEmpTitle());
+                _emp.setEmpRole(empReq.getEmpRole());
+                _emp.setEmpPhone(empReq.getEmpPhone());
+                _emp.setEmpEmail(empReq.getEmpEmail());
+                _emp.setEmpEmailBook(empReq.getEmpEmailBook());
+                _emp.setEmpAddress(empReq.getEmpAddress());
+                _emp.setEmpOffice(empReq.getEmpOffice());
+                _emp.setEmpComp(empReq.getEmpComp());
+                _emp.setEmpExtenNum(empReq.getEmpExtenNum());
+                _emp.setEmpFax(empReq.getEmpFax());
+                _emp.setEmpMemo(empReq.getEmpMemo());
+                _emp.setEmpStatus(empReq.getEmpStatus());
+                _emp.setBackColor(empReq.getBackColor());
+                _emp.setFontColor(empReq.getFontColor());
+                _emp.setEmpBeginDt(empReq.getEmpBeginDt());
+                _emp.setEmpEndDt(empReq.getEmpEndDt());
+                _emp.setEmpMemo(empReq.getEmpMemo());
+                _emp.setEmpStatus(empReq.getEmpStatus());
+                _emp.setCar25seats(empReq.getCar25seats());
+                _emp.setCar15seats(empReq.getCar15seats());
+                _emp.setCarPersonal(empReq.getCarPersonal());
 
                 if (empReq.getPassword() != null && !empReq.getPassword().equals("")) {
                     _emp.setPassword(encoder.encode(empReq.getPassword()));

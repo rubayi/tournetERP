@@ -115,5 +115,18 @@
     "checkoutTime": "체크아웃시간",
     "resortFee": "리조트요금",
     "childAgeBreakfast": "아동 조식 연령",
-    "hotelLvl": "호텔등급"
+    "hotelLvl": "호텔등급",
+    "guideInfo": "가이드 정보",
+    "car25seats": "25인승",
+    "car15seats": "15인승",
+    "carPersonal": "자차",
+    "repeatPW": "비밀번호 확인",
+    "empTitle": "직급",
+    "empFax": "팩스",
+    "empExtenNum": "내선번호",
+    "empPw": "비밀번호",
+    "guideSetup": "가이드 설정",
+    "userInfoTab": "직원정보",
+    "menuAuthTab": "메뉴권한",
+    "emergenTab": "비상연락처"
 }

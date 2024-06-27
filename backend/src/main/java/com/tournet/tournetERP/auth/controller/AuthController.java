@@ -145,7 +145,16 @@ public class AuthController {
                 signUpRequest.getEmpFax(),
                 signUpRequest.getEmpMemo(),
                 signUpRequest.getEmpStatus(),
-                userDetails.getEmpUuid()
+                userDetails.getEmpUuid(),
+                signUpRequest.getEmpImg(),
+                signUpRequest.getEmpRole(),
+                signUpRequest.getBackColor(),
+                signUpRequest.getFontColor(),
+                signUpRequest.getEmpBeginDt(),
+                signUpRequest.getEmpEndDt(),
+                signUpRequest.getCar25seats(),
+                signUpRequest.getCar15seats(),
+                signUpRequest.getCarPersonal()
                 );
 
         Set<String> strRoles = signUpRequest.getRole();

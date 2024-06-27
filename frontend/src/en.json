@@ -115,5 +115,18 @@
     "checkoutTime": "Check Out Time",
     "resortFee": "Resort Fee",
     "childAgeBreakfast": "Child Age for Breakfast",
-    "hotelLvl": "Hotel Level"
+    "hotelLvl": "Hotel Level",
+    "guideInfo": "Guide Information",
+    "car25seats": "25 Seats Car",
+    "car15seats": "15 Seats Car",
+    "carPersonal": "Personal Car",
+    "repeatPW": "Confirm Password",
+    "empTitle": "Employee Title",
+    "empFax": "Fax",
+    "empExtenNum": "Extension",
+    "empPw": "Password",
+    "guideSetup": "Guide Setups",
+    "userInfoTab": "User Information",
+    "menuAuthTab": "Menu Authority",
+    "emergenTab": "Emergency Contact"
 }
