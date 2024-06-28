@@ -2,25 +2,25 @@ import { ColDef } from 'ag-grid-community';
 import OpenButtonCellRenderer from 'src/components/table/OpenButtonCellRenderer.vue';
 import i18n from 'src/i18n';
 
-export class EmpFormTableConfig {
+export class CompEmpFormTableConfig {
   static overlay =
     '<span class="ag-overlay-loading-center">Please wait while your Data are loading</span>';
 
   static getColumns(locale: string): ColDef[] {
     return [
-      {
-        field: 'empUuid',
-        headerName: '',
-        cellClass: 'no-border',
-        floatingFilter: false,
-        cellRenderer: OpenButtonCellRenderer,
-        minWidth: 70,
-        maxWidth: 80,
-        sortable: false,
-        suppressMovable: true,
-        suppressNavigable: true,
-        cellStyle: { 'text-align': 'center' },
-      },
+      // {
+      //   field: 'empUuid',
+      //   headerName: '',
+      //   cellClass: 'no-border',
+      //   floatingFilter: false,
+      //   cellRenderer: OpenButtonCellRenderer,
+      //   minWidth: 70,
+      //   maxWidth: 80,
+      //   sortable: false,
+      //   suppressMovable: true,
+      //   suppressNavigable: true,
+      //   cellStyle: { 'text-align': 'center' },
+      // },
       {
         field: 'empUuid',
         headerName: i18n.global.t('num'),
@@ -29,14 +29,6 @@ export class EmpFormTableConfig {
         sortable: true,
         filter: true,
         cellStyle: { 'text-align': 'center' },
-      },
-      {
-        field: 'username',
-        headerName: i18n.global.t('username'),
-        minWidth: 100,
-        width: 130,
-        sortable: true,
-        filter: true,
       },
       {
         field: 'empKor',
@@ -51,15 +43,6 @@ export class EmpFormTableConfig {
         sortable: true,
         filter: true,
         flex: 1,
-      },
-      {
-        field: locale === 'en' ? 'empCompEn' : 'empComp',
-        headerName: i18n.global.t('empcompname'),
-        minWidth: 110,
-        maxWidth: 140,
-        sortable: true,
-        filter: true,
-        cellStyle: { 'text-align': 'center' },
       },
       {
         field: locale === 'en' ? 'empCountryNameEn' : 'empCountryName',
@@ -97,42 +80,6 @@ export class EmpFormTableConfig {
         filter: true,
         cellStyle: { 'text-align': 'center' },
       },
-      {
-        field: 'empExtenNum',
-        headerName: i18n.global.t('empExtenNum'),
-        minWidth: 110,
-        maxWidth: 140,
-        sortable: true,
-        filter: true,
-        cellStyle: { 'text-align': 'center' },
-      },
-      // {
-      //   field: 'empEmailBook',
-      //   headerName: i18n.global.t('email'),
-      //   minWidth: 220,
-      //   maxWidth: 250,
-      //   sortable: true,
-      //   filter: true,
-      //   cellStyle: { 'text-align': 'center' },
-      // },
-      // {
-      //   field: 'empPhone',
-      //   headerName: i18n.global.t('phone'),
-      //   minWidth: 110,
-      //   maxWidth: 140,
-      //   sortable: true,
-      //   filter: true,
-      //   cellStyle: { 'text-align': 'center' },
-      // },
-      {
-        field: locale === 'en' ? 'empStatusNameEn' : 'empStatusName',
-        headerName: i18n.global.t('empstatus'),
-        minWidth: 70,
-        maxWidth: 120,
-        sortable: true,
-        filter: true,
-        cellStyle: { 'text-align': 'center' },
-      },
     ];
   }
 
@@ -142,7 +89,7 @@ export class EmpFormTableConfig {
 
   static defaultSortModel = [
     {
-      colId: 'empUuid',
+      colId: 'modifiedDt',
       sort: 'desc',
       sortIndex: 0,
     },

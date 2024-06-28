@@ -32,23 +32,12 @@ export class CompFormTableConfig {
         cellStyle: { 'text-align': 'center' },
       },
       {
-        headerName: i18n.global.t('compgroup'),
-        field: locale === 'en' ? 'compGroupNameEn' : 'compGroupName',
-        filter: true,
-        minWidth: 100,
-        maxWidth: 130,
+        field: 'compUuid',
+        headerName: i18n.global.t('num'),
+        minWidth: 70,
+        maxWidth: 80,
         sortable: true,
-        resizable: true,
-        cellStyle: { 'text-align': 'center' },
-      },
-      {
-        headerName: i18n.global.t('compsector'),
-        field: locale === 'en' ? 'compSectorNameEn' : 'compSectorName',
         filter: true,
-        minWidth: 150,
-        maxWidth: 150,
-        sortable: true,
-        resizable: true,
         cellStyle: { 'text-align': 'center' },
       },
       {
@@ -68,16 +57,36 @@ export class CompFormTableConfig {
         resizable: true,
       },
       {
-        headerName: i18n.global.t('estdt'),
-        field: 'estDate',
+        headerName: i18n.global.t('compsector'),
+        field: locale === 'en' ? 'compSectorNameEn' : 'compSectorName',
+        filter: true,
+        minWidth: 180,
+        maxWidth: 180,
+        sortable: true,
+        resizable: true,
+        cellStyle: { 'text-align': 'center' },
+      },
+      // {
+      //   headerName: i18n.global.t('estdt'),
+      //   field: 'estDate',
+      //   filter: true,
+      //   minWidth: 100,
+      //   maxWidth: 130,
+      //   sortable: true,
+      //   resizable: true,
+      //   valueFormatter: (params: ValueFormatterParams): string => {
+      //     return DateHelper.formatISOStringToShortDateString(params.value);
+      //   },
+      //   cellStyle: { 'text-align': 'center' },
+      // },
+      {
+        headerName: i18n.global.t('compgroup'),
+        field: locale === 'en' ? 'compGroupNameEn' : 'compGroupName',
         filter: true,
         minWidth: 100,
         maxWidth: 130,
         sortable: true,
         resizable: true,
-        valueFormatter: (params: ValueFormatterParams): string => {
-          return DateHelper.formatISOStringToShortDateString(params.value);
-        },
         cellStyle: { 'text-align': 'center' },
       },
       {
@@ -118,6 +127,17 @@ export class CompFormTableConfig {
             ? DateHelper.formatISOStringToShortDateString(params.value)
             : '';
         },
+        cellStyle: { 'text-align': 'center' },
+      },
+      {
+        headerName: i18n.global.t('modifiedBy'),
+        field: 'modifiedByName',
+        floatingFilter: false,
+        minWidth: 170,
+        maxWidth: 200,
+        flex: 1,
+        sortable: true,
+        resizable: true,
         cellStyle: { 'text-align': 'center' },
       },
       {

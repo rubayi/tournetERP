@@ -50,5 +50,7 @@ public interface EmpRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmpUuid(long id);
 
     User findFirstByEmpUuid(long empUuid);
+
+    List<User> findByEmpCompOrderByModifiedDtDesc(Long empComp);
     
 }

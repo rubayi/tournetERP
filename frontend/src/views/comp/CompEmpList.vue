@@ -1,47 +1,39 @@
 <template>
-  <div id="company-contact-list">
+  <div id="company-emp-list">
     <q-page class="q-pt-md">
       <div class="row justify-end q-pb-sm">
         <div class="col q-pr-md q-mt-sm">
-          <span class="emer-title">
-            <q-icon name="phone" class="q-mr-sm"></q-icon
-            >{{ t('compContacts') }}</span
+          <span class="emp-title">
+            <q-icon name="people" class="q-mr-sm"></q-icon
+            >{{ t('compEmp') }}</span
           >
         </div>
-        <q-btn
+        <!-- <q-btn
           class="q-mr-xs"
           v-if="showinsertbutton"
           icon="add"
           :label="t('addnew')"
           style="color: darkgreen"
           @click="createAction"
-        />
+        /> -->
       </div>
-      <div id="company-contact-list-grid-container" class="row grow-1">
+      <div id="company-emp-list-grid-container" class="row grow-1">
         <table-comp
-          id="company-contact-list-grid"
+          id="company-emp-list-grid"
           :column-defs="columns"
           :context="context"
           :framework-components="frameworkComponents"
           :loading="loading"
-          :overlay-loading-template="overlayLoadingTemplate"
           :pagination="true"
+          :overlay-loading-template="overlayLoadingTemplate"
           :gridHeight="'600'"
           :row-data="data"
           :open-action="openAction"
           row-selection="single"
           @grid-ready="loadData"
-          ref="CompContactFormGrid"
+          ref="CompEmpFormGrid"
         />
       </div>
-      <comp-contact-drawer
-        :contact-drawer="openContactDrawer"
-        :comp-seq="contactUuid"
-        :comp-uuid="compUuid"
-        @contactform-deleted="loadData"
-        @contactform-contactDrawer-closed="contactUuid = 0"
-        @contactform-saved="loadData"
-      />
     </q-page>
   </div>
 </template>
@@ -53,22 +45,19 @@ import i18n from 'src/i18n';
 import { GridOptions } from 'ag-grid-community';
 import { TableHelper } from 'src/components/table/TableHelper';
 import TableComp from 'src/components/table/TableComp.vue';
-import { CompContactFormTableConfig } from 'src/views/comp/CompContactFormTableConfig';
+import { CompEmpFormTableConfig } from 'src/views/comp/CompEmpFormTableConfig';
 // Service
-import { ContactService } from 'src/services/ContactService';
+import { EmpService } from 'src/services/EmpService';
 // Type
-import { ContactForm } from 'src/types/ContactForm';
-import { ContactSearchForm } from 'src/types/ContactSearchForm';
+import { EmpForm } from 'src/types/EmpForm';
 // Store
 import store from 'src/store';
 // Drawer
-import CompContactDrawer from 'src/views/comp/CompContactDrawer.vue';
 
 export default defineComponent({
-  name: 'CompContactList',
+  name: 'CompEmpList',
   components: {
     TableComp,
-    CompContactDrawer,
   },
   props: {
     compUuid: {
@@ -78,43 +67,42 @@ export default defineComponent({
   },
   setup(props) {
     const locale = i18n.global.locale.value;
-    const openContactDrawer = ref<boolean>(false);
+    const openEmpDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
-    const columns = CompContactFormTableConfig.getColumns(locale);
+    const columns = CompEmpFormTableConfig.getColumns(locale);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const frameworkComponents: { [key: string]: any } =
-      CompContactFormTableConfig.frameworkComponents;
+      CompEmpFormTableConfig.frameworkComponents;
     const overlayLoadingTemplate = TableHelper.loadingOverlay;
-    const data = ref<ContactForm[]>([]);
-    const searchdata = ref<ContactSearchForm>(new ContactSearchForm());
-    const contactFormGrid = ref();
-    const contactUuid = ref<number>(0);
+    const data = ref<EmpForm[]>([]);
+    const empFormGrid = ref();
+    const empUuid = ref<number>(0);
     const gridOptions = ref<GridOptions>({});
     const showinsertbutton = ref<boolean>(false);
+
+    const openAction = (value: number) => {
+      empUuid.value = value;
+      openEmpDrawer.value = true;
+    };
+    const createAction = () => {
+      empUuid.value = 0;
+      openEmpDrawer.value = true;
+    };
 
     const loadData = () => {
       loading.value = true;
       showinsertbutton.value =
         store.getters.currentUserHasApplicationPermission('COMP_WU');
       if (store.getters.currentUserHasApplicationPermission('COMP_R')) {
-        searchdata.value.compUuid = props.compUuid;
-        ContactService.getContactList(searchdata.value).then((response) => {
+        EmpService.getEmpByComp(props.compUuid).then((response) => {
           loading.value = false;
           if (response) {
             data.value = response;
-            //console.log('data', data.value);
+            console.log('data', data.value);
           }
         });
       }
     };
-    function createAction() {
-      contactUuid.value = 0;
-      openContactDrawer.value = true;
-    }
-    function openAction(value: number) {
-      contactUuid.value = value;
-      openContactDrawer.value = true;
-    }
 
     return {
       t: i18n.global.t,
@@ -123,13 +111,12 @@ export default defineComponent({
       loadData,
       loading,
       columns,
-      contactUuid,
-      openContactDrawer,
-      createAction,
+      empUuid,
+      openEmpDrawer,
       openAction,
-      contactFormGrid,
+      createAction,
+      empFormGrid,
       overlayLoadingTemplate,
-      searchdata,
       showinsertbutton,
       frameworkComponents,
     };
@@ -144,19 +131,19 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
-#company-contact-list {
+#company-emp-list {
   width: 100%;
   height: 720px;
   overflow: hidden;
-  #company-contact-list-grid-container {
+  #company-emp-list-grid-container {
     height: 600px;
 
-    #company-contact-list-grid {
+    #company-emp-list-grid {
       height: 600px;
     }
   }
 }
-.emer-title {
+.emp-title {
   font-weight: bold;
   font-size: 18px;
   color: darkgreen;

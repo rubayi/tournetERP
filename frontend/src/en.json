@@ -81,6 +81,8 @@
     "clearAll": "Clear All",
     "authGroup": "Authority",
     "empcompname": "Company",
+    "empcountryname": "Region",
+    "rolename": "Role",
     "manageCreditcard": "Manage Credit Card",
     "mngNameKor": "Manage Name",
     "mngNameEng": "Manage Name(En)",
@@ -128,5 +130,7 @@
     "guideSetup": "Guide Setups",
     "userInfoTab": "User Information",
     "menuAuthTab": "Menu Authority",
-    "emergenTab": "Emergency Contact"
+    "emergenTab": "Emergency Contact",
+    "compEmp": "Company Employees",
+    "compForm": "Company Info"
 }

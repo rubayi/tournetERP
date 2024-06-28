@@ -57,6 +57,28 @@ public class EmpController {
         }
         return null;
     }
+
+    /**
+     *  직원 회사별 조회
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/searchEmpByComp/{id}")
+    public ResponseEntity<List<UserResponse>> searchEmpByComp(@PathVariable int id) {
+
+        Authentication storUser = SecurityContextHolder.getContext().getAuthentication();
+
+        List<UserResponse> selectedUsers = new ArrayList<UserResponse>();
+
+        if (storUser.isAuthenticated()) {
+            selectedUsers = userService.findEmpsListByComp(id);
+
+            return new ResponseEntity<>(selectedUsers, HttpStatus.OK);
+
+        }
+        return null;
+    }
     
     /**
      *  직원 조회

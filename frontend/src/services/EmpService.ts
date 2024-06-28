@@ -15,6 +15,14 @@ export class EmpService {
       .then((response) => response.data);
   }
 
+  static getEmpByComp(compUuid: number): Promise<EmpForm[]> {
+    return api
+      .post<EmpForm[]>(API_URL + `searchEmpByComp/${compUuid}`, {
+        headers: authHeader(),
+      })
+      .then((response) => response.data);
+  }
+
   static searchEmpByCondition(
     empSearchForm: EmpSearchForm
   ): Promise<Map<string, unknown>> {

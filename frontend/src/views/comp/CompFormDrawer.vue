@@ -18,37 +18,66 @@
       :show-print-button="showprintbutton"
       side="right"
       :title="title"
-      :width="70"
+      :width="50"
       @cancel-clicked="closeDrawer"
       @confirm-clicked="saveUpdatedCompData"
       @confirm-printeded="printedonecompData"
       @delete-clicked="openDeleteConfirm = true"
       ref="drawerComp"
     >
-      <div class="q-pa-lg">
-        <comp-form-drawer-primary
-          :primary-data="compFormData"
-          :comp-sector-list="compSectorList"
-          :comp-rate-list="compRateList"
-          :hotel-rate-list="hotelRateList"
-          :comp-optionRate-List="compOptionRateList"
-          :coupon-yn-list="couponYnList"
-          :comp-group-list="compGroupList"
-          :pkg-rate-list="pkgRateList"
-          :pkg-only-rate-list="pkgOnlyRateList"
-          :rentcar-rate-list="rentcarRateList"
-          :restaurant-rate-list="restaurantRateList"
-          :honeymoon-only-rate-list="honeymoonOnlyRateList"
-          :honeymoon-rate-list="honeymoonRateList"
-          :prepaid-how-list="prepaidHowList"
-          :upload-file="uploadFile"
-          ref="compFormDrawerPrimary"
-        />
-        <comp-contact-list
-          v-if="compFormData.compUuid"
-          :comp-uuid="compFormData.compUuid"
-          ref="compContactList"
-        />
+      <div>
+        <q-tabs v-model="tab" align="left">
+          <q-tab name="compForm" :label="t('compForm')" class="q-ml-md" />
+          <q-tab
+            name="compContact"
+            :label="t('compContacts')"
+            v-if="compFormData.compUuid"
+          />
+          <q-tab
+            name="compEmp"
+            :label="t('compEmp')"
+            v-if="compFormData.compUuid"
+          />
+        </q-tabs>
+
+        <q-tab-panels v-model="tab">
+          <q-tab-panel name="compForm">
+            <comp-form-drawer-primary
+              :primary-data="compFormData"
+              :comp-sector-list="compSectorList"
+              :comp-rate-list="compRateList"
+              :hotel-rate-list="hotelRateList"
+              :comp-optionRate-List="compOptionRateList"
+              :coupon-yn-list="couponYnList"
+              :comp-group-list="compGroupList"
+              :pkg-rate-list="pkgRateList"
+              :pkg-only-rate-list="pkgOnlyRateList"
+              :rentcar-rate-list="rentcarRateList"
+              :restaurant-rate-list="restaurantRateList"
+              :honeymoon-only-rate-list="honeymoonOnlyRateList"
+              :honeymoon-rate-list="honeymoonRateList"
+              :prepaid-how-list="prepaidHowList"
+              :upload-file="uploadFile"
+              ref="compFormDrawerPrimary"
+            />
+          </q-tab-panel>
+
+          <q-tab-panel name="compContact">
+            <comp-contact-list
+              v-if="compFormData.compUuid"
+              :comp-uuid="compFormData.compUuid"
+              ref="compContactList"
+            />
+          </q-tab-panel>
+
+          <q-tab-panel name="compEmp">
+            <comp-emp-list
+              v-if="compFormData.compUuid"
+              :comp-uuid="compFormData.compUuid"
+              ref="compEmpList"
+            />
+          </q-tab-panel>
+        </q-tab-panels>
       </div>
     </drawer-comp>
   </div>
@@ -73,6 +102,7 @@ import i18n from 'src/i18n';
 import DrawerComp from 'src/components/drawers/DrawerComp.vue';
 import DialogComp from 'src/components/common/DialogComp.vue';
 import CompContactList from 'src/views/comp/CompContactList.vue';
+import CompEmpList from 'src/views/comp/CompEmpList.vue';
 // View Layout
 import CompFormDrawerPrimary from 'src/views/comp/CompFormDrawerPrimary.vue';
 // Services
@@ -96,6 +126,7 @@ export default defineComponent({
     DialogComp,
     CompFormDrawerPrimary,
     CompContactList,
+    CompEmpList,
   },
   props: {
     compSeq: {
@@ -186,6 +217,7 @@ export default defineComponent({
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
     const attfile = ref<AnyData | null>(null);
+    const tab = ref<string>('compForm');
 
     watch(
       () => props.modelValue,
@@ -262,7 +294,6 @@ export default defineComponent({
       notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
       if (compFormData.value) {
-
         const fileToUpload = attfile.value || null;
         CompService.saveCompForm(fileToUpload, compFormData.value)
           .then((response) => {
@@ -334,6 +365,7 @@ export default defineComponent({
 
     return {
       t: i18n.global.t,
+      tab,
       title,
       compFormData,
       loading,

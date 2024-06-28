@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
-public class UserService {
+public class  UserService {
 
     @Autowired
     EmpRepository empRepository;
@@ -96,11 +96,56 @@ public class UserService {
     }
 
     public UserResponse findByEmpUuid(long id) {
-        ModelMapper modelMapper=new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
 
         UserResponse findUser = modelMapper.map(empRepository.findFirstByEmpUuid(id), UserResponse.class);
 
         return findUser;
+    }
+    
+    public List<UserResponse> findEmpsListByComp(long id) {
+        List<User> selectedUsers = empRepository.findByEmpCompOrderByModifiedDtDesc(id);
+
+        List<UserResponse> userResList = selectedUsers.stream()
+            .map(user -> {
+                UserResponse userResponse = new UserResponse();
+                userResponse.setEmpUuid(user.getEmpUuid());
+                userResponse.setUsername(user.getUsername());
+                userResponse.setEmpKor(user.getEmpKor());
+                userResponse.setEmpEng(user.getEmpEng());
+                userResponse.setEmpImg(user.getEmpImg());
+                userResponse.setEmpDivName(fetchCodeUtil.fetchCodeKr(user.getEmpDiv()));
+                userResponse.setEmpDivNameEn(fetchCodeUtil.fetchCodeEn(user.getEmpDiv()));
+                userResponse.setEmpTitleName(fetchCodeUtil.fetchCodeKr(user.getEmpTitle()));
+                userResponse.setEmpTitleNameEn(fetchCodeUtil.fetchCodeEn(user.getEmpTitle()));
+                userResponse.setEmpRoleName(fetchCodeUtil.fetchCodeKr(user.getEmpRole()));
+                userResponse.setEmpRoleNameEn(fetchCodeUtil.fetchCodeEn(user.getEmpRole()));
+                userResponse.setEmpStatusName(fetchCodeUtil.fetchCodeKr(user.getEmpStatus()));
+                userResponse.setEmpStatusNameEn(fetchCodeUtil.fetchCodeEn(user.getEmpStatus()));
+                userResponse.setEmpCountryName(fetchCodeUtil.fetchCodeKr(user.getEmpOffice()));
+                userResponse.setEmpCountryNameEn(fetchCodeUtil.fetchCodeEn(user.getEmpOffice()));
+                userResponse.setEmpCompName(fetchCodeUtil.fetchCodeKr(user.getEmpComp()));
+                userResponse.setEmpCompNameEn(fetchCodeUtil.fetchCodeEn(user.getEmpComp()));
+                userResponse.setEmpDiv(user.getEmpDiv());
+                userResponse.setEmpTitle(user.getEmpTitle());
+                userResponse.setEmpRole(user.getEmpRole());
+                userResponse.setEmpStatus(user.getEmpStatus());
+                userResponse.setEmpPhone(user.getEmpPhone());
+                userResponse.setEmpWorkPhone(user.getEmpWorkPhone());
+                userResponse.setEmpEmailBook(user.getEmpEmailBook());
+                userResponse.setEmpAddress(user.getEmpAddress());
+                userResponse.setEmpMemo(user.getEmpMemo());
+                userResponse.setBackColor(user.getBackColor());
+                userResponse.setFontColor(user.getFontColor());
+                userResponse.setEmpBeginDt(user.getEmpBeginDt());
+                userResponse.setModifiedDt(user.getModifiedDt());
+                userResponse.setEmpEmail(user.getEmpEmail());
+
+                return userResponse;
+            })
+                .collect(Collectors.toList());
+            
+        return userResList;
     }
 
 }

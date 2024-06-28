@@ -81,6 +81,8 @@
     "clearAll": "전체해제",
     "authGroup": "권한",
     "empcompname": "회사명",
+    "empcountryname": "지역명",
+    "rolename": "직책명",
     "manageCreditcard": "크레닷 카드 관리",
     "mngNameKor": "카드관리명",
     "mngNameEng": "카드관리명(영문)",
@@ -128,5 +130,7 @@
     "guideSetup": "가이드 설정",
     "userInfoTab": "직원정보",
     "menuAuthTab": "메뉴권한",
-    "emergenTab": "비상연락처"
+    "emergenTab": "비상연락처",
+    "compEmp": "업체직원",
+    "compForm": "업체정보"
 }

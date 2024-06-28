@@ -1,146 +1,115 @@
 <template>
-  <div class="row">
-    <div class="col-8 q-pr-sm">
-      <card-comp-design :title="t('primaryiformation')">
-        <template #content>
-          <q-card-section>
-            <div v-if="compFormData != null" class="row q-col-gutter-md">
-              <div class="row col-3">
-                <div v-if="!compFormData.previewImage">
-                  <q-img
-                    v-if="compFormData.logoFile != ''"
-                    :src="fileUrl + compFormData.logoFile"
-                    style="
-                      width: 190px;
-                      height: 170px;
-                      border: 1px solid #b4b4b4;
-                      border-radius: 4px;
-                    "
-                  />
-                </div>
+  <div>
+    <card-comp-design :title="t('primaryiformation')">
+      <template #content>
+        <q-card-section>
+          <div v-if="compFormData != null" class="row q-col-gutter-md">
+            <div class="row col-3">
+              <div v-if="!compFormData.previewImage">
                 <q-img
-                  v-if="compFormData.previewImage"
-                  :src="compFormData.previewImage"
+                  v-if="compFormData.logoFile != ''"
+                  :src="fileUrl + compFormData.logoFile"
                   style="
                     width: 190px;
                     height: 170px;
                     border: 1px solid #b4b4b4;
                     border-radius: 4px;
                   "
-                  alt="Preview Image"
                 />
-                <input-comp type="file" clearable @change="handleFileChange" />
               </div>
-              <div class="row col-9 q-col-gutter-md">
-                <div class="col-6">
-                  <input-comp
-                    v-model="compFormData.compKor"
-                    class="full-width"
-                    clearable
-                    :label="t('krcomp')"
-                    outlined
-                  />
-                </div>
+              <q-img
+                v-if="compFormData.previewImage"
+                :src="compFormData.previewImage"
+                style="
+                  width: 190px;
+                  height: 170px;
+                  border: 1px solid #b4b4b4;
+                  border-radius: 4px;
+                "
+                alt="Preview Image"
+              />
+              <input-comp type="file" clearable @change="handleFileChange" />
+            </div>
 
-                <div class="col-6">
-                  <input-comp
-                    v-model="compFormData.compEng"
-                    class="full-width"
-                    clearable
-                    :label="t('encomp')"
-                    outlined
-                  />
-                </div>
-
-                <div class="col-4">
-                  <date-picker-comp
-                    v-model="compFormData.beginDt"
-                    class="full-width"
-                    clearable
-                    :label="t('beginDt')"
-                    outlined
-                  />
-                </div>
-                <div class="col-4">
-                  <date-picker-comp
-                    v-model="compFormData.endDt"
-                    class="full-width"
-                    clearable
-                    :label="t('endDt')"
-                    outlined
-                  />
-                </div>
-
-                <div class="col-4">
-                  <input-comp
-                    v-model="compFormData.compAbb"
-                    class="full-width"
-                    clearable
-                    :label="t('abbreviation')"
-                    outlined
-                  />
-                </div>
-                <div class="col-4">
-                  <select-comp
-                    v-model="compFormData.compSector"
-                    class="full-width select-comp-padding"
-                    :label="t('compsector')"
-                    :options="compSectorList"
-                    outlined
-                  />
-                </div>
-                <div class="col-4">
-                  <select-comp
-                    v-model="compFormData.compRate"
-                    :label="t('complvl')"
-                    class="full-width select-comp-padding"
-                    :options="compRateList"
-                    outlined
-                  />
-                </div>
-                <div class="col-4">
-                  <select-comp
-                    v-model="compFormData.couponYn"
-                    :label="t('couponuseyn')"
-                    class="full-width select-comp-padding"
-                    :options="couponYnList"
-                    outlined
-                  />
-                </div>
-
-                <div class="col-4">
-                  <select-comp
-                    v-if="compFormData.compSector == 209"
-                    v-model="compFormData.compGroup"
-                    :label="t('compgroup')"
-                    class="full-width select-comp-padding"
-                    :options="compGroupList"
-                    outlined
-                  />
-                </div>
-
-                <div class="col-4">
-                  <input-color-comp
-                    v-model="compFormData.compColor"
-                    class="full-width"
-                    clearable
-                    :label="t('compColor')"
-                    outlined
-                  />
-                </div>
-
-                <div class="col-4">
-                  <select-comp
-                    v-model="compFormData.prepaidHow"
-                    :label="t('assgnprepaid')"
-                    class="full-width select-comp-padding"
-                    :options="prepaidHowList"
-                    outlined
-                  />
-                </div>
+            <div class="row col-9 q-col-gutter-md">
+              <div class="col-6">
+                <input-comp
+                  v-model="compFormData.compKor"
+                  class="full-width"
+                  clearable
+                  :label="t('krcomp')"
+                  outlined
+                />
               </div>
 
-              <!-- <div class="col-4">
+              <div class="col-6">
+                <input-comp
+                  v-model="compFormData.compEng"
+                  class="full-width"
+                  clearable
+                  :label="t('encomp')"
+                  outlined
+                />
+              </div>
+
+              <div class="col-4">
+                <date-picker-comp
+                  v-model="compFormData.beginDt"
+                  class="full-width"
+                  clearable
+                  :label="t('beginDt')"
+                  outlined
+                />
+              </div>
+              <div class="col-4">
+                <date-picker-comp
+                  v-model="compFormData.endDt"
+                  class="full-width"
+                  clearable
+                  :label="t('endDt')"
+                  outlined
+                />
+              </div>
+
+              <div class="col-4">
+                <input-comp
+                  v-model="compFormData.compAbb"
+                  class="full-width"
+                  clearable
+                  :label="t('abbreviation')"
+                  outlined
+                />
+              </div>
+              <div class="col-4">
+                <select-comp
+                  v-model="compFormData.compSector"
+                  class="full-width select-comp-padding"
+                  :label="t('compsector')"
+                  :options="compSectorList"
+                  outlined
+                />
+              </div>
+              <div class="col-4">
+                <select-comp
+                  v-model="compFormData.compRate"
+                  :label="t('complvl')"
+                  class="full-width select-comp-padding"
+                  :options="compRateList"
+                  outlined
+                />
+              </div>
+              <div class="col-4">
+                <select-comp
+                  v-model="compFormData.couponYn"
+                  :label="t('couponuseyn')"
+                  class="full-width select-comp-padding"
+                  :options="couponYnList"
+                  outlined
+                />
+              </div>
+            </div>
+
+            <!-- <div class="col-4">
                 <date-picker-comp
                   v-model="compFormData.estDate"
                   class="full-width"
@@ -150,103 +119,133 @@
                 />
               </div> -->
 
-              <div class="col-12">
-                <input-comp
-                  v-model="compFormData.compMemo"
-                  class="full-width"
-                  clearable
-                  :label="t('memo')"
-                  outlined
-                />
-              </div>
+            <div class="col-4">
+              <select-comp
+                v-if="compFormData.compSector == 209"
+                v-model="compFormData.compGroup"
+                :label="t('compgroup')"
+                class="full-width select-comp-padding"
+                :options="compGroupList"
+                outlined
+              />
             </div>
-          </q-card-section>
-        </template>
-      </card-comp-design>
-    </div>
 
-    <div class="col-4 q-pl-sm">
-      <card-comp-design :title="t('compPriceRates')">
-        <template #content>
-          <q-card-section>
-            <div class="row q-col-gutter-md">
-              <div class="col-6">
-                <select-comp
-                  v-model="compFormData.hotelRate"
-                  :label="t('hotelrate')"
-                  class="full-width select-comp-padding"
-                  :options="hotelRateList"
-                  outlined
-                />
-              </div>
-              <div class="col-6">
-                <select-comp
-                  v-model="compFormData.optionRate"
-                  :label="t('optionRate')"
-                  class="full-width select-comp-padding"
-                  :options="compOptionRateList"
-                  outlined
-                />
-              </div>
-              <div class="col-6">
-                <select-comp
-                  v-model="compFormData.rentcarRate"
-                  :label="t('rentcarRate')"
-                  class="full-width select-comp-padding"
-                  :options="rentcarRateList"
-                  outlined
-                />
-              </div>
-              <div class="col-6">
-                <select-comp
-                  v-model="compFormData.restaurantRate"
-                  :label="t('restaurantRate')"
-                  class="full-width select-comp-padding"
-                  :options="restaurantRateList"
-                  outlined
-                />
-              </div>
-              <div class="col-6">
-                <select-comp
-                  v-model="compFormData.packRegRate"
-                  :label="t('packRegRate')"
-                  class="full-width select-comp-padding"
-                  :options="pkgRateList"
-                  outlined
-                />
-              </div>
-              <div class="col-6">
-                <select-comp
-                  v-model="compFormData.packRate"
-                  :label="t('packRate')"
-                  class="full-width select-comp-padding"
-                  :options="pkgOnlyRateList"
-                  outlined
-                />
-              </div>
-              <div class="col-6">
-                <select-comp
-                  v-model="compFormData.honeymoonRegRate"
-                  :label="t('honeymoonRegRate')"
-                  class="full-width select-comp-padding"
-                  :options="honeymoonRateList"
-                  outlined
-                />
-              </div>
-              <div class="col-6">
-                <select-comp
-                  v-model="compFormData.honeymoonRate"
-                  :label="t('honeymoonRate')"
-                  class="full-width select-comp-padding"
-                  :options="honeymoonOnlyRateList"
-                  outlined
-                />
-              </div>
+            <div class="col-4">
+              <input-color-comp
+                v-model="compFormData.compColor"
+                class="full-width"
+                clearable
+                :label="t('compColor')"
+                outlined
+              />
             </div>
-          </q-card-section>
-        </template>
-      </card-comp-design>
-    </div>
+
+            <div class="col-4">
+              <select-comp
+                v-model="compFormData.prepaidHow"
+                :label="t('assgnprepaid')"
+                class="full-width select-comp-padding"
+                :options="prepaidHowList"
+                outlined
+              />
+            </div>
+
+            <div class="col-12">
+              <input-comp
+                v-model="compFormData.compMemo"
+                class="full-width"
+                clearable
+                :label="t('memo')"
+                outlined
+              />
+            </div>
+          </div>
+        </q-card-section>
+      </template>
+    </card-comp-design>
+  </div>
+
+  <div class="q-pt-sm">
+    <card-comp-design :title="t('compPriceRates')">
+      <template #content>
+        <q-card-section>
+          <div class="row q-col-gutter-md">
+            <div class="col-3">
+              <select-comp
+                v-model="compFormData.hotelRate"
+                :label="t('hotelrate')"
+                class="full-width select-comp-padding"
+                :options="hotelRateList"
+                outlined
+              />
+            </div>
+            <div class="col-3">
+              <select-comp
+                v-model="compFormData.optionRate"
+                :label="t('optionRate')"
+                class="full-width select-comp-padding"
+                :options="compOptionRateList"
+                outlined
+              />
+            </div>
+            <div class="col-3">
+              <select-comp
+                v-model="compFormData.rentcarRate"
+                :label="t('rentcarRate')"
+                class="full-width select-comp-padding"
+                :options="rentcarRateList"
+                outlined
+              />
+            </div>
+            <div class="col-3">
+              <select-comp
+                v-model="compFormData.restaurantRate"
+                :label="t('restaurantRate')"
+                class="full-width select-comp-padding"
+                :options="restaurantRateList"
+                outlined
+              />
+            </div>
+            <div class="col-3">
+              <select-comp
+                v-model="compFormData.packRegRate"
+                :label="t('packRegRate')"
+                class="full-width select-comp-padding"
+                :options="pkgRateList"
+                outlined
+              />
+            </div>
+            <div class="col-3">
+              <select-comp
+                v-model="compFormData.packRate"
+                :label="t('packRate')"
+                class="full-width select-comp-padding"
+                :options="pkgOnlyRateList"
+                outlined
+              />
+            </div>
+            <div class="col-3">
+              <select-comp
+                v-model="compFormData.honeymoonRegRate"
+                :label="t('honeymoonRegRate')"
+                class="full-width select-comp-padding"
+                :options="honeymoonRateList"
+                outlined
+              />
+            </div>
+            <div class="col-3">
+              <select-comp
+                v-model="compFormData.honeymoonRate"
+                :label="t('honeymoonRate')"
+                class="full-width select-comp-padding"
+                :options="honeymoonOnlyRateList"
+                outlined
+              />
+            </div>
+          </div>
+        </q-card-section>
+      </template>
+    </card-comp-design>
   </div>
 </template>
 

@@ -234,6 +234,7 @@ export default defineComponent({
           compUuid.value = 0;
           if (response) {
             data.value = response;
+            console.log('data', data.value);
           }
           // if (gridOptions.value && gridOptions.value.columnApi) {
           //   gridOptions.value.columnApi.applyColumnState({
