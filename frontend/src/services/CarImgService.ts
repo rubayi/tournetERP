@@ -11,13 +11,9 @@ export class CarImgService {
     contactSearchForm: CarImgSearchForm
   ): Promise<CarImgForm[]> {
     return api
-      .post<CarImgForm[]>(
-        API_URL + 'searchCarImgByCondition',
-        contactSearchForm,
-        {
-          headers: authHeader(),
-        }
-      )
+      .post<CarImgForm[]>(API_URL + 'selectCarImgs', contactSearchForm, {
+        headers: authHeader(),
+      })
       .then((response) => response.data);
   }
 
@@ -29,9 +25,11 @@ export class CarImgService {
       .then((response) => response.data);
   }
 
-  static saveCarImgForm(attachFile: any, h3caseform: CarImgForm):
-    Promise<CarImgForm> {
-
+  static saveCarImgForm(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    attachFile: any,
+    h3caseform: CarImgForm
+  ): Promise<CarImgForm> {
     const formData = new FormData();
 
     formData.append('companyReq', JSON.stringify(h3caseform));
@@ -41,7 +39,7 @@ export class CarImgService {
 
     return api
       .post<CarImgForm>(API_URL + 'updateCarImg', formData, {
-        headers: authHeader(),
+        headers: { ...authHeader(), 'Content-Type': 'multipart/form-data' },
       })
       .then((response) => response.data);
   }

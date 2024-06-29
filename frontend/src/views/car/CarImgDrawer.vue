@@ -18,7 +18,7 @@
       side="right"
       :title="title"
       :width="30"
-      @cancel-clicked="closeDrawer"
+      @cancel-clicked="closeImgDrawer"
       @confirm-clicked="saveUpdatedCarImgData"
       @delete-clicked="openDeleteConfirm = true"
       ref="compDrawerComp"
@@ -61,7 +61,7 @@ import store from 'src/store';
 //helper
 import i18n from 'src/i18n';
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
-import {AnyData} from "src/types/AnyData";
+import { AnyData } from 'src/types/AnyData';
 
 export default defineComponent({
   name: 'CarImgDrawer',
@@ -88,10 +88,10 @@ export default defineComponent({
     'update:carImgDrawer',
     'carimgform-deleted',
     'carimgform-saved',
-    'carimgform-carImgDrawer-closed',
+    'carimgformCarImgDrawerClosed',
   ],
   setup(props, { emit }) {
-    const title = i18n.global.t('carImgs');
+    const title = i18n.global.t('compCarImgs');
     const carimgForm = ref<CarImgForm>(new CarImgForm());
     const loading = ref<boolean>(false);
     const openCarImgDrawer = ref<boolean>(false);
@@ -168,7 +168,6 @@ export default defineComponent({
         const fileToUpload = attfile.value || null;
 
         carimgForm.value.trnCarUuid = props.trnCarUuid;
-        console.log(carimgForm.value);
         CarImgService.saveCarImgForm(fileToUpload, carimgForm.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
@@ -176,7 +175,7 @@ export default defineComponent({
             );
 
             emit('carimgform-saved', response);
-            closeDrawer();
+            closeImgDrawer();
           })
           .catch((error) => {
             notificationHelper.createErrorNotification(
@@ -202,7 +201,7 @@ export default defineComponent({
             i18n.global.t('deletesucess')
           );
           emit('carimgform-deleted', response);
-          closeDrawer();
+          closeImgDrawer();
         })
         .catch((error) => {
           notificationHelper.createErrorNotification(
@@ -221,10 +220,10 @@ export default defineComponent({
       }
     }
 
-    function closeDrawer() {
+    function closeImgDrawer() {
       openCarImgDrawer.value = false;
       resetDrawer();
-      emit('carimgform-carImgDrawer-closed');
+      emit('carimgformCarImgDrawerClosed');
     }
 
     return {
@@ -251,8 +250,8 @@ export default defineComponent({
       saveUpdatedCarImgData,
       deleteAction,
       deleteCarImgForm,
-      closeDrawer,
-      uploadFile
+      closeImgDrawer,
+      uploadFile,
     };
   },
 });

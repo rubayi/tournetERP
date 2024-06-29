@@ -32,7 +32,8 @@ public class TournetCarDTO {
 
     private String createdByName; //생성자
     private String modifiedByName; //최종수정자
-    private String carManagerName;
+    private String carManagerNameEng;
+    private String carManagerNameKor;
 
     private String carTypeKor;
     private String carTypeEng;

@@ -29,6 +29,7 @@ export class CompFormTableConfig {
         sortable: false,
         suppressMovable: true,
         suppressNavigable: true,
+        // pinned: 'left',
         cellStyle: { 'text-align': 'center' },
       },
       {
@@ -38,6 +39,7 @@ export class CompFormTableConfig {
         maxWidth: 80,
         sortable: true,
         filter: true,
+        // pinned: 'left',
         cellStyle: { 'text-align': 'center' },
       },
       {
@@ -145,7 +147,7 @@ export class CompFormTableConfig {
         field: 'modifiedDt',
         filter: true,
         minWidth: 100,
-        maxWidth: 130,
+        maxWidth: 160,
         sortable: true,
         resizable: true,
         valueFormatter: (params: ValueFormatterParams): string => {

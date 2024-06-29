@@ -8,7 +8,7 @@ package com.tournet.tournetERP.contents.service;
  * @since : 2024-06-21
  */
 import com.tournet.tournetERP.common.util.FetchCodeUtil;
-import com.tournet.tournetERP.contents.dto.TournetCarDTO;
+import com.tournet.tournetERP.common.util.FetchEmpUtil;
 import com.tournet.tournetERP.contents.dto.TournetCarDTO;
 import com.tournet.tournetERP.contents.entity.TournetCar;
 import com.tournet.tournetERP.contents.repository.TournetCarRepository;
@@ -28,6 +28,9 @@ public class TournetCarService {
 
     @Autowired
     FetchCodeUtil fetchCodeUtil;
+
+    @Autowired
+    FetchEmpUtil fetchEmpUtil;
 
     public List<TournetCarDTO> findTournetCarList(TournetCarDTO tournetCarReq) {
 
@@ -55,13 +58,16 @@ public class TournetCarService {
                     trnCarInfo.setCarType(trnCar.getCarType());
                     trnCarInfo.setCarBrand(trnCar.getCarBrand());
                     trnCarInfo.setCarVin(trnCar.getCarVin());
-
+                    trnCarInfo.setPeople(trnCar.getPeople());
+                    trnCarInfo.setCarYear(trnCar.getCarYear());
+                    trnCarInfo.setLicensePlate(trnCar.getLicensePlate());
+                    trnCarInfo.setCarEndDt(trnCar.getCarEndDt());
                     trnCarInfo.setCarTypeKor(fetchCodeUtil.fetchCodeKr(trnCar.getCarType()));
                     trnCarInfo.setCarTypeEng(fetchCodeUtil.fetchCodeEn(trnCar.getCarType()));
-
                     trnCarInfo.setCarBrandKor(fetchCodeUtil.fetchCodeKr(trnCar.getCarBrand()));
                     trnCarInfo.setCarBrandEng(fetchCodeUtil.fetchCodeEn(trnCar.getCarBrand()));
-
+                    trnCarInfo.setCarManagerNameKor(fetchEmpUtil.fetchEmpKor(trnCar.getCarManager()));
+                    trnCarInfo.setCarManagerNameEng(fetchEmpUtil.fetchEmpEng(trnCar.getCarManager()));
                     trnCarInfo.setModifiedByName(trnCar.getModifyUser().getUsername());
                     trnCarInfo.setCreatedByName(trnCar.getCreateUser().getUsername());
 

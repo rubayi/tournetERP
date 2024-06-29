@@ -18,7 +18,7 @@
       :show-print-button="showprintbutton"
       side="right"
       :title="title"
-      :width="70"
+      :width="50"
       @cancel-clicked="closeDrawer"
       @confirm-clicked="saveUpdatedCompData"
       @delete-clicked="openDeleteConfirm = true"
@@ -65,7 +65,7 @@ import CarImgList from 'src/views/car/CarImgList.vue';
 import CarFormDrawerContent from 'src/views/car/CarFormDrawerContent.vue';
 // Services
 import { CarService } from 'src/services/CarService';
-import { ReportService } from 'src/services/CompReportService';
+// import { ReportService } from 'src/services/CompReportService';
 // Types
 import { CarForm } from 'src/types/CarForm';
 import { SelectOption } from 'src/types/SelectOption';
@@ -73,7 +73,7 @@ import { SelectOption } from 'src/types/SelectOption';
 import store from 'src/store';
 //helper
 import { notificationHelper } from 'src/utils/helpers/NotificationHelper';
-import { AnyData } from 'src/types/AnyData';
+// import { AnyData } from 'src/types/AnyData';
 
 export default defineComponent({
   name: 'CarFormDrawer',
@@ -108,9 +108,9 @@ export default defineComponent({
   emits: [
     'update:modelValue',
     'update:drawerData',
-    'carform-saved',
-    'carform-deleted',
-    'carform-drawer-closed',
+    'carFormSaved',
+    'carFormDeleted',
+    'carFormDrawerClosed',
   ],
   setup(props, { emit }) {
     const title = i18n.global.t('manageCar');
@@ -131,7 +131,7 @@ export default defineComponent({
     const compFormDrawerContent = ref();
     const drawerComp = ref();
     const openDeleteConfirm = ref<boolean>(false);
-    const attfile = ref<AnyData | null>(null);
+    // const attfile = ref<AnyData | null>(null);
 
     watch(
       () => props.modelValue,
@@ -201,13 +201,12 @@ export default defineComponent({
       notificationHelper.createOngoingNotification(i18n.global.t('saving'));
       loading.value = true;
       if (carFormData.value) {
-
         CarService.updateCarForm(carFormData.value)
           .then((response) => {
             notificationHelper.createSuccessNotification(
               i18n.global.t('saved')
             );
-            emit('carform-saved', response);
+            emit('carFormSaved', response);
             closeDrawer();
           })
           .catch((error) => {
@@ -233,7 +232,7 @@ export default defineComponent({
           notificationHelper.createSuccessNotification(
             i18n.global.t('deletesucess')
           );
-          emit('carform-deleted', response);
+          emit('carFormDeleted', response);
           closeDrawer();
         })
         .catch((error) => {
@@ -250,7 +249,7 @@ export default defineComponent({
     function closeDrawer() {
       openDrawer.value = false;
       resetDrawer();
-      emit('carform-drawer-closed');
+      emit('carFormDrawerClosed');
     }
 
     return {

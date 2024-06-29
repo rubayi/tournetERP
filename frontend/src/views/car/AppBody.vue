@@ -4,7 +4,11 @@
       <div class="row q-mb-sm">
         <div class="col q-pr-md">
           <span class="part_title text-primary">
-            <q-icon name="business" class="q-ml-xs q-mr-sm" size="sm"></q-icon>
+            <q-icon
+              name="directions_car"
+              class="q-ml-xs q-mr-sm"
+              size="sm"
+            ></q-icon>
             {{ t('manageCar') }}
           </span>
         </div>
@@ -97,8 +101,8 @@ import ReportHelper from 'src/utils/helpers/ReportHelper';
 import CarFormDrawer from 'src/views/car/CarFormDrawer.vue';
 import CarSearchDrawer from 'src/views/car/CarSearchDrawer.vue';
 import { loadOptionsList } from 'src/utils/commoncode/commonCode';
-import {EmpSearchForm} from "src/types/EmpSearchForm";
-import {EmpService} from "src/services/EmpService";
+import { EmpSearchForm } from 'src/types/EmpSearchForm';
+import { EmpService } from 'src/services/EmpService';
 
 export default defineComponent({
   name: 'CarForm',
@@ -188,13 +192,7 @@ export default defineComponent({
           if (response) {
             data.value = response;
           }
-          // if (gridOptions.value && gridOptions.value.columnApi) {
-          //   gridOptions.value.columnApi.applyColumnState({
-          //     state: CarFormTableConfig.defaultSortModel,
-          //   });
-          // }
         });
-        //printcodeValue();
       }
     }
 
@@ -272,10 +270,7 @@ export default defineComponent({
       EmpService.selectEmpsByCondition(searchReq).then((response) => {
         carManagerList.value = response.map(
           (x) =>
-            new SelectOption(
-              locale === 'en' ? x.empEng : x.empKor,
-              x.empUuid
-            )
+            new SelectOption(locale === 'en' ? x.empEng : x.empKor, x.empUuid)
         );
       });
     }
@@ -305,7 +300,7 @@ export default defineComponent({
       showexportbutton,
       carBrandList,
       carTypeList,
-      carManagerList
+      carManagerList,
     };
   },
   data() {

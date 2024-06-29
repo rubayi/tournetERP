@@ -1,100 +1,100 @@
 <template>
-  <div class="row">
-    <div class="col-8 q-pr-sm">
-      <card-comp-design :title="t('basicIformation')">
-        <template #content>
-          <q-card-section>
-            <div v-if="carFormData != null" class="row q-col-gutter-md">
-              <div class="col-4">
-                <select-comp
-                  v-model="carFormData.carBrand"
-                  :label="t('carBrand')"
-                  class="full-width select-comp-padding"
-                  :options="carBrandList"
-                  outlined
-                />
-              </div>
-              <div class="col-4">
-                <select-comp
-                  v-model="carFormData.carType"
-                  class="full-width select-comp-padding"
-                  :label="t('carType')"
-                  :options="carTypeList"
-                  outlined
-                />
-              </div>
-              <div class="col-4">
-                <select-comp
-                  v-model="carFormData.people"
-                  :label="t('people')"
-                  class="full-width select-comp-padding"
-                  :options="peopleList"
-                  outlined
-                />
-              </div>
-              <div class="col-4">
-                <input-comp
-                  v-model="carFormData.licensePlate"
-                  class="full-width"
-                  clearable
-                  :label="t('licensePlate')"
-                  outlined
-                />
-              </div>
-              <div class="col-4">
-                <input-comp
-                  v-model="carFormData.carVin"
-                  class="full-width"
-                  clearable
-                  :label="t('carVin')"
-                  outlined
-                />
-              </div>
-              <div class="col-4">
-                <select-comp
-                  v-model="carFormData.carYear"
-                  :label="t('carYear')"
-                  class="full-width select-comp-padding"
-                  :options="carYearList"
-                  outlined
-                />
-              </div>
-              <div class="col-4">
-              <!--if hotel-->
-                <select-comp
-                  v-model="carFormData.carManager"
-                  :label="t('carManager')"
-                  class="full-width select-comp-padding"
-                  :options="carManagerList"
-                  outlined
-                />
-              </div>
-              <div class="col-4">
-                <date-picker-comp
-                  v-model="carFormData.carEndDt"
-                  class="full-width"
-                  clearable
-                  :label="t('carEndDt')"
-                  outlined
-                />
-              </div>
+  <card-comp-design :title="t('basicIformation')">
+    <template #content>
+      <q-card-section>
+        <div v-if="carFormData != null" class="row q-col-gutter-md">
+          <div class="col-2">
+            <select-comp
+              v-model="carFormData.people"
+              :label="t('people')"
+              class="full-width select-comp-padding"
+              :options="peopleList"
+              outlined
+            />
+          </div>
+          <div class="col-2">
+            <select-comp
+              v-model="carFormData.carYear"
+              :label="t('carYear')"
+              class="full-width select-comp-padding"
+              :options="carYearList"
+              outlined
+            />
+          </div>
+          <div class="col-4">
+            <select-comp
+              v-model="carFormData.carBrand"
+              :label="t('carBrand')"
+              class="full-width select-comp-padding"
+              :options="carBrandList"
+              outlined
+            />
+          </div>
 
-              <div class="col-12">
-                <input-comp
-                  v-model="carFormData.memo"
-                  class="full-width"
-                  clearable
-                  :label="t('memo')"
-                  outlined
-                />
-              </div>
-            </div>
-          </q-card-section>
-        </template>
-      </card-comp-design>
-    </div>
+          <div class="col-4">
+            <input-comp
+              v-model="carFormData.carVin"
+              class="full-width"
+              clearable
+              :label="t('carVin')"
+              outlined
+            />
+          </div>
 
-  </div>
+          <div class="col-2">
+            <input-comp
+              v-model="carFormData.licensePlate"
+              class="full-width"
+              clearable
+              :label="t('licensePlate')"
+              outlined
+            />
+          </div>
+
+          <div class="col-3">
+            <date-picker-comp
+              v-model="carFormData.carEndDt"
+              class="full-width"
+              clearable
+              :label="t('carEndDt')"
+              outlined
+            />
+          </div>
+
+          <div class="col-3">
+            <select-comp
+              v-model="carFormData.carType"
+              class="full-width select-comp-padding"
+              :label="t('carType')"
+              :options="carTypeList"
+              outlined
+            />
+          </div>
+
+          <div class="col-4">
+            <!--if hotel-->
+            <select-comp
+              v-model="carFormData.carManager"
+              :label="t('carManager')"
+              class="full-width select-comp-padding"
+              :options="carManagerList"
+              outlined
+            />
+          </div>
+
+          <div class="col-12">
+            <input-comp
+              v-model="carFormData.memo"
+              class="full-width"
+              clearable
+              :label="t('memo')"
+              outlined
+            />
+          </div>
+        </div>
+      </q-card-section>
+    </template>
+  </card-comp-design>
 </template>
 
 <script lang="ts">
@@ -166,7 +166,7 @@ export default defineComponent({
 
     loadPeopleOptions();
     function loadPeopleOptions() {
-      for (let i = 30; i>= 1; i--) {
+      for (let i = 30; i >= 1; i--) {
         let tnum = i.toString();
         peopleList.value.push({ label: tnum, value: i });
       }
@@ -180,14 +180,13 @@ export default defineComponent({
       carFormData
     );
 
-
     return {
       t: i18n.global.t,
       carFormData,
       readonlybtn,
       showflag,
       carYearList,
-      peopleList
+      peopleList,
     };
   },
 });

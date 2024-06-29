@@ -3,35 +3,30 @@
     <template #content>
       <q-card-section>
         <div class="row q-col-gutter-md">
-          <div class="col-12">
-            <div class="col-4">
-              <label for="file-upload" class="custom-file-upload">
-                {{ t('logofile') }}
-              </label>
-              <input-comp
-                type="file"
-                clearable
-                class="btn btn-info input-style"
-                @change="handleFileChange"
-              />
-            </div>
-            <div class="col-auto">
-              <q-img
-                class="image-max-width"
-                v-if="carImgFormData.imgFile != ''"
-                :src="fileUrl + carImgFormData.imgFile"
-              />
-            </div>
-            <div class="col-auto" v-if="carImgFormData.previewImage">
-              <q-img
-                :src="carImgFormData.previewImage"
-                class="image-max-width"
-                alt="Preview Image"
-              />
-            </div>
+          <div v-if="!carImgFormData.previewImage">
+            <q-img
+              v-if="carImgFormData.imgFile != ''"
+              :src="fileUrl + carImgFormData.imgFile"
+              style="
+                width: 190px;
+                height: 170px;
+                border: 1px solid #b4b4b4;
+                border-radius: 4px;
+              "
+            />
           </div>
-
-
+          <q-img
+            v-if="carImgFormData.previewImage"
+            :src="carImgFormData.previewImage"
+            alt="Preview Image"
+            style="
+              width: 190px;
+              height: 170px;
+              border: 1px solid #b4b4b4;
+              border-radius: 4px;
+            "
+          />
+          <input-comp type="file" clearable @change="handleFileChange" />
         </div>
       </q-card-section>
     </template>
@@ -47,7 +42,7 @@ import { CarImgForm } from 'src/types/CarImgForm';
 // Helper
 import { useSyncModelValue } from 'src/utils/helpers/useSyncModelValue';
 import i18n from 'src/i18n';
-import {fileInfo} from "src/utils/helpers/Fileinfo";
+import { fileInfo } from 'src/utils/helpers/Fileinfo';
 
 export default defineComponent({
   name: 'CarImgDrawerContent',
@@ -105,13 +100,12 @@ export default defineComponent({
       }
     };
 
-
     return {
       t: i18n.global.t,
       carImgFormData,
       handleFileChange,
       fileUrl,
-      showflag
+      showflag,
     };
   },
 });

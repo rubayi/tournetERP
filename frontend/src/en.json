@@ -132,5 +132,18 @@
     "menuAuthTab": "Menu Authority",
     "emergenTab": "Emergency Contact",
     "compEmp": "Company Employees",
-    "compForm": "Company Info"
+    "compForm": "Company Info",
+    "carType": "Car Type",
+    "carBrand": "Car Brand",
+    "carYear": "Car Year",
+    "carManager": "Car Manager",
+    "carVin": "VIN Number",
+    "licensePlate": "License Plate",
+    "manageCar": "Manage Car",
+    "compCarImgs": "Car Images",
+    "basicIformation": "Basic Information",
+    "imgFile": "Image File",
+    "imgOrd": "Image Order",
+    "people": "Total People",
+    "carEndDt": "Car End Date"
 }

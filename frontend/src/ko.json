@@ -132,5 +132,18 @@
     "menuAuthTab": "메뉴권한",
     "emergenTab": "비상연락처",
     "compEmp": "업체직원",
-    "compForm": "업체정보"
+    "compForm": "업체정보",
+    "carType": "차량유형",
+    "carBrand": "차량브랜드",
+    "carYear": "차량연식",
+    "carManager": "차량담당자",
+    "carVin": "VIN 번호",
+    "licensePlate": "차량번호",
+    "manageCar": "차량관리",
+    "compCarImgs": "차량이미지",
+    "basicIformation": "기본정보",
+    "imgFile": "이미지 파일",
+    "imgOrd": "이미지 순서",
+    "people": "인원",
+    "carEndDt": "차량종료일"
 }

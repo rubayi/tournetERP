@@ -4,7 +4,7 @@
       <div class="row justify-end q-pb-sm">
         <div class="col q-pr-md q-mt-sm">
           <span class="emer-title">
-            <q-icon name="phone" class="q-mr-sm"></q-icon
+            <q-icon name="directions_car" class="q-mr-sm"></q-icon
             >{{ t('compCarImgs') }}</span
           >
         </div>
@@ -35,11 +35,11 @@
         />
       </div>
       <car-img-drawer
-        :contact-drawer="openCarImgDrawer"
+        :car-img-drawer="openCarImgDrawer"
         :car-img-seq="carImgUuid"
-        :comp-uuid="trnCarUuid"
+        :trn-car-uuid="trnCarUuid"
         @carimgform-deleted="loadData"
-        @carimgform-contactDrawer-closed="carImgUuid = 0"
+        @carimgformCarImgDrawerClosed="loadData"
         @carimgform-saved="loadData"
       />
     </q-page>
@@ -77,10 +77,11 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const locale = i18n.global.locale.value;
+    // const locale = i18n.global.locale.value;
     const openCarImgDrawer = ref<boolean>(false);
     const loading = ref<boolean>(false);
-    const columns = CarImgFormTableConfig.getColumns(locale);
+    // const columns = CarImgFormTableConfig.getColumns(locale);
+    const columns = CarImgFormTableConfig.getColumns();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const frameworkComponents: { [key: string]: any } =
       CarImgFormTableConfig.frameworkComponents;
@@ -93,6 +94,7 @@ export default defineComponent({
     const showinsertbutton = ref<boolean>(false);
 
     const loadData = () => {
+      openCarImgDrawer.value = false;
       loading.value = true;
       showinsertbutton.value =
         store.getters.currentUserHasApplicationPermission('CAR_WU');
@@ -102,7 +104,7 @@ export default defineComponent({
           loading.value = false;
           if (response) {
             data.value = response;
-            //console.log('data', data.value);
+            console.log('data', data.value);
           }
         });
       }

@@ -1,5 +1,5 @@
-import { Notify } from "quasar";
-import { AxiosResponse } from "axios";
+import { Notify } from 'quasar';
+import { AxiosResponse } from 'axios';
 
 let lastErrorNotification: CallableFunction | null;
 let ongoingNotification: CallableFunction | null;
@@ -10,17 +10,17 @@ class NotificationHelper {
     const notification = Notify.create({
       actions: [
         {
-          icon: "close",
-          color: "white",
+          icon: 'close',
+          color: 'white',
           handler: () => {
             /* ... */
           },
         },
       ],
       message: message,
-      position: "top-right",
+      position: 'top-right',
       timeout: 1500,
-      type: "positive",
+      type: 'positive',
     });
     allNotifications.push(notification);
   }
@@ -28,17 +28,17 @@ class NotificationHelper {
     lastErrorNotification = Notify.create({
       actions: [
         {
-          icon: "close",
-          color: "white",
+          icon: 'close',
+          color: 'white',
           handler: () => {
             /* ... */
           },
         },
       ],
       message: message,
-      position: "top-right",
+      position: 'top-right',
       timeout: 0,
-      type: "negative",
+      type: 'negative',
     });
     allNotifications.push(lastErrorNotification);
   }
@@ -48,17 +48,17 @@ class NotificationHelper {
     ongoingNotification = Notify.create({
       actions: [
         {
-          icon: "close",
-          color: "white",
+          icon: 'close',
+          color: 'white',
           handler: () => {
             /* ... */
           },
         },
       ],
       message: message,
-      position: "top-right",
+      position: 'top-right',
       timeout: 0,
-      type: "ongoing",
+      type: 'ongoing',
     });
     allNotifications.push(ongoingNotification);
     return ongoingNotification;
@@ -67,17 +67,17 @@ class NotificationHelper {
     const notification = Notify.create({
       actions: [
         {
-          icon: "close",
-          color: "white",
+          icon: 'close',
+          color: 'white',
           handler: () => {
             /* ... */
           },
         },
       ],
       message: message,
-      position: "top-right",
+      position: 'top-right',
       timeout: 1000,
-      type: "info",
+      type: 'info',
     });
     allNotifications.push(notification);
   }
@@ -86,7 +86,7 @@ class NotificationHelper {
     let message;
     if (!response) {
       message =
-        "No response retrieved from the HWY Application. The HWY Application may be offline or there may be problems with the internet.";
+        'No response retrieved from the Tournet ERP Application. The Tournet ERP Application may be offline or there may be problems with the internet.';
     } else if (response.data.message && response.data.message.length > 0) {
       message = response.data.message;
     } else if (
