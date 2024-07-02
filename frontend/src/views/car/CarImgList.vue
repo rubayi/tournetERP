@@ -104,7 +104,6 @@ export default defineComponent({
           loading.value = false;
           if (response) {
             data.value = response;
-            console.log('data', data.value);
           }
         });
       }
@@ -125,9 +124,9 @@ export default defineComponent({
       loadData,
       loading,
       columns,
-      carImgUuid,
       openCarImgDrawer,
       createAction,
+      carImgUuid,
       openAction,
       carImgFormGrid,
       overlayLoadingTemplate,

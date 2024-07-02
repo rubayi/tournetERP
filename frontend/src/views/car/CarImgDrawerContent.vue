@@ -55,7 +55,7 @@ export default defineComponent({
       type: Object as () => CarImgForm,
       default: () => new CarImgForm(),
     },
-    carImgUuid: {
+    trnCarUuid: {
       type: Number,
       default: 0,
     },
@@ -68,7 +68,7 @@ export default defineComponent({
     const fileUrl = ref(fileInfo);
 
     const setContactUuid = () => {
-      carImgFormData.value.carImgUuid = props.carImgUuid;
+      carImgFormData.value.trnCarUuid = props.trnCarUuid;
     };
     setContactUuid();
 

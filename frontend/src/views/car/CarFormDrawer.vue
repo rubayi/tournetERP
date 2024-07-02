@@ -34,7 +34,7 @@
         />
         <car-img-list
           v-if="carFormData.trnCarUuid"
-          :trncar-uuid="carFormData.trnCarUuid"
+          :trn-car-uuid="carFormData.trnCarUuid"
           ref="carImgList"
         />
       </div>
@@ -84,13 +84,17 @@ export default defineComponent({
     CarImgList,
   },
   props: {
-    carSeq: {
+    carImgSeq: {
       type: Number,
       default: 0,
     },
     modelValue: {
       type: Boolean,
       default: false,
+    },
+    trnCarUuid: {
+      type: Number,
+      default: 0,
     },
     carTypeList: {
       type: Array as () => SelectOption[],
@@ -153,7 +157,7 @@ export default defineComponent({
     function resetDrawer() {
       carFormData.value = new CarForm();
 
-      if (props.carSeq != 0) {
+      if (props.carImgSeq != 0) {
         confirmbuttoncolor.value = 'warning';
         confirmbuttonlabel.value = i18n.global.t('change');
         confirmicon.value = 'edit';
@@ -180,12 +184,11 @@ export default defineComponent({
     // Loading One Data
     function getCarFormData() {
       resetDrawer();
-      if (props.carSeq) {
+      if (props.carImgSeq) {
         loading.value = true;
-        CarService.getOneCarForm(props.carSeq)
+        CarService.getOneCarForm(props.carImgSeq)
           .then((response) => {
             carFormData.value = response;
-
             printdata.value = [];
             printdata.value.push(response);
           })
@@ -227,7 +230,7 @@ export default defineComponent({
     }
     function deleteCarForm() {
       loading.value = true;
-      CarService.deleteCarForm(props.carSeq)
+      CarService.deleteCarForm(props.carImgSeq)
         .then((response) => {
           notificationHelper.createSuccessNotification(
             i18n.global.t('deletesucess')

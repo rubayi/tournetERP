@@ -26,7 +26,7 @@
       <div class="flex flex-grow-1 q-pa-md">
         <car-img-drawer-content
           v-model="carimgForm"
-          :trnCar-Uuid="trnCarUuid"
+          :trnCarUuid="trnCarUuid"
           :upload-file="uploadFile"
           ref="carImgDrawerContent"
         />

@@ -67,7 +67,7 @@ public class CarImgController {
 
                 CarImg updatedCarImg = new CarImg();
 
-                updatedCarImg.setTrnImgUuid(carImgJsonNode.get("trnImgUuid").asLong());
+                updatedCarImg.setTrnImgUuid(carImgJsonNode.get("imgFile").asLong());
                 updatedCarImg.setTrnCarUuid(carImgJsonNode.get("trnCarUuid").asLong());
 
                 // Optional<CarImg> currentCarImg = carImgRepository.findById(updatedCarImg.getTrnImgUuid());
@@ -88,9 +88,6 @@ public class CarImgController {
                 if (e instanceof FileAlreadyExistsException) {
                 }
             }
-            System.out.println(
-                    "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Car Image Updated Successfully");
-            System.out.println(_carImg.getTrnImgUuid());
         }
         return new ResponseEntity<>(_carImg, HttpStatus.OK);
     }
