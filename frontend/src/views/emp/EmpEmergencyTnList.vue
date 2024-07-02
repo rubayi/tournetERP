@@ -93,6 +93,7 @@ export default defineComponent({
     const showinsertbutton = ref<boolean>(false);
 
     function loadData() {
+      openDrawer.value = false;
       loading.value = true;
       showinsertbutton.value =
         store.getters.currentUserHasApplicationPermission('USER_WU');

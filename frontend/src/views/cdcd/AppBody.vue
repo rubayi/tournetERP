@@ -118,6 +118,7 @@ export default defineComponent({
     const showinsertbutton = ref<boolean>(false);
     /* List */
     function loadData() {
+      openDrawer.value = false;
       loading.value = true;
       filterNumber.value = 0;
       if (

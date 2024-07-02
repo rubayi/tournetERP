@@ -191,6 +191,7 @@ export default defineComponent({
     // Loading One Data
     function getEmpformData() {
       resetDrawer();
+      tab.value = 'content';
       if (props.empSeq != 0) {
         loading.value = true;
         EmpService.getEmpForm(props.empSeq)

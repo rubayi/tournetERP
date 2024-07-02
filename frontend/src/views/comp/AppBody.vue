@@ -84,7 +84,7 @@
         :prepaid-how-list="prepaidHowList"
         :comp-seq="compUuid"
         @compform-deleted="loadData"
-        @compform-drawer-closed="compUuid = 0"
+        @compform-drawer-closed="loadData"
         @compform-saved="loadData"
       />
       <comp-search-drawer
@@ -159,6 +159,7 @@ export default defineComponent({
 
     /* List */
     function loadData() {
+      openDrawer.value = false;
       loading.value = true;
       filterNumber.value = 0;
       if (

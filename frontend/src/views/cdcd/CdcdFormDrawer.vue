@@ -141,12 +141,12 @@ export default defineComponent({
 
     // Loading One Data
     function getCodeformData() {
+      openDrawer.value = false;
       resetDrawer();
       if (props.codeSeq != 0) {
         loading.value = true;
         CdcdService.getOneCdcdForm(props.codeSeq)
           .then((response) => {
-
             cdcdformData.value = response;
           })
           .finally(() => {

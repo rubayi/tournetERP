@@ -90,6 +90,7 @@ export default defineComponent({
     };
 
     const loadData = () => {
+      openEmpDrawer.value = false;
       loading.value = true;
       showinsertbutton.value =
         store.getters.currentUserHasApplicationPermission('COMP_WU');

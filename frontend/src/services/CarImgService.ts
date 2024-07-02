@@ -32,16 +32,14 @@ export class CarImgService {
   ): Promise<CarImgForm> {
     const formData = new FormData();
 
-    formData.append('companyReq', JSON.stringify(h3caseform));
+    formData.append('carImgReq', JSON.stringify(h3caseform));
     if (attachFile) {
       formData.append('file', attachFile);
     }
 
-    return api
-      .post<CarImgForm>(API_URL + 'updateCarImg', formData, {
-        headers: { ...authHeader(), 'Content-Type': 'multipart/form-data' },
-      })
-      .then((response) => response.data);
+    return api.post(API_URL + 'updateCarImg', formData, {
+      headers: { ...authHeader(), 'Content-Type': 'multipart/form-data' },
+    });
   }
 
   static deleteCarImgForm(id: number): Promise<void> {

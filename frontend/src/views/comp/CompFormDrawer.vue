@@ -273,6 +273,7 @@ export default defineComponent({
     // Loading One Data
     function getCompFormData() {
       resetDrawer();
+      tab.value = 'compForm';
       if (props.compSeq) {
         loading.value = true;
         CompService.getOneCompForm(props.compSeq)

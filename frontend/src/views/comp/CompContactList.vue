@@ -39,7 +39,7 @@
         :comp-seq="contactUuid"
         :comp-uuid="compUuid"
         @contactform-deleted="loadData"
-        @contactform-contactDrawer-closed="contactUuid = 0"
+        @contactform-contactDrawer-closed="loadData"
         @contactform-saved="loadData"
       />
     </q-page>
@@ -93,6 +93,7 @@ export default defineComponent({
     const showinsertbutton = ref<boolean>(false);
 
     const loadData = () => {
+      openContactDrawer.value = false;
       loading.value = true;
       showinsertbutton.value =
         store.getters.currentUserHasApplicationPermission('COMP_WU');

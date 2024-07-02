@@ -23,13 +23,11 @@ export class CompService {
       });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static saveCompForm(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     attachFile: any,
     h3caseform: CompForm
   ): Promise<CompForm> {
-
-    console.log('=======FILE======');
     const formData = new FormData();
 
     formData.append('companyReq', JSON.stringify(h3caseform));
